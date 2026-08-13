@@ -1,7 +1,7 @@
 # Governance
 
 - Instrument: Research Governance Framework
-- Instrument version: `0.2.0-draft`
+- Instrument version: `0.3.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -26,13 +26,15 @@ No individuals are assigned by this scaffold.
 
 ## Lock authority
 
-An official Wave requires recorded approval for protocol, panel, schema, schedule, and governance locks. Each approval must identify the instrument version, SHA-256 digest, approver, timestamp, and effective Wave. Self-approval and quorum rules remain unresolved and must be settled before Wave 0.
+An official Wave requires recorded approval for the protocol, codebook, panel, schedule, governance, registry, and validation-schema snapshots sealed into its directory. Each approval must identify the role, version, SHA-256 digest, approver, timestamp, and effective Wave. Self-approval and quorum rules remain unresolved and must be settled before Wave 0.
 
 ## Change control
 
 After Wave 0, scientific instrument changes require a new version and an entry in `docs/DECISIONS.md` or a successor decision log. The record must state the rationale, effective Wave, migration plan, and expected effect on longitudinal comparability.
 
 A locked Wave directory is byte-immutable: no addition, modification, rename, or deletion is allowed. Corrections use a separately versioned artifact under `data/amendments/` that identifies the affected Wave and superseded record without altering the original package. Source withdrawals, access loss, and disputed interpretations remain visible.
+
+The locked directory must contain content-hashed snapshots of every scientific instrument and schema needed to interpret and revalidate the Wave. Later top-level versions cannot be substituted during historical validation. Release authority must also verify a non-empty panel, explicit coverage of every panel unit, and resolvable longitudinal references before lock or release.
 
 ## Release gate
 

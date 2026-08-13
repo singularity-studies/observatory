@@ -58,20 +58,42 @@ SCHEMA_FILES = (
     "schemas/wave-manifest.schema.json",
 )
 
-REQUIRED_LOCKS = ("protocol", "panel", "schema", "schedule", "governance")
-LOCK_INSTRUMENTS = {
-    "protocol": "observation_protocol",
-    "panel": "frozen_panel_specification",
-    "schema": "schema_bundle",
-    "schedule": "observation_schedule",
-    "governance": "research_governance_framework",
+REQUIRED_INSTRUMENT_LOCKS = (
+    "protocol",
+    "codebook",
+    "panel",
+    "schedule",
+    "governance",
+    "registry",
+)
+INSTRUMENT_TITLES = {
+    "protocol": "Observation Protocol",
+    "codebook": "Observation Codebook",
+    "panel": "Frozen Panel Specification",
+    "schedule": "Observation Schedule",
+    "governance": "Research Governance Framework",
+    "registry": "Live Registry Specification",
 }
-REQUIRED_LOCK_ARTIFACTS = {
-    "protocol": {"PROTOCOL.md"},
-    "panel": {"PANEL.md"},
-    "schema": set(SCHEMA_FILES) | {"schemas/instruments.json"},
-    "schedule": {"docs/SCHEDULE.md"},
-    "governance": {"GOVERNANCE.md"},
+REQUIRED_SCHEMA_LOCKS = (
+    "registry_unit",
+    "panel_snapshot",
+    "evidence",
+    "observation",
+    "wave_manifest",
+)
+CURRENT_SCHEMA_PATHS = {
+    "registry_unit": "schemas/registry-unit.schema.json",
+    "panel_snapshot": "schemas/panel-snapshot.schema.json",
+    "evidence": "schemas/evidence.schema.json",
+    "observation": "schemas/observation.schema.json",
+    "wave_manifest": "schemas/wave-manifest.schema.json",
+}
+
+LONGITUDINAL_EVENTS = {
+    "transition_toward_human_noncriticality",
+    "reversal_toward_human_criticality",
+    "human_reentry",
+    "no_supported_change",
 }
 
 REGISTRY_HEADER = (
@@ -138,8 +160,8 @@ def _format_matches(value: str, format_name: str) -> bool:
             date.fromisoformat(value)
             return True
         if format_name == "date-time":
-            datetime.fromisoformat(value.replace("Z", "+00:00"))
-            return "T" in value
+            parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            return "T" in value and parsed.tzinfo is not None
         if format_name == "uri":
             parsed = urlparse(value)
             return bool(parsed.scheme and (parsed.netloc or parsed.scheme == "urn"))
@@ -212,6 +234,8 @@ def validate_contract(
     if isinstance(instance, list):
         if len(instance) < schema.get("minItems", 0):
             errors.append(f"{location}: array has fewer than {schema['minItems']} items")
+        if "maxItems" in schema and len(instance) > schema["maxItems"]:
+            errors.append(f"{location}: array has more than {schema['maxItems']} items")
         if schema.get("uniqueItems"):
             encoded = [json.dumps(item, sort_keys=True, separators=(",", ":")) for item in instance]
             if len(encoded) != len(set(encoded)):
@@ -354,60 +378,72 @@ def load_instruments(root: Path) -> tuple[dict[str, dict[str, Any]], list[str]]:
     return instruments, errors
 
 
-def validate_lock(
+def validate_wave_lock(
     root: Path,
     name: str,
     lock: Any,
-    instruments: dict[str, dict[str, Any]],
     location: str,
-) -> list[str]:
-    errors: list[str] = []
-    if not isinstance(lock, dict):
-        return [f"{location}: lock '{name}' must be an object"]
-    expected_version = instruments.get(LOCK_INSTRUMENTS[name], {}).get("version")
-    version = lock.get("version")
-    if version != expected_version:
-        errors.append(
-            f"{location}: lock '{name}' version {version!r} does not match instrument {expected_version!r}"
-        )
-    if not isinstance(lock.get("locked_at"), str) or not lock["locked_at"].strip():
-        errors.append(f"{location}: lock '{name}' requires locked_at")
-    artifacts = lock.get("artifacts")
-    if not isinstance(artifacts, list) or not artifacts:
-        return errors + [f"{location}: lock '{name}' requires non-empty artifacts"]
+    wave_directory: PurePosixPath,
+    expected_instrument: str | None = None,
+) -> tuple[Path | None, str | None, list[str]]:
+    """Resolve one immutable, Wave-local instrument or schema snapshot."""
 
-    seen_paths: set[str] = set()
-    for index, artifact in enumerate(artifacts):
-        artifact_location = f"{location}: lock '{name}' artifact[{index}]"
-        path, artifact_errors = validate_artifact_ref(root, artifact, artifact_location)
-        errors.extend(artifact_errors)
-        relative = artifact.get("path") if isinstance(artifact, dict) else None
-        if isinstance(relative, str):
-            if relative in seen_paths:
-                errors.append(f"{artifact_location}: duplicate artifact path")
-            seen_paths.add(relative)
-        if path is not None:
-            try:
-                artifact_version = declared_version(path)
-            except (json.JSONDecodeError, OSError):
-                artifact_version = None
-            if artifact_version is not None and artifact_version != version:
+    errors: list[str] = []
+    lock_location = f"{location}: lock '{name}'"
+    if not isinstance(lock, dict):
+        return None, None, [f"{lock_location} must be an object"]
+    version = lock.get("version")
+    if not isinstance(version, str) or not version:
+        errors.append(f"{lock_location} requires a version")
+        version = None
+    locked_at = lock.get("locked_at")
+    if not isinstance(locked_at, str) or not _format_matches(locked_at, "date-time"):
+        errors.append(f"{lock_location} requires a valid locked_at date-time")
+    artifacts = lock.get("artifacts")
+    if not isinstance(artifacts, list) or len(artifacts) != 1:
+        errors.append(f"{lock_location} requires exactly one snapshot artifact")
+        return None, version, errors
+
+    artifact = artifacts[0]
+    artifact_location = f"{lock_location} artifact[0]"
+    relative = artifact.get("path") if isinstance(artifact, dict) else None
+    if isinstance(relative, str) and not _is_within(relative, wave_directory):
+        errors.append(f"{artifact_location} must be inside its immutable Wave directory")
+    path, artifact_errors = validate_artifact_ref(root, artifact, artifact_location)
+    errors.extend(artifact_errors)
+    if path is not None:
+        try:
+            artifact_version = declared_version(path)
+        except (json.JSONDecodeError, OSError) as exc:
+            errors.append(f"{artifact_location}: cannot read declared version: {exc}")
+        else:
+            if artifact_version != version:
                 errors.append(
                     f"{artifact_location}: declared version {artifact_version!r} "
                     f"does not match lock version {version!r}"
                 )
-
-    missing = REQUIRED_LOCK_ARTIFACTS[name] - seen_paths
-    for relative in sorted(missing):
-        errors.append(f"{location}: lock '{name}' is missing required artifact {relative}")
-    return errors
+        if expected_instrument is not None and not path.name.endswith(".schema.json"):
+            text = path.read_text(encoding="utf-8")
+            if f"Instrument: {expected_instrument}" not in text:
+                errors.append(
+                    f"{artifact_location}: snapshot identity does not match {expected_instrument!r}"
+                )
+    return path, version, errors
 
 
 def validate_registry_csv(path: Path, schema: dict[str, Any], location: str) -> list[str]:
     errors: list[str] = []
+    required_fields = schema.get("required")
+    expected_header = (
+        tuple(required_fields)
+        if isinstance(required_fields, list) and all(isinstance(item, str) for item in required_fields)
+        else ()
+    )
+    if not expected_header:
+        return [f"{location}: locked registry schema has no ordered required fields"]
     with path.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
-        if tuple(reader.fieldnames or ()) != REGISTRY_HEADER:
+        if tuple(reader.fieldnames or ()) != expected_header:
             return [f"{location}: Live Registry header does not match the versioned ontology"]
         for line_number, row in enumerate(reader, start=2):
             record: dict[str, Any] = dict(row)
@@ -430,16 +466,21 @@ def validate_scientific_records(
     location: str,
     wave_directory: PurePosixPath,
     panel_units: dict[str, set[str]],
-    instruments: dict[str, dict[str, Any]],
+    schemas: dict[str, dict[str, Any]],
+    instrument_versions: dict[str, str],
 ) -> list[str]:
     errors: list[str] = []
     records = manifest.get("scientific_records", {})
     if not isinstance(records, dict):
         return [f"{location}: scientific_records must be an object"]
 
-    evidence_schema = read_json(root / "schemas/evidence.schema.json")
-    observation_schema = read_json(root / "schemas/observation.schema.json")
+    evidence_schema = schemas.get("evidence")
+    observation_schema = schemas.get("observation")
+    if not isinstance(evidence_schema, dict) or not isinstance(observation_schema, dict):
+        return [f"{location}: locked evidence and observation schemas are required"]
     evidence_by_id: dict[str, dict[str, Any]] = {}
+    observation_records: list[tuple[dict[str, Any], str]] = []
+    covered_units: set[str] = set()
 
     for kind, schema in (("evidence", evidence_schema), ("observations", observation_schema)):
         references = records.get(kind, [])
@@ -461,22 +502,29 @@ def validate_scientific_records(
                 errors.append(f"{record_location}: invalid JSON: {exc}")
                 continue
             contract_name = "evidence" if kind == "evidence" else "observation"
-            errors.extend(validate_contract(record, schema, f"{record_location} {contract_name}"))
+            record_errors = validate_contract(
+                record, schema, f"{record_location} {contract_name}"
+            )
+            errors.extend(record_errors)
             if not isinstance(record, dict):
                 continue
 
             panel_unit_id = record.get("panel_unit_id")
             systems = record.get("empirical_system_ids")
             if panel_unit_id not in panel_units:
-                errors.append(f"{record_location}: panel_unit_id is absent from the Frozen Panel")
+                message = f"{record_location}: panel_unit_id is absent from the Frozen Panel"
+                errors.append(message)
+                record_errors.append(message)
             elif isinstance(systems, list) and not set(systems).issubset(panel_units[panel_unit_id]):
-                errors.append(f"{record_location}: empirical system is not linked to the panel unit")
+                message = f"{record_location}: empirical system is not linked to the panel unit"
+                errors.append(message)
+                record_errors.append(message)
 
             expected_schema_version = schema.get("x-instrument-version")
             if record.get("schema_version") != expected_schema_version:
-                errors.append(
-                    f"{record_location}: record schema_version does not match its contract"
-                )
+                message = f"{record_location}: record schema_version does not match its contract"
+                errors.append(message)
+                record_errors.append(message)
 
             if kind == "evidence":
                 evidence_id = record.get("evidence_id")
@@ -485,29 +533,20 @@ def validate_scientific_records(
                         errors.append(f"{record_location}: duplicate evidence_id {evidence_id}")
                     evidence_by_id[evidence_id] = record
             else:
-                if record.get("protocol_version") != instruments.get(
-                    "observation_protocol", {}
-                ).get("version"):
-                    errors.append(f"{record_location}: protocol_version mismatch")
-                if record.get("codebook_version") != instruments.get(
-                    "observation_codebook", {}
-                ).get("version"):
-                    errors.append(f"{record_location}: codebook_version mismatch")
+                if record.get("protocol_version") != instrument_versions.get("protocol"):
+                    message = f"{record_location}: protocol_version mismatch"
+                    errors.append(message)
+                    record_errors.append(message)
+                if record.get("codebook_version") != instrument_versions.get("codebook"):
+                    message = f"{record_location}: codebook_version mismatch"
+                    errors.append(message)
+                    record_errors.append(message)
+                observation_records.append((record, record_location))
+                if not record_errors and isinstance(panel_unit_id, str):
+                    covered_units.add(panel_unit_id)
 
     observation_ids: set[str] = set()
-    for index, reference in enumerate(records.get("observations", [])):
-        record_location = f"{location}: scientific_records.observations[{index}]"
-        path, path_errors = resolve_artifact(
-            root, reference.get("path") if isinstance(reference, dict) else None, record_location
-        )
-        if path_errors or path is None:
-            continue
-        try:
-            record = read_json(path)
-        except json.JSONDecodeError:
-            continue
-        if not isinstance(record, dict):
-            continue
+    for record, record_location in observation_records:
         observation_id = record.get("observation_id")
         if isinstance(observation_id, str):
             if observation_id in observation_ids:
@@ -520,6 +559,10 @@ def validate_scientific_records(
             elif evidence.get("panel_unit_id") != record.get("panel_unit_id"):
                 errors.append(f"{record_location}: evidence belongs to a different panel unit")
 
+    for panel_unit_id in sorted(set(panel_units) - covered_units):
+        errors.append(
+            f"{location}: Frozen Panel unit {panel_unit_id!r} has no valid explicit observation coverage"
+        )
     return errors
 
 
@@ -527,16 +570,35 @@ def validate_wave_manifest(
     manifest: Any,
     location: str,
     root: Path | None = None,
-    instruments: dict[str, dict[str, Any]] | None = None,
 ) -> list[str]:
     if not isinstance(manifest, dict):
         return [f"{location}: manifest must be an object"]
     errors: list[str] = []
 
-    if root is not None:
-        wave_schema = read_json(root / "schemas/wave-manifest.schema.json")
-        errors.extend(validate_contract(manifest, wave_schema, location))
-    else:
+    status = manifest.get("status")
+    if status not in {"draft", "locked", "official"}:
+        errors.append(f"{location}: status must be draft, locked, or official")
+
+    if status not in {"locked", "official"}:
+        if root is not None:
+            wave_schema = read_json(root / CURRENT_SCHEMA_PATHS["wave_manifest"])
+            errors.extend(validate_contract(manifest, wave_schema, location))
+        else:
+            for field in (
+                "wave_id",
+                "status",
+                "schema_version",
+                "panel_snapshot",
+                "registry_snapshot",
+                "instrument_locks",
+                "schema_locks",
+                "scientific_records",
+            ):
+                if field not in manifest:
+                    errors.append(f"{location}: missing required field '{field}'")
+        return errors
+
+    if root is None:
         for field in (
             "wave_id",
             "status",
@@ -544,14 +606,12 @@ def validate_wave_manifest(
             "panel_snapshot",
             "registry_snapshot",
             "instrument_locks",
+            "schema_locks",
             "scientific_records",
         ):
             if field not in manifest:
                 errors.append(f"{location}: missing required field '{field}'")
-
-    status = manifest.get("status")
-    if status not in {"draft", "locked", "official"}:
-        errors.append(f"{location}: status must be draft, locked, or official")
+        return errors + [f"{location}: {status} Wave requires repository context for integrity checks"]
 
     panel_ref = manifest.get("panel_snapshot")
     registry_ref = manifest.get("registry_snapshot")
@@ -560,27 +620,75 @@ def validate_wave_manifest(
     if panel_path_value and panel_path_value == registry_path_value:
         errors.append(f"{location}: Frozen Panel and Live Registry snapshots must be distinct")
 
-    if status not in {"locked", "official"}:
-        return errors
-    if root is None:
-        return errors + [f"{location}: {status} Wave requires repository context for integrity checks"]
-    instruments = instruments or {}
+    wave_directory = PurePosixPath(location).parent
+    schema_locks = manifest.get("schema_locks")
+    if not isinstance(schema_locks, dict):
+        errors.append(f"{location}: schema_locks must be an object")
+        schema_locks = {}
+    schemas: dict[str, dict[str, Any]] = {}
+    schema_versions: dict[str, str] = {}
+    for name in REQUIRED_SCHEMA_LOCKS:
+        if name not in schema_locks:
+            errors.append(f"{location}: {status} Wave is missing '{name}' schema lock")
+            continue
+        path, version, lock_errors = validate_wave_lock(
+            root, f"schema:{name}", schema_locks[name], location, wave_directory
+        )
+        errors.extend(lock_errors)
+        if isinstance(version, str):
+            schema_versions[name] = version
+        if path is not None:
+            try:
+                schema = read_json(path)
+            except json.JSONDecodeError as exc:
+                errors.append(f"{location}: locked schema '{name}' is invalid JSON: {exc}")
+            else:
+                if not isinstance(schema, dict):
+                    errors.append(f"{location}: locked schema '{name}' must be an object")
+                else:
+                    schemas[name] = schema
+                    expected_name = Path(CURRENT_SCHEMA_PATHS[name]).name
+                    schema_id = schema.get("$id")
+                    if not isinstance(schema_id, str) or not schema_id.endswith(
+                        f"/{expected_name}"
+                    ):
+                        errors.append(
+                            f"{location}: locked schema '{name}' identity does not match {expected_name}"
+                        )
 
-    schema_version = instruments.get("schema_bundle", {}).get("version")
-    if manifest.get("schema_version") != schema_version:
-        errors.append(f"{location}: Wave schema_version does not match the schema bundle")
+    bundle_version = manifest.get("schema_version")
+    for name, version in schema_versions.items():
+        if version != bundle_version:
+            errors.append(
+                f"{location}: locked schema '{name}' version {version!r} "
+                f"does not match Wave schema_version {bundle_version!r}"
+            )
+
+    locked_manifest_schema = schemas.get("wave_manifest")
+    if isinstance(locked_manifest_schema, dict):
+        errors.extend(validate_contract(manifest, locked_manifest_schema, location))
 
     locks = manifest.get("instrument_locks")
     if not isinstance(locks, dict):
         errors.append(f"{location}: instrument_locks must be an object")
         locks = {}
-    for name in REQUIRED_LOCKS:
+    instrument_versions: dict[str, str] = {}
+    for name in REQUIRED_INSTRUMENT_LOCKS:
         if name not in locks:
             errors.append(f"{location}: {status} Wave is missing '{name}' lock")
-        else:
-            errors.extend(validate_lock(root, name, locks[name], instruments, location))
+            continue
+        _, version, lock_errors = validate_wave_lock(
+            root,
+            name,
+            locks[name],
+            location,
+            wave_directory,
+            INSTRUMENT_TITLES[name],
+        )
+        errors.extend(lock_errors)
+        if isinstance(version, str):
+            instrument_versions[name] = version
 
-    wave_directory = PurePosixPath(location).parent
     panel_path: Path | None = None
     registry_path: Path | None = None
     for name, reference in (("panel_snapshot", panel_ref), ("registry_snapshot", registry_ref)):
@@ -601,15 +709,22 @@ def validate_wave_manifest(
         except json.JSONDecodeError as exc:
             errors.append(f"{location}: invalid Frozen Panel snapshot JSON: {exc}")
         else:
-            panel_schema = read_json(root / "schemas/panel-snapshot.schema.json")
-            errors.extend(validate_contract(panel_snapshot, panel_schema, f"{location}: panel_snapshot"))
-            expected_panel_version = instruments.get("frozen_panel_specification", {}).get("version")
+            panel_schema = schemas.get("panel_snapshot")
+            if isinstance(panel_schema, dict):
+                errors.extend(
+                    validate_contract(panel_snapshot, panel_schema, f"{location}: panel_snapshot")
+                )
+            expected_panel_version = instrument_versions.get("panel")
             if isinstance(panel_snapshot, dict) and panel_snapshot.get(
                 "instrument_version"
             ) != expected_panel_version:
                 errors.append(f"{location}: Frozen Panel snapshot instrument_version mismatch")
             if isinstance(panel_snapshot, dict):
-                for unit in panel_snapshot.get("units", []):
+                units = panel_snapshot.get("units", [])
+                if not isinstance(units, list) or not units:
+                    errors.append(f"{location}: locked or official Frozen Panel must be non-empty")
+                    units = []
+                for unit in units:
                     if not isinstance(unit, dict):
                         continue
                     unit_id = unit.get("panel_unit_id")
@@ -620,14 +735,23 @@ def validate_wave_manifest(
                         panel_units[unit_id] = set(item for item in systems if isinstance(item, str))
 
     if registry_path is not None:
-        registry_schema = read_json(root / "schemas/registry-unit.schema.json")
-        errors.extend(
-            validate_registry_csv(registry_path, registry_schema, f"{location}: registry_snapshot")
-        )
+        registry_schema = schemas.get("registry_unit")
+        if isinstance(registry_schema, dict):
+            errors.extend(
+                validate_registry_csv(
+                    registry_path, registry_schema, f"{location}: registry_snapshot"
+                )
+            )
 
     errors.extend(
         validate_scientific_records(
-            root, manifest, location, wave_directory, panel_units, instruments
+            root,
+            manifest,
+            location,
+            wave_directory,
+            panel_units,
+            schemas,
+            instrument_versions,
         )
     )
 
@@ -637,6 +761,85 @@ def validate_wave_manifest(
         approval = manifest.get("release_approval")
         if not isinstance(approval, str) or not approval.strip():
             errors.append(f"{location}: official Wave requires release_approval")
+    return errors
+
+
+def validate_longitudinal_references(
+    root: Path, manifests: list[tuple[dict[str, Any], str]]
+) -> list[str]:
+    """Resolve prior observations across every locked and official Wave."""
+
+    errors: list[str] = []
+    observations: list[tuple[dict[str, Any], str]] = []
+    by_id: dict[str, tuple[dict[str, Any], str]] = {}
+
+    for manifest, location in manifests:
+        if manifest.get("status") not in {"locked", "official"}:
+            continue
+        scientific_records = manifest.get("scientific_records", {})
+        references = (
+            scientific_records.get("observations", [])
+            if isinstance(scientific_records, dict)
+            else []
+        )
+        if not isinstance(references, list):
+            continue
+        for index, reference in enumerate(references):
+            record_location = f"{location}: scientific_records.observations[{index}]"
+            relative = reference.get("path") if isinstance(reference, dict) else None
+            path, path_errors = resolve_artifact(root, relative, record_location)
+            if path_errors or path is None:
+                continue
+            try:
+                record = read_json(path)
+            except json.JSONDecodeError:
+                continue
+            if not isinstance(record, dict):
+                continue
+            observations.append((record, record_location))
+            observation_id = record.get("observation_id")
+            if isinstance(observation_id, str):
+                if observation_id in by_id:
+                    errors.append(
+                        f"{record_location}: duplicate cross-Wave observation_id {observation_id!r}"
+                    )
+                else:
+                    by_id[observation_id] = (record, record_location)
+
+    for record, record_location in observations:
+        event_type = record.get("event_type")
+        prior_id = record.get("prior_observation_id")
+        if event_type in LONGITUDINAL_EVENTS and not isinstance(prior_id, str):
+            errors.append(f"{record_location}: longitudinal event requires prior_observation_id")
+            continue
+        if not isinstance(prior_id, str):
+            continue
+        observation_id = record.get("observation_id")
+        if prior_id == observation_id:
+            errors.append(f"{record_location}: prior_observation_id is a self-reference")
+            continue
+        prior_entry = by_id.get(prior_id)
+        if prior_entry is None:
+            errors.append(f"{record_location}: prior_observation_id {prior_id!r} does not resolve")
+            continue
+        prior, _ = prior_entry
+        if prior.get("panel_unit_id") != record.get("panel_unit_id"):
+            errors.append(f"{record_location}: prior observation belongs to a different panel unit")
+        prior_time = prior.get("observed_at")
+        current_time = record.get("observed_at")
+        if not isinstance(prior_time, str) or not isinstance(current_time, str):
+            continue
+        try:
+            prior_datetime = datetime.fromisoformat(prior_time.replace("Z", "+00:00"))
+            current_datetime = datetime.fromisoformat(current_time.replace("Z", "+00:00"))
+            if prior_datetime > current_datetime:
+                errors.append(f"{record_location}: prior_observation_id is a forward reference")
+            elif prior_datetime == current_datetime:
+                errors.append(
+                    f"{record_location}: prior observation must be strictly earlier in observed_at"
+                )
+        except (TypeError, ValueError):
+            errors.append(f"{record_location}: observation dates cannot be ordered")
     return errors
 
 
@@ -735,19 +938,8 @@ def validate_repository(root: Path, base_ref: str | None = None) -> list[str]:
                 continue
             errors.extend(validate_contract(record, evidence_schema, relative))
 
-    observation_schema_path = root / "schemas/observation.schema.json"
-    if observation_schema_path.is_file():
-        observation_schema = read_json(observation_schema_path)
-        for path in sorted((root / "data/waves").glob("*/observations/**/*.json")):
-            relative = path.relative_to(root).as_posix()
-            try:
-                record = read_json(path)
-            except json.JSONDecodeError as exc:
-                errors.append(f"{relative}: invalid JSON: {exc}")
-                continue
-            errors.extend(validate_contract(record, observation_schema, relative))
-
     waves_root = root / "data/waves"
+    manifests: list[tuple[dict[str, Any], str]] = []
     if waves_root.is_dir():
         for manifest_path in sorted(waves_root.glob("*/manifest.json")):
             relative = manifest_path.relative_to(root).as_posix()
@@ -756,7 +948,10 @@ def validate_repository(root: Path, base_ref: str | None = None) -> list[str]:
             except json.JSONDecodeError as exc:
                 errors.append(f"{relative}: invalid JSON: {exc}")
                 continue
-            errors.extend(validate_wave_manifest(manifest, relative, root, instruments))
+            if isinstance(manifest, dict):
+                manifests.append((manifest, relative))
+            errors.extend(validate_wave_manifest(manifest, relative, root))
+    errors.extend(validate_longitudinal_references(root, manifests))
 
     if base_ref:
         errors.extend(validate_immutable_waves(root, base_ref))

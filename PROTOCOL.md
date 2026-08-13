@@ -1,7 +1,7 @@
 # Observation Protocol
 
 - Instrument: Observation Protocol
-- Instrument version: `0.2.0-draft`
+- Instrument version: `0.3.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -70,7 +70,13 @@ Permitted lifecycle states are `draft`, `locked`, and `official`.
 - **Locked:** every byte in the Wave directory is immutable; corrections use separately versioned artifacts in `data/amendments/` or a later Wave.
 - **Official:** all required locks exist, structural validation passes, and the governance authority records release approval.
 
-An official Wave manifest must lock the protocol, Frozen Panel specification, schema bundle, observation schedule, and governance record by version plus repository-relative artifact paths and SHA-256 digests. It must also reference separately hashed Frozen Panel and Live Registry snapshots. The repository validator resolves every reference, recomputes every digest, checks version consistency, and rejects official status when any required artifact or relation is invalid.
+An official Wave manifest must lock Wave-local snapshots of the protocol, codebook, Frozen Panel specification, observation schedule, governance framework, and Live Registry specification by role, version, repository-relative path, identity, and SHA-256 digest. It must separately lock each validation schema and reference hashed Frozen Panel and Live Registry snapshots. The repository validator resolves every reference, recomputes every digest, checks role and version consistency, and rejects official status when any required artifact or relation is invalid.
+
+Every locked or official Wave is a self-contained interpretation package. Its directory contains hashed snapshots of the protocol, codebook, Frozen Panel specification, schedule, governance framework, Live Registry specification, and every JSON Schema used for its registry, panel, evidence, observation, and manifest records. Historical validation loads those preserved schema bytes and instrument versions; it must not substitute the repository's later top-level versions.
+
+A locked or official Wave requires a non-empty Frozen Panel and at least one valid, explicitly referenced observation for every panel unit. When no determination can be supported, the unit remains present through a valid `unresolved` observation using the versioned unknown mechanism. Omission is not an unknown value and fails the release gate.
+
+For a longitudinal event, `prior_observation_id` must resolve across locked or official Waves to a different observation for the same panel unit with a strictly earlier `observed_at`. Missing, self, same-time, and forward references fail validation.
 
 ## Change policy
 

@@ -1,7 +1,7 @@
 # Codebook
 
 - Instrument: Observation Codebook
-- Instrument version: `0.2.0-draft`
+- Instrument version: `0.3.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -48,13 +48,22 @@ An omitted value is invalid. `unknown` is an explicit scientific state. Presence
 
 `no_supported_change` requires comparable observations; it is not a substitute for missing data. `human_reentry` may overlap conceptually with reversal, so any future rule for precedence or multi-label coding must be versioned before Wave 0.
 
+## Resolution status
+
+`resolution_status` distinguishes an evidence-supported coded observation from explicit unresolved coverage.
+
+- `resolved`: the observation cites at least one evidence record and may use only values permitted by the versioned codebook.
+- `unresolved`: no determination is supported for the scheduled panel unit. Evidence references are empty, the provisional summary, participation presence, and event type are all `unknown`, and a non-empty uncertainty note explains why resolution was not possible.
+
+An unresolved record is coverage, not evidence of absence and not a scientific finding. It prevents silent omission without forcing a score, replication rule, or final multidimensional model.
+
 ## Evidence relation
 
 Each coding record may cite evidence as `supports`, `contradicts`, or `contextualizes`. A final assessment must not erase contradictory records.
 
 ## Required observation fields
 
-The machine-readable contract in `schemas/observation.schema.json` requires panel-unit and empirical-system identifiers, dates, instrument versions, evidence references, a provisional summary, human-participation presence, and longitudinal event representation. It intentionally contains no multidimensional fields, aggregation rule, or numeric score.
+The machine-readable contract in `schemas/observation.schema.json` requires panel-unit and empirical-system identifiers, dates, instrument versions, resolution status, evidence references, a provisional summary, human-participation presence, and longitudinal event representation. It intentionally contains no multidimensional fields, aggregation rule, or numeric score.
 
 ## Unresolved before Wave 0
 

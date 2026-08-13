@@ -22,7 +22,9 @@ These instructions apply to the entire repository.
 ## Fail-closed behavior
 
 - Do not describe a Wave as official unless its manifest passes `scripts/validate.py`.
-- An official Wave requires resolvable, content-hashed protocol, panel, schema, schedule, governance, Frozen Panel snapshot, Live Registry snapshot, and scientific-record references.
+- A locked or official Wave must be self-contained with resolvable, content-hashed snapshots of every instrument and schema needed to interpret it. Validate historical Waves against package-local bytes, never current top-level replacements.
+- Reject an empty locked/official panel and require explicit schema-valid observation coverage for every panel unit; unresolved coverage uses explicit unknown values rather than omission.
+- Resolve longitudinal prior-observation references across Waves and require a different, same-unit observation with a strictly earlier observation time.
 - Validation uncertainty is a failure, not permission to proceed.
 
 ## Required checks

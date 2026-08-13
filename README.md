@@ -53,6 +53,6 @@ python scripts/validate.py --base-ref origin/main
 
 ## Integrity rules
 
-Unknown remains unknown. Missing evidence is not evidence of absence. Persistence, transition, reversal, and human re-entry are equally admissible outcomes. Locked Wave packages are byte-immutable; post-lock corrections live outside the package as versioned amendments. Protocol changes after Wave 0 require a new instrument version rather than an in-place rewrite.
+Unknown remains unknown. Missing evidence is not evidence of absence. Persistence, transition, reversal, and human re-entry are equally admissible outcomes. Locked Wave packages are byte-immutable and self-contained with their own instrument and schema snapshots; historical validation never substitutes current versions. Every panel unit requires explicit coverage, including an unresolved observation when no determination is supportable. Post-lock corrections live outside the package as versioned amendments.
 
 See [`LICENSING.md`](LICENSING.md) before reusing content. No project-wide license has yet been selected.

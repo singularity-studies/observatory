@@ -3,7 +3,7 @@
   "$id": "https://github.com/singularity-studies/observatory/schemas/panel-snapshot.schema.json",
   "title": "Singularity Observatory Frozen Panel snapshot",
   "type": "object",
-  "x-instrument-version": "0.2.0-draft",
+  "x-instrument-version": "0.3.0-draft",
   "additionalProperties": false,
   "required": ["snapshot_id", "instrument_version", "status", "units"],
   "properties": {
@@ -12,6 +12,7 @@
     "status": {"const": "frozen"},
     "units": {
       "type": "array",
+      "minItems": 1,
       "uniqueItems": true,
       "items": {
         "type": "object",

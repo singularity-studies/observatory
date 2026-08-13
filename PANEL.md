@@ -1,7 +1,7 @@
 # Frozen Panel
 
 - Instrument: Frozen Panel Specification
-- Instrument version: `0.2.0-draft`
+- Instrument version: `0.3.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -31,6 +31,8 @@ Before a panel may be used by an official Wave:
 6. serialize selected functions/stages and their empirical-system links into a versioned panel snapshot;
 7. compute its SHA-256 digest; and
 8. reference that version and digest from the Wave manifest.
+
+A locked or official Wave cannot use an empty Frozen Panel. Every frozen panel unit must have explicit observation coverage in that Wave; inability to determine a state is recorded as a version-valid unresolved observation, never as omission.
 
 After lock, the panel snapshot is immutable. A later addition or removal requires a new panel version and a new Wave boundary.
 
