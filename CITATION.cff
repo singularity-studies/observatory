@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this research infrastructure, cite the repository version you used."
+title: "Singularity Observatory: Observational Singularity Studies research infrastructure"
+type: software
+version: "0.1.0-draft"
+authors:
+  - name: "Singularity Studies"
+repository-code: "https://github.com/singularity-studies/observatory"
+abstract: >-
+  Versioned, auditable infrastructure for cross-domain longitudinal observation
+  in Observational Singularity Studies. This draft contains no empirical findings.

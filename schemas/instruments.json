@@ -1,0 +1,48 @@
+{
+  "manifest_version": "0.1.0-draft",
+  "status": "draft",
+  "instruments": [
+    {
+      "name": "observation_protocol",
+      "path": "PROTOCOL.md",
+      "version": "0.1.0-draft",
+      "status": "draft"
+    },
+    {
+      "name": "observation_codebook",
+      "path": "CODEBOOK.md",
+      "version": "0.1.0-draft",
+      "status": "draft"
+    },
+    {
+      "name": "frozen_panel_specification",
+      "path": "PANEL.md",
+      "version": "0.1.0-draft",
+      "status": "draft"
+    },
+    {
+      "name": "research_governance_framework",
+      "path": "GOVERNANCE.md",
+      "version": "0.1.0-draft",
+      "status": "draft"
+    },
+    {
+      "name": "observation_schedule",
+      "path": "docs/SCHEDULE.md",
+      "version": "0.1.0-draft",
+      "status": "draft"
+    },
+    {
+      "name": "live_registry_specification",
+      "path": "registry/README.md",
+      "version": "0.1.0-draft",
+      "status": "draft"
+    },
+    {
+      "name": "schema_bundle",
+      "path": "schemas/README.md",
+      "version": "0.1.0-draft",
+      "status": "draft"
+    }
+  ]
+}

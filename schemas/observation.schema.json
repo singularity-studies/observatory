@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/observation.schema.json",
+  "title": "Singularity Observatory coded observation",
+  "type": "object",
+  "x-instrument-version": "0.1.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "observation_id",
+    "case_id",
+    "observed_at",
+    "protocol_version",
+    "codebook_version",
+    "schema_version",
+    "evidence_ids",
+    "human_criticality_state",
+    "presence_assessment",
+    "event_type",
+    "uncertainty_note"
+  ],
+  "properties": {
+    "observation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "protocol_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "codebook_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "human_criticality_state": {
+      "type": "string",
+      "enum": [
+        "human_critical",
+        "mixed_or_contested",
+        "human_noncritical",
+        "unknown"
+      ]
+    },
+    "presence_assessment": {
+      "type": "string",
+      "enum": ["present", "absent", "unknown"]
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "transition_toward_human_noncriticality",
+        "reversal_toward_human_criticality",
+        "human_reentry",
+        "no_supported_change",
+        "unknown"
+      ]
+    },
+    "prior_observation_id": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "boundary_conditions": {
+      "type": "string"
+    },
+    "uncertainty_note": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "not": {"const": "unknown"}
+          }
+        },
+        "required": ["event_type"]
+      },
+      "then": {
+        "required": ["prior_observation_id"],
+        "properties": {
+          "prior_observation_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {"properties": {"human_criticality_state": {"const": "unknown"}}},
+          {"properties": {"presence_assessment": {"const": "unknown"}}},
+          {"properties": {"event_type": {"const": "unknown"}}}
+        ]
+      },
+      "then": {
+        "properties": {
+          "uncertainty_note": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ]
+}

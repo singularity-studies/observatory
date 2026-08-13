@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/wave-manifest.schema.json",
+  "title": "Singularity Observatory Wave manifest",
+  "type": "object",
+  "x-instrument-version": "0.1.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "wave_id",
+    "status",
+    "schema_version",
+    "panel_snapshot",
+    "registry_snapshot",
+    "instrument_locks"
+  ],
+  "properties": {
+    "wave_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "locked", "official"]
+    },
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "panel_snapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_snapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "instrument_locks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "protocol": {"$ref": "#/$defs/lock"},
+        "panel": {"$ref": "#/$defs/lock"},
+        "schema": {"$ref": "#/$defs/lock"},
+        "schedule": {"$ref": "#/$defs/lock"},
+        "governance": {"$ref": "#/$defs/lock"}
+      }
+    },
+    "locked_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "released_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "release_approval": {
+      "type": ["string", "null"]
+    }
+  },
+  "$defs": {
+    "lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "sha256", "locked_at"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "locked_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {"enum": ["locked", "official"]}
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["locked_at"],
+        "properties": {
+          "locked_at": {"type": "string", "format": "date-time"},
+          "instrument_locks": {
+            "required": ["protocol", "panel", "schema", "schedule", "governance"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "official"}
+        },
+        "required": ["status"]
+      },
+      "then": {
+        "required": ["released_at", "release_approval"],
+        "properties": {
+          "released_at": {"type": "string", "format": "date-time"},
+          "release_approval": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  ]
+}
