@@ -17,7 +17,7 @@ Do not submit fabricated, synthetic, or illustrative records into scientific dat
 
 ## Locked material
 
-Never edit or delete a Wave that was locked on the base branch. Propose an append-only amendment or a later-Wave correction.
+Never add, edit, rename, or delete content inside a Wave that was locked on the base branch. Propose a separately versioned amendment under `data/amendments/` or a later-Wave correction, leaving the locked directory byte-identical.
 
 ## Scientific changes
 

@@ -1,7 +1,7 @@
 # Codebook
 
 - Instrument: Observation Codebook
-- Instrument version: `0.1.0-draft`
+- Instrument version: `0.2.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -15,26 +15,26 @@ This codebook defines representational states only. It contains no coded cases o
 4. Do not infer `absent` from an empty field, unreturned search result, or unavailable source.
 5. Record the instrument version used for every coded observation.
 
-## Human-criticality state
+## Provisional human-criticality summary
 
-`human_criticality_state` represents the supported state for a bounded function at an observation time.
+`provisional_human_criticality_summary` is a provisional categorical summary for a bounded improvement-loop function at an observation time.
 
 - `human_critical`: evidence supports that a human contribution remains necessary to the defined function.
 - `mixed_or_contested`: evidence supports heterogeneous, conditional, or disputed criticality.
 - `human_noncritical`: evidence supports that the defined function can continue without a human contribution under the stated boundary conditions.
 - `unknown`: the evidence does not support a determination.
 
-These labels do not supply an operational threshold. That threshold remains unresolved for Wave 0 design.
+These labels do not supply an operational threshold and are not the full measurement model. Wave 0 construct validation must preserve room for multidimensional analysis of capability, loop closure, verification dependence, authority delegation, recursive gain, and human dependence, among other candidates. This list is exploratory, is not a fixed vector, and does not establish final dimensions, notation, aggregation, or scoring.
 
-## Presence assessment
+## Human-participation presence
 
-`presence_assessment` controls missingness semantics.
+`human_participation_presence` refers only to whether human participation is evidenced within the bounded function during the stated observation scope. It does not determine whether that participation is necessary, critical, authoritative, effective, or merely nominal.
 
 - `present`: evidence supports presence within the defined observation scope.
 - `absent`: evidence supports absence within a defined opportunity-to-observe.
 - `unknown`: absence or presence cannot be supported.
 
-An omitted value is invalid. `unknown` is an explicit scientific state.
+An omitted value is invalid. `unknown` is an explicit scientific state. Presence must not be used as a proxy for criticality.
 
 ## Longitudinal event
 
@@ -54,12 +54,13 @@ Each coding record may cite evidence as `supports`, `contradicts`, or `contextua
 
 ## Required observation fields
 
-The machine-readable contract in `schemas/observation.schema.json` requires identifiers, dates, instrument versions, evidence references, current state, presence assessment, and longitudinal event representation. It intentionally contains no numeric score.
+The machine-readable contract in `schemas/observation.schema.json` requires panel-unit and empirical-system identifiers, dates, instrument versions, evidence references, a provisional summary, human-participation presence, and longitudinal event representation. It intentionally contains no multidimensional fields, aggregation rule, or numeric score.
 
 ## Unresolved before Wave 0
 
-- unit of analysis below or above the case level;
+- boundaries and nesting of improvement-loop functions;
 - threshold for necessary human contribution;
+- candidate dimensions, their observability, and whether they can be combined;
 - handling of conditional fallback and latent human oversight;
 - relationship between reversal and human re-entry;
 - reliability and adjudication procedure; and

@@ -10,11 +10,14 @@ Open research infrastructure for **Observational Singularity Studies** (シン�
 - Core perspective: technology and sociotechnical systems
 - Core instrument: **Singularity Observatory**
 - Core method: cross-domain longitudinal observation
+- Primary panel unit: a bounded function or stage in a civilization improvement loop, framed as a potential **Human Bottleneck**
 - Core question:
 
-  > Where, when, and how does human criticality disappear from civilization's improvement loops?
+  > How does human criticality change across civilization’s improvement loops, and where—if anywhere—does it cease to be necessary?
 
 The repository supplies research instruments and provenance controls. It does not currently contain empirical observations, cases, scores, findings, or scientific claims.
+
+Technologies, products, organizations, and deployments are not normally the primary panel unit. They are empirical systems that may instantiate or supply evidence about a panel unit, and multiple empirical systems may be linked to the same improvement-loop function.
 
 ## Current status
 
@@ -24,10 +27,11 @@ The scaffold is **pre-Wave 0**. Every scientific instrument is a draft. No offic
 
 - [`PROTOCOL.md`](PROTOCOL.md): observation design and Wave lifecycle
 - [`CODEBOOK.md`](CODEBOOK.md): state and event representations
-- [`PANEL.md`](PANEL.md): Frozen Panel definition and freeze procedure
+- [`PANEL.md`](PANEL.md): improvement-loop/function-centered Frozen Panel definition
 - [`registry/`](registry/): mutable Live Registry, distinct from the Frozen Panel
 - [`evidence/`](evidence/): source-traceable evidence records
-- [`data/waves/`](data/waves/): append-only Wave packages after lock
+- [`data/waves/`](data/waves/): immutable Wave packages after lock
+- [`data/amendments/`](data/amendments/): separately versioned post-lock corrections
 - [`schemas/`](schemas/): versioned machine-readable contracts
 - [`scripts/validate.py`](scripts/validate.py): fail-closed structural validation
 - [`GOVERNANCE.md`](GOVERNANCE.md): authority, locking, and change control
@@ -49,6 +53,6 @@ python scripts/validate.py --base-ref origin/main
 
 ## Integrity rules
 
-Unknown remains unknown. Missing evidence is not evidence of absence. Transition, reversal, and human re-entry are first-class representable events. Locked Wave data is append-only, and protocol changes after Wave 0 require a new instrument version rather than an in-place rewrite.
+Unknown remains unknown. Missing evidence is not evidence of absence. Persistence, transition, reversal, and human re-entry are equally admissible outcomes. Locked Wave packages are byte-immutable; post-lock corrections live outside the package as versioned amendments. Protocol changes after Wave 0 require a new instrument version rather than an in-place rewrite.
 
 See [`LICENSING.md`](LICENSING.md) before reusing content. No project-wide license has yet been selected.

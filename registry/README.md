@@ -1,13 +1,13 @@
 # Live Registry
 
 - Instrument: Live Registry Specification
-- Instrument version: `0.1.0-draft`
+- Instrument version: `0.2.0-draft`
 - Status: `DRAFT`
 
-The Live Registry is a mutable inventory of candidate cases. It is not a Frozen Panel and must never be used as one by implication.
+The Live Registry is a mutable inventory of candidate improvement-loop functions or stages framed as potential Human Bottlenecks. It is not a product inventory, a Frozen Panel, or evidence that any bottleneck exists.
 
-`live-registry.csv` currently contains only its header. Adding a candidate records a proposal, not an empirical observation or an inclusion decision. Every row requires a stable registry identifier, label, registry status, addition date, and provenance locator.
+`live-registry.csv` currently contains only its header. Adding a candidate records a proposal, not an empirical observation or an inclusion decision. Every row requires stable registry, improvement-loop, and function identifiers; a provisional Human-Bottleneck label; registry status; addition date; provenance locator; and an optional delimiter-separated list of empirical-system identifiers. Multiple empirical systems may link to one registry unit.
 
 Permitted draft statuses are `candidate`, `under_review`, `eligible`, `ineligible`, and `withdrawn`. Eligibility criteria remain unresolved and must be versioned before any status beyond `candidate` is used.
 
-A Wave must record both the registry snapshot used during selection and the separately frozen panel snapshot.
+A Wave must record both the registry snapshot used during selection and the separately frozen panel snapshot. Both references must resolve to immutable artifacts with verified SHA-256 digests.

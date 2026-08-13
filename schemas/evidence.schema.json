@@ -3,11 +3,13 @@
   "$id": "https://github.com/singularity-studies/observatory/schemas/evidence.schema.json",
   "title": "Singularity Observatory evidence record",
   "type": "object",
-  "x-instrument-version": "0.1.0-draft",
+  "x-instrument-version": "0.2.0-draft",
   "additionalProperties": false,
   "required": [
     "evidence_id",
-    "case_id",
+    "schema_version",
+    "panel_unit_id",
+    "empirical_system_ids",
     "source_uri",
     "source_title",
     "source_type",
@@ -24,9 +26,22 @@
       "type": "string",
       "minLength": 1
     },
-    "case_id": {
+    "schema_version": {
       "type": "string",
       "minLength": 1
+    },
+    "panel_unit_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "empirical_system_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "source_uri": {
       "type": "string",

@@ -1,7 +1,7 @@
 # Governance
 
 - Instrument: Research Governance Framework
-- Instrument version: `0.1.0-draft`
+- Instrument version: `0.2.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -32,7 +32,7 @@ An official Wave requires recorded approval for protocol, panel, schema, schedul
 
 After Wave 0, scientific instrument changes require a new version and an entry in `docs/DECISIONS.md` or a successor decision log. The record must state the rationale, effective Wave, migration plan, and expected effect on longitudinal comparability.
 
-Locked data is append-only. Corrections use an amendment record that identifies the superseded record without deleting it. Source withdrawals, access loss, and disputed interpretations remain visible.
+A locked Wave directory is byte-immutable: no addition, modification, rename, or deletion is allowed. Corrections use a separately versioned artifact under `data/amendments/` that identifies the affected Wave and superseded record without altering the original package. Source withdrawals, access loss, and disputed interpretations remain visible.
 
 ## Release gate
 
