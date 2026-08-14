@@ -61,6 +61,8 @@ SCHEMA_FILES = (
     "schemas/eligibility-decision.schema.json",
     "schemas/panel-lineage.schema.json",
     "schemas/panel-selection-manifest.schema.json",
+    "schemas/panel-selection-review.schema.json",
+    "schemas/panel-lock-governance-decision.schema.json",
 )
 
 REQUIRED_INSTRUMENT_LOCKS = (
@@ -88,6 +90,8 @@ REQUIRED_SCHEMA_LOCKS = (
     "eligibility_decision",
     "panel_lineage",
     "panel_selection_manifest",
+    "panel_selection_review",
+    "panel_lock_governance_decision",
     "wave_manifest",
 )
 CURRENT_SCHEMA_PATHS = {
@@ -99,6 +103,8 @@ CURRENT_SCHEMA_PATHS = {
     "eligibility_decision": "schemas/eligibility-decision.schema.json",
     "panel_lineage": "schemas/panel-lineage.schema.json",
     "panel_selection_manifest": "schemas/panel-selection-manifest.schema.json",
+    "panel_selection_review": "schemas/panel-selection-review.schema.json",
+    "panel_lock_governance_decision": "schemas/panel-lock-governance-decision.schema.json",
     "wave_manifest": "schemas/wave-manifest.schema.json",
 }
 
@@ -118,7 +124,18 @@ SELECTION_RECORD_PATHS = {
     "eligibility_decision": "selection/eligibility",
     "panel_lineage": "selection/lineage",
     "panel_selection_manifest": "selection/manifests",
+    "panel_selection_review": "selection/reviews",
+    "panel_lock_governance_decision": "selection/governance",
 }
+
+CANDIDATE_IDENTITY_FIELDS = (
+    "domain",
+    "improvement_loop_id",
+    "function_or_stage",
+    "operational_boundary",
+    "continuity_rule",
+    "boundary_conditions",
+)
 
 LONGITUDINAL_EVENTS = {
     "transition_toward_human_noncriticality",
@@ -556,12 +573,19 @@ def validate_eligibility_decision(
         for name in ELIGIBILITY_CRITERIA
         if isinstance(criteria, dict) and isinstance(criteria.get(name), dict)
     }
-    if record.get("decision_status") == "eligible" and any(
-        results.get(name) != "passed" for name in ELIGIBILITY_CRITERIA
+    if set(results) == set(ELIGIBILITY_CRITERIA) and all(
+        results[name] in {"passed", "failed", "unresolved"} for name in ELIGIBILITY_CRITERIA
     ):
-        errors.append(
-            f"{location}: failed, missing, or unresolved criterion cannot produce eligible status"
-        )
+        if any(result == "failed" for result in results.values()):
+            expected_status = "ineligible"
+        elif any(result == "unresolved" for result in results.values()):
+            expected_status = "unresolved"
+        else:
+            expected_status = "eligible"
+        if record.get("decision_status") != expected_status:
+            errors.append(
+                f"{location}: decision_status must deterministically be {expected_status!r}"
+            )
 
     review = record.get("review")
     if isinstance(review, dict):
@@ -629,6 +653,36 @@ def validate_lineage_record(
     return errors
 
 
+def validate_scientific_review_record(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: scientific review instrument_version mismatch")
+    return errors
+
+
+def validate_governance_decision_record(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: governance decision instrument_version mismatch")
+    return errors
+
+
 def _validate_plain_artifact(
     root: Path,
     reference: Any,
@@ -653,20 +707,29 @@ def validate_selection_manifest(
     schemas: dict[str, dict[str, Any]],
     container: PurePosixPath | None = None,
     expected_protocol_version: str | None = None,
-) -> tuple[set[str], list[str]]:
+) -> tuple[dict[str, tuple[dict[str, Any], dict[str, Any]]], list[str]]:
     schema = schemas.get("panel_selection_manifest")
     candidate_schema = schemas.get("candidate_unit")
     eligibility_schema = schemas.get("eligibility_decision")
     lineage_schema = schemas.get("panel_lineage")
+    review_schema = schemas.get("panel_selection_review")
+    governance_schema = schemas.get("panel_lock_governance_decision")
     if not all(
         isinstance(item, dict)
-        for item in (schema, candidate_schema, eligibility_schema, lineage_schema)
+        for item in (
+            schema,
+            candidate_schema,
+            eligibility_schema,
+            lineage_schema,
+            review_schema,
+            governance_schema,
+        )
     ):
-        return set(), [f"{location}: complete selection schema bundle is required"]
+        return {}, [f"{location}: complete selection schema bundle is required"]
 
     errors = validate_contract(manifest, schema, location)
     if not isinstance(manifest, dict):
-        return set(), errors
+        return {}, errors
 
     instrument_version = manifest.get("instrument_version")
     if instrument_version != schema.get("x-instrument-version"):
@@ -677,7 +740,7 @@ def validate_selection_manifest(
     } if isinstance(selected_values, list) else set()
 
     if manifest.get("status") != "locked":
-        return selected_ids, errors
+        return {}, errors
 
     protocol = manifest.get("selection_protocol")
     if not isinstance(protocol, dict) or protocol.get("status") != "locked":
@@ -711,6 +774,7 @@ def validate_selection_manifest(
         candidate_references = []
 
     candidates: dict[str, dict[str, Any]] = {}
+    candidate_references_by_id: dict[str, dict[str, Any]] = {}
     for index, reference in enumerate(candidate_references):
         record_location = f"{location}: candidate_universe_snapshot[{index}]"
         candidate, _, artifact_errors = _load_json_artifact(
@@ -729,8 +793,11 @@ def validate_selection_manifest(
                 if candidate_id in candidates:
                     errors.append(f"{record_location}: duplicate candidate_unit_id {candidate_id}")
                 candidates[candidate_id] = candidate
+                if isinstance(reference, dict):
+                    candidate_references_by_id[candidate_id] = reference
 
     eligibility_by_candidate: dict[str, list[dict[str, Any]]] = {}
+    eligibility_ids: set[str] = set()
     decisions = manifest.get("eligibility_decisions")
     if not isinstance(decisions, list):
         errors.append(f"{location}: eligibility_decisions must be an array")
@@ -753,8 +820,34 @@ def validate_selection_manifest(
             container,
         )
         errors.extend(decision_errors)
-        if isinstance(decision, dict) and isinstance(decision.get("candidate_unit_id"), str):
-            eligibility_by_candidate.setdefault(decision["candidate_unit_id"], []).append(decision)
+        if isinstance(decision, dict):
+            decision_id = decision.get("eligibility_decision_id")
+            if isinstance(decision_id, str):
+                if decision_id in eligibility_ids:
+                    errors.append(f"{record_location}: duplicate eligibility_decision_id {decision_id}")
+                eligibility_ids.add(decision_id)
+            candidate_id = decision.get("candidate_unit_id")
+            if isinstance(candidate_id, str):
+                eligibility_by_candidate.setdefault(candidate_id, []).append(decision)
+                universe_reference = candidate_references_by_id.get(candidate_id)
+                if universe_reference is not None and decision.get(
+                    "candidate_specification"
+                ) != universe_reference:
+                    errors.append(
+                        f"{record_location}: eligibility decision must bind the exact candidate-universe specification"
+                    )
+
+    for candidate_id in sorted(candidates):
+        count = len(eligibility_by_candidate.get(candidate_id, []))
+        if count != 1:
+            errors.append(
+                f"{location}: candidate-universe member {candidate_id!r} requires exactly one eligibility decision"
+            )
+    outside_decisions = set(eligibility_by_candidate) - set(candidates)
+    if outside_decisions:
+        errors.append(
+            f"{location}: eligibility decisions refer outside candidate universe: {sorted(outside_decisions)}"
+        )
 
     lineage_references = manifest.get("lineage_relations")
     if not isinstance(lineage_references, list):
@@ -773,20 +866,54 @@ def validate_selection_manifest(
                 )
             )
 
+    eligible_ids = {
+        candidate_id
+        for candidate_id in candidates
+        if len(eligibility_by_candidate.get(candidate_id, [])) == 1
+        and eligibility_by_candidate[candidate_id][0].get("decision_status") == "eligible"
+    }
+    dispositions = manifest.get("selection_dispositions")
+    if not isinstance(dispositions, list):
+        errors.append(f"{location}: selection_dispositions must be an array")
+        dispositions = []
+    disposition_by_candidate: dict[str, dict[str, Any]] = {}
+    for index, disposition in enumerate(dispositions):
+        disposition_location = f"{location}: selection_dispositions[{index}]"
+        if not isinstance(disposition, dict):
+            continue
+        candidate_id = disposition.get("candidate_unit_id")
+        if not isinstance(candidate_id, str):
+            continue
+        if candidate_id in disposition_by_candidate:
+            errors.append(f"{disposition_location}: duplicate selection disposition")
+        disposition_by_candidate[candidate_id] = disposition
+        if disposition.get("disposition") == "not_selected" and not all(
+            isinstance(disposition.get(field), str) and disposition[field].strip()
+            for field in ("rationale", "uncertainty")
+        ):
+            errors.append(
+                f"{disposition_location}: not_selected requires rationale and uncertainty"
+            )
+
+    if set(disposition_by_candidate) != eligible_ids:
+        missing = sorted(eligible_ids - set(disposition_by_candidate))
+        outside = sorted(set(disposition_by_candidate) - eligible_ids)
+        if missing:
+            errors.append(f"{location}: eligible candidates lack selection disposition: {missing}")
+        if outside:
+            errors.append(f"{location}: selection dispositions refer to non-eligible candidates: {outside}")
+
+    disposition_selected_ids = {
+        candidate_id
+        for candidate_id, disposition in disposition_by_candidate.items()
+        if disposition.get("disposition") == "selected"
+    }
+    if selected_ids != disposition_selected_ids:
+        errors.append(
+            f"{location}: selected_unit_ids must exactly equal selected dispositions"
+        )
     if not selected_ids:
         errors.append(f"{location}: locked selection requires a non-empty selected set")
-    unknown_selected = selected_ids - set(candidates)
-    if unknown_selected:
-        errors.append(
-            f"{location}: selected units are absent from candidate universe: {sorted(unknown_selected)}"
-        )
-    for candidate_id in sorted(selected_ids):
-        records = eligibility_by_candidate.get(candidate_id, [])
-        complete = [record for record in records if record.get("decision_status") == "eligible"]
-        if len(complete) != 1:
-            errors.append(
-                f"{location}: selected unit {candidate_id!r} requires exactly one eligible decision"
-            )
 
     coverage = manifest.get("coverage_redundancy_review")
     if not isinstance(coverage, dict) or coverage.get("status") != "recorded":
@@ -814,13 +941,26 @@ def validate_selection_manifest(
     if not isinstance(scientific_review, dict) or scientific_review.get("status") != "complete":
         errors.append(f"{location}: locked selection requires completed scientific review")
     else:
-        _, review_errors = _validate_plain_artifact(
+        review_record, _, review_errors = _load_json_artifact(
             root,
             scientific_review.get("review_record"),
             f"{location}: scientific_review",
             container,
         )
         errors.extend(review_errors)
+        if review_record is not None:
+            errors.extend(
+                validate_scientific_review_record(
+                    review_record,
+                    review_schema,
+                    f"{location}: scientific_review",
+                    instrument_version,
+                )
+            )
+            if not isinstance(review_record, dict) or review_record.get("outcome") != "approved":
+                errors.append(
+                    f"{location}: locked selection requires explicitly approved scientific review"
+                )
 
     governance = manifest.get("governance_authority")
     if not isinstance(governance, dict) or governance.get("status") != "recorded":
@@ -829,14 +969,39 @@ def validate_selection_manifest(
         authority_id = governance.get("authority_id")
         if not isinstance(authority_id, str) or not authority_id.strip():
             errors.append(f"{location}: governance authority_id is required")
-        _, governance_errors = _validate_plain_artifact(
+        governance_record, _, governance_errors = _load_json_artifact(
             root,
             governance.get("decision_record"),
             f"{location}: governance_authority",
             container,
         )
         errors.extend(governance_errors)
-    return selected_ids, errors
+        if governance_record is not None:
+            errors.extend(
+                validate_governance_decision_record(
+                    governance_record,
+                    governance_schema,
+                    f"{location}: governance_authority",
+                    instrument_version,
+                )
+            )
+            if not isinstance(governance_record, dict) or governance_record.get(
+                "outcome"
+            ) != "authorized":
+                errors.append(
+                    f"{location}: locked selection requires explicitly authorized governance decision"
+                )
+            if isinstance(governance_record, dict) and governance_record.get(
+                "responsible_authority_id"
+            ) != authority_id:
+                errors.append(f"{location}: governance authority identity mismatch")
+
+    selected_bindings = {
+        candidate_id: (candidates[candidate_id], candidate_references_by_id[candidate_id])
+        for candidate_id in selected_ids
+        if candidate_id in candidates and candidate_id in candidate_references_by_id
+    }
+    return selected_bindings, errors
 
 
 def validate_selection_repository(root: Path) -> list[str]:
@@ -882,6 +1047,14 @@ def validate_selection_repository(root: Path) -> list[str]:
                 )
             elif name == "panel_lineage" and name in schemas:
                 errors.extend(validate_lineage_record(record, schemas[name], location))
+            elif name == "panel_selection_review" and name in schemas:
+                errors.extend(
+                    validate_scientific_review_record(record, schemas[name], location)
+                )
+            elif name == "panel_lock_governance_decision" and name in schemas:
+                errors.extend(
+                    validate_governance_decision_record(record, schemas[name], location)
+                )
             elif name == "panel_selection_manifest":
                 _, manifest_errors = validate_selection_manifest(
                     root,
@@ -1177,7 +1350,7 @@ def validate_wave_manifest(
                 )
                 errors.extend(selection_reference_errors)
                 if selection_manifest is not None:
-                    selected_ids, selection_errors = validate_selection_manifest(
+                    selected_bindings, selection_errors = validate_selection_manifest(
                         root,
                         selection_manifest,
                         f"{location}: panel_snapshot selection_manifest",
@@ -1186,10 +1359,29 @@ def validate_wave_manifest(
                         expected_panel_version,
                     )
                     errors.extend(selection_errors)
-                    if selected_ids != set(panel_units):
+                    if set(selected_bindings) != set(panel_units):
                         errors.append(
                             f"{location}: Frozen Panel units must exactly match the locked selection manifest"
                         )
+                    for unit in units:
+                        if not isinstance(unit, dict):
+                            continue
+                        unit_id = unit.get("panel_unit_id")
+                        binding = selected_bindings.get(unit_id)
+                        if binding is None:
+                            continue
+                        candidate, candidate_reference = binding
+                        if unit.get("candidate_specification") != candidate_reference:
+                            errors.append(
+                                f"{location}: Frozen Panel unit {unit_id!r} must preserve "
+                                "the exact candidate specification path and SHA-256 binding"
+                            )
+                        for field in CANDIDATE_IDENTITY_FIELDS:
+                            if unit.get(field) != candidate.get(field):
+                                errors.append(
+                                    f"{location}: Frozen Panel unit {unit_id!r} changes "
+                                    f"candidate semantic identity field {field!r}"
+                                )
 
     if registry_path is not None:
         registry_schema = schemas.get("registry_unit")

@@ -45,6 +45,8 @@
         "eligibility_decision": {"$ref": "#/$defs/lock"},
         "panel_lineage": {"$ref": "#/$defs/lock"},
         "panel_selection_manifest": {"$ref": "#/$defs/lock"},
+        "panel_selection_review": {"$ref": "#/$defs/lock"},
+        "panel_lock_governance_decision": {"$ref": "#/$defs/lock"},
         "wave_manifest": {"$ref": "#/$defs/lock"}
       }
     },
@@ -124,6 +126,8 @@
               "eligibility_decision",
               "panel_lineage",
               "panel_selection_manifest",
+              "panel_selection_review",
+              "panel_lock_governance_decision",
               "wave_manifest"
             ]
           }

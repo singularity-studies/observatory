@@ -16,6 +16,11 @@ No scientific decisions have been approved.
   eligibility criteria, an explicit anti-selection-bias rule, prospective panel
   sizing, preserved retirement lineage, and a hash-bound fail-closed selection
   manifest.
+- Integrity clarification: selection is outcome-blind; the frozen universe is
+  fully screened; every eligible candidate receives an explicit disposition;
+  panel semantic identity is bound to exact candidate bytes; and only
+  structured approving review and authorizing governance records may permit a
+  lock.
 - Comparability impact: none yet; no Wave, panel, candidate, or observation
   exists.
 - Unresolved follow-up: domain and candidate universe construction, panel size,

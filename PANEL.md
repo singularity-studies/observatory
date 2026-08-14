@@ -57,10 +57,12 @@ A candidate must satisfy every criterion below:
 For selection protocol v1, `failed`, missing, or `unresolved` on any criterion
 prevents an `eligible` decision. No exception mechanism exists.
 
-Eligibility does not require a currently human-critical baseline.
-`human_critical`, `mixed_or_contested`, `human_noncritical`, and `unknown` are
-all admissible baseline states. Baseline state is neither a selection target
-nor a forecast.
+**Panel selection is outcome-blind with respect to human criticality.** No
+pre-selection human-criticality classification is collected or exposed by the
+candidate specification, eligibility decision, or selection disposition.
+After selection, `human_critical`, `mixed_or_contested`, `human_noncritical`,
+and `unknown` remain admissible Wave-observation states. They are observational
+outcomes, not candidate-selection inputs, targets, or forecasts.
 
 ## Anti-selection-bias rule
 
@@ -118,11 +120,20 @@ retroactively rewritten.
 ## Machine-readable records
 
 Versioned schemas define candidate unit specifications, eligibility decisions,
-lineage/retirement relations, and panel-selection manifests. Eligibility
-records preserve every criterion result, rationale, uncertainty, instrument
-version, and unresolved reviewer/adjudication fields when roles are unassigned.
-Templates under `schemas/templates/` are intentionally incomplete and are not
-candidate or approval records.
+lineage/retirement relations, panel-selection manifests, scientific reviews,
+and panel-lock governance decisions. Eligibility records preserve every
+criterion result, rationale, uncertainty, instrument version, and unresolved
+reviewer/adjudication fields when roles are unassigned. Scientific review and
+governance authority require structured, versioned, hash-bound records with an
+explicit permitting outcome. Templates under `schemas/templates/` are
+intentionally incomplete and are not candidate or approval records.
+
+Every candidate in a frozen candidate universe receives exactly one
+deterministic eligibility decision. Every eligible candidate then receives
+exactly one explicit `selected` or `not_selected` disposition. A non-selection
+rationale and uncertainty note are mandatory, and selected identifiers must
+exactly equal the `selected` dispositions. An eligible candidate cannot
+silently disappear between screening and panel lock.
 
 Future selection records belong under `selection/` and remain distinct from
 the mutable registry and immutable Wave observations.
@@ -133,13 +144,18 @@ A Frozen Panel must not be locked until all of the following resolve and pass:
 
 1. the selection protocol version is locked and bound to exact bytes;
 2. a non-empty candidate-universe snapshot is referenced;
-3. every selected unit has a complete, eligible criterion-by-criterion record;
-4. a coverage and redundancy review is recorded;
-5. panel size `N` has been prospectively fixed and matches the selected set;
-6. governance authority and its exact decision-record bytes are recorded;
-7. the panel snapshot references the locked selection manifest by path and
+3. every candidate has exactly one deterministic criterion-by-criterion
+   eligibility decision, with no outside or duplicate decision;
+4. every eligible candidate has an explicit selection disposition;
+5. a coverage and redundancy review is recorded;
+6. panel size `N` has been prospectively fixed and matches the selected set;
+7. an approving scientific-review record and authorizing governance-decision
+   record are schema-valid and bound to exact bytes;
+8. the panel snapshot binds every unit to the exact selected candidate
+   specification and preserves its semantic identity;
+9. the panel snapshot references the locked selection manifest by path and
    SHA-256; and
-8. the selection manifest, its records, and its schemas are preserved inside
+10. the selection manifest, its records, and its schemas are preserved inside
    the immutable Wave package.
 
 No lock, authority, exception, candidate universe, or approval is created by

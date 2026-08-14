@@ -9,6 +9,7 @@
   "lineage_relations": [],
   "coverage_redundancy_review": {"status": "unresolved", "rationale": "", "uncertainty": "Unresolved"},
   "panel_size": {"status": "unresolved", "n": null, "rationale": ""},
+  "selection_dispositions": [],
   "selected_unit_ids": [],
   "scientific_review": {"status": "pending", "review_record": null},
   "governance_authority": {"status": "unresolved", "authority_id": null, "decision_record": null},

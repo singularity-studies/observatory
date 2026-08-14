@@ -41,7 +41,7 @@ def panel_unit(unit_id: str = "test-unit", system_id: str = "test-system") -> di
         "panel_unit_id": unit_id,
         "domain": "test-only-domain",
         "improvement_loop_id": f"{unit_id}-loop",
-        "function_id": f"{unit_id}-function",
+        "function_or_stage": f"{unit_id}-function",
         "human_bottleneck_label": "test-only structural label",
         "operational_boundary": "test-only operational boundary",
         "continuity_rule": "test-only continuity rule",
@@ -65,9 +65,44 @@ def candidate_specification(
         "function_or_stage": f"{unit_id}-function",
         "operational_boundary": "test-only operational boundary",
         "continuity_rule": "test-only continuity rule",
-        "boundary_conditions": "test-only boundary conditions",
-        "baseline_human_criticality": "unknown",
+        "boundary_conditions": "test-only structural boundary",
         "empirical_system_ids": [system_id],
+    }
+
+
+def scientific_review_record(
+    version: str = CURRENT_SELECTION_VERSION,
+    outcome: str = "approved",
+) -> dict[str, object]:
+    return {
+        "review_record_id": "test-only-scientific-review",
+        "instrument_version": version,
+        "review_type": "panel_selection_scientific_review",
+        "outcome": outcome,
+        "rationale": (
+            "TEMPORARY TEST FIXTURE ONLY; exercises structure and does not record "
+            "a real scientific review or approval."
+        ),
+        "responsible_role_id": "test-suite-only-review-role",
+        "reviewed_at": "2026-01-01T00:00:00Z",
+    }
+
+
+def governance_decision_record(
+    version: str = CURRENT_SELECTION_VERSION,
+    outcome: str = "authorized",
+) -> dict[str, object]:
+    return {
+        "governance_decision_id": "test-only-governance-decision",
+        "instrument_version": version,
+        "decision_type": "frozen_panel_lock_authorization",
+        "outcome": outcome,
+        "rationale": (
+            "TEMPORARY TEST FIXTURE ONLY; exercises structure and does not record "
+            "real governance authority or authorization."
+        ),
+        "responsible_authority_id": "test-suite-only-authority",
+        "recorded_at": "2026-01-01T00:00:00Z",
     }
 
 
@@ -265,6 +300,7 @@ class TemporaryRepository:
 
         candidate_references: list[dict[str, str]] = []
         eligibility_references: list[dict[str, str]] = []
+        selection_dispositions: list[dict[str, str]] = []
         selected_ids: list[str] = []
         for unit in units:
             unit_id = str(unit["panel_unit_id"])
@@ -284,21 +320,25 @@ class TemporaryRepository:
                 eligibility_decision(candidate_reference, unit_id, version),
             )
             eligibility_references.append(self.reference(decision_relative))
+            selection_dispositions.append(
+                {
+                    "candidate_unit_id": unit_id,
+                    "disposition": "selected",
+                    "rationale": "test-only structural selection fixture",
+                    "uncertainty": "test-only; no empirical determination",
+                }
+            )
             selected_ids.append(unit_id)
 
-        review_relative = f"{base_relative}/reviews/scientific-review.txt"
-        review_path = self.root / review_relative
-        review_path.parent.mkdir(parents=True, exist_ok=True)
-        review_path.write_text(
-            "TEMPORARY TEST FIXTURE ONLY; no real scientific review or approval.\n",
-            encoding="utf-8",
+        review_relative = f"{base_relative}/reviews/scientific-review.json"
+        write_json(
+            self.root / review_relative,
+            scientific_review_record(version),
         )
-        authority_relative = f"{base_relative}/governance/authority.txt"
-        authority_path = self.root / authority_relative
-        authority_path.parent.mkdir(parents=True, exist_ok=True)
-        authority_path.write_text(
-            "TEMPORARY TEST FIXTURE ONLY; no real governance authority or approval.\n",
-            encoding="utf-8",
+        authority_relative = f"{base_relative}/governance/decision.json"
+        write_json(
+            self.root / authority_relative,
+            governance_decision_record(version),
         )
 
         manifest: dict[str, object] = {
@@ -327,6 +367,7 @@ class TemporaryRepository:
                 "n": len(selected_ids),
                 "rationale": "test-only fixture size; not a proposed panel N",
             },
+            "selection_dispositions": selection_dispositions,
             "selected_unit_ids": selected_ids,
             "scientific_review": {
                 "status": "complete",
@@ -392,12 +433,21 @@ class TemporaryRepository:
         instrument_locks = self._snapshot_instruments(wave, version)
         schema_locks = self._snapshot_schemas(wave, version)
 
-        _, selection_reference = self.create_locked_selection(
+        selection_manifest, selection_reference = self.create_locked_selection(
             f"data/waves/{wave}/selection",
             units,
             version,
             instrument_locks["panel"]["artifacts"][0],
         )
+
+        candidate_references = selection_manifest["candidate_universe_snapshot"][
+            "candidate_specifications"
+        ]
+        frozen_units = []
+        for unit, candidate_reference in zip(units, candidate_references, strict=True):
+            frozen_unit = dict(unit)
+            frozen_unit["candidate_specification"] = candidate_reference
+            frozen_units.append(frozen_unit)
 
         panel_relative = f"data/waves/{wave}/panel.json"
         write_json(
@@ -407,7 +457,7 @@ class TemporaryRepository:
                 "instrument_version": version,
                 "status": "frozen",
                 "selection_manifest": selection_reference,
-                "units": units,
+                "units": frozen_units,
             },
         )
         registry_relative = f"data/waves/{wave}/registry.csv"
@@ -540,14 +590,34 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
         errors = VALIDATE.validate_candidate_unit(record, self.candidate_schema, "test candidate")
         self.assertTrue(any("continuity_rule" in error for error in errors))
 
-    def test_all_four_baseline_states_remain_admissible(self) -> None:
-        for state in ("human_critical", "mixed_or_contested", "human_noncritical", "unknown"):
-            record = candidate_specification()
-            record["baseline_human_criticality"] = state
-            self.assertEqual(
-                [],
-                VALIDATE.validate_candidate_unit(record, self.candidate_schema, f"test {state}"),
-            )
+    def test_selection_is_outcome_blind_and_wave_outcomes_remain_representable(self) -> None:
+        panel = (ROOT / "PANEL.md").read_text(encoding="utf-8")
+        protocol = (ROOT / "PROTOCOL.md").read_text(encoding="utf-8")
+        exact_principle = "Panel selection is outcome-blind with respect to human criticality."
+        self.assertIn(exact_principle, panel)
+        self.assertIn(exact_principle, protocol)
+        self.assertNotIn("baseline_human_criticality", self.candidate_schema["properties"])
+        record = candidate_specification()
+        record["baseline_human_criticality"] = "unknown"
+        self.assertTrue(
+            VALIDATE.validate_candidate_unit(record, self.candidate_schema, "test outcome leak")
+        )
+        observation_schema = json.loads(
+            (ROOT / "schemas/observation.schema.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            {
+                "human_critical",
+                "mixed_or_contested",
+                "human_noncritical",
+                "unknown",
+            },
+            set(
+                observation_schema["properties"]["provisional_human_criticality_summary"][
+                    "enum"
+                ]
+            ),
+        )
 
     def test_anti_selection_bias_and_panel_size_remain_explicit(self) -> None:
         panel = (ROOT / "PANEL.md").read_text(encoding="utf-8")
@@ -565,6 +635,16 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
             "panel-lineage.template.json": self.lineage_schema,
             "panel-selection-manifest.template.json": json.loads(
                 (ROOT / "schemas/panel-selection-manifest.schema.json").read_text(
+                    encoding="utf-8"
+                )
+            ),
+            "panel-selection-review.template.json": json.loads(
+                (ROOT / "schemas/panel-selection-review.schema.json").read_text(
+                    encoding="utf-8"
+                )
+            ),
+            "panel-lock-governance-decision.template.json": json.loads(
+                (ROOT / "schemas/panel-lock-governance-decision.schema.json").read_text(
                     encoding="utf-8"
                 )
             ),
@@ -623,14 +703,135 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
         finally:
             repository.close()
 
+    def _validate_manifest_repository_change(
+        self,
+        mutate,
+        units: list[dict[str, object]] | None = None,
+    ) -> list[str]:
+        repository = TemporaryRepository()
+        try:
+            manifest, _ = repository.create_locked_selection(units=units)
+            mutate(repository, manifest)
+            _, errors = VALIDATE.validate_selection_manifest(
+                repository.root,
+                manifest,
+                "test selection manifest",
+                repository.selection_schemas(),
+                PurePosixPath("selection"),
+                CURRENT_SELECTION_VERSION,
+            )
+            return errors
+        finally:
+            repository.close()
+
+    def _eligibility_errors(self, mutate) -> list[str]:
+        repository = TemporaryRepository()
+        try:
+            candidate_relative = "selection/candidates/test-unit.json"
+            write_json(repository.root / candidate_relative, candidate_specification())
+            record = eligibility_decision(repository.reference(candidate_relative))
+            mutate(record)
+            return VALIDATE.validate_eligibility_decision(
+                repository.root,
+                record,
+                "test eligibility",
+                self.eligibility_schema,
+                self.candidate_schema,
+                CURRENT_SELECTION_VERSION,
+                PurePosixPath("selection"),
+            )
+        finally:
+            repository.close()
+
     def test_complete_temporary_selection_fixture_passes_internal_gate_only(self) -> None:
         errors = self._validate_manifest_change(lambda manifest: None)
         self.assertEqual([], errors)
         source = Path(__file__).read_text(encoding="utf-8")
         self.assertIn(
-            "TEMPORARY TEST FIXTURE ONLY; no real governance authority or approval.",
+            "TEMPORARY TEST FIXTURE ONLY; exercises structure and does not record",
             source,
         )
+
+    def test_every_universe_member_requires_exactly_one_decision(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            manifest["eligibility_decisions"].pop()
+
+        errors = self._validate_manifest_repository_change(
+            mutate,
+            [panel_unit("test-unit-1"), panel_unit("test-unit-2")],
+        )
+        self.assertTrue(any("requires exactly one eligibility decision" in error for error in errors))
+
+    def test_duplicate_eligibility_decision_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            manifest["eligibility_decisions"].append(manifest["eligibility_decisions"][0])
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("duplicate eligibility_decision_id" in error for error in errors))
+
+    def test_decision_outside_candidate_universe_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            candidate_relative = "selection/candidates/outside-unit.json"
+            write_json(
+                repository.root / candidate_relative,
+                candidate_specification("outside-unit"),
+            )
+            decision_relative = "selection/eligibility/outside-unit.json"
+            write_json(
+                repository.root / decision_relative,
+                eligibility_decision(
+                    repository.reference(candidate_relative),
+                    "outside-unit",
+                ),
+            )
+            manifest["eligibility_decisions"].append(repository.reference(decision_relative))
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("refer outside candidate universe" in error for error in errors))
+
+    def test_all_passed_deterministically_requires_eligible(self) -> None:
+        errors = self._eligibility_errors(
+            lambda record: record.__setitem__("decision_status", "ineligible")
+        )
+        self.assertTrue(any("deterministically be 'eligible'" in error for error in errors))
+
+    def test_any_failed_deterministically_produces_ineligible(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["criteria"]["non_redundancy"]["result"] = "failed"
+            record["decision_status"] = "ineligible"
+
+        self.assertEqual([], self._eligibility_errors(mutate))
+
+    def test_unresolved_without_failure_deterministically_produces_unresolved(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["criteria"]["re_observability"]["result"] = "unresolved"
+            record["decision_status"] = "unresolved"
+
+        self.assertEqual([], self._eligibility_errors(mutate))
+
+    def test_every_eligible_candidate_requires_selection_disposition(self) -> None:
+        errors = self._validate_manifest_change(
+            lambda manifest: manifest["selection_dispositions"].clear()
+        )
+        self.assertTrue(any("lack selection disposition" in error for error in errors))
+
+    def test_not_selected_requires_rationale_and_uncertainty(self) -> None:
+        def mutate(manifest: dict[str, object]) -> None:
+            disposition = manifest["selection_dispositions"][0]
+            disposition["disposition"] = "not_selected"
+            disposition["rationale"] = ""
+            disposition["uncertainty"] = ""
+            manifest["selected_unit_ids"] = []
+            manifest["panel_size"]["n"] = 1
+
+        errors = self._validate_manifest_change(mutate)
+        self.assertTrue(any("not_selected requires rationale and uncertainty" in error for error in errors))
+
+    def test_selected_ids_must_exactly_equal_selected_dispositions(self) -> None:
+        errors = self._validate_manifest_change(
+            lambda manifest: manifest["selected_unit_ids"].clear()
+        )
+        self.assertTrue(any("exactly equal selected dispositions" in error for error in errors))
 
     def test_selection_manifest_cannot_lock_without_fixed_panel_size(self) -> None:
         def mutate(manifest: dict[str, object]) -> None:
@@ -666,7 +867,7 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
             manifest["eligibility_decisions"] = []
 
         errors = self._validate_manifest_change(mutate)
-        self.assertTrue(any("exactly one eligible decision" in error for error in errors))
+        self.assertTrue(any("requires exactly one eligibility decision" in error for error in errors))
 
     def test_locked_selection_requires_protocol_and_governance_records(self) -> None:
         def mutate(manifest: dict[str, object]) -> None:
@@ -680,6 +881,96 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
         errors = self._validate_manifest_change(mutate)
         self.assertTrue(any("locked protocol" in error for error in errors))
         self.assertTrue(any("governance authority" in error for error in errors))
+
+    def test_arbitrary_text_cannot_satisfy_scientific_review(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["scientific_review"]["review_record"]
+            path = repository.root / reference["path"]
+            path.write_text("approved", encoding="utf-8")
+            manifest["scientific_review"]["review_record"] = repository.reference(
+                reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("invalid JSON" in error for error in errors))
+
+    def test_rejected_scientific_review_cannot_lock_panel(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["scientific_review"]["review_record"]
+            write_json(
+                repository.root / reference["path"],
+                scientific_review_record(outcome="rejected"),
+            )
+            manifest["scientific_review"]["review_record"] = repository.reference(
+                reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("explicitly approved scientific review" in error for error in errors))
+
+    def test_scientific_review_wrong_type_or_version_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["scientific_review"]["review_record"]
+            record = scientific_review_record(version="wrong-version")
+            record["review_type"] = "frozen_panel_lock_authorization"
+            write_json(repository.root / reference["path"], record)
+            manifest["scientific_review"]["review_record"] = repository.reference(
+                reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("review_type" in error for error in errors))
+        self.assertTrue(any("scientific review instrument_version mismatch" in error for error in errors))
+
+    def test_tampered_scientific_review_fails_sha_binding(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["scientific_review"]["review_record"]
+            record = json.loads((repository.root / reference["path"]).read_text(encoding="utf-8"))
+            record["rationale"] = "tampered test fixture"
+            write_json(repository.root / reference["path"], record)
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("SHA-256 mismatch" in error for error in errors))
+
+    def test_unauthorized_governance_decision_cannot_lock_panel(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["governance_authority"]["decision_record"]
+            write_json(
+                repository.root / reference["path"],
+                governance_decision_record(outcome="unauthorized"),
+            )
+            manifest["governance_authority"]["decision_record"] = repository.reference(
+                reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("explicitly authorized governance decision" in error for error in errors))
+
+    def test_governance_wrong_identity_or_version_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["governance_authority"]["decision_record"]
+            record = governance_decision_record(version="wrong-version")
+            record["decision_type"] = "panel_selection_scientific_review"
+            record["responsible_authority_id"] = "different-test-authority"
+            write_json(repository.root / reference["path"], record)
+            manifest["governance_authority"]["decision_record"] = repository.reference(
+                reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("decision_type" in error for error in errors))
+        self.assertTrue(any("governance decision instrument_version mismatch" in error for error in errors))
+        self.assertTrue(any("governance authority identity mismatch" in error for error in errors))
+
+    def test_tampered_governance_decision_fails_sha_binding(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["governance_authority"]["decision_record"]
+            record = json.loads((repository.root / reference["path"]).read_text(encoding="utf-8"))
+            record["rationale"] = "tampered test fixture"
+            write_json(repository.root / reference["path"], record)
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("SHA-256 mismatch" in error for error in errors))
 
     def test_initial_repository_remains_pre_wave_zero_without_candidates(self) -> None:
         self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
@@ -778,6 +1069,52 @@ class OfficialCompletenessTests(unittest.TestCase):
         self.repository.save_manifest("wave-0", manifest)
         errors = VALIDATE.validate_repository(self.repository.root)
         self.assertTrue(any("selection_manifest" in error for error in errors))
+
+    def test_same_panel_id_with_altered_semantic_identity_fails(self) -> None:
+        manifest = self.repository.create_wave(
+            "wave-0", [panel_unit()], [unresolved_observation()]
+        )
+        panel_relative = manifest["panel_snapshot"]["path"]
+        panel_path = self.repository.root / panel_relative
+        snapshot = json.loads(panel_path.read_text(encoding="utf-8"))
+        snapshot["units"][0]["operational_boundary"] = "altered test-only boundary"
+        snapshot["units"][0]["continuity_rule"] = "altered test-only continuity rule"
+        write_json(panel_path, snapshot)
+        manifest["panel_snapshot"] = self.repository.reference(panel_relative)
+        self.repository.save_manifest("wave-0", manifest)
+        errors = VALIDATE.validate_repository(self.repository.root)
+        self.assertTrue(any("semantic identity field 'operational_boundary'" in error for error in errors))
+        self.assertTrue(any("semantic identity field 'continuity_rule'" in error for error in errors))
+
+    def test_frozen_panel_must_preserve_exact_candidate_path_and_hash(self) -> None:
+        manifest = self.repository.create_wave(
+            "wave-0", [panel_unit()], [unresolved_observation()]
+        )
+        panel_relative = manifest["panel_snapshot"]["path"]
+        panel_path = self.repository.root / panel_relative
+        snapshot = json.loads(panel_path.read_text(encoding="utf-8"))
+        snapshot["units"][0]["candidate_specification"]["sha256"] = "a" * 64
+        write_json(panel_path, snapshot)
+        manifest["panel_snapshot"] = self.repository.reference(panel_relative)
+        self.repository.save_manifest("wave-0", manifest)
+        errors = VALIDATE.validate_repository(self.repository.root)
+        self.assertTrue(any("exact candidate specification path and SHA-256 binding" in error for error in errors))
+
+    def test_tampered_candidate_specification_fails_sha_binding(self) -> None:
+        self.repository.create_wave(
+            "wave-0", [panel_unit()], [unresolved_observation()]
+        )
+        selection_path = self.repository.root / "data/waves/wave-0/selection/manifest.json"
+        selection = json.loads(selection_path.read_text(encoding="utf-8"))
+        candidate_reference = selection["candidate_universe_snapshot"][
+            "candidate_specifications"
+        ][0]
+        candidate_path = self.repository.root / candidate_reference["path"]
+        candidate = json.loads(candidate_path.read_text(encoding="utf-8"))
+        candidate["operational_boundary"] = "tampered test-only boundary"
+        write_json(candidate_path, candidate)
+        errors = VALIDATE.validate_repository(self.repository.root)
+        self.assertTrue(any("SHA-256 mismatch" in error for error in errors))
 
     def test_omitted_panel_unit_fails_coverage(self) -> None:
         self.repository.create_wave(

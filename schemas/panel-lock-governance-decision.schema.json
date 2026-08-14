@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/panel-lock-governance-decision.schema.json",
+  "title": "Frozen Panel lock governance decision",
+  "type": "object",
+  "x-instrument-version": "0.4.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "governance_decision_id",
+    "instrument_version",
+    "decision_type",
+    "outcome",
+    "rationale",
+    "responsible_authority_id",
+    "recorded_at"
+  ],
+  "properties": {
+    "governance_decision_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "decision_type": {"const": "frozen_panel_lock_authorization"},
+    "outcome": {
+      "type": "string",
+      "enum": ["authorized", "unauthorized", "blocked", "unresolved", "pending"]
+    },
+    "rationale": {"type": "string", "minLength": 1},
+    "responsible_authority_id": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  }
+}

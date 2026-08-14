@@ -16,7 +16,6 @@
     "operational_boundary",
     "continuity_rule",
     "boundary_conditions",
-    "baseline_human_criticality",
     "empirical_system_ids"
   ],
   "properties": {
@@ -30,10 +29,6 @@
     "operational_boundary": {"type": "string", "minLength": 1},
     "continuity_rule": {"type": "string", "minLength": 1},
     "boundary_conditions": {"type": "string", "minLength": 1},
-    "baseline_human_criticality": {
-      "type": "string",
-      "enum": ["human_critical", "mixed_or_contested", "human_noncritical", "unknown"]
-    },
     "empirical_system_ids": {
       "type": "array",
       "uniqueItems": true,

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/panel-selection-review.schema.json",
+  "title": "Frozen Panel selection scientific review",
+  "type": "object",
+  "x-instrument-version": "0.4.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "review_record_id",
+    "instrument_version",
+    "review_type",
+    "outcome",
+    "rationale",
+    "responsible_role_id",
+    "reviewed_at"
+  ],
+  "properties": {
+    "review_record_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "review_type": {"const": "panel_selection_scientific_review"},
+    "outcome": {
+      "type": "string",
+      "enum": ["approved", "rejected", "unresolved", "pending"]
+    },
+    "rationale": {"type": "string", "minLength": 1},
+    "responsible_role_id": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "format": "date-time"}
+  }
+}

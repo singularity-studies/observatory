@@ -14,6 +14,8 @@ Future records use these locations:
 - `selection/eligibility/`
 - `selection/lineage/`
 - `selection/manifests/`
+- `selection/reviews/`
+- `selection/governance/`
 
 No record subdirectory or record is created until a real, governed selection
 process begins. JSON placed under those paths is fail-closed by

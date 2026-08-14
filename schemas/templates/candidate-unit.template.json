@@ -10,6 +10,5 @@
   "operational_boundary": null,
   "continuity_rule": null,
   "boundary_conditions": null,
-  "baseline_human_criticality": "unknown",
   "empirical_system_ids": []
 }

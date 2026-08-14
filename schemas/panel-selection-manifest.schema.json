@@ -15,6 +15,7 @@
     "lineage_relations",
     "coverage_redundancy_review",
     "panel_size",
+    "selection_dispositions",
     "selected_unit_ids",
     "scientific_review",
     "governance_authority",
@@ -81,6 +82,21 @@
         "status": {"type": "string", "enum": ["unresolved", "fixed"]},
         "n": {"type": ["integer", "null"], "minimum": 1},
         "rationale": {"type": "string"}
+      }
+    },
+    "selection_dispositions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_unit_id", "disposition", "rationale", "uncertainty"],
+        "properties": {
+          "candidate_unit_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "disposition": {"type": "string", "enum": ["selected", "not_selected"]},
+          "rationale": {"type": "string"},
+          "uncertainty": {"type": "string"}
+        }
       }
     },
     "selected_unit_ids": {

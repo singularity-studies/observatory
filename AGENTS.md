@@ -8,6 +8,9 @@ These instructions apply to the entire repository.
 - Do not turn missing evidence into an `absent` code. Use `unknown` unless source-backed evidence supports a stronger value.
 - Preserve source identity and observation date for every evidence record.
 - Keep the mutable Live Registry separate from every Frozen Panel snapshot.
+- Keep panel selection outcome-blind with respect to human criticality; human-criticality states are Wave-observation outcomes, not selection inputs.
+- Screen every frozen-universe candidate exactly once and record an explicit disposition for every eligible candidate.
+- Preserve each selected candidate's exact path, SHA-256, and semantic identity in the Frozen Panel snapshot.
 - Treat a bounded improvement-loop function/stage—not a product or technology—as the primary panel unit. Link empirical systems separately.
 - Represent transitions, reversals, and human re-entry without assuming that any has occurred.
 - Treat labels and operational definitions as versioned instruments, not settled facts.
@@ -25,6 +28,7 @@ These instructions apply to the entire repository.
 - A locked or official Wave must be self-contained with resolvable, content-hashed snapshots of every instrument and schema needed to interpret it. Validate historical Waves against package-local bytes, never current top-level replacements.
 - Reject an empty locked/official panel and require explicit schema-valid observation coverage for every panel unit; unresolved coverage uses explicit unknown values rather than omission.
 - Resolve longitudinal prior-observation references across Waves and require a different, same-unit observation with a strictly earlier observation time.
+- Require schema-valid, version-compatible, hash-bound scientific-review and governance-decision records with explicitly permitting outcomes before panel lock.
 - Validation uncertainty is a failure, not permission to proceed.
 
 ## Required checks

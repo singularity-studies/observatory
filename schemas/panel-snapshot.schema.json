@@ -20,9 +20,10 @@
         "additionalProperties": false,
         "required": [
           "panel_unit_id",
+          "candidate_specification",
           "domain",
           "improvement_loop_id",
-          "function_id",
+          "function_or_stage",
           "human_bottleneck_label",
           "operational_boundary",
           "continuity_rule",
@@ -31,9 +32,10 @@
         ],
         "properties": {
           "panel_unit_id": {"type": "string", "minLength": 1},
+          "candidate_specification": {"$ref": "#/$defs/artifact"},
           "domain": {"type": "string", "minLength": 1},
           "improvement_loop_id": {"type": "string", "minLength": 1},
-          "function_id": {"type": "string", "minLength": 1},
+          "function_or_stage": {"type": "string", "minLength": 1},
           "human_bottleneck_label": {"type": "string", "minLength": 1},
           "operational_boundary": {"type": "string", "minLength": 1},
           "continuity_rule": {"type": "string", "minLength": 1},
