@@ -1581,6 +1581,68 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         )
         return errors
 
+    def set_pair_relation(
+        self,
+        manifest: dict[str, object],
+        relation_type: str,
+        resolution_status: str,
+        assessment: str,
+        relation_id: str,
+    ) -> None:
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": relation_id,
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": relation_type,
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": resolution_status,
+                "rationale": (
+                    "TEMPORARY TEST FIXTURE ONLY; no real relation determination."
+                ),
+            }
+            relative = f"domain-universe/relations/{relation_id}.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
+                {"assessment": assessment, "relation_ids": [relation_id]}
+            )
+
+        self.repository.rewrite_chain(manifest, mutate)
+
+    def make_duplicate_candidate_ineligible(
+        self, manifest: dict[str, object], decision_index: int = 1
+    ) -> str:
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        decision_reference = proposal["eligibility_decisions"][decision_index]
+        decision_path = self.repository.root / decision_reference["path"]
+        decision = json.loads(decision_path.read_text(encoding="utf-8"))
+        candidate_id = decision["domain_candidate_id"]
+        decision["criteria"]["non_duplication"]["result"] = "failed"
+        decision["decision_status"] = "ineligible"
+        write_json(decision_path, decision)
+        replacement = self.repository.reference(decision_reference["path"])
+
+        def mutate(current: dict[str, object]) -> None:
+            current["eligibility_decisions"][decision_index] = replacement
+            current["domain_dispositions"] = [
+                item
+                for item in current["domain_dispositions"]
+                if item["domain_candidate_id"] != candidate_id
+            ]
+            current["included_domain_candidate_ids"] = [
+                item
+                for item in current["included_domain_candidate_ids"]
+                if item != candidate_id
+            ]
+
+        self.repository.rewrite_chain(manifest, mutate)
+        return candidate_id
+
     def test_complete_temporary_chain_passes_internal_gate_only(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
         self.assertEqual([], self.validate(manifest))
@@ -2204,31 +2266,167 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             any("duplicate domain_relation_id" in error for error in self.validate(manifest))
         )
 
-    def test_resolved_duplicate_requires_and_accepts_resolved_duplicate_relation(self) -> None:
+    def test_duplicate_resolved_with_both_candidates_eligible_fails(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "resolved",
+            "duplicate_resolved",
+            "test-only-both-eligible-duplicate",
+        )
 
-        def mutate(proposal: dict[str, object]) -> None:
-            relation = {
-                "domain_relation_id": "test-only-resolved-duplicate",
-                "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
-                "relation_type": "substantively_duplicates",
-                "object_domain_candidate_id": "test-only-domain-b",
-                "resolution_status": "resolved",
-                "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical duplicate claim.",
-            }
-            relative = "domain-universe/relations/test-only-resolved-duplicate.json"
-            write_json(self.repository.root / relative, relation)
-            proposal["domain_relations"] = [self.repository.reference(relative)]
-            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
-                {
-                    "assessment": "duplicate_resolved",
-                    "relation_ids": ["test-only-resolved-duplicate"],
-                }
+        def retain_only_first(current: dict[str, object]) -> None:
+            current["domain_dispositions"][1]["disposition"] = "excluded"
+            current["included_domain_candidate_ids"] = ["test-only-domain-a"]
+
+        self.repository.rewrite_chain(manifest, retain_only_first)
+        self.assertTrue(
+            any(
+                "duplicate_resolved requires at least one pair member" in error
+                for error in self.validate(manifest)
             )
+        )
 
-        self.repository.rewrite_chain(manifest, mutate)
+    def test_duplicate_resolved_with_both_candidates_included_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "resolved",
+            "duplicate_resolved",
+            "test-only-both-included-duplicate",
+        )
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(2, len(proposal["included_domain_candidate_ids"]))
+        self.assertTrue(
+            any(
+                "duplicate_resolved requires at least one pair member" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_duplicate_resolved_passes_when_one_duplicate_is_ineligible(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "resolved",
+            "duplicate_resolved",
+            "test-only-coherent-resolved-duplicate",
+        )
+        removed_candidate_id = self.make_duplicate_candidate_ineligible(manifest)
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        removed_reference = proposal["eligibility_decisions"][1]
+        removed_decision = json.loads(
+            (self.repository.root / removed_reference["path"]).read_text(encoding="utf-8")
+        )
+        retained_reference = proposal["eligibility_decisions"][0]
+        retained_decision = json.loads(
+            (self.repository.root / retained_reference["path"]).read_text(encoding="utf-8")
+        )
+        self.assertEqual("failed", removed_decision["criteria"]["non_duplication"]["result"])
+        self.assertEqual("ineligible", removed_decision["decision_status"])
+        self.assertNotIn(removed_candidate_id, proposal["included_domain_candidate_ids"])
+        self.assertEqual("eligible", retained_decision["decision_status"])
+        self.assertIn("test-only-domain-a", proposal["included_domain_candidate_ids"])
         self.assertEqual([], self.validate(manifest))
+
+    def test_revised_nonduplicate_pair_uses_distinct_or_overlap_documented(self) -> None:
+        distinct_manifest = self.repository.create_locked_domain_universe()
+        distinct_proposal = json.loads(
+            (
+                self.repository.root
+                / distinct_manifest["domain_universe_proposal"]["path"]
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            "distinct",
+            distinct_proposal["overlap_duplication_review"]["candidate_pair_assessments"][0][
+                "assessment"
+            ],
+        )
+        self.assertEqual([], self.validate(distinct_manifest))
+
+        overlap_manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            overlap_manifest,
+            "overlaps_with",
+            "documented",
+            "overlap_documented",
+            "test-only-revised-overlap",
+        )
+        self.assertEqual([], self.validate(overlap_manifest))
+
+    def test_unresolved_overlaps_with_cannot_support_overlap_documented(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "overlaps_with",
+            "unresolved",
+            "overlap_documented",
+            "test-only-unresolved-overlap",
+        )
+        self.assertTrue(
+            any("unresolved domain relation" in error for error in self.validate(manifest))
+        )
+
+    def test_unresolved_depends_on_cannot_support_distinct(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "depends_on",
+            "unresolved",
+            "distinct",
+            "test-only-unresolved-dependency",
+        )
+        self.assertTrue(
+            any("unresolved domain relation" in error for error in self.validate(manifest))
+        )
+
+    def test_unresolved_substantive_duplicate_continues_to_fail(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "unresolved",
+            "duplicate_resolved",
+            "test-only-unresolved-substantive-duplicate",
+        )
+        errors = self.validate(manifest)
+        self.assertTrue(any("unresolved domain relation" in error for error in errors))
+        self.assertTrue(any("duplicate domain relation must be explicitly resolved" in error for error in errors))
+
+    def test_unresolved_relation_records_of_every_type_fail_lock(self) -> None:
+        assessments = {
+            "overlaps_with": "overlap_documented",
+            "contains": "overlap_documented",
+            "contained_by": "overlap_documented",
+            "cross_cutting_with": "overlap_documented",
+            "depends_on": "distinct",
+            "substantively_duplicates": "duplicate_resolved",
+        }
+        for relation_type, assessment in assessments.items():
+            with self.subTest(relation_type=relation_type):
+                manifest = self.repository.create_locked_domain_universe()
+                self.set_pair_relation(
+                    manifest,
+                    relation_type,
+                    "unresolved",
+                    assessment,
+                    f"test-only-unresolved-{relation_type.replace('_', '-')}",
+                )
+                self.assertTrue(
+                    any("unresolved domain relation" in error for error in self.validate(manifest))
+                )
 
     def test_missing_eligibility_decision_fails(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
@@ -2268,6 +2466,12 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         self.assertTrue(VALIDATE.validate_contract(record, self.schemas["candidate"], "test forecast"))
         protocol = (ROOT / "DOMAIN_UNIVERSE.md").read_text(encoding="utf-8")
         self.assertIn("Domain inclusion must not depend on an expectation that human criticality", protocol)
+
+    def test_duplication_adjudication_precedes_final_eligibility_in_protocol(self) -> None:
+        protocol = (ROOT / "DOMAIN_UNIVERSE.md").read_text(encoding="utf-8")
+        adjudication = protocol.index("-> Overlap / Duplication Adjudication")
+        eligibility = protocol.index("-> Final Domain Eligibility")
+        self.assertLess(adjudication, eligibility)
 
     def test_excluded_eligible_domain_requires_rationale(self) -> None:
         manifest = self.repository.create_locked_domain_universe()

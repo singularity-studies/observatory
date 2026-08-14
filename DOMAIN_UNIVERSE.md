@@ -58,7 +58,9 @@ Eligibility v1 is conjunctive and has no exception mechanism:
    under the stated boundaries.
 
 All passed yields `eligible`; any failed yields `ineligible`; otherwise any
-unresolved yields `unresolved`.
+unresolved yields `unresolved`. Overlap/duplication adjudication occurs before
+the final eligibility decision so that the `non_duplication` criterion records
+the adjudicated result rather than an earlier assumption.
 
 ## Overlap and relations
 
@@ -67,7 +69,19 @@ Domains need not be mutually exclusive. Versioned relations may record
 `cross_cutting_with`, or a substantively duplicate relation requiring explicit
 resolution. Every unordered candidate pair must receive exactly one
 overlap/duplication assessment before lock. Documented overlap is permissible;
-an undocumented or unresolved duplicate is not.
+an undocumented or unresolved duplicate is not. No relation with
+`resolution_status: unresolved` may enter a locked Domain Universe, regardless
+of relation type. `overlaps_with`, `contains`, `contained_by`,
+`cross_cutting_with`, and `depends_on` must be `documented` or `resolved`;
+`substantively_duplicates` must be `resolved`.
+
+For v1, `duplicate_resolved` means the final pair remains substantively
+duplicate and the duplicate has been removed from the eligible universe. At
+least one pair member must therefore record `non_duplication: failed` and the
+deterministic status `ineligible`; that candidate receives no eligible-domain
+disposition. The retained member may remain eligible and included. If revised
+boundaries make the candidates non-duplicate, the final assessment is
+`distinct` or `overlap_documented`, not `duplicate_resolved`.
 
 ## Multi-frame construction
 
@@ -114,8 +128,8 @@ Universe Boundary
 -> Raw Source-Entry Extraction
 -> Normalization Ledger
 -> Domain Candidates
--> Domain Eligibility
--> Overlap / Duplication Review
+-> Overlap / Duplication Adjudication
+-> Final Domain Eligibility
 -> Coverage Audit
 -> Domain Universe Proposal
 -> Scientific Review
@@ -165,6 +179,10 @@ cross-cutting relation; `depends_on` alone does not establish overlap.
 `duplicate_resolved` requires a resolved `substantively_duplicates` relation.
 Orphan, repeated, contradictory, endpoint-mismatched, and unresolved relation
 records fail closed.
+
+A `duplicate_resolved` pair also requires at least one candidate to fail the
+conjunctive `non_duplication` criterion and become ineligible. Two substantively
+duplicate candidates cannot both survive as eligible or included domains.
 
 The complete pre-approval state, including every extraction ledger, is an
 immutable proposal bound by path and SHA-256. Scientific review must explicitly

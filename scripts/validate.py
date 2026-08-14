@@ -1790,6 +1790,10 @@ def validate_domain_universe_manifest(
                 errors.append(f"{relation_location}: relation endpoints must exist in candidate universe")
             if subject == target:
                 errors.append(f"{relation_location}: domain relation cannot be a self-reference")
+            if relation.get("resolution_status") == "unresolved":
+                errors.append(
+                    f"{relation_location}: unresolved domain relation cannot enter a locked Domain Universe"
+                )
             if relation.get("relation_type") == "substantively_duplicates" and relation.get(
                 "resolution_status"
             ) != "resolved":
@@ -1872,6 +1876,31 @@ def validate_domain_universe_manifest(
             if isinstance(relation_id, str)
         ):
             errors.append(f"{assessment_location}: resolved duplicate requires a resolved duplicate relation")
+        if assessment_value == "duplicate_resolved":
+            duplicate_removed_from_eligibility = False
+            for candidate_id in pair:
+                candidate_decisions = decisions_by_candidate.get(candidate_id, [])
+                if len(candidate_decisions) != 1:
+                    continue
+                decision = candidate_decisions[0]
+                criteria = decision.get("criteria")
+                non_duplication = (
+                    criteria.get("non_duplication")
+                    if isinstance(criteria, dict)
+                    else None
+                )
+                if (
+                    decision.get("decision_status") == "ineligible"
+                    and isinstance(non_duplication, dict)
+                    and non_duplication.get("result") == "failed"
+                ):
+                    duplicate_removed_from_eligibility = True
+                    break
+            if not duplicate_removed_from_eligibility:
+                errors.append(
+                    f"{assessment_location}: duplicate_resolved requires at least one pair member "
+                    "with non_duplication failed and decision_status ineligible"
+                )
         if assessment_value == "distinct" and any(
             relation_type != "depends_on" for relation_type in resolved_relation_types
         ):
