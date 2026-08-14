@@ -594,6 +594,12 @@ class TemporaryRepository:
             instrument["version"] = V2
         write_json(path, manifest)
 
+        for path in (self.root / "domain-universe").rglob("*.json"):
+            record = json.loads(path.read_text(encoding="utf-8"))
+            if "instrument_version" in record:
+                record["instrument_version"] = V2
+                write_json(path, record)
+
 
 class RepositoryContractTests(unittest.TestCase):
     def test_bootstrap_scaffold_passes(self) -> None:
@@ -2557,7 +2563,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         self.assertTrue(any("candidate universe must be non-empty" in error for error in errors))
         self.assertTrue(any("must include at least one eligible domain" in error for error in errors))
 
-    def test_templates_are_invalid_and_repository_has_zero_domain_records(self) -> None:
+    def test_domain_universe_templates_remain_invalid_non_records(self) -> None:
         for name, schema in self.schemas.items():
             filename = {
                 "boundary": "domain-universe-boundary.template.json",
@@ -2573,8 +2579,91 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             }[name]
             template = json.loads((ROOT / "schemas/templates" / filename).read_text(encoding="utf-8"))
             self.assertTrue(VALIDATE.validate_contract(template, schema, f"template {filename}"))
-        self.assertEqual([], list((ROOT / "domain-universe").rglob("*.json")))
-        self.assertEqual([ROOT / "domain-universe/README.md"], list((ROOT / "domain-universe").rglob("*")))
+
+    def test_repository_has_exact_prospectively_fixed_boundary(self) -> None:
+        boundary_paths = list((ROOT / "domain-universe/boundaries").glob("*.json"))
+        self.assertEqual([ROOT / "domain-universe/boundaries/du-boundary-v0.1.json"], boundary_paths)
+        boundary = json.loads(boundary_paths[0].read_text(encoding="utf-8"))
+        self.assertEqual([], VALIDATE.validate_contract(boundary, self.schemas["boundary"], "actual boundary"))
+        self.assertEqual("du-boundary-v0.1", boundary["boundary_specification_id"])
+        self.assertEqual("fixed", boundary["status"])
+        self.assertEqual(
+            {
+                "recurrent_improvement_activity": "Institutionalized or scalable recurrent sociotechnical processes in which outputs, evaluations, or experience from one cycle can be used to modify subsequent-cycle performance or the structures that enable it. 'Improvement' is procedural here and does not imply that the resulting change is socially, ethically, economically, or technically beneficial.",
+                "later_cycle_change": "The process must be capable of altering at least one of the knowledge, designs, policies, systems, capabilities, practices, or infrastructures that govern or enable a subsequent cycle.",
+                "human_criticality_investigability": "It must be meaningful in principle to investigate whether, where, and under what boundary conditions human participation remains necessary on the critical path of the recurrent improvement process, without presupposing that human criticality will weaken.",
+            },
+            boundary["in_scope"],
+        )
+        self.assertEqual(
+            {
+                "all_human_activity": "Human activity is not included merely because learning, adaptation, or change occurs. The activity must form part of an institutionalized or scalable recurrent sociotechnical improvement process.",
+                "all_economic_sectors": "Economic-sector membership is not sufficient for inclusion. Routine production or service delivery is outside the research universe unless it participates in a qualifying recurrent improvement process.",
+                "all_ai_applications": "Use of AI is not sufficient for inclusion. An AI application is relevant only when it participates in a qualifying recurrent improvement process.",
+                "all_occupations": "Occupation labels are not Domain units. Occupational activity is relevant only insofar as it instantiates a qualifying recurrent improvement process.",
+                "all_tasks": "Isolated tasks are outside the research universe unless their outputs, evaluations, or experience feed into a subsequent improvement cycle.",
+                "generic_automation": "Automation that merely substitutes for or accelerates execution is not sufficient. It must participate in a recurrent process capable of modifying later-cycle knowledge, designs, policies, systems, capabilities, practices, or infrastructures.",
+            },
+            boundary["research_universe_distinctions"],
+        )
+        self.assertEqual(
+            "This boundary defines a sampling universe for civilization-scale recurrent improvement while excluding generic activity, routine execution, and AI use per se. 'Institutionalized or scalable' includes formal organizations and institutions as well as reproducible or propagating processes such as scientific communities, open-source communities, markets, and decentralized networks; it excludes purely private one-off self-improvement. Fixing this boundary is prospective for Domain candidate construction only. It does not establish or lock a Domain Universe, imply that a Singularity will occur, or authorize Wave 0.",
+            boundary["rationale"],
+        )
+
+    def test_repository_has_exact_four_pending_source_frame_registrations(self) -> None:
+        frame_paths = sorted((ROOT / "domain-universe/source-frames").glob("*.json"))
+        expected = {
+            "oecd-ford-frascati-2015": (
+                "oecd-frascati-ford", "research-knowledge-domain", "scientific_research",
+                "https://www.oecd.org/en/publications/frascati-manual-2015_9789264239012-en.html",
+            ),
+            "un-cofog-1999": (
+                "un-cofog", "public-purpose", "public_institutional_function",
+                "https://unstats.un.org/unsd/classifications/Econ",
+            ),
+            "un-isic-rev5": (
+                "un-isic", "economic-activity", "economic_activity",
+                "https://unstats.un.org/unsd/classifications/Econ/ISIC.cshtml",
+            ),
+            "wipo-ipc-2026-01": (
+                "wipo-ipc", "technology-domain", "engineering_technology",
+                "https://www.wipo.int/classifications/data/ipc/ITSupport_and_download_area/20260101/MasterFiles/",
+            ),
+        }
+        self.assertEqual([f"{frame_id}.json" for frame_id in sorted(expected)], [path.name for path in frame_paths])
+        frames = [json.loads(path.read_text(encoding="utf-8")) for path in frame_paths]
+        for path, frame in zip(frame_paths, frames):
+            self.assertEqual([], VALIDATE.validate_contract(frame, self.schemas["source_frame"], str(path)))
+            self.assertEqual(path.stem, frame["source_frame_id"])
+            self.assertEqual(expected[path.stem], (
+                frame["source_lineage_id"], frame["independence_group"],
+                frame["classification_family"], frame["source_uri"],
+            ))
+            self.assertEqual("pending", frame["normalization_status"])
+        self.assertEqual(4, len({frame["source_lineage_id"] for frame in frames}))
+        self.assertEqual(4, len({frame["independence_group"] for frame in frames}))
+        self.assertEqual(1, len({frame["registered_at"] for frame in frames}))
+        boundary = json.loads(
+            (ROOT / "domain-universe/boundaries/du-boundary-v0.1.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual({boundary["fixed_at"]}, {frame["registered_at"] for frame in frames})
+
+    def test_repository_registration_state_has_no_downstream_scientific_records(self) -> None:
+        for directory in (
+            "extractions", "candidates", "eligibility", "relations", "proposals",
+            "reviews", "governance", "manifests",
+        ):
+            self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
+        self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
+        self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+        registry_lines = (ROOT / "registry/live-registry.csv").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(1, len(registry_lines))
+        current_state = (ROOT / "domain-universe/README.md").read_text(encoding="utf-8")
+        self.assertIn("There is no extraction", current_state)
+        self.assertIn("included or locked Domain", current_state)
+        self.assertIn("The Domain Universe is not established or locked", current_state)
+        self.assertIn("Wave 0 remains\nunauthorized", current_state)
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):

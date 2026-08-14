@@ -52,6 +52,28 @@ scientific finding.
 This entry records infrastructure only, not a boundary, source frame, domain,
 approval, lock, or scientific finding.
 
+## Prospective construction record DU-002
+
+- Date: `2026-08-14`
+- Status: boundary fixed prospectively for candidate generation; not approved
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instrument: Domain Universe Construction Protocol `0.5.0-draft`
+- Construction action: fixed boundary `du-boundary-v0.1` and registered OECD
+  FORD (Frascati Manual 2015), UN ISIC Revision 5, WIPO IPC 2026.01, and UN
+  COFOG 1999 as four structurally distinct source frames.
+- Rationale: establish an explicit recurrent-improvement research-universe
+  boundary and auditable multi-frame provenance before any source-entry
+  extraction, normalization, or candidate generation.
+- Comparability impact: none; no Domain Universe, Frozen Panel, or Wave exists.
+- Unresolved follow-up: extraction and traversal rules, normalization outcomes,
+  candidate identities, eligibility, relations, coverage audit, proposal,
+  scientific review, final governance authority, and governance lock.
+
+This entry records prospective construction state, not scientific approval,
+selection of any source entry or Domain, authority, a Domain Universe lock, or
+authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

@@ -1,0 +1,16 @@
+{
+  "source_frame_id": "oecd-ford-frascati-2015",
+  "instrument_version": "0.5.0-draft",
+  "canonical_name": "OECD Fields of Research and Development (FORD), Frascati Manual 2015",
+  "classification_family": "scientific_research",
+  "source_identity": "OECD Fields of Research and Development (FORD) classification as specified in the Frascati Manual 2015",
+  "source_version_or_date": "Frascati Manual 2015; published 2015-10-08",
+  "source_uri": "https://www.oecd.org/en/publications/frascati-manual-2015_9789264239012-en.html",
+  "source_lineage_id": "oecd-frascati-ford",
+  "independence_group": "research-knowledge-domain",
+  "independence_basis": "This frame classifies R&D by knowledge domain. Its primary classification object differs from kind of economic activity (ISIC), patent technology (IPC), and government expenditure purpose (COFOG). Structural independence is recorded for candidate generation; substantive independence remains reviewable at scientific review.",
+  "audit_note": "OECD identifies the Frascati Manual 2015 as the current edition as of the Task 103 registration date. The Manual proposes the OECD FORD classification for classification and distribution of R&D by field.",
+  "registered_at": "2026-08-14T14:05:55Z",
+  "normalization_status": "pending",
+  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified FORD levels."
+}

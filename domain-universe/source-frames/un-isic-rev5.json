@@ -1,0 +1,16 @@
+{
+  "source_frame_id": "un-isic-rev5",
+  "instrument_version": "0.5.0-draft",
+  "canonical_name": "United Nations International Standard Industrial Classification of All Economic Activities (ISIC), Revision 5",
+  "classification_family": "economic_activity",
+  "source_identity": "International Standard Industrial Classification of All Economic Activities (ISIC), Revision 5",
+  "source_version_or_date": "Revision 5; endorsed by the United Nations Statistical Commission in 2023",
+  "source_uri": "https://unstats.un.org/unsd/classifications/Econ/ISIC.cshtml",
+  "source_lineage_id": "un-isic",
+  "independence_group": "economic-activity",
+  "independence_basis": "This frame classifies kinds of economic activity. Its primary classification object differs from R&D knowledge domain (FORD), patent technology (IPC), and government expenditure purpose (COFOG). Structural independence is recorded for candidate generation; substantive independence remains reviewable at scientific review.",
+  "audit_note": "UNSD states that ISIC Revision 5 was endorsed by the United Nations Statistical Commission at its 54th session in 2023. The formal publication is still described as forthcoming at the Task 103 registration date, while the official structure and explanatory notes are available from UNSD. Extraction must use only official Rev. 5 material and must record the exact retrieval context.",
+  "registered_at": "2026-08-14T14:05:55Z",
+  "normalization_status": "pending",
+  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified ISIC Rev. 5 levels."
+}
