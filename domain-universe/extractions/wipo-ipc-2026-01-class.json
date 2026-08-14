@@ -1,0 +1,1072 @@
+{
+  "extraction_id": "wipo-ipc-2026-01-class",
+  "instrument_version": "0.5.0-draft",
+  "source_frame": {
+    "path": "domain-universe/source-frames/wipo-ipc-2026-01.json",
+    "sha256": "fd33d8037c596c4445e12f796362033e79b1e4e17a909934b2ecf26db05c4db6"
+  },
+  "extraction_scope": "Source version: IPC 2026.01. Extraction level: Class. Expected entry count: 132. Observed entry count: 132. The first-level Section is retained only as parent context.",
+  "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every Class entry exactly once, retain its Section as context, and do not extract first-level parents or third-level and lower categories as independent entries.",
+  "extraction_status": "complete",
+  "extracted_entries": [
+    {
+      "source_entry_id": "ipc-A01",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A01",
+      "source_entry_descriptor": "AGRICULTURE; FORESTRY; ANIMAL HUSBANDRY; HUNTING; TRAPPING; FISHING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A21",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A21",
+      "source_entry_descriptor": "BAKING; EQUIPMENT FOR MAKING OR PROCESSING DOUGHS; DOUGHS FOR BAKING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A22",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A22",
+      "source_entry_descriptor": "BUTCHERING; MEAT TREATMENT; PROCESSING POULTRY OR FISH",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A23",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A23",
+      "source_entry_descriptor": "FOODS, FOODSTUFFS OR NON-ALCOHOLIC BEVERAGES; PREPARATION, TREATMENT OR PRESERVATION THEREOF",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A24",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A24",
+      "source_entry_descriptor": "TOBACCO; CIGARS; CIGARETTES; SIMULATED SMOKING DEVICES; SMOKERS' REQUISITES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A41",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A41",
+      "source_entry_descriptor": "WEARING APPAREL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A42",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A42",
+      "source_entry_descriptor": "HEADWEAR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A43",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A43",
+      "source_entry_descriptor": "FOOTWEAR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A44",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A44",
+      "source_entry_descriptor": "HABERDASHERY; JEWELLERY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A45",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A45",
+      "source_entry_descriptor": "HAND OR TRAVELLING ARTICLES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A46",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A46",
+      "source_entry_descriptor": "BRUSHWARE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A47",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A47",
+      "source_entry_descriptor": "FURNITURE; DOMESTIC ARTICLES OR APPLIANCES; COFFEE MILLS; SPICE MILLS; SUCTION CLEANERS IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A61",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A61",
+      "source_entry_descriptor": "MEDICAL OR VETERINARY SCIENCE; HYGIENE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A62",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A62",
+      "source_entry_descriptor": "LIFE-SAVING; FIRE-FIGHTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A63",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A63",
+      "source_entry_descriptor": "SPORTS; GAMES; AMUSEMENTS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-A99",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B01",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B01",
+      "source_entry_descriptor": "PHYSICAL OR CHEMICAL PROCESSES OR APPARATUS IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B02",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B02",
+      "source_entry_descriptor": "CRUSHING, PULVERISING, OR DISINTEGRATING; PREPARATORY TREATMENT OF GRAIN FOR MILLING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B03",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B03",
+      "source_entry_descriptor": "SEPARATION OF SOLID MATERIALS USING LIQUIDS OR USING PNEUMATIC TABLES OR JIGS; MAGNETIC OR ELECTROSTATIC SEPARATION OF SOLID MATERIALS FROM SOLID MATERIALS OR FLUIDS; SEPARATION BY HIGH-VOLTAGE ELECTRIC FIELDS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B04",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B04",
+      "source_entry_descriptor": "CENTRIFUGAL APPARATUS OR MACHINES FOR CARRYING-OUT PHYSICAL OR CHEMICAL PROCESSES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B05",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B05",
+      "source_entry_descriptor": "SPRAYING OR ATOMISING IN GENERAL; APPLYING FLUENT MATERIALS TO SURFACES, IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B06",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B06",
+      "source_entry_descriptor": "GENERATING OR TRANSMITTING MECHANICAL VIBRATIONS IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B07",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B07",
+      "source_entry_descriptor": "SEPARATING SOLIDS FROM SOLIDS; SORTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B08",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B08",
+      "source_entry_descriptor": "CLEANING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B09",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B09",
+      "source_entry_descriptor": "DISPOSAL OF SOLID WASTE; RECLAMATION OF CONTAMINATED SOIL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B21",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B21",
+      "source_entry_descriptor": "MECHANICAL METAL-WORKING WITHOUT ESSENTIALLY REMOVING MATERIAL; PUNCHING METAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B22",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B22",
+      "source_entry_descriptor": "CASTING; POWDER METALLURGY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B23",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B23",
+      "source_entry_descriptor": "MACHINE TOOLS; METAL-WORKING NOT OTHERWISE PROVIDED FOR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B24",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B24",
+      "source_entry_descriptor": "GRINDING; POLISHING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B25",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B25",
+      "source_entry_descriptor": "HAND TOOLS; PORTABLE POWER-DRIVEN TOOLS; HANDLES FOR HAND IMPLEMENTS; WORKSHOP EQUIPMENT; MANIPULATORS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B26",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B26",
+      "source_entry_descriptor": "HAND CUTTING TOOLS; CUTTING; SEVERING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B27",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B27",
+      "source_entry_descriptor": "WORKING OR PRESERVING WOOD OR SIMILAR MATERIAL; NAILING OR STAPLING MACHINES IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B28",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B28",
+      "source_entry_descriptor": "WORKING CEMENT, CLAY, OR STONE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B29",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B29",
+      "source_entry_descriptor": "WORKING OF PLASTICS; WORKING OF SUBSTANCES IN A PLASTIC STATE IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B30",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B30",
+      "source_entry_descriptor": "PRESSES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B31",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B31",
+      "source_entry_descriptor": "MAKING ARTICLES OF PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER; WORKING PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B32",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B32",
+      "source_entry_descriptor": "LAYERED PRODUCTS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B33",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B33",
+      "source_entry_descriptor": "ADDITIVE MANUFACTURING TECHNOLOGY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B41",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B41",
+      "source_entry_descriptor": "PRINTING; LINING MACHINES; TYPEWRITERS; STAMPS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B42",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B42",
+      "source_entry_descriptor": "BOOKBINDING; ALBUMS; FILES; SPECIAL PRINTED MATTER",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B43",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B43",
+      "source_entry_descriptor": "WRITING OR DRAWING IMPLEMENTS; BUREAU ACCESSORIES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B44",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B44",
+      "source_entry_descriptor": "DECORATIVE ARTS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B60",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B60",
+      "source_entry_descriptor": "VEHICLES IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B61",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B61",
+      "source_entry_descriptor": "RAILWAYS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B62",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B62",
+      "source_entry_descriptor": "LAND VEHICLES FOR TRAVELLING OTHERWISE THAN ON RAILS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B63",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B63",
+      "source_entry_descriptor": "SHIPS OR OTHER WATERBORNE VESSELS; RELATED EQUIPMENT",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B64",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B64",
+      "source_entry_descriptor": "AIRCRAFT; AVIATION; COSMONAUTICS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B65",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B65",
+      "source_entry_descriptor": "CONVEYING; PACKING; STORING; HANDLING THIN OR FILAMENTARY MATERIAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B66",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B66",
+      "source_entry_descriptor": "HOISTING; LIFTING; HAULING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B67",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B67",
+      "source_entry_descriptor": "OPENING OR CLOSING BOTTLES, JARS OR SIMILAR CONTAINERS; LIQUID HANDLING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B68",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B68",
+      "source_entry_descriptor": "SADDLERY; UPHOLSTERY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B81",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B81",
+      "source_entry_descriptor": "MICROSTRUCTURAL TECHNOLOGY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B82",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B82",
+      "source_entry_descriptor": "NANOTECHNOLOGY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-B99",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C01",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C01",
+      "source_entry_descriptor": "INORGANIC CHEMISTRY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C02",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C02",
+      "source_entry_descriptor": "TREATMENT OF WATER, WASTE WATER, SEWAGE, OR SLUDGE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C03",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C03",
+      "source_entry_descriptor": "GLASS; MINERAL OR SLAG WOOL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C04",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C04",
+      "source_entry_descriptor": "CEMENTS; CONCRETE; ARTIFICIAL STONE; CERAMICS; REFRACTORIES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C05",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C05",
+      "source_entry_descriptor": "FERTILISERS; MANUFACTURE THEREOF",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C06",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C06",
+      "source_entry_descriptor": "EXPLOSIVES; MATCHES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C07",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C07",
+      "source_entry_descriptor": "ORGANIC CHEMISTRY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C08",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C08",
+      "source_entry_descriptor": "ORGANIC MACROMOLECULAR COMPOUNDS; THEIR PREPARATION OR CHEMICAL WORKING-UP; COMPOSITIONS BASED THEREON",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C09",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C09",
+      "source_entry_descriptor": "DYES; PAINTS; POLISHES; NATURAL RESINS; ADHESIVES; COMPOSITIONS NOT OTHERWISE PROVIDED FOR; APPLICATIONS OF MATERIALS NOT OTHERWISE PROVIDED FOR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C10",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C10",
+      "source_entry_descriptor": "PETROLEUM, GAS OR COKE INDUSTRIES; TECHNICAL GASES CONTAINING CARBON MONOXIDE; FUELS; LUBRICANTS; PEAT",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C11",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C11",
+      "source_entry_descriptor": "ANIMAL OR VEGETABLE OILS, FATS, FATTY SUBSTANCES OR WAXES; FATTY ACIDS THEREFROM; DETERGENTS; CANDLES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C12",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C12",
+      "source_entry_descriptor": "BIOCHEMISTRY; BEER; SPIRITS; WINE; VINEGAR; MICROBIOLOGY; ENZYMOLOGY; MUTATION OR GENETIC ENGINEERING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C13",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C13",
+      "source_entry_descriptor": "SUGAR INDUSTRY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C14",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C14",
+      "source_entry_descriptor": "SKINS; HIDES; PELTS OR LEATHER",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C21",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C21",
+      "source_entry_descriptor": "METALLURGY OF IRON",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C22",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C22",
+      "source_entry_descriptor": "METALLURGY; FERROUS OR NON-FERROUS ALLOYS; TREATMENT OF ALLOYS OR NON-FERROUS METALS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C23",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C23",
+      "source_entry_descriptor": "COATING METALLIC MATERIAL; COATING MATERIAL WITH METALLIC MATERIAL; CHEMICAL SURFACE TREATMENT; DIFFUSION TREATMENT OF METALLIC MATERIAL; COATING BY VACUUM EVAPORATION, BY SPUTTERING, BY ION IMPLANTATION OR BY CHEMICAL VAPOUR DEPOSITION, IN GENERAL; INHIBITING CORROSION OF METALLIC MATERIAL OR INCRUSTATION IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C25",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C25",
+      "source_entry_descriptor": "ELECTROLYTIC OR ELECTROPHORETIC PROCESSES; APPARATUS THEREFOR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C30",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C30",
+      "source_entry_descriptor": "CRYSTAL GROWTH",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C40",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C40",
+      "source_entry_descriptor": "COMBINATORIAL TECHNOLOGY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-C99",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D01",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D01",
+      "source_entry_descriptor": "NATURAL OR MAN-MADE THREADS OR FIBRES; SPINNING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D02",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D02",
+      "source_entry_descriptor": "YARNS; MECHANICAL FINISHING OF YARNS OR ROPES; WARPING OR BEAMING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D03",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D03",
+      "source_entry_descriptor": "WEAVING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D04",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D04",
+      "source_entry_descriptor": "BRAIDING; LACE-MAKING; KNITTING; TRIMMINGS; NON-WOVEN FABRICS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D05",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D05",
+      "source_entry_descriptor": "SEWING; EMBROIDERING; TUFTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D06",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D06",
+      "source_entry_descriptor": "TREATMENT OF TEXTILES OR THE LIKE; LAUNDERING; FLEXIBLE MATERIALS NOT OTHERWISE PROVIDED FOR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D07",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D07",
+      "source_entry_descriptor": "ROPES; CABLES OTHER THAN ELECTRIC",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D21",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D21",
+      "source_entry_descriptor": "PAPER-MAKING; PRODUCTION OF CELLULOSE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-D99",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E01",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E01",
+      "source_entry_descriptor": "CONSTRUCTION OF ROADS, RAILWAYS, OR BRIDGES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E02",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E02",
+      "source_entry_descriptor": "HYDRAULIC ENGINEERING; FOUNDATIONS; SOIL-SHIFTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E03",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E03",
+      "source_entry_descriptor": "WATER SUPPLY; SEWERAGE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E04",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E04",
+      "source_entry_descriptor": "BUILDING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E05",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E05",
+      "source_entry_descriptor": "LOCKS; KEYS; WINDOW OR DOOR FITTINGS; SAFES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E06",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E06",
+      "source_entry_descriptor": "DOORS, WINDOWS, SHUTTERS, OR ROLLER BLINDS, IN GENERAL; LADDERS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E21",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E21",
+      "source_entry_descriptor": "EARTH OR ROCK DRILLING; MINING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-E99",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F01",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F01",
+      "source_entry_descriptor": "MACHINES OR ENGINES IN GENERAL; ENGINE PLANTS IN GENERAL; STEAM ENGINES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F02",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F02",
+      "source_entry_descriptor": "COMBUSTION ENGINES; HOT-GAS OR COMBUSTION-PRODUCT ENGINE PLANTS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F03",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F03",
+      "source_entry_descriptor": "MACHINES OR ENGINES FOR LIQUIDS; WIND, SPRING, OR WEIGHT MOTORS; PRODUCING MECHANICAL POWER OR A REACTIVE PROPULSIVE THRUST, NOT OTHERWISE PROVIDED FOR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F04",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F04",
+      "source_entry_descriptor": "POSITIVE-DISPLACEMENT MACHINES FOR LIQUIDS; PUMPS FOR LIQUIDS OR ELASTIC FLUIDS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F15",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F15",
+      "source_entry_descriptor": "FLUID-PRESSURE ACTUATORS; HYDRAULICS OR PNEUMATICS IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F16",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F16",
+      "source_entry_descriptor": "ENGINEERING ELEMENTS OR UNITS; GENERAL MEASURES FOR PRODUCING AND MAINTAINING EFFECTIVE FUNCTIONING OF MACHINES OR INSTALLATIONS; THERMAL INSULATION IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F17",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F17",
+      "source_entry_descriptor": "STORING OR DISTRIBUTING GASES OR LIQUIDS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F21",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F21",
+      "source_entry_descriptor": "LIGHTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F22",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F22",
+      "source_entry_descriptor": "STEAM GENERATION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F23",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F23",
+      "source_entry_descriptor": "COMBUSTION APPARATUS; COMBUSTION PROCESSES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F24",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F24",
+      "source_entry_descriptor": "HEATING; RANGES; VENTILATING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F25",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F25",
+      "source_entry_descriptor": "REFRIGERATION OR COOLING; COMBINED HEATING AND REFRIGERATION SYSTEMS; HEAT PUMP SYSTEMS; MANUFACTURE OR STORAGE OF ICE; LIQUEFACTION OR SOLIDIFICATION OF GASES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F26",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F26",
+      "source_entry_descriptor": "DRYING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F27",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F27",
+      "source_entry_descriptor": "FURNACES; KILNS, OVENS OR RETORTS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F28",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F28",
+      "source_entry_descriptor": "HEAT EXCHANGE IN GENERAL",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F41",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F41",
+      "source_entry_descriptor": "WEAPONS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F42",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F42",
+      "source_entry_descriptor": "AMMUNITION; BLASTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-F99",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G01",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G01",
+      "source_entry_descriptor": "MEASURING; TESTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G02",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G02",
+      "source_entry_descriptor": "OPTICS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G03",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G03",
+      "source_entry_descriptor": "PHOTOGRAPHY; CINEMATOGRAPHY; ANALOGOUS TECHNIQUES USING WAVES OTHER THAN OPTICAL WAVES; ELECTROGRAPHY; HOLOGRAPHY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G04",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G04",
+      "source_entry_descriptor": "HOROLOGY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G05",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G05",
+      "source_entry_descriptor": "CONTROLLING; REGULATING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G06",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G06",
+      "source_entry_descriptor": "COMPUTING OR CALCULATING; COUNTING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G07",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G07",
+      "source_entry_descriptor": "CHECKING-DEVICES",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G08",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G08",
+      "source_entry_descriptor": "SIGNALLING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G09",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G09",
+      "source_entry_descriptor": "EDUCATING; CRYPTOGRAPHY; DISPLAY; ADVERTISING; SEALS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G10",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G10",
+      "source_entry_descriptor": "MUSICAL INSTRUMENTS; ACOUSTICS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G11",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G11",
+      "source_entry_descriptor": "INFORMATION STORAGE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G12",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G12",
+      "source_entry_descriptor": "INSTRUMENT DETAILS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G16",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G16",
+      "source_entry_descriptor": "INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G21",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G21",
+      "source_entry_descriptor": "NUCLEAR PHYSICS; NUCLEAR ENGINEERING",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-G99",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-H01",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H01",
+      "source_entry_descriptor": "ELECTRIC ELEMENTS",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-H02",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H02",
+      "source_entry_descriptor": "GENERATION, CONVERSION, OR DISTRIBUTION OF ELECTRIC POWER",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-H03",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H03",
+      "source_entry_descriptor": "ELECTRONIC CIRCUITRY",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-H04",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H04",
+      "source_entry_descriptor": "ELECTRIC COMMUNICATION TECHNIQUE",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-H05",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H05",
+      "source_entry_descriptor": "ELECTRIC TECHNIQUES NOT OTHERWISE PROVIDED FOR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-H10",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H10",
+      "source_entry_descriptor": "SEMICONDUCTOR DEVICES; ELECTRIC SOLID-STATE DEVICES NOT OTHERWISE PROVIDED FOR",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ipc-H99",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    }
+  ],
+  "rationale": "Official source retrieval URL: https://www.wipo.int/classifications/data/ipc/ITSupport_and_download_area/20260101/MasterFiles/ipc_scheme_20260101.zip. Retrieved at: 2026-08-14T15:19:17Z. SHA-256 of the authoritative source bytes used for extraction: 22977dd19b2061d155b4d48558b495192418bafca8147ea15eea2e05019e4849. Only official short classification codes, titles, and parent context are recorded; the source artifact is not committed.",
+  "uncertainty": "No ambiguity was identified in the official IPC 2026.01 material at the specified Class level. Domain normalization, scope, duplication, eligibility, and candidate judgments remain intentionally unresolved and have not begun.",
+  "recorded_at": "2026-08-14T15:24:05Z"
+}

@@ -12,5 +12,5 @@
   "audit_note": "UNSD lists COFOG 1999 as operational. An official COFOG revision is underway and is anticipated to be completed around 2028. Treat COFOG 1999 as legacy-current for this construction cycle. A future revised COFOG must not retroactively rewrite this source-frame record.",
   "registered_at": "2026-08-14T14:05:55Z",
   "normalization_status": "pending",
-  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified COFOG 1999 levels."
+  "normalization_note": "Exhaustive Task 104 source extraction is complete in domain-universe/extractions/un-cofog-1999-group.json. Domain normalization and candidate generation have not begun."
 }

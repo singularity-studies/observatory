@@ -19,9 +19,11 @@ divided into those categories. The protocol asks:
 > Panel systematically miss?
 
 The goal is coverage, not a metaphysical taxonomy. Construction has begun with
-one prospectively fixed boundary and four registered source frames. No source
-entry has been extracted or normalized, and no Domain, candidate, eligibility
-decision, proposal, review, authority, or lock has been created.
+one prospectively fixed boundary, four registered source frames, and exhaustive
+second-level extraction of 330 official source categories. These source
+categories are not Domains. Normalization has not begun, every normalization
+disposition remains unresolved, and no Domain, candidate, eligibility decision,
+proposal, review, authority, or lock has been created.
 
 ## Universe boundary
 
@@ -100,8 +102,8 @@ Potential frame families include scientific/research, economic/activity,
 engineering/technology, public-sector or institutional-function, and other
 defensible structured classifications. The registered frames are OECD FORD
 (Frascati Manual 2015), UN ISIC Revision 5, WIPO IPC 2026.01, and UN COFOG
-1999. Registration records provenance only; extraction and normalization have
-not begun.
+1999. Their prospectively specified second levels have been exhaustively
+extracted; normalization and candidate generation have not begun.
 
 Machine validation cannot substantively prove intellectual independence. It
 can require reviewable provenance and block obvious duplication or relabeling;
@@ -125,6 +127,13 @@ concrete entry ID. Candidate-to-entry and entry-to-candidate references must
 agree. This ledger prevents a free-text reference from concealing silent
 cherry-picking or omitted normalization decisions. At least two structurally
 independent source lineages must contribute non-empty extracted-entry sets.
+
+The Task 104 ledgers contain 42 FORD second-level fields, 87 ISIC Rev.5
+Divisions, 132 IPC 2026.01 Classes, and 69 COFOG 1999 Groups: 330 source
+categories in total. First-level categories are retained only as parent
+context. Every entry remains `unresolved` with no target candidate. Extraction
+completeness does not establish scope, duplication, eligibility, a Domain, or a
+Domain Universe.
 
 ## Construction pipeline
 
@@ -200,8 +209,8 @@ chain and creates no authority by itself.
 
 ## Unresolved scientific decisions
 
-Domain names, domain count, source-entry traversal and normalization outcomes,
-weights, panel quotas, final Frozen Panel size, improvement-loop stage taxonomy,
-final Singularity measurement dimensions, and final Domain Universe governance
-authority remain unresolved. No Domain Universe is established or locked, and
-Wave 0 remains unauthorized.
+Domain names, domain count, source-entry normalization outcomes, weights, panel
+quotas, final Frozen Panel size, improvement-loop stage taxonomy, final
+Singularity measurement dimensions, and final Domain Universe governance
+authority remain unresolved. No Domain Universe is established or locked, the
+Frozen Panel remains unselected, and Wave 0 remains unauthorized.

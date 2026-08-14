@@ -2613,6 +2613,12 @@ class DomainUniverseProtocolTests(unittest.TestCase):
 
     def test_repository_has_exact_four_pending_source_frame_registrations(self) -> None:
         frame_paths = sorted((ROOT / "domain-universe/source-frames").glob("*.json"))
+        expected_extractions = {
+            "oecd-ford-frascati-2015": "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json",
+            "un-cofog-1999": "domain-universe/extractions/un-cofog-1999-group.json",
+            "un-isic-rev5": "domain-universe/extractions/un-isic-rev5-division.json",
+            "wipo-ipc-2026-01": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        }
         expected = {
             "oecd-ford-frascati-2015": (
                 "oecd-frascati-ford", "research-knowledge-domain", "scientific_research",
@@ -2641,6 +2647,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
                 frame["classification_family"], frame["source_uri"],
             ))
             self.assertEqual("pending", frame["normalization_status"])
+            self.assertIn("Exhaustive Task 104 source extraction is complete", frame["normalization_note"])
+            self.assertIn(expected_extractions[path.stem], frame["normalization_note"])
+            self.assertIn("normalization and candidate generation have not begun", frame["normalization_note"].lower())
         self.assertEqual(4, len({frame["source_lineage_id"] for frame in frames}))
         self.assertEqual(4, len({frame["independence_group"] for frame in frames}))
         self.assertEqual(1, len({frame["registered_at"] for frame in frames}))
@@ -2649,10 +2658,78 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         )
         self.assertEqual({boundary["fixed_at"]}, {frame["registered_at"] for frame in frames})
 
-    def test_repository_registration_state_has_no_downstream_scientific_records(self) -> None:
+    def test_repository_has_exact_four_complete_hash_bound_extractions(self) -> None:
+        expected = {
+            "oecd-ford-frascati-2015-second-level.json": (
+                "domain-universe/source-frames/oecd-ford-frascati-2015.json", 42,
+            ),
+            "un-cofog-1999-group.json": (
+                "domain-universe/source-frames/un-cofog-1999.json", 69,
+            ),
+            "un-isic-rev5-division.json": (
+                "domain-universe/source-frames/un-isic-rev5.json", 87,
+            ),
+            "wipo-ipc-2026-01-class.json": (
+                "domain-universe/source-frames/wipo-ipc-2026-01.json", 132,
+            ),
+        }
+        extraction_paths = sorted((ROOT / "domain-universe/extractions").glob("*.json"))
+        self.assertEqual(sorted(expected), [path.name for path in extraction_paths])
+        total_entries = 0
+        for path in extraction_paths:
+            record = json.loads(path.read_text(encoding="utf-8"))
+            frame_path, expected_count = expected[path.name]
+            self.assertEqual([], VALIDATE.validate_contract(record, self.schemas["extraction"], str(path)))
+            self.assertEqual(path.stem, record["extraction_id"])
+            self.assertEqual("complete", record["extraction_status"])
+            self.assertEqual(frame_path, record["source_frame"]["path"])
+            frame_bytes = (ROOT / frame_path).read_bytes()
+            self.assertEqual(hashlib.sha256(frame_bytes).hexdigest(), record["source_frame"]["sha256"])
+            self.assertEqual(expected_count, len(record["extracted_entries"]))
+            self.assertIn(f"Expected entry count: {expected_count}", record["extraction_scope"])
+            self.assertIn(f"Observed entry count: {expected_count}", record["extraction_scope"])
+            self.assertIn("Official source retrieval URL: https://", record["rationale"])
+            self.assertRegex(record["rationale"], r"Retrieved at: \d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z")
+            self.assertRegex(record["rationale"], r"SHA-256[^:]*: [a-f0-9]{64}")
+            total_entries += len(record["extracted_entries"])
+        self.assertEqual(330, total_entries)
+
+    def test_real_extraction_entries_are_unique_unresolved_source_categories(self) -> None:
+        patterns = {
+            "oecd-ford-frascati-2015-second-level.json": (
+                r"ford-[1-6]\.\d{1,2}", r"FORD 2015 / [1-6] .+ / [1-6]\.\d{1,2}",
+            ),
+            "un-isic-rev5-division.json": (
+                r"isic-\d{2}", r"ISIC Rev\.5 / Section [A-V] .+ / Division \d{2}",
+            ),
+            "wipo-ipc-2026-01-class.json": (
+                r"ipc-[A-H]\d{2}", r"IPC 2026\.01 / Section [A-H] .+ / Class [A-H]\d{2}",
+            ),
+            "un-cofog-1999-group.json": (
+                r"cofog-\d{2}\.\d", r"COFOG 1999 / Division \d{2} .+ / Group \d{2}\.\d",
+            ),
+        }
+        all_ids: list[str] = []
+        for filename, (id_pattern, reference_pattern) in patterns.items():
+            record = json.loads((ROOT / "domain-universe/extractions" / filename).read_text(encoding="utf-8"))
+            entries = record["extracted_entries"]
+            ids = [entry["source_entry_id"] for entry in entries]
+            self.assertEqual(len(ids), len(set(ids)))
+            all_ids.extend(ids)
+            for entry in entries:
+                self.assertRegex(entry["source_entry_id"], rf"^{id_pattern}$")
+                self.assertRegex(entry["source_entry_reference"], rf"^{reference_pattern}$")
+                self.assertTrue(entry["source_entry_descriptor"].strip())
+                self.assertEqual("unresolved", entry["normalization_disposition"])
+                self.assertEqual([], entry["target_domain_candidate_ids"])
+                self.assertIn("Domain normalization and candidate generation are deferred", entry["rationale"])
+        self.assertEqual(330, len(all_ids))
+        self.assertEqual(330, len(set(all_ids)))
+
+    def test_repository_extraction_state_has_no_normalization_or_downstream_records(self) -> None:
         for directory in (
-            "extractions", "candidates", "eligibility", "relations", "proposals",
-            "reviews", "governance", "manifests",
+            "candidates", "eligibility", "relations", "proposals", "reviews",
+            "governance", "manifests",
         ):
             self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
         self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
@@ -2660,10 +2737,12 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         registry_lines = (ROOT / "registry/live-registry.csv").read_text(encoding="utf-8").splitlines()
         self.assertEqual(1, len(registry_lines))
         current_state = (ROOT / "domain-universe/README.md").read_text(encoding="utf-8")
-        self.assertIn("There is no extraction", current_state)
+        self.assertIn("330 source categories", current_state)
+        self.assertIn("not Domains", current_state)
+        self.assertIn("normalization and candidate generation have not\nbegun", current_state)
         self.assertIn("included or locked Domain", current_state)
         self.assertIn("The Domain Universe is not established or locked", current_state)
-        self.assertIn("Wave 0 remains\nunauthorized", current_state)
+        self.assertIn("Wave 0 remains unauthorized", current_state.replace("\n", " "))
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):

@@ -1,0 +1,712 @@
+{
+  "extraction_id": "un-isic-rev5-division",
+  "instrument_version": "0.5.0-draft",
+  "source_frame": {
+    "path": "domain-universe/source-frames/un-isic-rev5.json",
+    "sha256": "5b6f0574243485ddc468e0fec5a6b7dc027315d35465c1b38e29c3b7e4901fae"
+  },
+  "extraction_scope": "Source version: ISIC Revision 5. Extraction level: Division. Expected entry count: 87. Observed entry count: 87. The first-level Section is retained only as parent context.",
+  "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every Division entry exactly once, retain its Section as context, and do not extract first-level parents or third-level and lower categories as independent entries.",
+  "extraction_status": "complete",
+  "extracted_entries": [
+    {
+      "source_entry_id": "isic-01",
+      "source_entry_reference": "ISIC Rev.5 / Section A Agriculture, forestry and fishing / Division 01",
+      "source_entry_descriptor": "Crop and animal production, hunting and related service activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-02",
+      "source_entry_reference": "ISIC Rev.5 / Section A Agriculture, forestry and fishing / Division 02",
+      "source_entry_descriptor": "Forestry and logging",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-03",
+      "source_entry_reference": "ISIC Rev.5 / Section A Agriculture, forestry and fishing / Division 03",
+      "source_entry_descriptor": "Fishing and aquaculture",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-05",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 05",
+      "source_entry_descriptor": "Mining of coal and lignite",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-06",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 06",
+      "source_entry_descriptor": "Extraction of crude petroleum and natural gas",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-07",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 07",
+      "source_entry_descriptor": "Mining of metal ores",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-08",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 08",
+      "source_entry_descriptor": "Other mining and quarrying",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-09",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 09",
+      "source_entry_descriptor": "Mining support service activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-10",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 10",
+      "source_entry_descriptor": "Manufacture of food products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-11",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 11",
+      "source_entry_descriptor": "Manufacture of beverages",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-12",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 12",
+      "source_entry_descriptor": "Manufacture of tobacco products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-13",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 13",
+      "source_entry_descriptor": "Manufacture of textiles",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-14",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 14",
+      "source_entry_descriptor": "Manufacture of wearing apparel",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-15",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 15",
+      "source_entry_descriptor": "Manufacture of leather and related products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-16",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 16",
+      "source_entry_descriptor": "Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-17",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 17",
+      "source_entry_descriptor": "Manufacture of paper and paper products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-18",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 18",
+      "source_entry_descriptor": "Printing and reproduction of recorded media",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-19",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 19",
+      "source_entry_descriptor": "Manufacture of coke and refined petroleum products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-20",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 20",
+      "source_entry_descriptor": "Manufacture of chemicals and chemical products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-21",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 21",
+      "source_entry_descriptor": "Manufacture of basic pharmaceutical products and pharmaceutical preparations",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-22",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 22",
+      "source_entry_descriptor": "Manufacture of rubber and plastic products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-23",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 23",
+      "source_entry_descriptor": "Manufacture of other non-metallic mineral products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-24",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 24",
+      "source_entry_descriptor": "Manufacture of basic metals",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-25",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 25",
+      "source_entry_descriptor": "Manufacture of fabricated metal products, except machinery and equipment",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-26",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 26",
+      "source_entry_descriptor": "Manufacture of computer, electronic and optical products",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-27",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 27",
+      "source_entry_descriptor": "Manufacture of electrical equipment",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-28",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 28",
+      "source_entry_descriptor": "Manufacture of machinery and equipment n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-29",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 29",
+      "source_entry_descriptor": "Manufacture of motor vehicles, trailers and semi-trailers",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-30",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 30",
+      "source_entry_descriptor": "Manufacture of other transport equipment",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-31",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 31",
+      "source_entry_descriptor": "Manufacture of furniture",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-32",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 32",
+      "source_entry_descriptor": "Other manufacturing",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-33",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 33",
+      "source_entry_descriptor": "Repair, maintenance and installation of machinery and equipment",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-35",
+      "source_entry_reference": "ISIC Rev.5 / Section D Electricity, gas, steam and air conditioning supply / Division 35",
+      "source_entry_descriptor": "Electricity, gas, steam and air conditioning supply",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-36",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 36",
+      "source_entry_descriptor": "Water collection, treatment and supply",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-37",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 37",
+      "source_entry_descriptor": "Sewerage",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-38",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 38",
+      "source_entry_descriptor": "Waste collection, treatment and disposal, and recovery activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-39",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 39",
+      "source_entry_descriptor": "Remediation and other waste management service activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-41",
+      "source_entry_reference": "ISIC Rev.5 / Section F Construction / Division 41",
+      "source_entry_descriptor": "Construction of residential and non-residential buildings",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-42",
+      "source_entry_reference": "ISIC Rev.5 / Section F Construction / Division 42",
+      "source_entry_descriptor": "Civil engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-43",
+      "source_entry_reference": "ISIC Rev.5 / Section F Construction / Division 43",
+      "source_entry_descriptor": "Specialized construction activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-46",
+      "source_entry_reference": "ISIC Rev.5 / Section G Wholesale and retail trade / Division 46",
+      "source_entry_descriptor": "Wholesale trade",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-47",
+      "source_entry_reference": "ISIC Rev.5 / Section G Wholesale and retail trade / Division 47",
+      "source_entry_descriptor": "Retail trade",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-49",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 49",
+      "source_entry_descriptor": "Land transport and transport via pipelines",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-50",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 50",
+      "source_entry_descriptor": "Water transport",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-51",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 51",
+      "source_entry_descriptor": "Air transport",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-52",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 52",
+      "source_entry_descriptor": "Warehousing and support activities for transportation",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-53",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 53",
+      "source_entry_descriptor": "Postal and courier activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-55",
+      "source_entry_reference": "ISIC Rev.5 / Section I Accommodation and food service activities / Division 55",
+      "source_entry_descriptor": "Accommodation",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-56",
+      "source_entry_reference": "ISIC Rev.5 / Section I Accommodation and food service activities / Division 56",
+      "source_entry_descriptor": "Food and beverage service activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-58",
+      "source_entry_reference": "ISIC Rev.5 / Section J Publishing, broadcasting, and content production and distribution activities / Division 58",
+      "source_entry_descriptor": "Publishing activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-59",
+      "source_entry_reference": "ISIC Rev.5 / Section J Publishing, broadcasting, and content production and distribution activities / Division 59",
+      "source_entry_descriptor": "Motion picture, video and television programme production, sound recording and music publishing activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-60",
+      "source_entry_reference": "ISIC Rev.5 / Section J Publishing, broadcasting, and content production and distribution activities / Division 60",
+      "source_entry_descriptor": "Programming, broadcasting, news agency and other content distribution activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-61",
+      "source_entry_reference": "ISIC Rev.5 / Section K Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities / Division 61",
+      "source_entry_descriptor": "Telecommunications",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-62",
+      "source_entry_reference": "ISIC Rev.5 / Section K Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities / Division 62",
+      "source_entry_descriptor": "Computer programming, consultancy and related activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-63",
+      "source_entry_reference": "ISIC Rev.5 / Section K Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities / Division 63",
+      "source_entry_descriptor": "Computing infrastructure, data processing, hosting, and other information service activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-64",
+      "source_entry_reference": "ISIC Rev.5 / Section L Financial and insurance activities / Division 64",
+      "source_entry_descriptor": "Financial service activities, except insurance and pension funding",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-65",
+      "source_entry_reference": "ISIC Rev.5 / Section L Financial and insurance activities / Division 65",
+      "source_entry_descriptor": "Insurance, reinsurance and pension funding, except compulsory social security",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-66",
+      "source_entry_reference": "ISIC Rev.5 / Section L Financial and insurance activities / Division 66",
+      "source_entry_descriptor": "Activities auxiliary to financial service and insurance activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-68",
+      "source_entry_reference": "ISIC Rev.5 / Section M Real estate activities / Division 68",
+      "source_entry_descriptor": "Real estate activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-69",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 69",
+      "source_entry_descriptor": "Legal and accounting activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-70",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 70",
+      "source_entry_descriptor": "Activities of head offices; management consultancy activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-71",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 71",
+      "source_entry_descriptor": "Architectural and engineering activities; technical testing and analysis",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-72",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 72",
+      "source_entry_descriptor": "Scientific research and development",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-73",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 73",
+      "source_entry_descriptor": "Activities of advertising, market research and public relations",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-74",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 74",
+      "source_entry_descriptor": "Other professional, scientific and technical activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-75",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 75",
+      "source_entry_descriptor": "Veterinary activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-77",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 77",
+      "source_entry_descriptor": "Rental and leasing activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-78",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 78",
+      "source_entry_descriptor": "Employment activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-79",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 79",
+      "source_entry_descriptor": "Travel agency, tour operator, and other travel related activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-80",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 80",
+      "source_entry_descriptor": "Investigation and security activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-81",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 81",
+      "source_entry_descriptor": "Services to buildings and landscape activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-82",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 82",
+      "source_entry_descriptor": "Office administrative, office support and other business support activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-84",
+      "source_entry_reference": "ISIC Rev.5 / Section P Public administration and defence; compulsory social security / Division 84",
+      "source_entry_descriptor": "Public administration and defence; compulsory social security",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-85",
+      "source_entry_reference": "ISIC Rev.5 / Section Q Education / Division 85",
+      "source_entry_descriptor": "Education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-86",
+      "source_entry_reference": "ISIC Rev.5 / Section R Human health and social work activities / Division 86",
+      "source_entry_descriptor": "Human health activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-87",
+      "source_entry_reference": "ISIC Rev.5 / Section R Human health and social work activities / Division 87",
+      "source_entry_descriptor": "Residential care activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-88",
+      "source_entry_reference": "ISIC Rev.5 / Section R Human health and social work activities / Division 88",
+      "source_entry_descriptor": "Social work activities without accommodation",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-90",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 90",
+      "source_entry_descriptor": "Arts creation and performing arts activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-91",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 91",
+      "source_entry_descriptor": "Library, archives, museum and other cultural activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-92",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 92",
+      "source_entry_descriptor": "Gambling and betting activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-93",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 93",
+      "source_entry_descriptor": "Sports activities and amusement and recreation activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-94",
+      "source_entry_reference": "ISIC Rev.5 / Section T Other service activities / Division 94",
+      "source_entry_descriptor": "Activities of membership organizations",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-95",
+      "source_entry_reference": "ISIC Rev.5 / Section T Other service activities / Division 95",
+      "source_entry_descriptor": "Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-96",
+      "source_entry_reference": "ISIC Rev.5 / Section T Other service activities / Division 96",
+      "source_entry_descriptor": "Personal service activities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-97",
+      "source_entry_reference": "ISIC Rev.5 / Section U Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use / Division 97",
+      "source_entry_descriptor": "Activities of households as employers of domestic personnel",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-98",
+      "source_entry_reference": "ISIC Rev.5 / Section U Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use / Division 98",
+      "source_entry_descriptor": "Undifferentiated goods- and services-producing activities of private households for own use",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "isic-99",
+      "source_entry_reference": "ISIC Rev.5 / Section V Activities of extraterritorial organizations and bodies / Division 99",
+      "source_entry_descriptor": "Activities of extraterritorial organizations and bodies",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    }
+  ],
+  "rationale": "Official source retrieval URL: https://unstats.un.org/unsd/classifications/Econ/Download/In%20Text/ISIC_Rev_5_english_structure.csv. Retrieved at: 2026-08-14T15:19:11Z. SHA-256 of the authoritative source bytes used for extraction: fc408f57bd3a4f33c35a4f384ec0010283dd72774892c8d48ae1330a8caeb57f. Only official short classification codes, titles, and parent context are recorded; the source artifact is not committed.",
+  "uncertainty": "No ambiguity was identified in the official ISIC Revision 5 material at the specified Division level. Domain normalization, scope, duplication, eligibility, and candidate judgments remain intentionally unresolved and have not begun.",
+  "recorded_at": "2026-08-14T15:24:05Z"
+}

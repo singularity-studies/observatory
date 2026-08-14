@@ -1,0 +1,352 @@
+{
+  "extraction_id": "oecd-ford-frascati-2015-second-level",
+  "instrument_version": "0.5.0-draft",
+  "source_frame": {
+    "path": "domain-universe/source-frames/oecd-ford-frascati-2015.json",
+    "sha256": "a45327e99fc68568f57e7872b272adae294c17d62f79ddd34018dd42fc63c6ef"
+  },
+  "extraction_scope": "Source version: Frascati Manual 2015, Table 2.2. Extraction level: second-level classification. Expected entry count: 42. Observed entry count: 42. The first-level broad classification is retained only as parent context.",
+  "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every second-level classification entry exactly once, retain its broad classification as context, and do not extract first-level parents or third-level and lower categories as independent entries.",
+  "extraction_status": "complete",
+  "extracted_entries": [
+    {
+      "source_entry_id": "ford-1.1",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.1",
+      "source_entry_descriptor": "Mathematics",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-1.2",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.2",
+      "source_entry_descriptor": "Computer and information sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-1.3",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.3",
+      "source_entry_descriptor": "Physical sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-1.4",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.4",
+      "source_entry_descriptor": "Chemical sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-1.5",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.5",
+      "source_entry_descriptor": "Earth and related environmental sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-1.6",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.6",
+      "source_entry_descriptor": "Biological sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-1.7",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.7",
+      "source_entry_descriptor": "Other natural sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.1",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.1",
+      "source_entry_descriptor": "Civil engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.2",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.2",
+      "source_entry_descriptor": "Electrical engineering, electronic engineering, information engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.3",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.3",
+      "source_entry_descriptor": "Mechanical engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.4",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.4",
+      "source_entry_descriptor": "Chemical engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.5",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.5",
+      "source_entry_descriptor": "Materials engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.6",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.6",
+      "source_entry_descriptor": "Medical engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.7",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.7",
+      "source_entry_descriptor": "Environmental engineering",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.8",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.8",
+      "source_entry_descriptor": "Environmental biotechnology",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.9",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.9",
+      "source_entry_descriptor": "Industrial biotechnology",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.10",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.10",
+      "source_entry_descriptor": "Nano-technology",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-2.11",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.11",
+      "source_entry_descriptor": "Other engineering and technologies",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-3.1",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.1",
+      "source_entry_descriptor": "Basic medicine",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-3.2",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.2",
+      "source_entry_descriptor": "Clinical medicine",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-3.3",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.3",
+      "source_entry_descriptor": "Health sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-3.4",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.4",
+      "source_entry_descriptor": "Medical biotechnology",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-3.5",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.5",
+      "source_entry_descriptor": "Other medical science",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-4.1",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.1",
+      "source_entry_descriptor": "Agriculture, forestry, and fisheries",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-4.2",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.2",
+      "source_entry_descriptor": "Animal and dairy science",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-4.3",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.3",
+      "source_entry_descriptor": "Veterinary science",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-4.4",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.4",
+      "source_entry_descriptor": "Agricultural biotechnology",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-4.5",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.5",
+      "source_entry_descriptor": "Other agricultural sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.1",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.1",
+      "source_entry_descriptor": "Psychology and cognitive sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.2",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.2",
+      "source_entry_descriptor": "Economics and business",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.3",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.3",
+      "source_entry_descriptor": "Education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.4",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.4",
+      "source_entry_descriptor": "Sociology",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.5",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.5",
+      "source_entry_descriptor": "Law",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.6",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.6",
+      "source_entry_descriptor": "Political science",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.7",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.7",
+      "source_entry_descriptor": "Social and economic geography",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.8",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.8",
+      "source_entry_descriptor": "Media and communications",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-5.9",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.9",
+      "source_entry_descriptor": "Other social sciences",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-6.1",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.1",
+      "source_entry_descriptor": "History and archaeology",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-6.2",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.2",
+      "source_entry_descriptor": "Languages and literature",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-6.3",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.3",
+      "source_entry_descriptor": "Philosophy, ethics and religion",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-6.4",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.4",
+      "source_entry_descriptor": "Arts (arts, history of arts, performing arts, music)",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "ford-6.5",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.5",
+      "source_entry_descriptor": "Other humanities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    }
+  ],
+  "rationale": "Official source retrieval URL: https://www.oecd.org/content/dam/oecd/en/publications/reports/2015/10/frascati-manual-2015_g1g57dcb/9789264239012-en.pdf. Retrieved at: 2026-08-14T15:19:09Z. SHA-256 of the authoritative source bytes used for extraction: 98e19466a97c2c63e2d8070fe66de7ac8ad18db253429d979349f8a2e72f3775. Only official short classification codes, titles, and parent context are recorded; the source artifact is not committed.",
+  "uncertainty": "No ambiguity was identified in the official Frascati Manual 2015, Table 2.2 material at the specified second-level classification level. Domain normalization, scope, duplication, eligibility, and candidate judgments remain intentionally unresolved and have not begun.",
+  "recorded_at": "2026-08-14T15:24:05Z"
+}

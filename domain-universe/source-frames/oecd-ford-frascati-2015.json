@@ -12,5 +12,5 @@
   "audit_note": "OECD identifies the Frascati Manual 2015 as the current edition as of the Task 103 registration date. The Manual proposes the OECD FORD classification for classification and distribution of R&D by field.",
   "registered_at": "2026-08-14T14:05:55Z",
   "normalization_status": "pending",
-  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified FORD levels."
+  "normalization_note": "Exhaustive Task 104 source extraction is complete in domain-universe/extractions/oecd-ford-frascati-2015-second-level.json. Domain normalization and candidate generation have not begun."
 }
