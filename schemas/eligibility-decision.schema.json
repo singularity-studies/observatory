@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/eligibility-decision.schema.json",
+  "title": "Frozen Panel eligibility decision",
+  "type": "object",
+  "x-instrument-version": "0.4.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "eligibility_decision_id",
+    "candidate_unit_id",
+    "instrument_version",
+    "candidate_specification",
+    "criteria",
+    "decision_status",
+    "overall_rationale",
+    "overall_uncertainty",
+    "review"
+  ],
+  "properties": {
+    "eligibility_decision_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "candidate_unit_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "candidate_specification": {"$ref": "#/$defs/artifact"},
+    "criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "improvement_loop_relevance",
+        "functional_boundedness",
+        "human_criticality_interrogability",
+        "longitudinal_identity_stability",
+        "re_observability",
+        "evidence_traceability",
+        "boundary_condition_expressibility",
+        "non_redundancy"
+      ],
+      "properties": {
+        "improvement_loop_relevance": {"$ref": "#/$defs/criterion"},
+        "functional_boundedness": {"$ref": "#/$defs/criterion"},
+        "human_criticality_interrogability": {"$ref": "#/$defs/criterion"},
+        "longitudinal_identity_stability": {"$ref": "#/$defs/criterion"},
+        "re_observability": {"$ref": "#/$defs/criterion"},
+        "evidence_traceability": {"$ref": "#/$defs/criterion"},
+        "boundary_condition_expressibility": {"$ref": "#/$defs/criterion"},
+        "non_redundancy": {"$ref": "#/$defs/criterion"}
+      }
+    },
+    "decision_status": {"type": "string", "enum": ["eligible", "ineligible", "unresolved"]},
+    "overall_rationale": {"type": "string", "minLength": 1},
+    "overall_uncertainty": {"type": "string", "minLength": 1},
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reviewer_status",
+        "reviewer_id",
+        "adjudication_status",
+        "adjudicator_id",
+        "notes"
+      ],
+      "properties": {
+        "reviewer_status": {"type": "string", "enum": ["unassigned", "assigned"]},
+        "reviewer_id": {"type": ["string", "null"], "minLength": 1},
+        "adjudication_status": {
+          "type": "string",
+          "enum": ["unresolved", "not_required", "complete"]
+        },
+        "adjudicator_id": {"type": ["string", "null"], "minLength": 1},
+        "notes": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "criterion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["result", "rationale", "uncertainty"],
+      "properties": {
+        "result": {"type": "string", "enum": ["passed", "failed", "unresolved"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"decision_status": {"const": "eligible"}},
+        "required": ["decision_status"]
+      },
+      "then": {
+        "properties": {
+          "criteria": {
+            "properties": {
+              "improvement_loop_relevance": {"properties": {"result": {"const": "passed"}}},
+              "functional_boundedness": {"properties": {"result": {"const": "passed"}}},
+              "human_criticality_interrogability": {"properties": {"result": {"const": "passed"}}},
+              "longitudinal_identity_stability": {"properties": {"result": {"const": "passed"}}},
+              "re_observability": {"properties": {"result": {"const": "passed"}}},
+              "evidence_traceability": {"properties": {"result": {"const": "passed"}}},
+              "boundary_condition_expressibility": {"properties": {"result": {"const": "passed"}}},
+              "non_redundancy": {"properties": {"result": {"const": "passed"}}}
+            }
+          }
+        }
+      }
+    }
+  ]
+}

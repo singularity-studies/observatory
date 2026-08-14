@@ -3,7 +3,7 @@
   "$id": "https://github.com/singularity-studies/observatory/schemas/wave-manifest.schema.json",
   "title": "Singularity Observatory Wave manifest",
   "type": "object",
-  "x-instrument-version": "0.3.0-draft",
+  "x-instrument-version": "0.4.0-draft",
   "additionalProperties": false,
   "required": [
     "wave_id",
@@ -41,6 +41,13 @@
         "panel_snapshot": {"$ref": "#/$defs/lock"},
         "evidence": {"$ref": "#/$defs/lock"},
         "observation": {"$ref": "#/$defs/lock"},
+        "candidate_unit": {"$ref": "#/$defs/lock"},
+        "eligibility_decision": {"$ref": "#/$defs/lock"},
+        "panel_lineage": {"$ref": "#/$defs/lock"},
+        "panel_selection_manifest": {"$ref": "#/$defs/lock"},
+        "panel_selection_proposal": {"$ref": "#/$defs/lock"},
+        "panel_selection_review": {"$ref": "#/$defs/lock"},
+        "panel_lock_governance_decision": {"$ref": "#/$defs/lock"},
         "wave_manifest": {"$ref": "#/$defs/lock"}
       }
     },
@@ -111,7 +118,20 @@
             "required": ["protocol", "codebook", "panel", "schedule", "governance", "registry"]
           },
           "schema_locks": {
-            "required": ["registry_unit", "panel_snapshot", "evidence", "observation", "wave_manifest"]
+            "required": [
+              "registry_unit",
+              "panel_snapshot",
+              "evidence",
+              "observation",
+              "candidate_unit",
+              "eligibility_decision",
+              "panel_lineage",
+              "panel_selection_manifest",
+              "panel_selection_proposal",
+              "panel_selection_review",
+              "panel_lock_governance_decision",
+              "wave_manifest"
+            ]
           }
         }
       }

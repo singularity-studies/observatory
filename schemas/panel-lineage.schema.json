@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/panel-lineage.schema.json",
+  "title": "Frozen Panel lineage and retirement relation",
+  "type": "object",
+  "x-instrument-version": "0.4.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "lineage_record_id",
+    "instrument_version",
+    "retirement_status",
+    "retired_unit",
+    "retirement",
+    "successors",
+    "history_note"
+  ],
+  "properties": {
+    "lineage_record_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "retirement_status": {"const": "retired"},
+    "retired_unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panel_unit_id",
+        "primary_unit_type",
+        "domain",
+        "improvement_loop_id",
+        "function_or_stage",
+        "operational_boundary",
+        "continuity_rule"
+      ],
+      "properties": {
+        "panel_unit_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "primary_unit_type": {"const": "improvement_loop_function_or_stage"},
+        "domain": {"type": "string", "minLength": 1},
+        "improvement_loop_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "function_or_stage": {"type": "string", "minLength": 1},
+        "operational_boundary": {"type": "string", "minLength": 1},
+        "continuity_rule": {"type": "string", "minLength": 1}
+      }
+    },
+    "retirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis", "rationale", "effective_panel_version"],
+      "properties": {
+        "basis": {
+          "type": "string",
+          "enum": [
+            "function_ceased_to_exist",
+            "coherent_semantic_identity_lost",
+            "structurally_non_observable"
+          ]
+        },
+        "rationale": {"type": "string", "minLength": 1},
+        "effective_panel_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "successors": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["successor_unit_id", "relation", "later_panel_version", "rationale"],
+        "properties": {
+          "successor_unit_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "relation": {"type": "string", "enum": ["successor", "replacement"]},
+          "later_panel_version": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "history_note": {"type": "string", "minLength": 1}
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/panel-selection-proposal.schema.json",
+  "title": "Frozen Panel selection proposal",
+  "type": "object",
+  "x-instrument-version": "0.4.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "proposal_id",
+    "instrument_version",
+    "proposal_type",
+    "selection_protocol",
+    "candidate_universe_snapshot",
+    "eligibility_decisions",
+    "lineage_relations",
+    "coverage_redundancy_review",
+    "panel_size",
+    "selection_dispositions",
+    "selected_unit_ids",
+    "created_at"
+  ],
+  "properties": {
+    "proposal_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "proposal_type": {"const": "frozen_panel_selection"},
+    "selection_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "version", "artifact"],
+      "properties": {
+        "status": {"const": "locked"},
+        "version": {"type": "string", "minLength": 1},
+        "artifact": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "candidate_universe_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot_id", "captured_at", "candidate_specifications"],
+      "properties": {
+        "snapshot_id": {"type": "string", "minLength": 1},
+        "captured_at": {"type": "string", "format": "date-time"},
+        "candidate_specifications": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "eligibility_decisions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "lineage_relations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "coverage_redundancy_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "rationale", "uncertainty"],
+      "properties": {
+        "status": {"const": "recorded"},
+        "rationale": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string", "minLength": 1}
+      }
+    },
+    "panel_size": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "n", "rationale"],
+      "properties": {
+        "status": {"const": "fixed"},
+        "n": {"type": "integer", "minimum": 1},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "selection_dispositions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_unit_id", "disposition", "rationale", "uncertainty"],
+        "properties": {
+          "candidate_unit_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "disposition": {"type": "string", "enum": ["selected", "not_selected"]},
+          "rationale": {"type": "string"},
+          "uncertainty": {"type": "string"}
+        }
+      }
+    },
+    "selected_unit_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}

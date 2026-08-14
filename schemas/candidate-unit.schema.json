@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/candidate-unit.schema.json",
+  "title": "Frozen Panel candidate unit specification",
+  "type": "object",
+  "x-instrument-version": "0.4.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "candidate_unit_id",
+    "instrument_version",
+    "primary_unit_type",
+    "domain",
+    "improvement_loop_id",
+    "improvement_loop",
+    "function_or_stage",
+    "operational_boundary",
+    "continuity_rule",
+    "boundary_conditions",
+    "empirical_system_ids"
+  ],
+  "properties": {
+    "candidate_unit_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "primary_unit_type": {"const": "improvement_loop_function_or_stage"},
+    "domain": {"type": "string", "minLength": 1},
+    "improvement_loop_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "improvement_loop": {"type": "string", "minLength": 1},
+    "function_or_stage": {"type": "string", "minLength": 1},
+    "operational_boundary": {"type": "string", "minLength": 1},
+    "continuity_rule": {"type": "string", "minLength": 1},
+    "boundary_conditions": {"type": "string", "minLength": 1},
+    "empirical_system_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}

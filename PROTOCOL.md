@@ -1,7 +1,7 @@
 # Observation Protocol
 
 - Instrument: Observation Protocol
-- Instrument version: `0.3.0-draft`
+- Instrument version: `0.4.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -17,9 +17,13 @@ The question is a research question, not an empirical conclusion. Persistence, t
 
 A candidate **panel unit** is a bounded function or stage within a defined civilization improvement loop. It is framed as a potential **Human Bottleneck**: a location at which human contribution may or may not remain critical. The framing identifies a question for observation, not a claim that a bottleneck exists or will disappear.
 
+An improvement loop is a recurrent process in which outputs or evaluations from one cycle are used to alter the knowledge, design, policy, system, or capability that governs a subsequent cycle. The Observatory is not a generic task-automation tracker.
+
 Technologies, products, organizations, deployments, and other sociotechnical systems are normally empirical instantiations or evidence contexts rather than primary panel units. A panel unit may link to multiple empirical systems, and an empirical system may be relevant to multiple functions when those relationships are explicit.
 
-Admission to a Frozen Panel requires a documented rule, stable panel-unit identifier, improvement-loop boundary, function/stage definition, Human-Bottleneck hypothesis, scope statement, and review decision. This draft admits no panel unit.
+Admission to a Frozen Panel follows the versioned eligibility, anti-selection-bias, lineage, panel-size, and fail-closed lock rules in `PANEL.md`. A frozen snapshot must resolve to a locked, hash-bound selection manifest inside its immutable Wave package. This draft admits no candidate or panel unit and authorizes no Wave.
+
+Baseline human-criticality status is not a selection variable. Baseline human-criticality is first coded after panel lock as a Wave-observation outcome. Human-criticality states are never candidate, eligibility, or inclusion inputs.
 
 An observation is a source-backed record about a defined panel unit, one or more linked empirical systems, a construct, and an observation date. An evidence record is not itself a conclusion. Derived assessments must retain links to every supporting and conflicting evidence record.
 

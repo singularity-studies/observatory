@@ -30,6 +30,7 @@ REQUIRED_TOP_FILES = (
 
 REQUIRED_DIRECTORIES = (
     "registry",
+    "selection",
     "cases",
     "evidence",
     "data/waves",
@@ -56,6 +57,13 @@ SCHEMA_FILES = (
     "schemas/evidence.schema.json",
     "schemas/observation.schema.json",
     "schemas/wave-manifest.schema.json",
+    "schemas/candidate-unit.schema.json",
+    "schemas/eligibility-decision.schema.json",
+    "schemas/panel-lineage.schema.json",
+    "schemas/panel-selection-manifest.schema.json",
+    "schemas/panel-selection-proposal.schema.json",
+    "schemas/panel-selection-review.schema.json",
+    "schemas/panel-lock-governance-decision.schema.json",
 )
 
 REQUIRED_INSTRUMENT_LOCKS = (
@@ -79,6 +87,13 @@ REQUIRED_SCHEMA_LOCKS = (
     "panel_snapshot",
     "evidence",
     "observation",
+    "candidate_unit",
+    "eligibility_decision",
+    "panel_lineage",
+    "panel_selection_manifest",
+    "panel_selection_proposal",
+    "panel_selection_review",
+    "panel_lock_governance_decision",
     "wave_manifest",
 )
 CURRENT_SCHEMA_PATHS = {
@@ -86,8 +101,56 @@ CURRENT_SCHEMA_PATHS = {
     "panel_snapshot": "schemas/panel-snapshot.schema.json",
     "evidence": "schemas/evidence.schema.json",
     "observation": "schemas/observation.schema.json",
+    "candidate_unit": "schemas/candidate-unit.schema.json",
+    "eligibility_decision": "schemas/eligibility-decision.schema.json",
+    "panel_lineage": "schemas/panel-lineage.schema.json",
+    "panel_selection_manifest": "schemas/panel-selection-manifest.schema.json",
+    "panel_selection_proposal": "schemas/panel-selection-proposal.schema.json",
+    "panel_selection_review": "schemas/panel-selection-review.schema.json",
+    "panel_lock_governance_decision": "schemas/panel-lock-governance-decision.schema.json",
     "wave_manifest": "schemas/wave-manifest.schema.json",
 }
+
+ELIGIBILITY_CRITERIA = (
+    "improvement_loop_relevance",
+    "functional_boundedness",
+    "human_criticality_interrogability",
+    "longitudinal_identity_stability",
+    "re_observability",
+    "evidence_traceability",
+    "boundary_condition_expressibility",
+    "non_redundancy",
+)
+
+SELECTION_RECORD_PATHS = {
+    "candidate_unit": "selection/candidates",
+    "eligibility_decision": "selection/eligibility",
+    "panel_lineage": "selection/lineage",
+    "panel_selection_manifest": "selection/manifests",
+    "panel_selection_proposal": "selection/proposals",
+    "panel_selection_review": "selection/reviews",
+    "panel_lock_governance_decision": "selection/governance",
+}
+
+CANDIDATE_IDENTITY_FIELDS = (
+    "domain",
+    "improvement_loop_id",
+    "function_or_stage",
+    "operational_boundary",
+    "continuity_rule",
+    "boundary_conditions",
+)
+
+PROPOSAL_CONTENT_FIELDS = (
+    "selection_protocol",
+    "candidate_universe_snapshot",
+    "eligibility_decisions",
+    "lineage_relations",
+    "coverage_redundancy_review",
+    "panel_size",
+    "selection_dispositions",
+    "selected_unit_ids",
+)
 
 LONGITUDINAL_EVENTS = {
     "transition_toward_human_noncriticality",
@@ -256,6 +319,10 @@ def validate_contract(
         format_name = schema.get("format")
         if format_name and not _format_matches(instance, format_name):
             errors.append(f"{location}: invalid {format_name}")
+
+    if isinstance(instance, (int, float)) and not isinstance(instance, bool):
+        if "minimum" in schema and instance < schema["minimum"]:
+            errors.append(f"{location}: value is below minimum {schema['minimum']}")
 
     return errors
 
@@ -458,6 +525,710 @@ def validate_registry_csv(path: Path, schema: dict[str, Any], location: str) -> 
 def _is_within(relative: str, directory: PurePosixPath) -> bool:
     path = PurePosixPath(relative)
     return path == directory or directory in path.parents
+
+
+def _load_json_artifact(
+    root: Path,
+    reference: Any,
+    location: str,
+    container: PurePosixPath | None = None,
+) -> tuple[Any | None, Path | None, list[str]]:
+    errors: list[str] = []
+    relative = reference.get("path") if isinstance(reference, dict) else None
+    if container is not None and isinstance(relative, str) and not _is_within(relative, container):
+        errors.append(f"{location}: selection artifact must be inside {container.as_posix()}/")
+    path, artifact_errors = validate_artifact_ref(root, reference, location)
+    errors.extend(artifact_errors)
+    if path is None:
+        return None, None, errors
+    try:
+        record = read_json(path)
+    except json.JSONDecodeError as exc:
+        errors.append(f"{location}: invalid JSON: {exc}")
+        return None, path, errors
+    return record, path, errors
+
+
+def validate_candidate_unit(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    schema_version = schema.get("x-instrument-version")
+    required_version = expected_version or schema_version
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: candidate instrument_version mismatch")
+    return errors
+
+
+def validate_eligibility_decision(
+    root: Path,
+    record: Any,
+    location: str,
+    eligibility_schema: dict[str, Any],
+    candidate_schema: dict[str, Any],
+    expected_version: str | None = None,
+    container: PurePosixPath | None = None,
+) -> list[str]:
+    errors = validate_contract(record, eligibility_schema, location)
+    if not isinstance(record, dict):
+        return errors
+
+    required_version = expected_version or eligibility_schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: eligibility instrument_version mismatch")
+
+    criteria = record.get("criteria")
+    results = {
+        name: criteria.get(name, {}).get("result")
+        for name in ELIGIBILITY_CRITERIA
+        if isinstance(criteria, dict) and isinstance(criteria.get(name), dict)
+    }
+    if set(results) == set(ELIGIBILITY_CRITERIA) and all(
+        results[name] in {"passed", "failed", "unresolved"} for name in ELIGIBILITY_CRITERIA
+    ):
+        if any(result == "failed" for result in results.values()):
+            expected_status = "ineligible"
+        elif any(result == "unresolved" for result in results.values()):
+            expected_status = "unresolved"
+        else:
+            expected_status = "eligible"
+        if record.get("decision_status") != expected_status:
+            errors.append(
+                f"{location}: decision_status must deterministically be {expected_status!r}"
+            )
+
+    review = record.get("review")
+    if isinstance(review, dict):
+        reviewer_status = review.get("reviewer_status")
+        reviewer_id = review.get("reviewer_id")
+        if reviewer_status == "unassigned" and reviewer_id is not None:
+            errors.append(f"{location}: unassigned reviewer_id must remain null")
+        if reviewer_status == "assigned" and not (
+            isinstance(reviewer_id, str) and reviewer_id.strip()
+        ):
+            errors.append(f"{location}: assigned reviewer requires reviewer_id")
+        adjudication_status = review.get("adjudication_status")
+        adjudicator_id = review.get("adjudicator_id")
+        if adjudication_status in {"unresolved", "not_required"} and adjudicator_id is not None:
+            errors.append(f"{location}: unresolved or unnecessary adjudicator_id must remain null")
+        if adjudication_status == "complete" and not (
+            isinstance(adjudicator_id, str) and adjudicator_id.strip()
+        ):
+            errors.append(f"{location}: complete adjudication requires adjudicator_id")
+
+    candidate, _, reference_errors = _load_json_artifact(
+        root,
+        record.get("candidate_specification"),
+        f"{location}: candidate_specification",
+        container,
+    )
+    errors.extend(reference_errors)
+    if candidate is not None:
+        errors.extend(
+            validate_candidate_unit(
+                candidate,
+                candidate_schema,
+                f"{location}: candidate_specification",
+                required_version,
+            )
+        )
+        if isinstance(candidate, dict) and candidate.get("candidate_unit_id") != record.get(
+            "candidate_unit_id"
+        ):
+            errors.append(f"{location}: eligibility candidate identity mismatch")
+    return errors
+
+
+def validate_lineage_record(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: lineage instrument_version mismatch")
+    retired = record.get("retired_unit")
+    retired_id = retired.get("panel_unit_id") if isinstance(retired, dict) else None
+    successors = record.get("successors")
+    if isinstance(successors, list) and isinstance(retired_id, str):
+        for index, successor in enumerate(successors):
+            if isinstance(successor, dict) and successor.get("successor_unit_id") == retired_id:
+                errors.append(
+                    f"{location}: successors[{index}] cannot reuse retired panel_unit_id {retired_id!r}"
+                )
+    return errors
+
+
+def _validate_record_filename(
+    record: dict[str, Any],
+    record_path: Path | None,
+    id_field: str,
+    location: str,
+) -> list[str]:
+    if record_path is None:
+        return []
+    record_id = record.get(id_field)
+    if isinstance(record_id, str) and record_id != record_path.stem:
+        return [
+            f"{location}: {id_field} must exactly match repository filename stem "
+            f"{record_path.stem!r}"
+        ]
+    return []
+
+
+def validate_selection_proposal(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+    record_path: Path | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: selection proposal instrument_version mismatch")
+    errors.extend(
+        _validate_record_filename(record, record_path, "proposal_id", location)
+    )
+    return errors
+
+
+def validate_scientific_review_record(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+    record_path: Path | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: scientific review instrument_version mismatch")
+    errors.extend(
+        _validate_record_filename(record, record_path, "review_record_id", location)
+    )
+    return errors
+
+
+def validate_governance_decision_record(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+    record_path: Path | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: governance decision instrument_version mismatch")
+    errors.extend(
+        _validate_record_filename(
+            record, record_path, "governance_decision_id", location
+        )
+    )
+    return errors
+
+
+def _validate_plain_artifact(
+    root: Path,
+    reference: Any,
+    location: str,
+    container: PurePosixPath | None,
+) -> tuple[Path | None, list[str]]:
+    errors: list[str] = []
+    relative = reference.get("path") if isinstance(reference, dict) else None
+    if container is not None and isinstance(relative, str) and not _is_within(relative, container):
+        errors.append(f"{location}: selection artifact must be inside {container.as_posix()}/")
+    path, artifact_errors = validate_artifact_ref(root, reference, location)
+    errors.extend(artifact_errors)
+    if path is not None and path.stat().st_size == 0:
+        errors.append(f"{location}: referenced record must not be empty")
+    return path, errors
+
+
+def _validate_selection_role_path(
+    reference: Any,
+    container: PurePosixPath | None,
+    role_directory: str,
+    location: str,
+) -> list[str]:
+    if container is None or not isinstance(reference, dict):
+        return []
+    relative = reference.get("path")
+    selection_directory = (
+        container if container.name == "selection" else container / "selection"
+    )
+    expected_directory = selection_directory / role_directory
+    if isinstance(relative, str) and not _is_within(relative, expected_directory):
+        return [
+            f"{location}: record must be inside "
+            f"{expected_directory.as_posix()}/"
+        ]
+    return []
+
+
+def validate_selection_manifest(
+    root: Path,
+    manifest: Any,
+    location: str,
+    schemas: dict[str, dict[str, Any]],
+    container: PurePosixPath | None = None,
+    expected_protocol_version: str | None = None,
+) -> tuple[dict[str, tuple[dict[str, Any], dict[str, Any]]], list[str]]:
+    schema = schemas.get("panel_selection_manifest")
+    candidate_schema = schemas.get("candidate_unit")
+    eligibility_schema = schemas.get("eligibility_decision")
+    lineage_schema = schemas.get("panel_lineage")
+    proposal_schema = schemas.get("panel_selection_proposal")
+    review_schema = schemas.get("panel_selection_review")
+    governance_schema = schemas.get("panel_lock_governance_decision")
+    if not all(
+        isinstance(item, dict)
+        for item in (
+            schema,
+            candidate_schema,
+            eligibility_schema,
+            lineage_schema,
+            proposal_schema,
+            review_schema,
+            governance_schema,
+        )
+    ):
+        return {}, [f"{location}: complete selection schema bundle is required"]
+
+    errors = validate_contract(manifest, schema, location)
+    if not isinstance(manifest, dict):
+        return {}, errors
+
+    instrument_version = manifest.get("instrument_version")
+    if instrument_version != schema.get("x-instrument-version"):
+        errors.append(f"{location}: selection manifest instrument_version mismatch")
+    selected_values = manifest.get("selected_unit_ids")
+    selected_ids = {
+        item for item in selected_values if isinstance(item, str)
+    } if isinstance(selected_values, list) else set()
+
+    if manifest.get("status") != "locked":
+        return {}, errors
+
+    proposal_reference = manifest.get("selection_proposal")
+    proposal, proposal_path, proposal_errors = _load_json_artifact(
+        root,
+        proposal_reference,
+        f"{location}: selection_proposal",
+        container,
+    )
+    errors.extend(proposal_errors)
+    errors.extend(
+        _validate_selection_role_path(
+            proposal_reference, container, "proposals", f"{location}: selection_proposal"
+        )
+    )
+    if proposal is not None:
+        errors.extend(
+            validate_selection_proposal(
+                proposal,
+                proposal_schema,
+                f"{location}: selection_proposal",
+                instrument_version,
+                proposal_path,
+            )
+        )
+        if isinstance(proposal, dict):
+            for field in PROPOSAL_CONTENT_FIELDS:
+                if manifest.get(field) != proposal.get(field):
+                    errors.append(
+                        f"{location}: manifest field {field!r} must exactly match "
+                        "the hash-bound selection proposal"
+                    )
+
+    protocol = manifest.get("selection_protocol")
+    if not isinstance(protocol, dict) or protocol.get("status") != "locked":
+        errors.append(f"{location}: locked selection requires a locked protocol version")
+    else:
+        protocol_version = protocol.get("version")
+        if protocol_version != instrument_version:
+            errors.append(f"{location}: selection protocol version mismatch")
+        if expected_protocol_version is not None and protocol_version != expected_protocol_version:
+            errors.append(f"{location}: selection protocol does not match Frozen Panel version")
+        protocol_path, protocol_errors = _validate_plain_artifact(
+            root,
+            protocol.get("artifact"),
+            f"{location}: selection_protocol",
+            container,
+        )
+        errors.extend(protocol_errors)
+        if protocol_path is not None:
+            if declared_version(protocol_path) != protocol_version:
+                errors.append(f"{location}: selection protocol artifact version mismatch")
+            text = protocol_path.read_text(encoding="utf-8")
+            if "Instrument: Frozen Panel Specification" not in text:
+                errors.append(f"{location}: selection protocol artifact identity mismatch")
+
+    universe = manifest.get("candidate_universe_snapshot")
+    candidate_references = universe.get("candidate_specifications") if isinstance(universe, dict) else None
+    if not isinstance(universe, dict) or not isinstance(universe.get("snapshot_id"), str):
+        errors.append(f"{location}: locked selection requires candidate universe snapshot identity")
+    if not isinstance(candidate_references, list) or not candidate_references:
+        errors.append(f"{location}: empty candidate universe cannot lock a Frozen Panel")
+        candidate_references = []
+
+    candidates: dict[str, dict[str, Any]] = {}
+    candidate_references_by_id: dict[str, dict[str, Any]] = {}
+    for index, reference in enumerate(candidate_references):
+        record_location = f"{location}: candidate_universe_snapshot[{index}]"
+        candidate, _, artifact_errors = _load_json_artifact(
+            root, reference, record_location, container
+        )
+        errors.extend(artifact_errors)
+        if candidate is None:
+            continue
+        candidate_errors = validate_candidate_unit(
+            candidate, candidate_schema, record_location, instrument_version
+        )
+        errors.extend(candidate_errors)
+        if isinstance(candidate, dict):
+            candidate_id = candidate.get("candidate_unit_id")
+            if isinstance(candidate_id, str):
+                if candidate_id in candidates:
+                    errors.append(f"{record_location}: duplicate candidate_unit_id {candidate_id}")
+                candidates[candidate_id] = candidate
+                if isinstance(reference, dict):
+                    candidate_references_by_id[candidate_id] = reference
+
+    eligibility_by_candidate: dict[str, list[dict[str, Any]]] = {}
+    eligibility_ids: set[str] = set()
+    decisions = manifest.get("eligibility_decisions")
+    if not isinstance(decisions, list):
+        errors.append(f"{location}: eligibility_decisions must be an array")
+        decisions = []
+    for index, reference in enumerate(decisions):
+        record_location = f"{location}: eligibility_decisions[{index}]"
+        decision, _, artifact_errors = _load_json_artifact(
+            root, reference, record_location, container
+        )
+        errors.extend(artifact_errors)
+        if decision is None:
+            continue
+        decision_errors = validate_eligibility_decision(
+            root,
+            decision,
+            record_location,
+            eligibility_schema,
+            candidate_schema,
+            instrument_version,
+            container,
+        )
+        errors.extend(decision_errors)
+        if isinstance(decision, dict):
+            decision_id = decision.get("eligibility_decision_id")
+            if isinstance(decision_id, str):
+                if decision_id in eligibility_ids:
+                    errors.append(f"{record_location}: duplicate eligibility_decision_id {decision_id}")
+                eligibility_ids.add(decision_id)
+            candidate_id = decision.get("candidate_unit_id")
+            if isinstance(candidate_id, str):
+                eligibility_by_candidate.setdefault(candidate_id, []).append(decision)
+                universe_reference = candidate_references_by_id.get(candidate_id)
+                if universe_reference is not None and decision.get(
+                    "candidate_specification"
+                ) != universe_reference:
+                    errors.append(
+                        f"{record_location}: eligibility decision must bind the exact candidate-universe specification"
+                    )
+
+    for candidate_id in sorted(candidates):
+        count = len(eligibility_by_candidate.get(candidate_id, []))
+        if count != 1:
+            errors.append(
+                f"{location}: candidate-universe member {candidate_id!r} requires exactly one eligibility decision"
+            )
+    outside_decisions = set(eligibility_by_candidate) - set(candidates)
+    if outside_decisions:
+        errors.append(
+            f"{location}: eligibility decisions refer outside candidate universe: {sorted(outside_decisions)}"
+        )
+
+    lineage_references = manifest.get("lineage_relations")
+    if not isinstance(lineage_references, list):
+        errors.append(f"{location}: lineage_relations must be an array")
+        lineage_references = []
+    for index, reference in enumerate(lineage_references):
+        record_location = f"{location}: lineage_relations[{index}]"
+        lineage, _, artifact_errors = _load_json_artifact(
+            root, reference, record_location, container
+        )
+        errors.extend(artifact_errors)
+        if lineage is not None:
+            errors.extend(
+                validate_lineage_record(
+                    lineage, lineage_schema, record_location, instrument_version
+                )
+            )
+
+    eligible_ids = {
+        candidate_id
+        for candidate_id in candidates
+        if len(eligibility_by_candidate.get(candidate_id, [])) == 1
+        and eligibility_by_candidate[candidate_id][0].get("decision_status") == "eligible"
+    }
+    dispositions = manifest.get("selection_dispositions")
+    if not isinstance(dispositions, list):
+        errors.append(f"{location}: selection_dispositions must be an array")
+        dispositions = []
+    disposition_by_candidate: dict[str, dict[str, Any]] = {}
+    for index, disposition in enumerate(dispositions):
+        disposition_location = f"{location}: selection_dispositions[{index}]"
+        if not isinstance(disposition, dict):
+            continue
+        candidate_id = disposition.get("candidate_unit_id")
+        if not isinstance(candidate_id, str):
+            continue
+        if candidate_id in disposition_by_candidate:
+            errors.append(f"{disposition_location}: duplicate selection disposition")
+        disposition_by_candidate[candidate_id] = disposition
+        if disposition.get("disposition") == "not_selected" and not all(
+            isinstance(disposition.get(field), str) and disposition[field].strip()
+            for field in ("rationale", "uncertainty")
+        ):
+            errors.append(
+                f"{disposition_location}: not_selected requires rationale and uncertainty"
+            )
+
+    if set(disposition_by_candidate) != eligible_ids:
+        missing = sorted(eligible_ids - set(disposition_by_candidate))
+        outside = sorted(set(disposition_by_candidate) - eligible_ids)
+        if missing:
+            errors.append(f"{location}: eligible candidates lack selection disposition: {missing}")
+        if outside:
+            errors.append(f"{location}: selection dispositions refer to non-eligible candidates: {outside}")
+
+    disposition_selected_ids = {
+        candidate_id
+        for candidate_id, disposition in disposition_by_candidate.items()
+        if disposition.get("disposition") == "selected"
+    }
+    if selected_ids != disposition_selected_ids:
+        errors.append(
+            f"{location}: selected_unit_ids must exactly equal selected dispositions"
+        )
+    if not selected_ids:
+        errors.append(f"{location}: locked selection requires a non-empty selected set")
+
+    coverage = manifest.get("coverage_redundancy_review")
+    if not isinstance(coverage, dict) or coverage.get("status") != "recorded":
+        errors.append(f"{location}: locked selection requires recorded coverage/redundancy review")
+    elif not all(
+        isinstance(coverage.get(field), str) and coverage[field].strip()
+        for field in ("rationale", "uncertainty")
+    ):
+        errors.append(f"{location}: coverage/redundancy review requires rationale and uncertainty")
+
+    panel_size = manifest.get("panel_size")
+    n = panel_size.get("n") if isinstance(panel_size, dict) else None
+    if not isinstance(panel_size, dict) or panel_size.get("status") != "fixed":
+        errors.append(f"{location}: locked selection requires prospectively fixed panel size")
+    elif not isinstance(n, int) or isinstance(n, bool) or n < 1:
+        errors.append(f"{location}: fixed panel size must be a positive integer")
+    elif n != len(selected_ids):
+        errors.append(f"{location}: fixed panel size does not match selected unit count")
+    if isinstance(panel_size, dict) and not (
+        isinstance(panel_size.get("rationale"), str) and panel_size["rationale"].strip()
+    ):
+        errors.append(f"{location}: panel size requires prospective rationale")
+
+    scientific_review = manifest.get("scientific_review")
+    if not isinstance(scientific_review, dict) or scientific_review.get("status") != "complete":
+        errors.append(f"{location}: locked selection requires completed scientific review")
+    else:
+        review_record, review_path, review_errors = _load_json_artifact(
+            root,
+            scientific_review.get("review_record"),
+            f"{location}: scientific_review",
+            container,
+        )
+        errors.extend(review_errors)
+        errors.extend(
+            _validate_selection_role_path(
+                scientific_review.get("review_record"),
+                container,
+                "reviews",
+                f"{location}: scientific_review",
+            )
+        )
+        if review_record is not None:
+            errors.extend(
+                validate_scientific_review_record(
+                    review_record,
+                    review_schema,
+                    f"{location}: scientific_review",
+                    instrument_version,
+                    review_path,
+                )
+            )
+            if not isinstance(review_record, dict) or review_record.get("outcome") != "approved":
+                errors.append(
+                    f"{location}: locked selection requires explicitly approved scientific review"
+                )
+            if isinstance(review_record, dict) and review_record.get(
+                "selection_proposal"
+            ) != proposal_reference:
+                errors.append(
+                    f"{location}: scientific review does not bind the exact selection proposal"
+                )
+
+    governance = manifest.get("governance_authority")
+    if not isinstance(governance, dict) or governance.get("status") != "recorded":
+        errors.append(f"{location}: locked selection requires recorded governance authority")
+    else:
+        authority_id = governance.get("authority_id")
+        if not isinstance(authority_id, str) or not authority_id.strip():
+            errors.append(f"{location}: governance authority_id is required")
+        governance_record, governance_path, governance_errors = _load_json_artifact(
+            root,
+            governance.get("decision_record"),
+            f"{location}: governance_authority",
+            container,
+        )
+        errors.extend(governance_errors)
+        errors.extend(
+            _validate_selection_role_path(
+                governance.get("decision_record"),
+                container,
+                "governance",
+                f"{location}: governance_authority",
+            )
+        )
+        if governance_record is not None:
+            errors.extend(
+                validate_governance_decision_record(
+                    governance_record,
+                    governance_schema,
+                    f"{location}: governance_authority",
+                    instrument_version,
+                    governance_path,
+                )
+            )
+            if not isinstance(governance_record, dict) or governance_record.get(
+                "outcome"
+            ) != "authorized":
+                errors.append(
+                    f"{location}: locked selection requires explicitly authorized governance decision"
+                )
+            if isinstance(governance_record, dict) and governance_record.get(
+                "responsible_authority_id"
+            ) != authority_id:
+                errors.append(f"{location}: governance authority identity mismatch")
+            if isinstance(governance_record, dict) and governance_record.get(
+                "selection_proposal"
+            ) != proposal_reference:
+                errors.append(
+                    f"{location}: governance decision does not bind the exact selection proposal"
+                )
+            review_reference = scientific_review.get("review_record") if isinstance(
+                scientific_review, dict
+            ) else None
+            if isinstance(governance_record, dict) and governance_record.get(
+                "scientific_review"
+            ) != review_reference:
+                errors.append(
+                    f"{location}: governance decision does not bind the exact scientific review"
+                )
+
+    selected_bindings = {
+        candidate_id: (candidates[candidate_id], candidate_references_by_id[candidate_id])
+        for candidate_id in selected_ids
+        if candidate_id in candidates and candidate_id in candidate_references_by_id
+    }
+    return selected_bindings, errors
+
+
+def validate_selection_repository(root: Path) -> list[str]:
+    errors: list[str] = []
+    schemas: dict[str, dict[str, Any]] = {}
+    for name in SELECTION_RECORD_PATHS:
+        path = root / CURRENT_SCHEMA_PATHS[name]
+        if not path.is_file():
+            continue
+        try:
+            schema = read_json(path)
+        except json.JSONDecodeError as exc:
+            errors.append(f"{path.relative_to(root).as_posix()}: invalid JSON: {exc}")
+            continue
+        if isinstance(schema, dict):
+            schemas[name] = schema
+
+    for name, relative_directory in SELECTION_RECORD_PATHS.items():
+        directory = root / relative_directory
+        if not directory.is_dir():
+            continue
+        for path in sorted(directory.glob("*.json")):
+            location = path.relative_to(root).as_posix()
+            try:
+                record = read_json(path)
+            except json.JSONDecodeError as exc:
+                errors.append(f"{location}: invalid JSON: {exc}")
+                continue
+            if name == "candidate_unit" and name in schemas:
+                errors.extend(validate_candidate_unit(record, schemas[name], location))
+            elif name == "eligibility_decision" and all(
+                item in schemas for item in ("eligibility_decision", "candidate_unit")
+            ):
+                errors.extend(
+                    validate_eligibility_decision(
+                        root,
+                        record,
+                        location,
+                        schemas["eligibility_decision"],
+                        schemas["candidate_unit"],
+                        container=PurePosixPath("selection"),
+                    )
+                )
+            elif name == "panel_lineage" and name in schemas:
+                errors.extend(validate_lineage_record(record, schemas[name], location))
+            elif name == "panel_selection_proposal" and name in schemas:
+                errors.extend(
+                    validate_selection_proposal(
+                        record, schemas[name], location, record_path=path
+                    )
+                )
+            elif name == "panel_selection_review" and name in schemas:
+                errors.extend(
+                    validate_scientific_review_record(
+                        record, schemas[name], location, record_path=path
+                    )
+                )
+            elif name == "panel_lock_governance_decision" and name in schemas:
+                errors.extend(
+                    validate_governance_decision_record(
+                        record, schemas[name], location, record_path=path
+                    )
+                )
+            elif name == "panel_selection_manifest":
+                _, manifest_errors = validate_selection_manifest(
+                    root,
+                    record,
+                    location,
+                    schemas,
+                    container=PurePosixPath("selection"),
+                )
+                errors.extend(manifest_errors)
+    return errors
 
 
 def validate_scientific_records(
@@ -734,6 +1505,48 @@ def validate_wave_manifest(
                             errors.append(f"{location}: duplicate panel_unit_id {unit_id}")
                         panel_units[unit_id] = set(item for item in systems if isinstance(item, str))
 
+                selection_reference = panel_snapshot.get("selection_manifest")
+                selection_manifest, _, selection_reference_errors = _load_json_artifact(
+                    root,
+                    selection_reference,
+                    f"{location}: panel_snapshot selection_manifest",
+                    wave_directory,
+                )
+                errors.extend(selection_reference_errors)
+                if selection_manifest is not None:
+                    selected_bindings, selection_errors = validate_selection_manifest(
+                        root,
+                        selection_manifest,
+                        f"{location}: panel_snapshot selection_manifest",
+                        schemas,
+                        wave_directory,
+                        expected_panel_version,
+                    )
+                    errors.extend(selection_errors)
+                    if set(selected_bindings) != set(panel_units):
+                        errors.append(
+                            f"{location}: Frozen Panel units must exactly match the locked selection manifest"
+                        )
+                    for unit in units:
+                        if not isinstance(unit, dict):
+                            continue
+                        unit_id = unit.get("panel_unit_id")
+                        binding = selected_bindings.get(unit_id)
+                        if binding is None:
+                            continue
+                        candidate, candidate_reference = binding
+                        if unit.get("candidate_specification") != candidate_reference:
+                            errors.append(
+                                f"{location}: Frozen Panel unit {unit_id!r} must preserve "
+                                "the exact candidate specification path and SHA-256 binding"
+                            )
+                        for field in CANDIDATE_IDENTITY_FIELDS:
+                            if unit.get(field) != candidate.get(field):
+                                errors.append(
+                                    f"{location}: Frozen Panel unit {unit_id!r} changes "
+                                    f"candidate semantic identity field {field!r}"
+                                )
+
     if registry_path is not None:
         registry_schema = schemas.get("registry_unit")
         if isinstance(registry_schema, dict):
@@ -912,6 +1725,7 @@ def validate_repository(root: Path, base_ref: str | None = None) -> list[str]:
 
     instruments, instrument_errors = load_instruments(root)
     errors.extend(instrument_errors)
+    errors.extend(validate_selection_repository(root))
 
     registry_path = root / "registry/live-registry.csv"
     registry_schema_path = root / "schemas/registry-unit.schema.json"

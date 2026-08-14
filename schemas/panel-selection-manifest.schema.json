@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/panel-selection-manifest.schema.json",
+  "title": "Frozen Panel selection manifest",
+  "type": "object",
+  "x-instrument-version": "0.4.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "selection_manifest_id",
+    "instrument_version",
+    "status",
+    "selection_proposal",
+    "selection_protocol",
+    "candidate_universe_snapshot",
+    "eligibility_decisions",
+    "lineage_relations",
+    "coverage_redundancy_review",
+    "panel_size",
+    "selection_dispositions",
+    "selected_unit_ids",
+    "scientific_review",
+    "governance_authority",
+    "locked_at"
+  ],
+  "properties": {
+    "selection_manifest_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["draft", "locked"]},
+    "selection_proposal": {"$ref": "#/$defs/artifact"},
+    "selection_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "version", "artifact"],
+      "properties": {
+        "status": {"type": "string", "enum": ["draft", "locked"]},
+        "version": {"type": "string", "minLength": 1},
+        "artifact": {
+          "anyOf": [
+            {"$ref": "#/$defs/artifact"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "candidate_universe_snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["snapshot_id", "captured_at", "candidate_specifications"],
+      "properties": {
+        "snapshot_id": {"type": ["string", "null"], "minLength": 1},
+        "captured_at": {"type": ["string", "null"], "format": "date-time"},
+        "candidate_specifications": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "eligibility_decisions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "lineage_relations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "coverage_redundancy_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "rationale", "uncertainty"],
+      "properties": {
+        "status": {"type": "string", "enum": ["unresolved", "recorded"]},
+        "rationale": {"type": "string"},
+        "uncertainty": {"type": "string"}
+      }
+    },
+    "panel_size": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "n", "rationale"],
+      "properties": {
+        "status": {"type": "string", "enum": ["unresolved", "fixed"]},
+        "n": {"type": ["integer", "null"], "minimum": 1},
+        "rationale": {"type": "string"}
+      }
+    },
+    "selection_dispositions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_unit_id", "disposition", "rationale", "uncertainty"],
+        "properties": {
+          "candidate_unit_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+          "disposition": {"type": "string", "enum": ["selected", "not_selected"]},
+          "rationale": {"type": "string"},
+          "uncertainty": {"type": "string"}
+        }
+      }
+    },
+    "selected_unit_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"}
+    },
+    "scientific_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "review_record"],
+      "properties": {
+        "status": {"type": "string", "enum": ["pending", "complete"]},
+        "review_record": {
+          "anyOf": [
+            {"$ref": "#/$defs/artifact"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "governance_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "authority_id", "decision_record"],
+      "properties": {
+        "status": {"type": "string", "enum": ["unresolved", "recorded"]},
+        "authority_id": {"type": ["string", "null"], "minLength": 1},
+        "decision_record": {
+          "anyOf": [
+            {"$ref": "#/$defs/artifact"},
+            {"type": "null"}
+          ]
+        }
+      }
+    },
+    "locked_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "locked"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "locked_at": {"type": "string", "format": "date-time"}
+        }
+      }
+    }
+  ]
+}
