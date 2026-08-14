@@ -1,0 +1,568 @@
+{
+  "extraction_id": "un-cofog-1999-group",
+  "instrument_version": "0.5.0-draft",
+  "source_frame": {
+    "path": "domain-universe/source-frames/un-cofog-1999.json",
+    "sha256": "1148106a005d2701e6f6142e55260c2979db25f98574f2c8ec1eca26da768d82"
+  },
+  "extraction_scope": "Source version: COFOG 1999. Extraction level: Group. Expected entry count: 69. Observed entry count: 69. The first-level Division is retained only as parent context.",
+  "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every Group entry exactly once, retain its Division as context, and do not extract first-level parents or third-level and lower categories as independent entries.",
+  "extraction_status": "complete",
+  "extracted_entries": [
+    {
+      "source_entry_id": "cofog-01.1",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.1",
+      "source_entry_descriptor": "Executive and legislative organs, financial and fiscal affairs, external affairs",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-01.2",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.2",
+      "source_entry_descriptor": "Foreign economic aid",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-01.3",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.3",
+      "source_entry_descriptor": "General services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-01.4",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.4",
+      "source_entry_descriptor": "Basic research",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-01.5",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.5",
+      "source_entry_descriptor": "R&D General public services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-01.6",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.6",
+      "source_entry_descriptor": "General public services n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-01.7",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.7",
+      "source_entry_descriptor": "Public debt transactions",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-01.8",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.8",
+      "source_entry_descriptor": "Transfers of a general character between different levels of government",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-02.1",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.1",
+      "source_entry_descriptor": "Military defence",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-02.2",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.2",
+      "source_entry_descriptor": "Civil defence",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-02.3",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.3",
+      "source_entry_descriptor": "Foreign military aid",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-02.4",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.4",
+      "source_entry_descriptor": "R&D Defence",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-02.5",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.5",
+      "source_entry_descriptor": "Defence n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-03.1",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.1",
+      "source_entry_descriptor": "Police services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-03.2",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.2",
+      "source_entry_descriptor": "Fire-protection services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-03.3",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.3",
+      "source_entry_descriptor": "Law courts",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-03.4",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.4",
+      "source_entry_descriptor": "Prisons",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-03.5",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.5",
+      "source_entry_descriptor": "R&D Public order and safety",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-03.6",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.6",
+      "source_entry_descriptor": "Public order and safety n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.1",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.1",
+      "source_entry_descriptor": "General economic, commercial and labour affairs",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.2",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.2",
+      "source_entry_descriptor": "Agriculture, forestry, fishing and hunting",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.3",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.3",
+      "source_entry_descriptor": "Fuel and energy",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.4",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.4",
+      "source_entry_descriptor": "Mining, manufacturing and construction",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.5",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.5",
+      "source_entry_descriptor": "Transport",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.6",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.6",
+      "source_entry_descriptor": "Communication",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.7",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.7",
+      "source_entry_descriptor": "Other industries",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.8",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.8",
+      "source_entry_descriptor": "R&D Economic affairs",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-04.9",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.9",
+      "source_entry_descriptor": "Economic affairs n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-05.1",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.1",
+      "source_entry_descriptor": "Waste management",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-05.2",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.2",
+      "source_entry_descriptor": "Waste water management",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-05.3",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.3",
+      "source_entry_descriptor": "Pollution abatement",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-05.4",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.4",
+      "source_entry_descriptor": "Protection of biodiversity and landscape",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-05.5",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.5",
+      "source_entry_descriptor": "R&D Environmental protection",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-05.6",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.6",
+      "source_entry_descriptor": "Environmental protection n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-06.1",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.1",
+      "source_entry_descriptor": "Housing development",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-06.2",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.2",
+      "source_entry_descriptor": "Community development",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-06.3",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.3",
+      "source_entry_descriptor": "Water supply",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-06.4",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.4",
+      "source_entry_descriptor": "Street lighting",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-06.5",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.5",
+      "source_entry_descriptor": "R&D Housing and community amenities",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-06.6",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.6",
+      "source_entry_descriptor": "Housing and community amenities n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-07.1",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.1",
+      "source_entry_descriptor": "Medical products, appliances and equipment",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-07.2",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.2",
+      "source_entry_descriptor": "Outpatient services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-07.3",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.3",
+      "source_entry_descriptor": "Hospital services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-07.4",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.4",
+      "source_entry_descriptor": "Public health services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-07.5",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.5",
+      "source_entry_descriptor": "R&D Health",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-07.6",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.6",
+      "source_entry_descriptor": "Health n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-08.1",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.1",
+      "source_entry_descriptor": "Recreational and sporting services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-08.2",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.2",
+      "source_entry_descriptor": "Cultural services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-08.3",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.3",
+      "source_entry_descriptor": "Broadcasting and publishing services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-08.4",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.4",
+      "source_entry_descriptor": "Religious and other community services",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-08.5",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.5",
+      "source_entry_descriptor": "R&D Recreation, culture and religion",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-08.6",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.6",
+      "source_entry_descriptor": "Recreation, culture and religion n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.1",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.1",
+      "source_entry_descriptor": "Pre-primary and primary education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.2",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.2",
+      "source_entry_descriptor": "Secondary education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.3",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.3",
+      "source_entry_descriptor": "Post-secondary non-tertiary education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.4",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.4",
+      "source_entry_descriptor": "Tertiary education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.5",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.5",
+      "source_entry_descriptor": "Education not definable by level",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.6",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.6",
+      "source_entry_descriptor": "Subsidiary services to education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.7",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.7",
+      "source_entry_descriptor": "R&D Education",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-09.8",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.8",
+      "source_entry_descriptor": "Education n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.1",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.1",
+      "source_entry_descriptor": "Sickness and disability",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.2",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.2",
+      "source_entry_descriptor": "Old age",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.3",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.3",
+      "source_entry_descriptor": "Survivors",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.4",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.4",
+      "source_entry_descriptor": "Family and children",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.5",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.5",
+      "source_entry_descriptor": "Unemployment",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.6",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.6",
+      "source_entry_descriptor": "Housing",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.7",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.7",
+      "source_entry_descriptor": "Social exclusion n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.8",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.8",
+      "source_entry_descriptor": "R&D Social protection",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    },
+    {
+      "source_entry_id": "cofog-10.9",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.9",
+      "source_entry_descriptor": "Social protection n.e.c.",
+      "normalization_disposition": "unresolved",
+      "target_domain_candidate_ids": [],
+      "rationale": "Exhaustively extracted at the prospectively specified second hierarchical level. Domain normalization and candidate generation are deferred to the next governed stage."
+    }
+  ],
+  "rationale": "Official source retrieval URL: https://unstats.un.org/unsd/classifications/Econ/Download/In%20Text/COFOG_english_structure.txt. Retrieved at: 2026-08-14T15:19:17Z. SHA-256 of the authoritative source bytes used for extraction: 5368887bb253a1819bfefc6a9eedc74cb76f50c6a7c35133d2420b1d4a3b39b5. Only official short classification codes, titles, and parent context are recorded; the source artifact is not committed.",
+  "uncertainty": "No ambiguity was identified in the official COFOG 1999 material at the specified Group level. Domain normalization, scope, duplication, eligibility, and candidate judgments remain intentionally unresolved and have not begun.",
+  "recorded_at": "2026-08-14T15:24:05Z"
+}

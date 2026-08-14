@@ -12,5 +12,5 @@
   "audit_note": "WIPO identifies IPC 2026.01 as the current edition for the Task 103 registration date and states that it entered into force on 2026-01-01. Use the version-specific 2026.01 master files. Do not mix entries from the early-published IPC 2027.01.",
   "registered_at": "2026-08-14T14:05:55Z",
   "normalization_status": "pending",
-  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified IPC 2026.01 hierarchy."
+  "normalization_note": "Exhaustive Task 104 source extraction is complete in domain-universe/extractions/wipo-ipc-2026-01-class.json. Domain normalization and candidate generation have not begun."
 }

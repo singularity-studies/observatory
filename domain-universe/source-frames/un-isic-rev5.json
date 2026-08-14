@@ -12,5 +12,5 @@
   "audit_note": "UNSD states that ISIC Revision 5 was endorsed by the United Nations Statistical Commission at its 54th session in 2023. The formal publication is still described as forthcoming at the Task 103 registration date, while the official structure and explanatory notes are available from UNSD. Extraction must use only official Rev. 5 material and must record the exact retrieval context.",
   "registered_at": "2026-08-14T14:05:55Z",
   "normalization_status": "pending",
-  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified ISIC Rev. 5 levels."
+  "normalization_note": "Exhaustive Task 104 source extraction is complete in domain-universe/extractions/un-isic-rev5-division.json. Domain normalization and candidate generation have not begun."
 }

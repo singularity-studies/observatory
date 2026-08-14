@@ -74,6 +74,29 @@ This entry records prospective construction state, not scientific approval,
 selection of any source entry or Domain, authority, a Domain Universe lock, or
 authorization of Wave 0.
 
+## Prospective construction record DU-003
+
+- Date: `2026-08-15`
+- Status: exhaustive second-level source extraction complete; not reviewed or
+  approved
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instrument: Domain Universe Construction Protocol `0.5.0-draft`
+- Construction action: extracted every prospectively specified second-level
+  category from the four registered source frames: 42 FORD fields, 87 ISIC
+  Rev.5 Divisions, 132 IPC 2026.01 Classes, and 69 COFOG 1999 Groups.
+- Rationale: preserve a complete, version-specific, hash-auditable source-entry
+  universe before any normalization or candidate-generation judgment.
+- Comparability impact: none; the 330 entries are source categories, not
+  Domains, and no Domain Universe, Frozen Panel, or Wave exists.
+- Unresolved follow-up: normalization dispositions, candidate identities,
+  eligibility, relations, coverage audit, proposal, scientific review, final
+  governance authority, and governance lock.
+
+This entry records source extraction only. It does not decide scope,
+duplication, eligibility, Domain identity, approval, lock, or authorization of
+Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

@@ -23,13 +23,16 @@ Technologies, products, organizations, and deployments are not normally the prim
 
 The scaffold is **pre-Wave 0**. Every scientific instrument is a draft. Domain
 Universe construction is in progress: prospective boundary `du-boundary-v0.1`
-is fixed for candidate generation and four source frames are registered, but
-no extraction, normalization, candidate, eligibility decision, proposal,
-scientific approval, governance lock, or Domain exists. The Domain Universe is
-not established or locked, final governance authority remains unresolved, and
-no official Wave is authorized until the protocol, coverage frame, frozen
-panel, schema bundle, observation schedule, and governance record have each
-been versioned and locked.
+is fixed for candidate generation, four source frames are registered, and
+exhaustive second-level source extraction has recorded 330 official source
+categories. These extracted categories are not Domains. All normalization
+dispositions remain intentionally unresolved; normalization and candidate
+generation have not begun. No eligibility decision, proposal, scientific
+approval, governance lock, or Domain exists. The Domain Universe is not
+established or locked, final governance authority remains unresolved, and no
+official Wave is authorized until the protocol, coverage frame, frozen panel,
+schema bundle, observation schedule, and governance record have each been
+versioned and locked.
 
 ## Repository map
 
@@ -37,7 +40,7 @@ been versioned and locked.
 - [`CODEBOOK.md`](CODEBOOK.md): state and event representations
 - [`PANEL.md`](PANEL.md): improvement-loop/function-centered Frozen Panel definition
 - [`DOMAIN_UNIVERSE.md`](DOMAIN_UNIVERSE.md): auditable coverage-frame construction protocol
-- [`domain-universe/`](domain-universe/): prospective boundary and source-frame registrations, with downstream construction records absent
+- [`domain-universe/`](domain-universe/): prospective boundary, source-frame registrations, and source-only extraction ledgers
 - [`registry/`](registry/): mutable Live Registry, distinct from the Frozen Panel
 - [`evidence/`](evidence/): source-traceable evidence records
 - [`data/waves/`](data/waves/): immutable Wave packages after lock
