@@ -11,6 +11,7 @@ These instructions apply to the entire repository.
 - Do not use baseline human-criticality status as a selection variable; first code it after panel lock as a Wave-observation outcome.
 - Screen every frozen-universe candidate exactly once and record an explicit disposition for every eligible candidate.
 - Preserve each selected candidate's exact path, SHA-256, and semantic identity in the Frozen Panel snapshot.
+- Treat Domains as overlapping coverage strata, not exclusive ontological categories; never invent a Domain Universe or source frame.
 - Treat a bounded improvement-loop function/stage—not a product or technology—as the primary panel unit. Link empirical systems separately.
 - Represent transitions, reversals, and human re-entry without assuming that any has occurred.
 - Treat labels and operational definitions as versioned instruments, not settled facts.
@@ -29,6 +30,7 @@ These instructions apply to the entire repository.
 - Reject an empty locked/official panel and require explicit schema-valid observation coverage for every panel unit; unresolved coverage uses explicit unknown values rather than omission.
 - Resolve longitudinal prior-observation references across Waves and require a different, same-unit observation with a strictly earlier observation time.
 - Require a hash-bound pre-approval selection proposal, a scientific review bound to that exact proposal, and a governance decision bound to the same proposal and exact review before panel lock.
+- Require the analogous exact proposal-review-governance chain plus a fixed boundary, multiple independent source frames, complete eligibility, pairwise overlap/duplication review, and coverage audit before Domain Universe lock.
 - Validation uncertainty is a failure, not permission to proceed.
 
 ## Required checks

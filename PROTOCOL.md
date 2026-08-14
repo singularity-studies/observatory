@@ -1,7 +1,7 @@
 # Observation Protocol
 
 - Instrument: Observation Protocol
-- Instrument version: `0.4.0-draft`
+- Instrument version: `0.5.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -22,6 +22,8 @@ An improvement loop is a recurrent process in which outputs or evaluations from 
 Technologies, products, organizations, deployments, and other sociotechnical systems are normally empirical instantiations or evidence contexts rather than primary panel units. A panel unit may link to multiple empirical systems, and an empirical system may be relevant to multiple functions when those relationships are explicit.
 
 Admission to a Frozen Panel follows the versioned eligibility, anti-selection-bias, lineage, panel-size, and fail-closed lock rules in `PANEL.md`. A frozen snapshot must resolve to a locked, hash-bound selection manifest inside its immutable Wave package. This draft admits no candidate or panel unit and authorizes no Wave.
+
+The future panel coverage frame follows `DOMAIN_UNIVERSE.md`. A Domain is an overlapping coverage stratum rather than an exclusive taxonomy. No Domain Universe, source frame, or domain is established by this protocol.
 
 Baseline human-criticality status is not a selection variable. Baseline human-criticality is first coded after panel lock as a Wave-observation outcome. Human-criticality states are never candidate, eligibility, or inclusion inputs.
 

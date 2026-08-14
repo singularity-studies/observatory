@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-candidate.schema.json",
+  "title": "Domain candidate",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "domain_candidate_id", "instrument_version", "primary_unit_type",
+    "canonical_label", "scope_definition", "inclusion_boundary",
+    "exclusion_boundary", "recurrent_improvement_rationale",
+    "continuity_rule", "overlap_notes", "provenance_references"
+  ],
+  "properties": {
+    "domain_candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "primary_unit_type": {"const": "coverage_stratum"},
+    "canonical_label": {"type": "string", "minLength": 1},
+    "scope_definition": {"type": "string", "minLength": 1},
+    "inclusion_boundary": {"type": "string", "minLength": 1},
+    "exclusion_boundary": {"type": "string", "minLength": 1},
+    "recurrent_improvement_rationale": {"type": "string", "minLength": 1},
+    "continuity_rule": {"type": "string", "minLength": 1},
+    "overlap_notes": {"type": "string", "minLength": 1},
+    "provenance_references": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["source_frame_id", "source_entry_reference"],
+        "properties": {
+          "source_frame_id": {"type": "string", "minLength": 1},
+          "source_entry_reference": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

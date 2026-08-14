@@ -3,7 +3,7 @@
   "$id": "https://github.com/singularity-studies/observatory/schemas/wave-manifest.schema.json",
   "title": "Singularity Observatory Wave manifest",
   "type": "object",
-  "x-instrument-version": "0.4.0-draft",
+  "x-instrument-version": "0.5.0-draft",
   "additionalProperties": false,
   "required": [
     "wave_id",

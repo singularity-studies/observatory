@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-relation.schema.json",
+  "title": "Domain relation",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "domain_relation_id", "instrument_version", "subject_domain_candidate_id",
+    "relation_type", "object_domain_candidate_id", "resolution_status",
+    "rationale"
+  ],
+  "properties": {
+    "domain_relation_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "subject_domain_candidate_id": {"type": "string", "minLength": 1},
+    "relation_type": {"type": "string", "enum": ["overlaps_with", "contains", "contained_by", "depends_on", "cross_cutting_with", "substantively_duplicates"]},
+    "object_domain_candidate_id": {"type": "string", "minLength": 1},
+    "resolution_status": {"type": "string", "enum": ["documented", "resolved", "unresolved"]},
+    "rationale": {"type": "string", "minLength": 1}
+  }
+}

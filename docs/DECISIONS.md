@@ -31,6 +31,27 @@ No scientific decisions have been approved.
 This entry records a draft instrument design, not a panel lock, approval, or
 scientific finding.
 
+## Draft design record DU-001
+
+- Status: `DRAFT`; not approved
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instruments: Domain Universe Construction Protocol
+  `0.5.0-draft`, Frozen Panel Specification `0.5.0-draft`, Observation
+  Protocol `0.5.0-draft`, and Schema Bundle `0.5.0-draft`
+- Question: how should an auditable coverage frame be constructed without
+  asserting an exclusive taxonomy or selecting actual domains?
+- Draft design: use a prospectively fixed boundary, multiple independent
+  normalized source frames, conjunctive domain eligibility, explicit overlap
+  and duplication review, a qualitative coverage audit, and a non-circular
+  proposal-review-governance lock chain.
+- Comparability impact: none; no Domain Universe or Wave exists.
+- Unresolved follow-up: boundary content, source frames, domain names and
+  count, coverage dimensions and weighting, quotas, and authority roles.
+
+This entry records infrastructure only, not a boundary, source frame, domain,
+approval, lock, or scientific finding.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

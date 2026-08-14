@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-source-frame.schema.json",
+  "title": "Domain Universe source-frame registration",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "source_frame_id", "instrument_version", "canonical_name",
+    "classification_family", "source_identity", "source_version_or_date",
+    "source_uri", "independence_group", "audit_note", "registered_at",
+    "normalization_status", "normalization_note"
+  ],
+  "properties": {
+    "source_frame_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "canonical_name": {"type": "string", "minLength": 1},
+    "classification_family": {"type": "string", "enum": ["scientific_research", "economic_activity", "engineering_technology", "public_institutional_function", "other_structured"]},
+    "source_identity": {"type": "string", "minLength": 1},
+    "source_version_or_date": {"type": "string", "minLength": 1},
+    "source_uri": {"type": "string", "format": "uri"},
+    "independence_group": {"type": "string", "minLength": 1},
+    "audit_note": {"type": "string", "minLength": 1},
+    "registered_at": {"type": "string", "format": "date-time"},
+    "normalization_status": {"type": "string", "enum": ["pending", "complete"]},
+    "normalization_note": {"type": "string", "minLength": 1}
+  }
+}

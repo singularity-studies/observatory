@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-universe-manifest.schema.json",
+  "title": "Final Domain Universe manifest",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": ["domain_universe_manifest_id", "instrument_version", "status", "domain_universe_proposal", "scientific_review", "governance_authority", "locked_at"],
+  "properties": {
+    "domain_universe_manifest_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["draft", "locked"]},
+    "domain_universe_proposal": {"$ref": "#/$defs/artifact"},
+    "scientific_review": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "review_record"],
+      "properties": {
+        "status": {"type": "string", "enum": ["pending", "complete"]},
+        "review_record": {"anyOf": [{"$ref": "#/$defs/artifact"}, {"type": "null"}]}
+      }
+    },
+    "governance_authority": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "authority_id", "decision_record"],
+      "properties": {
+        "status": {"type": "string", "enum": ["unresolved", "recorded"]},
+        "authority_id": {"type": ["string", "null"], "minLength": 1},
+        "decision_record": {"anyOf": [{"$ref": "#/$defs/artifact"}, {"type": "null"}]}
+      }
+    },
+    "locked_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  },
+  "allOf": [{
+    "if": {"properties": {"status": {"const": "locked"}}, "required": ["status"]},
+    "then": {
+      "properties": {
+        "locked_at": {"type": "string", "format": "date-time"},
+        "scientific_review": {"properties": {"status": {"const": "complete"}}},
+        "governance_authority": {"properties": {"status": {"const": "recorded"}}}
+      }
+    }
+  }]
+}
