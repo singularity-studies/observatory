@@ -1,0 +1,15 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a candidate record",
+  "candidate_unit_id": null,
+  "instrument_version": "0.4.0-draft",
+  "primary_unit_type": "improvement_loop_function_or_stage",
+  "domain": null,
+  "improvement_loop_id": null,
+  "improvement_loop": null,
+  "function_or_stage": null,
+  "operational_boundary": null,
+  "continuity_rule": null,
+  "boundary_conditions": null,
+  "baseline_human_criticality": "unknown",
+  "empirical_system_ids": []
+}

@@ -18,6 +18,9 @@ SPEC.loader.exec_module(VALIDATE)
 
 V1 = "1.0.0-test"
 V2 = "2.0.0-test"
+CURRENT_SELECTION_VERSION = json.loads(
+    (ROOT / "schemas/panel-selection-manifest.schema.json").read_text(encoding="utf-8")
+)["x-instrument-version"]
 INSTRUMENT_SOURCES = {
     "protocol": "PROTOCOL.md",
     "codebook": "CODEBOOK.md",
@@ -36,11 +39,103 @@ def write_json(path: Path, value: object) -> None:
 def panel_unit(unit_id: str = "test-unit", system_id: str = "test-system") -> dict[str, object]:
     return {
         "panel_unit_id": unit_id,
+        "domain": "test-only-domain",
         "improvement_loop_id": f"{unit_id}-loop",
         "function_id": f"{unit_id}-function",
         "human_bottleneck_label": "test-only structural label",
+        "operational_boundary": "test-only operational boundary",
+        "continuity_rule": "test-only continuity rule",
         "boundary_conditions": "test-only structural boundary",
         "empirical_system_ids": [system_id],
+    }
+
+
+def candidate_specification(
+    unit_id: str = "test-unit",
+    system_id: str = "test-system",
+    version: str = CURRENT_SELECTION_VERSION,
+) -> dict[str, object]:
+    return {
+        "candidate_unit_id": unit_id,
+        "instrument_version": version,
+        "primary_unit_type": "improvement_loop_function_or_stage",
+        "domain": "test-only-domain",
+        "improvement_loop_id": f"{unit_id}-loop",
+        "improvement_loop": "test-only recurrent improvement loop fixture",
+        "function_or_stage": f"{unit_id}-function",
+        "operational_boundary": "test-only operational boundary",
+        "continuity_rule": "test-only continuity rule",
+        "boundary_conditions": "test-only boundary conditions",
+        "baseline_human_criticality": "unknown",
+        "empirical_system_ids": [system_id],
+    }
+
+
+def eligibility_decision(
+    candidate_reference: dict[str, str] | None = None,
+    unit_id: str = "test-unit",
+    version: str = CURRENT_SELECTION_VERSION,
+) -> dict[str, object]:
+    candidate_reference = candidate_reference or {
+        "path": "selection/candidates/test-unit.json",
+        "sha256": "0" * 64,
+    }
+    criterion = {
+        "result": "passed",
+        "rationale": "test-only structural rationale",
+        "uncertainty": "test-only structural uncertainty",
+    }
+    return {
+        "eligibility_decision_id": f"{unit_id}-eligibility",
+        "candidate_unit_id": unit_id,
+        "instrument_version": version,
+        "candidate_specification": candidate_reference,
+        "criteria": {name: dict(criterion) for name in VALIDATE.ELIGIBILITY_CRITERIA},
+        "decision_status": "eligible",
+        "overall_rationale": "test-only structural eligibility fixture",
+        "overall_uncertainty": "test-only; no empirical determination",
+        "review": {
+            "reviewer_status": "unassigned",
+            "reviewer_id": None,
+            "adjudication_status": "unresolved",
+            "adjudicator_id": None,
+            "notes": "Temporary structural fixture; reviewer and adjudicator remain unresolved",
+        },
+    }
+
+
+def lineage_record(
+    retired_id: str = "test-retired-unit",
+    successor_id: str = "test-successor-unit",
+    version: str = CURRENT_SELECTION_VERSION,
+) -> dict[str, object]:
+    return {
+        "lineage_record_id": f"{retired_id}-lineage",
+        "instrument_version": version,
+        "retirement_status": "retired",
+        "retired_unit": {
+            "panel_unit_id": retired_id,
+            "primary_unit_type": "improvement_loop_function_or_stage",
+            "domain": "test-only-domain",
+            "improvement_loop_id": f"{retired_id}-loop",
+            "function_or_stage": f"{retired_id}-function",
+            "operational_boundary": "test-only boundary",
+            "continuity_rule": "test-only continuity rule",
+        },
+        "retirement": {
+            "basis": "function_ceased_to_exist",
+            "rationale": "test-only structural retirement fixture",
+            "effective_panel_version": "later-test-panel-version",
+        },
+        "successors": [
+            {
+                "successor_unit_id": successor_id,
+                "relation": "successor",
+                "later_panel_version": "later-test-panel-version",
+                "rationale": "test-only lineage fixture",
+            }
+        ],
+        "history_note": "Temporary fixture preserves retired identity; no empirical claim",
     }
 
 
@@ -139,6 +234,115 @@ class TemporaryRepository:
             "sha256": VALIDATE.sha256_file(self.root / relative),
         }
 
+    def selection_schemas(self) -> dict[str, dict[str, object]]:
+        return {
+            name: json.loads((self.root / relative).read_text(encoding="utf-8"))
+            for name, relative in VALIDATE.CURRENT_SCHEMA_PATHS.items()
+            if name in VALIDATE.SELECTION_RECORD_PATHS
+        }
+
+    def create_locked_selection(
+        self,
+        base_relative: str = "selection",
+        units: list[dict[str, object]] | None = None,
+        version: str = CURRENT_SELECTION_VERSION,
+        protocol_reference: dict[str, str] | None = None,
+    ) -> tuple[dict[str, object], dict[str, str]]:
+        units = units if units is not None else [panel_unit()]
+        if protocol_reference is None:
+            protocol_relative = f"{base_relative}/protocol.md"
+            text = (self.root / "PANEL.md").read_text(encoding="utf-8")
+            text = re.sub(
+                r"Instrument version:\s*`[^`]+`",
+                f"Instrument version: `{version}`",
+                text,
+                count=1,
+            )
+            protocol_path = self.root / protocol_relative
+            protocol_path.parent.mkdir(parents=True, exist_ok=True)
+            protocol_path.write_text(text, encoding="utf-8")
+            protocol_reference = self.reference(protocol_relative)
+
+        candidate_references: list[dict[str, str]] = []
+        eligibility_references: list[dict[str, str]] = []
+        selected_ids: list[str] = []
+        for unit in units:
+            unit_id = str(unit["panel_unit_id"])
+            systems = unit.get("empirical_system_ids", [])
+            system_id = str(systems[0]) if systems else "test-system"
+            candidate_relative = f"{base_relative}/candidates/{unit_id}.json"
+            write_json(
+                self.root / candidate_relative,
+                candidate_specification(unit_id, system_id, version),
+            )
+            candidate_reference = self.reference(candidate_relative)
+            candidate_references.append(candidate_reference)
+
+            decision_relative = f"{base_relative}/eligibility/{unit_id}.json"
+            write_json(
+                self.root / decision_relative,
+                eligibility_decision(candidate_reference, unit_id, version),
+            )
+            eligibility_references.append(self.reference(decision_relative))
+            selected_ids.append(unit_id)
+
+        review_relative = f"{base_relative}/reviews/scientific-review.txt"
+        review_path = self.root / review_relative
+        review_path.parent.mkdir(parents=True, exist_ok=True)
+        review_path.write_text(
+            "TEMPORARY TEST FIXTURE ONLY; no real scientific review or approval.\n",
+            encoding="utf-8",
+        )
+        authority_relative = f"{base_relative}/governance/authority.txt"
+        authority_path = self.root / authority_relative
+        authority_path.parent.mkdir(parents=True, exist_ok=True)
+        authority_path.write_text(
+            "TEMPORARY TEST FIXTURE ONLY; no real governance authority or approval.\n",
+            encoding="utf-8",
+        )
+
+        manifest: dict[str, object] = {
+            "selection_manifest_id": "test-only-selection-manifest",
+            "instrument_version": version,
+            "status": "locked",
+            "selection_protocol": {
+                "status": "locked",
+                "version": version,
+                "artifact": protocol_reference,
+            },
+            "candidate_universe_snapshot": {
+                "snapshot_id": "test-only-candidate-universe",
+                "captured_at": "2026-01-01T00:00:00Z",
+                "candidate_specifications": candidate_references,
+            },
+            "eligibility_decisions": eligibility_references,
+            "lineage_relations": [],
+            "coverage_redundancy_review": {
+                "status": "recorded",
+                "rationale": "test-only structural coverage fixture",
+                "uncertainty": "test-only; no empirical coverage determination",
+            },
+            "panel_size": {
+                "status": "fixed",
+                "n": len(selected_ids),
+                "rationale": "test-only fixture size; not a proposed panel N",
+            },
+            "selected_unit_ids": selected_ids,
+            "scientific_review": {
+                "status": "complete",
+                "review_record": self.reference(review_relative),
+            },
+            "governance_authority": {
+                "status": "recorded",
+                "authority_id": "test-suite-only-authority",
+                "decision_record": self.reference(authority_relative),
+            },
+            "locked_at": "2026-01-01T00:00:00Z",
+        }
+        manifest_relative = f"{base_relative}/manifest.json"
+        write_json(self.root / manifest_relative, manifest)
+        return manifest, self.reference(manifest_relative)
+
     def _snapshot_instruments(self, wave: str, version: str) -> dict[str, object]:
         locks: dict[str, object] = {}
         for role, source_relative in INSTRUMENT_SOURCES.items():
@@ -188,6 +392,13 @@ class TemporaryRepository:
         instrument_locks = self._snapshot_instruments(wave, version)
         schema_locks = self._snapshot_schemas(wave, version)
 
+        _, selection_reference = self.create_locked_selection(
+            f"data/waves/{wave}/selection",
+            units,
+            version,
+            instrument_locks["panel"]["artifacts"][0],
+        )
+
         panel_relative = f"data/waves/{wave}/panel.json"
         write_json(
             self.root / panel_relative,
@@ -195,6 +406,7 @@ class TemporaryRepository:
                 "snapshot_id": f"{wave}-test-panel",
                 "instrument_version": version,
                 "status": "frozen",
+                "selection_manifest": selection_reference,
                 "units": units,
             },
         )
@@ -301,6 +513,184 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertEqual([], VALIDATE.validate_contract(record, schema, "test unresolved"))
 
 
+class FrozenPanelSelectionProtocolTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.candidate_schema = json.loads(
+            (ROOT / "schemas/candidate-unit.schema.json").read_text(encoding="utf-8")
+        )
+        self.eligibility_schema = json.loads(
+            (ROOT / "schemas/eligibility-decision.schema.json").read_text(encoding="utf-8")
+        )
+        self.lineage_schema = json.loads(
+            (ROOT / "schemas/panel-lineage.schema.json").read_text(encoding="utf-8")
+        )
+
+    def test_product_or_model_as_primary_unit_is_rejected(self) -> None:
+        for prohibited_type in ("product", "ai_model"):
+            record = candidate_specification()
+            record["primary_unit_type"] = prohibited_type
+            errors = VALIDATE.validate_candidate_unit(
+                record, self.candidate_schema, f"test {prohibited_type}"
+            )
+            self.assertTrue(errors)
+
+    def test_missing_continuity_rule_fails(self) -> None:
+        record = candidate_specification()
+        del record["continuity_rule"]
+        errors = VALIDATE.validate_candidate_unit(record, self.candidate_schema, "test candidate")
+        self.assertTrue(any("continuity_rule" in error for error in errors))
+
+    def test_all_four_baseline_states_remain_admissible(self) -> None:
+        for state in ("human_critical", "mixed_or_contested", "human_noncritical", "unknown"):
+            record = candidate_specification()
+            record["baseline_human_criticality"] = state
+            self.assertEqual(
+                [],
+                VALIDATE.validate_candidate_unit(record, self.candidate_schema, f"test {state}"),
+            )
+
+    def test_anti_selection_bias_and_panel_size_remain_explicit(self) -> None:
+        panel = (ROOT / "PANEL.md").read_text(encoding="utf-8")
+        self.assertIn(
+            "Do not optimize the Frozen Panel for excitement. Optimize it for re-observability.",
+            panel,
+        )
+        self.assertIn("Panel size remains unresolved", panel)
+        self.assertNotIn("final N is 50", panel)
+
+    def test_templates_are_fail_closed_non_records(self) -> None:
+        contracts = {
+            "candidate-unit.template.json": self.candidate_schema,
+            "eligibility-decision.template.json": self.eligibility_schema,
+            "panel-lineage.template.json": self.lineage_schema,
+            "panel-selection-manifest.template.json": json.loads(
+                (ROOT / "schemas/panel-selection-manifest.schema.json").read_text(
+                    encoding="utf-8"
+                )
+            ),
+        }
+        for filename, schema in contracts.items():
+            template = json.loads(
+                (ROOT / "schemas/templates" / filename).read_text(encoding="utf-8")
+            )
+            self.assertTrue(template["_template_notice"].startswith("INTENTIONALLY INVALID"))
+            self.assertTrue(VALIDATE.validate_contract(template, schema, f"template {filename}"))
+
+    def test_unresolved_criterion_cannot_produce_eligible_status(self) -> None:
+        record = eligibility_decision()
+        record["criteria"]["re_observability"]["result"] = "unresolved"
+        errors = VALIDATE.validate_contract(record, self.eligibility_schema, "test eligibility")
+        self.assertTrue(errors)
+
+    def test_failed_criterion_cannot_produce_eligible_status(self) -> None:
+        record = eligibility_decision()
+        record["criteria"]["non_redundancy"]["result"] = "failed"
+        errors = VALIDATE.validate_contract(record, self.eligibility_schema, "test eligibility")
+        self.assertTrue(errors)
+
+    def test_all_eight_eligibility_criteria_are_required(self) -> None:
+        record = eligibility_decision()
+        del record["criteria"]["evidence_traceability"]
+        errors = VALIDATE.validate_contract(record, self.eligibility_schema, "test eligibility")
+        self.assertTrue(any("evidence_traceability" in error for error in errors))
+        self.assertEqual(8, len(VALIDATE.ELIGIBILITY_CRITERIA))
+
+    def test_retired_unit_is_not_deleted_from_lineage_history(self) -> None:
+        record = lineage_record()
+        del record["retired_unit"]
+        errors = VALIDATE.validate_lineage_record(record, self.lineage_schema, "test lineage")
+        self.assertTrue(any("retired_unit" in error for error in errors))
+
+    def test_replacement_cannot_reuse_retired_unit_id(self) -> None:
+        record = lineage_record(successor_id="test-retired-unit")
+        errors = VALIDATE.validate_lineage_record(record, self.lineage_schema, "test lineage")
+        self.assertTrue(any("cannot reuse retired panel_unit_id" in error for error in errors))
+
+    def _validate_manifest_change(self, mutate) -> list[str]:
+        repository = TemporaryRepository()
+        try:
+            manifest, _ = repository.create_locked_selection()
+            mutate(manifest)
+            _, errors = VALIDATE.validate_selection_manifest(
+                repository.root,
+                manifest,
+                "test selection manifest",
+                repository.selection_schemas(),
+                PurePosixPath("selection"),
+                CURRENT_SELECTION_VERSION,
+            )
+            return errors
+        finally:
+            repository.close()
+
+    def test_complete_temporary_selection_fixture_passes_internal_gate_only(self) -> None:
+        errors = self._validate_manifest_change(lambda manifest: None)
+        self.assertEqual([], errors)
+        source = Path(__file__).read_text(encoding="utf-8")
+        self.assertIn(
+            "TEMPORARY TEST FIXTURE ONLY; no real governance authority or approval.",
+            source,
+        )
+
+    def test_selection_manifest_cannot_lock_without_fixed_panel_size(self) -> None:
+        def mutate(manifest: dict[str, object]) -> None:
+            manifest["panel_size"] = {
+                "status": "unresolved",
+                "n": None,
+                "rationale": "not prospectively fixed",
+            }
+
+        errors = self._validate_manifest_change(mutate)
+        self.assertTrue(any("prospectively fixed panel size" in error for error in errors))
+
+    def test_selection_manifest_cannot_lock_without_coverage_review(self) -> None:
+        def mutate(manifest: dict[str, object]) -> None:
+            manifest["coverage_redundancy_review"] = {
+                "status": "unresolved",
+                "rationale": "",
+                "uncertainty": "unresolved",
+            }
+
+        errors = self._validate_manifest_change(mutate)
+        self.assertTrue(any("coverage/redundancy review" in error for error in errors))
+
+    def test_empty_candidate_universe_cannot_lock_panel(self) -> None:
+        def mutate(manifest: dict[str, object]) -> None:
+            manifest["candidate_universe_snapshot"]["candidate_specifications"] = []
+
+        errors = self._validate_manifest_change(mutate)
+        self.assertTrue(any("empty candidate universe" in error for error in errors))
+
+    def test_selected_unit_requires_complete_eligibility_record(self) -> None:
+        def mutate(manifest: dict[str, object]) -> None:
+            manifest["eligibility_decisions"] = []
+
+        errors = self._validate_manifest_change(mutate)
+        self.assertTrue(any("exactly one eligible decision" in error for error in errors))
+
+    def test_locked_selection_requires_protocol_and_governance_records(self) -> None:
+        def mutate(manifest: dict[str, object]) -> None:
+            manifest["selection_protocol"]["status"] = "draft"
+            manifest["governance_authority"] = {
+                "status": "unresolved",
+                "authority_id": None,
+                "decision_record": None,
+            }
+
+        errors = self._validate_manifest_change(mutate)
+        self.assertTrue(any("locked protocol" in error for error in errors))
+        self.assertTrue(any("governance authority" in error for error in errors))
+
+    def test_initial_repository_remains_pre_wave_zero_without_candidates(self) -> None:
+        self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
+        self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+        registry_lines = (ROOT / "registry/live-registry.csv").read_text(encoding="utf-8").splitlines()
+        self.assertEqual(1, len(registry_lines))
+        panel = (ROOT / "PANEL.md").read_text(encoding="utf-8")
+        self.assertIn("No candidate units have been recorded", panel)
+        self.assertIn("Panel size remains unresolved", panel)
+
+
 class HistoricalSelfContainmentTests(unittest.TestCase):
     def setUp(self) -> None:
         self.repository = TemporaryRepository()
@@ -374,6 +764,20 @@ class OfficialCompletenessTests(unittest.TestCase):
         self.repository.create_wave("wave-0", [], [])
         errors = VALIDATE.validate_repository(self.repository.root)
         self.assertTrue(any("Frozen Panel must be non-empty" in error for error in errors))
+
+    def test_frozen_panel_requires_hash_bound_selection_manifest(self) -> None:
+        manifest = self.repository.create_wave(
+            "wave-0", [panel_unit()], [unresolved_observation()]
+        )
+        panel_relative = manifest["panel_snapshot"]["path"]
+        panel_path = self.repository.root / panel_relative
+        snapshot = json.loads(panel_path.read_text(encoding="utf-8"))
+        del snapshot["selection_manifest"]
+        write_json(panel_path, snapshot)
+        manifest["panel_snapshot"] = self.repository.reference(panel_relative)
+        self.repository.save_manifest("wave-0", manifest)
+        errors = VALIDATE.validate_repository(self.repository.root)
+        self.assertTrue(any("selection_manifest" in error for error in errors))
 
     def test_omitted_panel_unit_fails_coverage(self) -> None:
         self.repository.create_wave(

@@ -1,0 +1,16 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a selection record, review, authority, or lock",
+  "selection_manifest_id": null,
+  "instrument_version": "0.4.0-draft",
+  "status": "draft",
+  "selection_protocol": {"status": "draft", "version": "0.4.0-draft", "artifact": null},
+  "candidate_universe_snapshot": {"snapshot_id": null, "captured_at": null, "candidate_specifications": []},
+  "eligibility_decisions": [],
+  "lineage_relations": [],
+  "coverage_redundancy_review": {"status": "unresolved", "rationale": "", "uncertainty": "Unresolved"},
+  "panel_size": {"status": "unresolved", "n": null, "rationale": ""},
+  "selected_unit_ids": [],
+  "scientific_review": {"status": "pending", "review_record": null},
+  "governance_authority": {"status": "unresolved", "authority_id": null, "decision_record": null},
+  "locked_at": null
+}

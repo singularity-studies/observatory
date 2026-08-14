@@ -1,0 +1,27 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; no eligibility review has occurred",
+  "eligibility_decision_id": null,
+  "candidate_unit_id": null,
+  "instrument_version": "0.4.0-draft",
+  "candidate_specification": null,
+  "criteria": {
+    "improvement_loop_relevance": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"},
+    "functional_boundedness": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"},
+    "human_criticality_interrogability": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"},
+    "longitudinal_identity_stability": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"},
+    "re_observability": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"},
+    "evidence_traceability": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"},
+    "boundary_condition_expressibility": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"},
+    "non_redundancy": {"result": "unresolved", "rationale": "Not assessed", "uncertainty": "Unresolved"}
+  },
+  "decision_status": "unresolved",
+  "overall_rationale": "No decision has been made",
+  "overall_uncertainty": "Unresolved",
+  "review": {
+    "reviewer_status": "unassigned",
+    "reviewer_id": null,
+    "adjudication_status": "unresolved",
+    "adjudicator_id": null,
+    "notes": "No reviewer or adjudicator is assigned"
+  }
+}

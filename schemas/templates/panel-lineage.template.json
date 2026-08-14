@@ -1,0 +1,22 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a retirement or lineage record",
+  "lineage_record_id": null,
+  "instrument_version": "0.4.0-draft",
+  "retirement_status": "retired",
+  "retired_unit": {
+    "panel_unit_id": null,
+    "primary_unit_type": "improvement_loop_function_or_stage",
+    "domain": null,
+    "improvement_loop_id": null,
+    "function_or_stage": null,
+    "operational_boundary": null,
+    "continuity_rule": null
+  },
+  "retirement": {
+    "basis": null,
+    "rationale": null,
+    "effective_panel_version": null
+  },
+  "successors": [],
+  "history_note": "No retirement has occurred"
+}
