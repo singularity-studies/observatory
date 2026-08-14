@@ -1,9 +1,9 @@
 {
   "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a governance decision or authorization",
-  "governance_decision_id": null,
+  "domain_universe_governance_decision_id": null,
   "instrument_version": "0.5.0-draft",
-  "decision_type": "frozen_panel_lock_authorization",
-  "selection_proposal": null,
+  "decision_type": "domain_universe_lock_authorization",
+  "domain_universe_proposal": null,
   "scientific_review": null,
   "outcome": "pending",
   "rationale": "No governance decision has occurred",

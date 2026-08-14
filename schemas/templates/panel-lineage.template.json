@@ -1,7 +1,7 @@
 {
   "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a retirement or lineage record",
   "lineage_record_id": null,
-  "instrument_version": "0.4.0-draft",
+  "instrument_version": "0.5.0-draft",
   "retirement_status": "retired",
   "retired_unit": {
     "panel_unit_id": null,

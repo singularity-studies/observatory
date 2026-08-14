@@ -1,7 +1,7 @@
 # Frozen Panel
 
 - Instrument: Frozen Panel Specification
-- Instrument version: `0.4.0-draft`
+- Instrument version: `0.5.0-draft`
 - Status: `DRAFT`
 - Effective Wave: none
 
@@ -9,6 +9,10 @@
 
 No candidate units have been recorded. No Frozen Panel has been approved or
 locked, and no panel size has been selected.
+
+The prospective coverage frame is governed separately by
+`DOMAIN_UNIVERSE.md`. No domain stratum, quota, or panel membership follows
+automatically from that instrument.
 
 ## Improvement loops and the primary observation unit
 

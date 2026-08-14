@@ -1,0 +1,14 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a domain candidate",
+  "domain_candidate_id": null,
+  "instrument_version": "0.5.0-draft",
+  "primary_unit_type": "coverage_stratum",
+  "canonical_label": "",
+  "scope_definition": "",
+  "inclusion_boundary": "",
+  "exclusion_boundary": "",
+  "recurrent_improvement_rationale": "",
+  "continuity_rule": "",
+  "overlap_notes": "",
+  "provenance_references": []
+}

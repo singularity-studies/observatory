@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-universe-boundary.schema.json",
+  "title": "Domain Universe boundary specification",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "boundary_specification_id", "instrument_version", "status",
+    "domain_definition", "coverage_question", "in_scope",
+    "research_universe_distinctions", "rationale", "fixed_at"
+  ],
+  "properties": {
+    "boundary_specification_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["draft", "fixed"]},
+    "domain_definition": {"const": "A domain is a relatively stable locus of recurrent improvement activity, defined for coverage and sampling rather than as an exclusive ontological category."},
+    "coverage_question": {"const": "What parts of civilization's recurrent improvement activity could our Frozen Panel systematically miss?"},
+    "in_scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["recurrent_improvement_activity", "later_cycle_change", "human_criticality_investigability"],
+      "properties": {
+        "recurrent_improvement_activity": {"type": "string", "minLength": 1},
+        "later_cycle_change": {"type": "string", "minLength": 1},
+        "human_criticality_investigability": {"type": "string", "minLength": 1}
+      }
+    },
+    "research_universe_distinctions": {
+      "type": "object", "additionalProperties": false,
+      "required": ["all_human_activity", "all_economic_sectors", "all_ai_applications", "all_occupations", "all_tasks", "generic_automation"],
+      "properties": {
+        "all_human_activity": {"type": "string", "minLength": 1},
+        "all_economic_sectors": {"type": "string", "minLength": 1},
+        "all_ai_applications": {"type": "string", "minLength": 1},
+        "all_occupations": {"type": "string", "minLength": 1},
+        "all_tasks": {"type": "string", "minLength": 1},
+        "generic_automation": {"type": "string", "minLength": 1}
+      }
+    },
+    "rationale": {"type": "string", "minLength": 1},
+    "fixed_at": {"type": ["string", "null"], "format": "date-time"}
+  },
+  "allOf": [{
+    "if": {"properties": {"status": {"const": "fixed"}}, "required": ["status"]},
+    "then": {"properties": {"fixed_at": {"type": "string", "format": "date-time"}}}
+  }]
+}

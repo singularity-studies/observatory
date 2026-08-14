@@ -22,6 +22,7 @@ REQUIRED_TOP_FILES = (
     "PROTOCOL.md",
     "CODEBOOK.md",
     "PANEL.md",
+    "DOMAIN_UNIVERSE.md",
     "GOVERNANCE.md",
     "CONTRIBUTING.md",
     "LICENSING.md",
@@ -31,6 +32,7 @@ REQUIRED_TOP_FILES = (
 REQUIRED_DIRECTORIES = (
     "registry",
     "selection",
+    "domain-universe",
     "cases",
     "evidence",
     "data/waves",
@@ -46,6 +48,7 @@ VERSIONED_TEXT_INSTRUMENTS = (
     "PROTOCOL.md",
     "CODEBOOK.md",
     "PANEL.md",
+    "DOMAIN_UNIVERSE.md",
     "GOVERNANCE.md",
     "docs/SCHEDULE.md",
     "registry/README.md",
@@ -64,6 +67,16 @@ SCHEMA_FILES = (
     "schemas/panel-selection-proposal.schema.json",
     "schemas/panel-selection-review.schema.json",
     "schemas/panel-lock-governance-decision.schema.json",
+    "schemas/domain-universe-boundary.schema.json",
+    "schemas/domain-source-frame.schema.json",
+    "schemas/domain-source-extraction.schema.json",
+    "schemas/domain-candidate.schema.json",
+    "schemas/domain-eligibility-decision.schema.json",
+    "schemas/domain-relation.schema.json",
+    "schemas/domain-universe-proposal.schema.json",
+    "schemas/domain-universe-review.schema.json",
+    "schemas/domain-universe-governance-decision.schema.json",
+    "schemas/domain-universe-manifest.schema.json",
 )
 
 REQUIRED_INSTRUMENT_LOCKS = (
@@ -151,6 +164,41 @@ PROPOSAL_CONTENT_FIELDS = (
     "selection_dispositions",
     "selected_unit_ids",
 )
+
+DOMAIN_ELIGIBILITY_CRITERIA = (
+    "improvement_relevance",
+    "coverage_usefulness",
+    "boundary_expressibility",
+    "longitudinal_semantic_stability",
+    "non_triviality",
+    "non_duplication",
+)
+
+DOMAIN_SCHEMA_PATHS = {
+    "boundary": "schemas/domain-universe-boundary.schema.json",
+    "source_frame": "schemas/domain-source-frame.schema.json",
+    "extraction": "schemas/domain-source-extraction.schema.json",
+    "candidate": "schemas/domain-candidate.schema.json",
+    "eligibility": "schemas/domain-eligibility-decision.schema.json",
+    "relation": "schemas/domain-relation.schema.json",
+    "proposal": "schemas/domain-universe-proposal.schema.json",
+    "review": "schemas/domain-universe-review.schema.json",
+    "governance": "schemas/domain-universe-governance-decision.schema.json",
+    "manifest": "schemas/domain-universe-manifest.schema.json",
+}
+
+DOMAIN_RECORD_PATHS = {
+    "boundary": "domain-universe/boundaries",
+    "source_frame": "domain-universe/source-frames",
+    "extraction": "domain-universe/extractions",
+    "candidate": "domain-universe/candidates",
+    "eligibility": "domain-universe/eligibility",
+    "relation": "domain-universe/relations",
+    "proposal": "domain-universe/proposals",
+    "review": "domain-universe/reviews",
+    "governance": "domain-universe/governance",
+    "manifest": "domain-universe/manifests",
+}
 
 LONGITUDINAL_EVENTS = {
     "transition_toward_human_noncriticality",
@@ -1231,6 +1279,829 @@ def validate_selection_repository(root: Path) -> list[str]:
     return errors
 
 
+def _validate_domain_record(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+    id_field: str | None = None,
+    record_path: Path | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: Domain Universe instrument_version mismatch")
+    if id_field is not None:
+        errors.extend(_validate_record_filename(record, record_path, id_field, location))
+    return errors
+
+
+def _validate_domain_role_path(
+    reference: Any,
+    container: PurePosixPath,
+    role_directory: str,
+    location: str,
+) -> list[str]:
+    if not isinstance(reference, dict):
+        return []
+    relative = reference.get("path")
+    expected_directory = container / role_directory
+    if isinstance(relative, str) and not _is_within(relative, expected_directory):
+        return [f"{location}: record must be inside {expected_directory.as_posix()}/"]
+    return []
+
+
+def _load_domain_record(
+    root: Path,
+    reference: Any,
+    location: str,
+    container: PurePosixPath,
+    role_directory: str,
+) -> tuple[Any | None, Path | None, list[str]]:
+    record, path, errors = _load_json_artifact(root, reference, location, container)
+    errors.extend(_validate_domain_role_path(reference, container, role_directory, location))
+    return record, path, errors
+
+
+def _artifact_identity(reference: Any) -> tuple[str, str] | None:
+    if not isinstance(reference, dict):
+        return None
+    path = reference.get("path")
+    digest = reference.get("sha256")
+    if not isinstance(path, str) or not isinstance(digest, str):
+        return None
+    return path, digest
+
+
+def validate_domain_eligibility_decision(
+    root: Path,
+    record: Any,
+    location: str,
+    eligibility_schema: dict[str, Any],
+    candidate_schema: dict[str, Any],
+    expected_version: str | None = None,
+    container: PurePosixPath = PurePosixPath("domain-universe"),
+) -> list[str]:
+    errors = _validate_domain_record(
+        record, eligibility_schema, location, expected_version
+    )
+    if not isinstance(record, dict):
+        return errors
+
+    criteria = record.get("criteria")
+    results = {
+        name: criteria.get(name, {}).get("result")
+        for name in DOMAIN_ELIGIBILITY_CRITERIA
+        if isinstance(criteria, dict) and isinstance(criteria.get(name), dict)
+    }
+    if set(results) == set(DOMAIN_ELIGIBILITY_CRITERIA) and all(
+        result in {"passed", "failed", "unresolved"} for result in results.values()
+    ):
+        if any(result == "failed" for result in results.values()):
+            expected_status = "ineligible"
+        elif any(result == "unresolved" for result in results.values()):
+            expected_status = "unresolved"
+        else:
+            expected_status = "eligible"
+        if record.get("decision_status") != expected_status:
+            errors.append(
+                f"{location}: decision_status must deterministically be {expected_status!r}"
+            )
+
+    candidate, _, candidate_errors = _load_domain_record(
+        root,
+        record.get("domain_candidate"),
+        f"{location}: domain_candidate",
+        container,
+        "candidates",
+    )
+    errors.extend(candidate_errors)
+    if candidate is not None:
+        errors.extend(
+            _validate_domain_record(
+                candidate,
+                candidate_schema,
+                f"{location}: domain_candidate",
+                expected_version,
+            )
+        )
+        if isinstance(candidate, dict) and candidate.get(
+            "domain_candidate_id"
+        ) != record.get("domain_candidate_id"):
+            errors.append(f"{location}: domain candidate identity mismatch")
+    return errors
+
+
+def validate_domain_universe_manifest(
+    root: Path,
+    manifest: Any,
+    location: str,
+    schemas: dict[str, dict[str, Any]],
+    container: PurePosixPath = PurePosixPath("domain-universe"),
+) -> tuple[set[str], list[str]]:
+    required = set(DOMAIN_SCHEMA_PATHS)
+    if set(schemas) != required or not all(isinstance(value, dict) for value in schemas.values()):
+        return set(), [f"{location}: complete Domain Universe schema bundle is required"]
+
+    errors = validate_contract(manifest, schemas["manifest"], location)
+    if not isinstance(manifest, dict):
+        return set(), errors
+    version = manifest.get("instrument_version")
+    if version != schemas["manifest"].get("x-instrument-version"):
+        errors.append(f"{location}: Domain Universe manifest instrument_version mismatch")
+    if manifest.get("status") != "locked":
+        return set(), errors
+
+    proposal_reference = manifest.get("domain_universe_proposal")
+    proposal, proposal_path, proposal_errors = _load_domain_record(
+        root, proposal_reference, f"{location}: proposal", container, "proposals"
+    )
+    errors.extend(proposal_errors)
+    if proposal is None:
+        return set(), errors
+    errors.extend(
+        _validate_domain_record(
+            proposal,
+            schemas["proposal"],
+            f"{location}: proposal",
+            version,
+            "domain_universe_proposal_id",
+            proposal_path,
+        )
+    )
+    if not isinstance(proposal, dict):
+        return set(), errors
+
+    boundary_reference = proposal.get("universe_boundary")
+    boundary, boundary_path, boundary_errors = _load_domain_record(
+        root,
+        boundary_reference,
+        f"{location}: proposal universe_boundary",
+        container,
+        "boundaries",
+    )
+    errors.extend(boundary_errors)
+    if boundary is not None:
+        errors.extend(
+            _validate_domain_record(
+                boundary,
+                schemas["boundary"],
+                f"{location}: proposal universe_boundary",
+                version,
+                "boundary_specification_id",
+                boundary_path,
+            )
+        )
+        if not isinstance(boundary, dict) or boundary.get("status") != "fixed":
+            errors.append(f"{location}: Domain Universe boundary must be prospectively fixed")
+
+    source_frames: dict[str, dict[str, Any]] = {}
+    source_frames_by_artifact: dict[tuple[str, str], dict[str, Any]] = {}
+    independence_groups: set[str] = set()
+    source_lineages: set[str] = set()
+    source_fingerprints: dict[tuple[str, str, str], str] = {}
+    frame_references = proposal.get("source_frames")
+    if not isinstance(frame_references, list):
+        frame_references = []
+    for index, reference in enumerate(frame_references):
+        frame_location = f"{location}: proposal source_frames[{index}]"
+        frame, frame_path, frame_errors = _load_domain_record(
+            root, reference, frame_location, container, "source-frames"
+        )
+        errors.extend(frame_errors)
+        if frame is None:
+            continue
+        errors.extend(
+            _validate_domain_record(
+                frame,
+                schemas["source_frame"],
+                frame_location,
+                version,
+                "source_frame_id",
+                frame_path,
+            )
+        )
+        if isinstance(frame, dict):
+            frame_id = frame.get("source_frame_id")
+            if isinstance(frame_id, str):
+                if frame_id in source_frames:
+                    errors.append(f"{frame_location}: duplicate source_frame_id {frame_id!r}")
+                source_frames[frame_id] = frame
+            artifact_key = _artifact_identity(reference)
+            if artifact_key is not None:
+                if artifact_key in source_frames_by_artifact:
+                    errors.append(f"{frame_location}: exact duplicate source-frame artifact")
+                source_frames_by_artifact[artifact_key] = frame
+            group = frame.get("independence_group")
+            if isinstance(group, str) and group:
+                independence_groups.add(group)
+            lineage_id = frame.get("source_lineage_id")
+            if isinstance(lineage_id, str) and lineage_id:
+                source_lineages.add(lineage_id)
+            fingerprint_fields = (
+                frame.get("source_identity"),
+                frame.get("source_version_or_date"),
+                frame.get("source_uri"),
+            )
+            if all(isinstance(value, str) and value for value in fingerprint_fields):
+                fingerprint = tuple(value.strip() for value in fingerprint_fields)
+                prior_frame_id = source_fingerprints.get(fingerprint)
+                if prior_frame_id is not None:
+                    errors.append(
+                        f"{frame_location}: duplicate source identity/version/URI registration "
+                        f"already used by {prior_frame_id!r}"
+                    )
+                elif isinstance(frame_id, str):
+                    source_fingerprints[fingerprint] = frame_id
+            if frame.get("normalization_status") != "complete":
+                errors.append(f"{frame_location}: source frame must be normalized before lock")
+    if (
+        len(source_frames) < 2
+        or len(independence_groups) < 2
+        or len(source_lineages) < 2
+    ):
+        errors.append(
+            f"{location}: locked Domain Universe requires at least two source frames "
+            "with distinct independence groups and source lineages"
+        )
+
+    extractions_by_artifact: dict[tuple[str, str], dict[str, Any]] = {}
+    extraction_source_frames: dict[tuple[str, str], tuple[str, str]] = {}
+    extraction_entries: dict[tuple[tuple[str, str], str], dict[str, Any]] = {}
+    extraction_counts_by_frame: dict[tuple[str, str], int] = {}
+    extraction_ids: set[str] = set()
+    contributing_lineages: set[str] = set()
+    extraction_references = proposal.get("source_extractions")
+    if not isinstance(extraction_references, list):
+        extraction_references = []
+    for index, reference in enumerate(extraction_references):
+        extraction_location = f"{location}: proposal source_extractions[{index}]"
+        extraction, extraction_path, extraction_errors = _load_domain_record(
+            root, reference, extraction_location, container, "extractions"
+        )
+        errors.extend(extraction_errors)
+        if extraction is None:
+            continue
+        errors.extend(
+            _validate_domain_record(
+                extraction,
+                schemas["extraction"],
+                extraction_location,
+                version,
+                "extraction_id",
+                extraction_path,
+            )
+        )
+        if not isinstance(extraction, dict):
+            continue
+        extraction_id = extraction.get("extraction_id")
+        if isinstance(extraction_id, str):
+            if extraction_id in extraction_ids:
+                errors.append(f"{extraction_location}: duplicate extraction_id {extraction_id!r}")
+            extraction_ids.add(extraction_id)
+        extraction_key = _artifact_identity(reference)
+        if extraction_key is None:
+            continue
+        if extraction_key in extractions_by_artifact:
+            errors.append(f"{extraction_location}: exact duplicate extraction artifact")
+        extractions_by_artifact[extraction_key] = extraction
+        frame_key = _artifact_identity(extraction.get("source_frame"))
+        if frame_key not in source_frames_by_artifact:
+            errors.append(
+                f"{extraction_location}: source_frame must bind an exact registered source frame"
+            )
+        elif frame_key is not None:
+            extraction_source_frames[extraction_key] = frame_key
+            extraction_counts_by_frame[frame_key] = extraction_counts_by_frame.get(frame_key, 0) + 1
+        if extraction.get("extraction_status") != "complete":
+            errors.append(f"{extraction_location}: source extraction must be complete before lock")
+        entries = extraction.get("extracted_entries")
+        if not isinstance(entries, list):
+            entries = []
+        entry_ids: set[str] = set()
+        for entry_index, entry in enumerate(entries):
+            entry_location = f"{extraction_location}: extracted_entries[{entry_index}]"
+            if not isinstance(entry, dict):
+                continue
+            entry_id = entry.get("source_entry_id")
+            if isinstance(entry_id, str):
+                if entry_id in entry_ids:
+                    errors.append(
+                        f"{entry_location}: duplicate source_entry_id within source frame"
+                    )
+                entry_ids.add(entry_id)
+                extraction_entries[(extraction_key, entry_id)] = entry
+            if entry.get("normalization_disposition") == "unresolved":
+                errors.append(f"{entry_location}: unresolved extraction entry cannot pass lock")
+        if entries and frame_key in source_frames_by_artifact:
+            frame = source_frames_by_artifact[frame_key]
+            lineage_id = frame.get("source_lineage_id")
+            if isinstance(lineage_id, str) and lineage_id:
+                contributing_lineages.add(lineage_id)
+
+    for frame_key in source_frames_by_artifact:
+        if extraction_counts_by_frame.get(frame_key, 0) != 1:
+            errors.append(
+                f"{location}: every registered source frame requires exactly one complete extraction record"
+            )
+    if len(contributing_lineages) < 2:
+        errors.append(
+            f"{location}: at least two distinct source lineages must contribute non-empty extracted-entry sets"
+        )
+
+    candidates: dict[str, dict[str, Any]] = {}
+    candidate_references: dict[str, dict[str, Any]] = {}
+    provenance_frame_ids: set[str] = set()
+    candidate_provenance: dict[str, set[tuple[tuple[str, str], str]]] = {}
+    raw_candidates = proposal.get("domain_candidates")
+    if not isinstance(raw_candidates, list):
+        raw_candidates = []
+    for index, reference in enumerate(raw_candidates):
+        candidate_location = f"{location}: proposal domain_candidates[{index}]"
+        candidate, candidate_path, candidate_errors = _load_domain_record(
+            root, reference, candidate_location, container, "candidates"
+        )
+        errors.extend(candidate_errors)
+        if candidate is None:
+            continue
+        errors.extend(
+            _validate_domain_record(
+                candidate,
+                schemas["candidate"],
+                candidate_location,
+                version,
+                "domain_candidate_id",
+                candidate_path,
+            )
+        )
+        if isinstance(candidate, dict):
+            candidate_id = candidate.get("domain_candidate_id")
+            if isinstance(candidate_id, str):
+                if candidate_id in candidates:
+                    errors.append(f"{candidate_location}: duplicate domain_candidate_id {candidate_id!r}")
+                candidates[candidate_id] = candidate
+                if isinstance(reference, dict):
+                    candidate_references[candidate_id] = reference
+            provenance = candidate.get("provenance_references")
+            if isinstance(provenance, list):
+                for item in provenance:
+                    if not isinstance(item, dict) or not isinstance(candidate_id, str):
+                        continue
+                    extraction_key = _artifact_identity(item.get("source_extraction"))
+                    entry_id = item.get("source_entry_id")
+                    if extraction_key not in extractions_by_artifact:
+                        errors.append(
+                            f"{candidate_location}: provenance must bind an exact proposal extraction"
+                        )
+                        continue
+                    if not isinstance(entry_id, str) or (
+                        extraction_key, entry_id
+                    ) not in extraction_entries:
+                        errors.append(
+                            f"{candidate_location}: provenance source_entry_id does not resolve"
+                        )
+                        continue
+                    provenance_key = (extraction_key, entry_id)
+                    candidate_provenance.setdefault(candidate_id, set()).add(provenance_key)
+                    entry = extraction_entries[provenance_key]
+                    targets = entry.get("target_domain_candidate_ids")
+                    if not isinstance(targets, list) or candidate_id not in targets:
+                        errors.append(
+                            f"{candidate_location}: candidate-to-entry provenance is not reciprocal"
+                        )
+                    frame_key = extraction_source_frames.get(extraction_key)
+                    frame = source_frames_by_artifact.get(frame_key) if frame_key is not None else None
+                    frame_id = frame.get("source_frame_id") if isinstance(frame, dict) else None
+                    if isinstance(frame_id, str):
+                        provenance_frame_ids.add(frame_id)
+            if isinstance(candidate_id, str) and not candidate_provenance.get(candidate_id):
+                errors.append(
+                    f"{candidate_location}: candidate requires resolved extraction-entry provenance"
+                )
+    if not candidates:
+        errors.append(f"{location}: locked Domain Universe candidate universe must be non-empty")
+    if len(provenance_frame_ids & set(source_frames)) < 2:
+        errors.append(
+            f"{location}: no single source frame may define the Domain Universe"
+        )
+
+    for (extraction_key, entry_id), entry in extraction_entries.items():
+        targets = entry.get("target_domain_candidate_ids")
+        if not isinstance(targets, list):
+            continue
+        for candidate_id in targets:
+            if candidate_id not in candidates:
+                errors.append(
+                    f"{location}: extraction entry target {candidate_id!r} is outside candidate universe"
+                )
+            elif (extraction_key, entry_id) not in candidate_provenance.get(candidate_id, set()):
+                errors.append(
+                    f"{location}: extraction-entry-to-candidate provenance is not reciprocal"
+                )
+
+    decisions_by_candidate: dict[str, list[dict[str, Any]]] = {}
+    decision_ids: set[str] = set()
+    decision_references = proposal.get("eligibility_decisions")
+    if not isinstance(decision_references, list):
+        decision_references = []
+    for index, reference in enumerate(decision_references):
+        decision_location = f"{location}: proposal eligibility_decisions[{index}]"
+        decision, decision_path, decision_errors = _load_domain_record(
+            root, reference, decision_location, container, "eligibility"
+        )
+        errors.extend(decision_errors)
+        if decision is None:
+            continue
+        errors.extend(
+            validate_domain_eligibility_decision(
+                root,
+                decision,
+                decision_location,
+                schemas["eligibility"],
+                schemas["candidate"],
+                version,
+                container,
+            )
+        )
+        if isinstance(decision, dict):
+            errors.extend(
+                _validate_record_filename(
+                    decision,
+                    decision_path,
+                    "domain_eligibility_decision_id",
+                    decision_location,
+                )
+            )
+            decision_id = decision.get("domain_eligibility_decision_id")
+            if isinstance(decision_id, str):
+                if decision_id in decision_ids:
+                    errors.append(f"{decision_location}: duplicate eligibility decision identity")
+                decision_ids.add(decision_id)
+            candidate_id = decision.get("domain_candidate_id")
+            if isinstance(candidate_id, str):
+                decisions_by_candidate.setdefault(candidate_id, []).append(decision)
+                expected_reference = candidate_references.get(candidate_id)
+                if expected_reference is not None and decision.get("domain_candidate") != expected_reference:
+                    errors.append(
+                        f"{decision_location}: eligibility decision must bind the exact domain candidate"
+                    )
+    for candidate_id in sorted(candidates):
+        if len(decisions_by_candidate.get(candidate_id, [])) != 1:
+            errors.append(
+                f"{location}: domain candidate {candidate_id!r} requires exactly one eligibility decision"
+            )
+    outside_decisions = set(decisions_by_candidate) - set(candidates)
+    if outside_decisions:
+        errors.append(f"{location}: eligibility decisions refer outside candidate universe: {sorted(outside_decisions)}")
+
+    relations: dict[str, dict[str, Any]] = {}
+    relation_references = proposal.get("domain_relations")
+    if not isinstance(relation_references, list):
+        relation_references = []
+    for index, reference in enumerate(relation_references):
+        relation_location = f"{location}: proposal domain_relations[{index}]"
+        relation, relation_path, relation_errors = _load_domain_record(
+            root, reference, relation_location, container, "relations"
+        )
+        errors.extend(relation_errors)
+        if relation is None:
+            continue
+        errors.extend(
+            _validate_domain_record(
+                relation,
+                schemas["relation"],
+                relation_location,
+                version,
+                "domain_relation_id",
+                relation_path,
+            )
+        )
+        if isinstance(relation, dict):
+            relation_id = relation.get("domain_relation_id")
+            if isinstance(relation_id, str):
+                if relation_id in relations:
+                    errors.append(f"{relation_location}: duplicate domain_relation_id {relation_id!r}")
+                relations[relation_id] = relation
+            subject = relation.get("subject_domain_candidate_id")
+            target = relation.get("object_domain_candidate_id")
+            if subject not in candidates or target not in candidates:
+                errors.append(f"{relation_location}: relation endpoints must exist in candidate universe")
+            if subject == target:
+                errors.append(f"{relation_location}: domain relation cannot be a self-reference")
+            if relation.get("resolution_status") == "unresolved":
+                errors.append(
+                    f"{relation_location}: unresolved domain relation cannot enter a locked Domain Universe"
+                )
+            if relation.get("relation_type") == "substantively_duplicates" and relation.get(
+                "resolution_status"
+            ) != "resolved":
+                errors.append(f"{relation_location}: duplicate domain relation must be explicitly resolved")
+
+    expected_pairs = {
+        tuple(sorted((left, right)))
+        for index, left in enumerate(sorted(candidates))
+        for right in sorted(candidates)[index + 1 :]
+    }
+    review = proposal.get("overlap_duplication_review")
+    if not isinstance(review, dict) or review.get("status") != "complete":
+        errors.append(f"{location}: overlap/duplication review must be complete")
+        assessments = []
+    else:
+        assessments = review.get("candidate_pair_assessments", [])
+    assessed_pairs: set[tuple[str, str]] = set()
+    relation_usage: dict[str, int] = {}
+    overlap_relation_types = {
+        "overlaps_with",
+        "contains",
+        "contained_by",
+        "cross_cutting_with",
+    }
+    if not isinstance(assessments, list):
+        assessments = []
+    for index, assessment in enumerate(assessments):
+        assessment_location = f"{location}: overlap assessment[{index}]"
+        if not isinstance(assessment, dict):
+            continue
+        left = assessment.get("left_domain_candidate_id")
+        right = assessment.get("right_domain_candidate_id")
+        if not isinstance(left, str) or not isinstance(right, str) or left == right:
+            errors.append(f"{assessment_location}: assessment requires two different candidate IDs")
+            continue
+        pair = tuple(sorted((left, right)))
+        if pair in assessed_pairs:
+            errors.append(f"{assessment_location}: duplicate candidate-pair assessment")
+        assessed_pairs.add(pair)
+        if pair not in expected_pairs:
+            errors.append(f"{assessment_location}: pair is outside candidate universe")
+        assessment_value = assessment.get("assessment")
+        relation_ids = assessment.get("relation_ids", [])
+        if assessment_value == "duplicate_unresolved":
+            errors.append(f"{assessment_location}: unresolved duplicate domain cannot pass coverage review")
+        if not isinstance(relation_ids, list):
+            relation_ids = []
+        if assessment_value in {"overlap_documented", "duplicate_resolved"} and not relation_ids:
+            errors.append(f"{assessment_location}: documented overlap or duplicate requires relation IDs")
+        resolved_relation_types: list[str] = []
+        for relation_id in relation_ids:
+            if not isinstance(relation_id, str):
+                continue
+            relation_usage[relation_id] = relation_usage.get(relation_id, 0) + 1
+            relation = relations.get(relation_id)
+            if relation is None:
+                errors.append(f"{assessment_location}: relation ID {relation_id!r} does not resolve")
+                continue
+            subject = relation.get("subject_domain_candidate_id")
+            target = relation.get("object_domain_candidate_id")
+            if isinstance(subject, str) and isinstance(target, str):
+                endpoints = tuple(sorted((subject, target)))
+                if endpoints != pair:
+                    errors.append(f"{assessment_location}: relation endpoints do not match assessed pair")
+            relation_type = relation.get("relation_type")
+            if isinstance(relation_type, str):
+                resolved_relation_types.append(relation_type)
+        if assessment_value == "overlap_documented" and not any(
+            relation_type in overlap_relation_types
+            for relation_type in resolved_relation_types
+        ):
+            errors.append(
+                f"{assessment_location}: overlap_documented requires an overlap, containment, "
+                "or cross-cutting relation; depends_on alone is insufficient"
+            )
+        if assessment_value == "duplicate_resolved" and not any(
+            relations.get(relation_id, {}).get("relation_type") == "substantively_duplicates"
+            and relations.get(relation_id, {}).get("resolution_status") == "resolved"
+            for relation_id in relation_ids
+            if isinstance(relation_id, str)
+        ):
+            errors.append(f"{assessment_location}: resolved duplicate requires a resolved duplicate relation")
+        if assessment_value == "duplicate_resolved":
+            duplicate_removed_from_eligibility = False
+            for candidate_id in pair:
+                candidate_decisions = decisions_by_candidate.get(candidate_id, [])
+                if len(candidate_decisions) != 1:
+                    continue
+                decision = candidate_decisions[0]
+                criteria = decision.get("criteria")
+                non_duplication = (
+                    criteria.get("non_duplication")
+                    if isinstance(criteria, dict)
+                    else None
+                )
+                if (
+                    decision.get("decision_status") == "ineligible"
+                    and isinstance(non_duplication, dict)
+                    and non_duplication.get("result") == "failed"
+                ):
+                    duplicate_removed_from_eligibility = True
+                    break
+            if not duplicate_removed_from_eligibility:
+                errors.append(
+                    f"{assessment_location}: duplicate_resolved requires at least one pair member "
+                    "with non_duplication failed and decision_status ineligible"
+                )
+        if assessment_value == "distinct" and any(
+            relation_type != "depends_on" for relation_type in resolved_relation_types
+        ):
+            errors.append(
+                f"{assessment_location}: distinct pair may only cite depends_on relations"
+            )
+    if assessed_pairs != expected_pairs:
+        errors.append(f"{location}: every candidate pair requires exactly one overlap/duplication assessment")
+    orphan_relation_ids = set(relations) - set(relation_usage)
+    if orphan_relation_ids:
+        errors.append(
+            f"{location}: orphan relation IDs are not accounted for by pair assessments: "
+            f"{sorted(orphan_relation_ids)}"
+        )
+    repeated_relation_ids = sorted(
+        relation_id for relation_id, count in relation_usage.items() if count != 1
+    )
+    if repeated_relation_ids:
+        errors.append(
+            f"{location}: relation IDs must be cited by exactly one pair assessment: "
+            f"{repeated_relation_ids}"
+        )
+
+    coverage = proposal.get("coverage_audit")
+    if not isinstance(coverage, dict) or coverage.get("status") != "complete":
+        errors.append(f"{location}: coverage audit must be complete")
+    elif coverage.get("audit_version") != version:
+        errors.append(f"{location}: coverage audit version must match the Domain Universe instrument")
+
+    eligible_ids = {
+        candidate_id
+        for candidate_id in candidates
+        if len(decisions_by_candidate.get(candidate_id, [])) == 1
+        and decisions_by_candidate[candidate_id][0].get("decision_status") == "eligible"
+    }
+    dispositions = proposal.get("domain_dispositions")
+    if not isinstance(dispositions, list):
+        dispositions = []
+    disposition_by_candidate: dict[str, dict[str, Any]] = {}
+    for index, disposition in enumerate(dispositions):
+        disposition_location = f"{location}: domain_dispositions[{index}]"
+        if not isinstance(disposition, dict):
+            continue
+        candidate_id = disposition.get("domain_candidate_id")
+        if not isinstance(candidate_id, str):
+            continue
+        if candidate_id in disposition_by_candidate:
+            errors.append(f"{disposition_location}: duplicate domain disposition")
+        disposition_by_candidate[candidate_id] = disposition
+        if disposition.get("disposition") == "excluded" and not all(
+            isinstance(disposition.get(field), str) and disposition[field].strip()
+            for field in ("rationale", "uncertainty")
+        ):
+            errors.append(f"{disposition_location}: excluded eligible domain requires rationale and uncertainty")
+    if set(disposition_by_candidate) != eligible_ids:
+        errors.append(f"{location}: every eligible domain requires exactly one disposition")
+    included_by_disposition = {
+        candidate_id
+        for candidate_id, disposition in disposition_by_candidate.items()
+        if disposition.get("disposition") == "included"
+    }
+    raw_included = proposal.get("included_domain_candidate_ids")
+    included_ids = set(item for item in raw_included if isinstance(item, str)) if isinstance(raw_included, list) else set()
+    if included_ids != included_by_disposition:
+        errors.append(f"{location}: included domain IDs must exactly equal included dispositions")
+    if not included_ids:
+        errors.append(f"{location}: locked Domain Universe must include at least one eligible domain")
+    if not included_ids.issubset(eligible_ids):
+        errors.append(f"{location}: every included domain must be eligible")
+
+    review_wrapper = manifest.get("scientific_review")
+    review_reference = review_wrapper.get("review_record") if isinstance(review_wrapper, dict) else None
+    review_record, review_path, review_errors = _load_domain_record(
+        root, review_reference, f"{location}: scientific_review", container, "reviews"
+    )
+    errors.extend(review_errors)
+    if review_record is not None:
+        errors.extend(
+            _validate_domain_record(
+                review_record,
+                schemas["review"],
+                f"{location}: scientific_review",
+                version,
+                "domain_universe_review_id",
+                review_path,
+            )
+        )
+        if not isinstance(review_record, dict) or review_record.get("outcome") != "approved":
+            errors.append(f"{location}: Domain Universe scientific review must explicitly approve")
+        if isinstance(review_record, dict) and review_record.get("domain_universe_proposal") != proposal_reference:
+            errors.append(f"{location}: scientific review must bind the exact Domain Universe proposal")
+
+    governance_wrapper = manifest.get("governance_authority")
+    governance_reference = governance_wrapper.get("decision_record") if isinstance(governance_wrapper, dict) else None
+    governance_record, governance_path, governance_errors = _load_domain_record(
+        root,
+        governance_reference,
+        f"{location}: governance_authority",
+        container,
+        "governance",
+    )
+    errors.extend(governance_errors)
+    if governance_record is not None:
+        errors.extend(
+            _validate_domain_record(
+                governance_record,
+                schemas["governance"],
+                f"{location}: governance_authority",
+                version,
+                "domain_universe_governance_decision_id",
+                governance_path,
+            )
+        )
+        if not isinstance(governance_record, dict) or governance_record.get("outcome") != "authorized":
+            errors.append(f"{location}: Domain Universe governance must explicitly authorize")
+        authority_id = governance_wrapper.get("authority_id") if isinstance(governance_wrapper, dict) else None
+        if isinstance(governance_record, dict) and governance_record.get("responsible_authority_id") != authority_id:
+            errors.append(f"{location}: Domain Universe governance authority identity mismatch")
+        if isinstance(governance_record, dict) and governance_record.get("domain_universe_proposal") != proposal_reference:
+            errors.append(f"{location}: governance must bind the exact Domain Universe proposal")
+        if isinstance(governance_record, dict) and governance_record.get("scientific_review") != review_reference:
+            errors.append(f"{location}: governance must bind the exact Domain Universe scientific review")
+    return included_ids, errors
+
+
+def validate_domain_universe_repository(root: Path) -> list[str]:
+    errors: list[str] = []
+    schemas: dict[str, dict[str, Any]] = {}
+    for name, relative in DOMAIN_SCHEMA_PATHS.items():
+        path = root / relative
+        if not path.is_file():
+            continue
+        try:
+            schema = read_json(path)
+        except json.JSONDecodeError as exc:
+            errors.append(f"{relative}: invalid JSON: {exc}")
+            continue
+        if isinstance(schema, dict):
+            schemas[name] = schema
+
+    id_fields = {
+        "boundary": "boundary_specification_id",
+        "source_frame": "source_frame_id",
+        "extraction": "extraction_id",
+        "candidate": "domain_candidate_id",
+        "relation": "domain_relation_id",
+        "proposal": "domain_universe_proposal_id",
+        "review": "domain_universe_review_id",
+        "governance": "domain_universe_governance_decision_id",
+        "manifest": "domain_universe_manifest_id",
+    }
+    for name, relative_directory in DOMAIN_RECORD_PATHS.items():
+        directory = root / relative_directory
+        if not directory.is_dir():
+            continue
+        for path in sorted(directory.glob("*.json")):
+            location = path.relative_to(root).as_posix()
+            try:
+                record = read_json(path)
+            except json.JSONDecodeError as exc:
+                errors.append(f"{location}: invalid JSON: {exc}")
+                continue
+            if name == "manifest":
+                _, manifest_errors = validate_domain_universe_manifest(
+                    root, record, location, schemas
+                )
+                errors.extend(manifest_errors)
+            elif name == "eligibility" and all(
+                key in schemas for key in ("eligibility", "candidate")
+            ):
+                errors.extend(
+                    validate_domain_eligibility_decision(
+                        root,
+                        record,
+                        location,
+                        schemas["eligibility"],
+                        schemas["candidate"],
+                    )
+                )
+                if isinstance(record, dict):
+                    errors.extend(
+                        _validate_record_filename(
+                            record,
+                            path,
+                            "domain_eligibility_decision_id",
+                            location,
+                        )
+                    )
+            elif name in schemas:
+                errors.extend(
+                    _validate_domain_record(
+                        record,
+                        schemas[name],
+                        location,
+                        id_field=id_fields.get(name),
+                        record_path=path,
+                    )
+                )
+    return errors
+
+
 def validate_scientific_records(
     root: Path,
     manifest: dict[str, Any],
@@ -1726,6 +2597,7 @@ def validate_repository(root: Path, base_ref: str | None = None) -> list[str]:
     instruments, instrument_errors = load_instruments(root)
     errors.extend(instrument_errors)
     errors.extend(validate_selection_repository(root))
+    errors.extend(validate_domain_universe_repository(root))
 
     registry_path = root / "registry/live-registry.csv"
     registry_schema_path = root / "schemas/registry-unit.schema.json"

@@ -1,0 +1,12 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a universe boundary",
+  "boundary_specification_id": null,
+  "instrument_version": "0.5.0-draft",
+  "status": "draft",
+  "domain_definition": "A domain is a relatively stable locus of recurrent improvement activity, defined for coverage and sampling rather than as an exclusive ontological category.",
+  "coverage_question": "What parts of civilization's recurrent improvement activity could our Frozen Panel systematically miss?",
+  "in_scope": {},
+  "research_universe_distinctions": {},
+  "rationale": "",
+  "fixed_at": null
+}

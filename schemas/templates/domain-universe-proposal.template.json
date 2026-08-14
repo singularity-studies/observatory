@@ -1,0 +1,17 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a Domain Universe proposal",
+  "domain_universe_proposal_id": null,
+  "instrument_version": "0.5.0-draft",
+  "proposal_type": "domain_universe",
+  "universe_boundary": null,
+  "source_frames": [],
+  "source_extractions": [],
+  "domain_candidates": [],
+  "eligibility_decisions": [],
+  "domain_relations": [],
+  "overlap_duplication_review": {"status": "incomplete", "candidate_pair_assessments": [], "rationale": "", "uncertainty": "Unresolved"},
+  "coverage_audit": {"audit_version": "0.5.0-draft", "status": "incomplete"},
+  "domain_dispositions": [],
+  "included_domain_candidate_ids": [],
+  "created_at": null
+}

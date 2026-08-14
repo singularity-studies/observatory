@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-eligibility-decision.schema.json",
+  "title": "Domain eligibility decision",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "domain_eligibility_decision_id", "domain_candidate_id",
+    "instrument_version", "domain_candidate", "criteria", "decision_status",
+    "overall_rationale", "overall_uncertainty"
+  ],
+  "properties": {
+    "domain_eligibility_decision_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "domain_candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "domain_candidate": {"$ref": "#/$defs/artifact"},
+    "criteria": {
+      "type": "object", "additionalProperties": false,
+      "required": ["improvement_relevance", "coverage_usefulness", "boundary_expressibility", "longitudinal_semantic_stability", "non_triviality", "non_duplication"],
+      "properties": {
+        "improvement_relevance": {"$ref": "#/$defs/criterion"},
+        "coverage_usefulness": {"$ref": "#/$defs/criterion"},
+        "boundary_expressibility": {"$ref": "#/$defs/criterion"},
+        "longitudinal_semantic_stability": {"$ref": "#/$defs/criterion"},
+        "non_triviality": {"$ref": "#/$defs/criterion"},
+        "non_duplication": {"$ref": "#/$defs/criterion"}
+      }
+    },
+    "decision_status": {"type": "string", "enum": ["eligible", "ineligible", "unresolved"]},
+    "overall_rationale": {"type": "string", "minLength": 1},
+    "overall_uncertainty": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "criterion": {
+      "type": "object", "additionalProperties": false,
+      "required": ["result", "rationale", "uncertainty"],
+      "properties": {
+        "result": {"type": "string", "enum": ["passed", "failed", "unresolved"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

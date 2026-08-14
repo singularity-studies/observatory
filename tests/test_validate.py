@@ -21,6 +21,9 @@ V2 = "2.0.0-test"
 CURRENT_SELECTION_VERSION = json.loads(
     (ROOT / "schemas/panel-selection-manifest.schema.json").read_text(encoding="utf-8")
 )["x-instrument-version"]
+CURRENT_DOMAIN_VERSION = json.loads(
+    (ROOT / "schemas/domain-universe-manifest.schema.json").read_text(encoding="utf-8")
+)["x-instrument-version"]
 INSTRUMENT_SOURCES = {
     "protocol": "PROTOCOL.md",
     "codebook": "CODEBOOK.md",
@@ -1273,6 +1276,1305 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
         panel = (ROOT / "PANEL.md").read_text(encoding="utf-8")
         self.assertIn("No candidate units have been recorded", panel)
         self.assertIn("Panel size remains unresolved", panel)
+
+
+class TemporaryDomainRepository(TemporaryRepository):
+    """Temporary structural Domain Universe fixtures; never scientific records."""
+
+    def domain_schemas(self) -> dict[str, dict[str, object]]:
+        return {
+            name: json.loads((self.root / relative).read_text(encoding="utf-8"))
+            for name, relative in VALIDATE.DOMAIN_SCHEMA_PATHS.items()
+        }
+
+    def create_locked_domain_universe(self) -> dict[str, object]:
+        version = CURRENT_DOMAIN_VERSION
+        boundary = {
+            "boundary_specification_id": "test-only-boundary",
+            "instrument_version": version,
+            "status": "fixed",
+            "domain_definition": (
+                "A domain is a relatively stable locus of recurrent improvement activity, "
+                "defined for coverage and sampling rather than as an exclusive ontological category."
+            ),
+            "coverage_question": (
+                "What parts of civilization's recurrent improvement activity could our "
+                "Frozen Panel systematically miss?"
+            ),
+            "in_scope": {
+                "recurrent_improvement_activity": "TEMPORARY TEST FIXTURE ONLY; no real boundary.",
+                "later_cycle_change": "TEMPORARY TEST FIXTURE ONLY; no real boundary.",
+                "human_criticality_investigability": "TEMPORARY TEST FIXTURE ONLY; no real boundary.",
+            },
+            "research_universe_distinctions": {
+                key: "TEMPORARY TEST FIXTURE ONLY; no substantive distinction."
+                for key in (
+                    "all_human_activity",
+                    "all_economic_sectors",
+                    "all_ai_applications",
+                    "all_occupations",
+                    "all_tasks",
+                    "generic_automation",
+                )
+            },
+            "rationale": "TEMPORARY TEST FIXTURE ONLY; not a real universe boundary.",
+            "fixed_at": "2026-01-01T00:00:00Z",
+        }
+        boundary_relative = "domain-universe/boundaries/test-only-boundary.json"
+        write_json(self.root / boundary_relative, boundary)
+
+        frame_references: list[dict[str, str]] = []
+        for index, family in enumerate(("scientific_research", "economic_activity"), 1):
+            frame_id = f"test-only-frame-{index}"
+            frame = {
+                "source_frame_id": frame_id,
+                "instrument_version": version,
+                "canonical_name": f"Temporary source frame {index}",
+                "classification_family": family,
+                "source_identity": "TEMPORARY TEST FIXTURE ONLY; no real source selected.",
+                "source_version_or_date": "test-only-version",
+                "source_uri": f"urn:test:{frame_id}",
+                "source_lineage_id": f"test-only-lineage-{index}",
+                "independence_group": f"test-only-independent-group-{index}",
+                "independence_basis": (
+                    "TEMPORARY TEST FIXTURE ONLY; structurally distinct lineage for validation."
+                ),
+                "audit_note": "TEMPORARY TEST FIXTURE ONLY; independently auditable structure only.",
+                "registered_at": "2026-01-01T00:00:00Z",
+                "normalization_status": "complete",
+                "normalization_note": "TEMPORARY TEST FIXTURE ONLY; no real normalization.",
+            }
+            relative = f"domain-universe/source-frames/{frame_id}.json"
+            write_json(self.root / relative, frame)
+            frame_references.append(self.reference(relative))
+
+        domain_ids = ("test-only-domain-a", "test-only-domain-b")
+        extraction_references: list[dict[str, str]] = []
+        for index, (frame_reference, domain_id) in enumerate(
+            zip(frame_references, domain_ids), 1
+        ):
+            extraction_id = f"test-only-extraction-{index}"
+            extraction = {
+                "extraction_id": extraction_id,
+                "instrument_version": version,
+                "source_frame": frame_reference,
+                "extraction_scope": "TEMPORARY TEST FIXTURE ONLY; no real extraction scope.",
+                "traversal_or_selection_rule": (
+                    "TEMPORARY TEST FIXTURE ONLY; no real traversal or selection."
+                ),
+                "extraction_status": "complete",
+                "extracted_entries": [
+                    {
+                        "source_entry_id": f"test-only-entry-{index}",
+                        "source_entry_reference": "urn:test:source-entry",
+                        "source_entry_descriptor": (
+                            "TEMPORARY TEST FIXTURE ONLY; no real source descriptor."
+                        ),
+                        "normalization_disposition": "candidate_created",
+                        "target_domain_candidate_ids": [domain_id],
+                        "rationale": (
+                            "TEMPORARY TEST FIXTURE ONLY; no scientific normalization."
+                        ),
+                    }
+                ],
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; no real extraction rationale.",
+                "uncertainty": "TEMPORARY TEST FIXTURE ONLY; unresolved scientifically.",
+                "recorded_at": "2026-01-01T00:00:00Z",
+            }
+            relative = f"domain-universe/extractions/{extraction_id}.json"
+            write_json(self.root / relative, extraction)
+            extraction_references.append(self.reference(relative))
+
+        candidate_references: list[dict[str, str]] = []
+        eligibility_references: list[dict[str, str]] = []
+        for index, domain_id in enumerate(domain_ids, 1):
+            candidate = {
+                "domain_candidate_id": domain_id,
+                "instrument_version": version,
+                "primary_unit_type": "coverage_stratum",
+                "canonical_label": f"Temporary domain {index}",
+                "scope_definition": "TEMPORARY TEST FIXTURE ONLY; no real domain scope.",
+                "inclusion_boundary": "TEMPORARY TEST FIXTURE ONLY; no real inclusion boundary.",
+                "exclusion_boundary": "TEMPORARY TEST FIXTURE ONLY; no real exclusion boundary.",
+                "recurrent_improvement_rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical claim.",
+                "continuity_rule": "TEMPORARY TEST FIXTURE ONLY; no real continuity determination.",
+                "overlap_notes": "TEMPORARY TEST FIXTURE ONLY; overlap not empirically assessed.",
+                "provenance_references": [
+                    {
+                        "source_extraction": extraction_references[index - 1],
+                        "source_entry_id": f"test-only-entry-{index}",
+                    }
+                ],
+            }
+            candidate_relative = f"domain-universe/candidates/{domain_id}.json"
+            write_json(self.root / candidate_relative, candidate)
+            candidate_reference = self.reference(candidate_relative)
+            candidate_references.append(candidate_reference)
+
+            criterion = {
+                "result": "passed",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; no scientific determination.",
+                "uncertainty": "TEMPORARY TEST FIXTURE ONLY; no empirical assessment.",
+            }
+            decision_id = f"{domain_id}-eligibility"
+            decision = {
+                "domain_eligibility_decision_id": decision_id,
+                "domain_candidate_id": domain_id,
+                "instrument_version": version,
+                "domain_candidate": candidate_reference,
+                "criteria": {
+                    name: dict(criterion) for name in VALIDATE.DOMAIN_ELIGIBILITY_CRITERIA
+                },
+                "decision_status": "eligible",
+                "overall_rationale": "TEMPORARY TEST FIXTURE ONLY; no real eligibility decision.",
+                "overall_uncertainty": "TEMPORARY TEST FIXTURE ONLY; no empirical assessment.",
+            }
+            decision_relative = f"domain-universe/eligibility/{decision_id}.json"
+            write_json(self.root / decision_relative, decision)
+            eligibility_references.append(self.reference(decision_relative))
+
+        audit_answer = {
+            "finding": "TEMPORARY TEST FIXTURE ONLY; no coverage finding.",
+            "uncertainty": "TEMPORARY TEST FIXTURE ONLY; unresolved scientifically.",
+        }
+        proposal = {
+            "domain_universe_proposal_id": "test-only-domain-universe-proposal",
+            "instrument_version": version,
+            "proposal_type": "domain_universe",
+            "universe_boundary": self.reference(boundary_relative),
+            "source_frames": frame_references,
+            "source_extractions": extraction_references,
+            "domain_candidates": candidate_references,
+            "eligibility_decisions": eligibility_references,
+            "domain_relations": [],
+            "overlap_duplication_review": {
+                "status": "complete",
+                "candidate_pair_assessments": [
+                    {
+                        "left_domain_candidate_id": domain_ids[0],
+                        "right_domain_candidate_id": domain_ids[1],
+                        "assessment": "distinct",
+                        "relation_ids": [],
+                        "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical distinction.",
+                    }
+                ],
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; no real overlap review.",
+                "uncertainty": "TEMPORARY TEST FIXTURE ONLY; unresolved scientifically.",
+            },
+            "coverage_audit": {
+                "audit_version": version,
+                "status": "complete",
+                "represented_activity": dict(audit_answer),
+                "potentially_missing_activity": dict(audit_answer),
+                "heavy_overlap": dict(audit_answer),
+                "single_frame_dependence": dict(audit_answer),
+                "unstable_or_technology_specific": dict(audit_answer),
+                "fashionable_ai_privilege": dict(audit_answer),
+                "overall_rationale": "TEMPORARY TEST FIXTURE ONLY; no real coverage conclusion.",
+                "overall_uncertainty": "TEMPORARY TEST FIXTURE ONLY; unresolved scientifically.",
+            },
+            "domain_dispositions": [
+                {
+                    "domain_candidate_id": domain_id,
+                    "disposition": "included",
+                    "rationale": "TEMPORARY TEST FIXTURE ONLY; no real inclusion.",
+                    "uncertainty": "TEMPORARY TEST FIXTURE ONLY; no empirical assessment.",
+                }
+                for domain_id in domain_ids
+            ],
+            "included_domain_candidate_ids": list(domain_ids),
+            "created_at": "2026-01-01T00:00:00Z",
+        }
+        proposal_relative = "domain-universe/proposals/test-only-domain-universe-proposal.json"
+        write_json(self.root / proposal_relative, proposal)
+        proposal_reference = self.reference(proposal_relative)
+
+        review = {
+            "domain_universe_review_id": "test-only-domain-universe-review",
+            "instrument_version": version,
+            "review_type": "domain_universe_scientific_review",
+            "domain_universe_proposal": proposal_reference,
+            "outcome": "approved",
+            "rationale": "TEMPORARY TEST FIXTURE ONLY; no real review or approval.",
+            "responsible_role_id": "test-suite-only-review-role",
+            "reviewed_at": "2026-01-01T00:00:00Z",
+        }
+        review_relative = "domain-universe/reviews/test-only-domain-universe-review.json"
+        write_json(self.root / review_relative, review)
+        review_reference = self.reference(review_relative)
+
+        governance = {
+            "domain_universe_governance_decision_id": "test-only-domain-universe-governance",
+            "instrument_version": version,
+            "decision_type": "domain_universe_lock_authorization",
+            "domain_universe_proposal": proposal_reference,
+            "scientific_review": review_reference,
+            "outcome": "authorized",
+            "rationale": "TEMPORARY TEST FIXTURE ONLY; no real authority or authorization.",
+            "responsible_authority_id": "test-suite-only-authority",
+            "recorded_at": "2026-01-01T00:00:00Z",
+        }
+        governance_relative = "domain-universe/governance/test-only-domain-universe-governance.json"
+        write_json(self.root / governance_relative, governance)
+
+        return {
+            "domain_universe_manifest_id": "test-only-domain-universe-manifest",
+            "instrument_version": version,
+            "status": "locked",
+            "domain_universe_proposal": proposal_reference,
+            "scientific_review": {"status": "complete", "review_record": review_reference},
+            "governance_authority": {
+                "status": "recorded",
+                "authority_id": "test-suite-only-authority",
+                "decision_record": self.reference(governance_relative),
+            },
+            "locked_at": "2026-01-01T00:00:00Z",
+        }
+
+    def rewrite_chain(self, manifest: dict[str, object], mutate_proposal=None, mutate_review=None, mutate_governance=None) -> None:
+        proposal_reference = manifest["domain_universe_proposal"]
+        proposal_path = self.root / proposal_reference["path"]
+        proposal = json.loads(proposal_path.read_text(encoding="utf-8"))
+        if mutate_proposal is not None:
+            mutate_proposal(proposal)
+        write_json(proposal_path, proposal)
+        proposal_reference = self.reference(proposal_reference["path"])
+        manifest["domain_universe_proposal"] = proposal_reference
+
+        review_reference = manifest["scientific_review"]["review_record"]
+        review_path = self.root / review_reference["path"]
+        review = json.loads(review_path.read_text(encoding="utf-8"))
+        review["domain_universe_proposal"] = proposal_reference
+        if mutate_review is not None:
+            mutate_review(review)
+        write_json(review_path, review)
+        review_reference = self.reference(review_reference["path"])
+        manifest["scientific_review"]["review_record"] = review_reference
+
+        governance_reference = manifest["governance_authority"]["decision_record"]
+        governance_path = self.root / governance_reference["path"]
+        governance = json.loads(governance_path.read_text(encoding="utf-8"))
+        governance["domain_universe_proposal"] = proposal_reference
+        governance["scientific_review"] = review_reference
+        if mutate_governance is not None:
+            mutate_governance(governance)
+        write_json(governance_path, governance)
+        manifest["governance_authority"]["decision_record"] = self.reference(
+            governance_reference["path"]
+        )
+
+
+class DomainUniverseProtocolTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.repository = TemporaryDomainRepository()
+        self.schemas = self.repository.domain_schemas()
+
+    def tearDown(self) -> None:
+        self.repository.close()
+
+    def validate(self, manifest: dict[str, object]) -> list[str]:
+        _, errors = VALIDATE.validate_domain_universe_manifest(
+            self.repository.root,
+            manifest,
+            "test Domain Universe manifest",
+            self.schemas,
+        )
+        return errors
+
+    def set_pair_relation(
+        self,
+        manifest: dict[str, object],
+        relation_type: str,
+        resolution_status: str,
+        assessment: str,
+        relation_id: str,
+    ) -> None:
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": relation_id,
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": relation_type,
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": resolution_status,
+                "rationale": (
+                    "TEMPORARY TEST FIXTURE ONLY; no real relation determination."
+                ),
+            }
+            relative = f"domain-universe/relations/{relation_id}.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
+                {"assessment": assessment, "relation_ids": [relation_id]}
+            )
+
+        self.repository.rewrite_chain(manifest, mutate)
+
+    def make_duplicate_candidate_ineligible(
+        self, manifest: dict[str, object], decision_index: int = 1
+    ) -> str:
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        decision_reference = proposal["eligibility_decisions"][decision_index]
+        decision_path = self.repository.root / decision_reference["path"]
+        decision = json.loads(decision_path.read_text(encoding="utf-8"))
+        candidate_id = decision["domain_candidate_id"]
+        decision["criteria"]["non_duplication"]["result"] = "failed"
+        decision["decision_status"] = "ineligible"
+        write_json(decision_path, decision)
+        replacement = self.repository.reference(decision_reference["path"])
+
+        def mutate(current: dict[str, object]) -> None:
+            current["eligibility_decisions"][decision_index] = replacement
+            current["domain_dispositions"] = [
+                item
+                for item in current["domain_dispositions"]
+                if item["domain_candidate_id"] != candidate_id
+            ]
+            current["included_domain_candidate_ids"] = [
+                item
+                for item in current["included_domain_candidate_ids"]
+                if item != candidate_id
+            ]
+
+        self.repository.rewrite_chain(manifest, mutate)
+        return candidate_id
+
+    def test_complete_temporary_chain_passes_internal_gate_only(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.assertEqual([], self.validate(manifest))
+        for reference in (
+            manifest["domain_universe_proposal"],
+            manifest["scientific_review"]["review_record"],
+            manifest["governance_authority"]["decision_record"],
+        ):
+            self.assertIn(
+                "TEMPORARY TEST FIXTURE ONLY",
+                (self.repository.root / reference["path"]).read_text(encoding="utf-8"),
+            )
+
+    def test_product_company_or_model_cannot_be_domain_unit(self) -> None:
+        schema = self.schemas["candidate"]
+        manifest = self.repository.create_locked_domain_universe()
+        reference = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )["domain_candidates"][0]
+        record = json.loads((self.repository.root / reference["path"]).read_text(encoding="utf-8"))
+        for prohibited in ("product", "company", "model"):
+            record["primary_unit_type"] = prohibited
+            self.assertTrue(VALIDATE.validate_contract(record, schema, f"test {prohibited}"))
+
+    def test_missing_inclusion_or_exclusion_boundary_fails(self) -> None:
+        schema = self.schemas["candidate"]
+        manifest = self.repository.create_locked_domain_universe()
+        reference = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
+        )["domain_candidates"][0]
+        record = json.loads((self.repository.root / reference["path"]).read_text(encoding="utf-8"))
+        for field in ("inclusion_boundary", "exclusion_boundary"):
+            changed = dict(record)
+            del changed[field]
+            self.assertTrue(any(field in error for error in VALIDATE.validate_contract(changed, schema, "test boundary")))
+
+    def test_one_source_frame_cannot_lock_universe(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest, lambda proposal: proposal["source_frames"].pop()
+        )
+        self.assertTrue(any("at least two source frames" in error for error in self.validate(manifest)))
+
+    def test_unfixed_boundary_cannot_lock_universe(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
+        )
+        boundary_reference = proposal["universe_boundary"]
+        boundary_path = self.repository.root / boundary_reference["path"]
+        boundary = json.loads(boundary_path.read_text(encoding="utf-8"))
+        boundary.update({"status": "draft", "fixed_at": None})
+        write_json(boundary_path, boundary)
+        replacement = self.repository.reference(boundary_reference["path"])
+        self.repository.rewrite_chain(
+            manifest, lambda current: current.update({"universe_boundary": replacement})
+        )
+        self.assertTrue(any("boundary must be prospectively fixed" in error for error in self.validate(manifest)))
+
+    def test_two_frames_with_same_independence_group_cannot_lock(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
+        )
+        frame_reference = proposal["source_frames"][1]
+        frame_path = self.repository.root / frame_reference["path"]
+        frame = json.loads(frame_path.read_text(encoding="utf-8"))
+        frame["independence_group"] = "test-only-independent-group-1"
+        write_json(frame_path, frame)
+        replacement = self.repository.reference(frame_reference["path"])
+        self.repository.rewrite_chain(
+            manifest, lambda current: current["source_frames"].__setitem__(1, replacement)
+        )
+        self.assertTrue(any("at least two source frames" in error for error in self.validate(manifest)))
+
+    def test_same_source_registered_twice_under_different_frame_ids_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        first = json.loads(
+            (self.repository.root / proposal["source_frames"][0]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        second_reference = proposal["source_frames"][1]
+        second_path = self.repository.root / second_reference["path"]
+        second = json.loads(second_path.read_text(encoding="utf-8"))
+        for field in ("source_identity", "source_version_or_date", "source_uri"):
+            second[field] = first[field]
+        write_json(second_path, second)
+        replacement = self.repository.reference(second_reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_frames"].__setitem__(1, replacement),
+        )
+        self.assertTrue(
+            any("duplicate source identity/version/URI" in error for error in self.validate(manifest))
+        )
+
+    def test_exact_duplicate_source_frame_artifact_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest,
+            lambda proposal: proposal["source_frames"].append(proposal["source_frames"][0]),
+        )
+        self.assertTrue(
+            any("exact duplicate source-frame artifact" in error for error in self.validate(manifest))
+        )
+
+    def test_different_independence_group_labels_do_not_override_same_lineage(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        first = json.loads(
+            (self.repository.root / proposal["source_frames"][0]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        second_reference = proposal["source_frames"][1]
+        second_path = self.repository.root / second_reference["path"]
+        second = json.loads(second_path.read_text(encoding="utf-8"))
+        self.assertNotEqual(first["independence_group"], second["independence_group"])
+        second["source_lineage_id"] = first["source_lineage_id"]
+        write_json(second_path, second)
+        replacement = self.repository.reference(second_reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_frames"].__setitem__(1, replacement),
+        )
+        self.assertTrue(
+            any("distinct independence groups and source lineages" in error for error in self.validate(manifest))
+        )
+
+    def test_two_distinct_temporary_source_lineages_pass_structural_gate(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        lineages = {
+            json.loads(
+                (self.repository.root / reference["path"]).read_text(encoding="utf-8")
+            )["source_lineage_id"]
+            for reference in proposal["source_frames"]
+        }
+        self.assertEqual(2, len(lineages))
+        self.assertEqual([], self.validate(manifest))
+
+    def test_source_frame_requires_reviewable_independence_basis(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_frames"][0]
+        frame = json.loads(
+            (self.repository.root / reference["path"]).read_text(encoding="utf-8")
+        )
+        del frame["independence_basis"]
+        errors = VALIDATE.validate_contract(frame, self.schemas["source_frame"], "test frame")
+        self.assertTrue(any("independence_basis" in error for error in errors))
+
+    def test_missing_extraction_for_registered_frame_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest, lambda proposal: proposal["source_extractions"].pop()
+        )
+        self.assertTrue(
+            any(
+                "every registered source frame requires exactly one complete extraction" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_duplicate_extraction_for_registered_frame_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest,
+            lambda proposal: proposal["source_extractions"].append(
+                proposal["source_extractions"][0]
+            ),
+        )
+        self.assertTrue(
+            any(
+                "every registered source frame requires exactly one complete extraction" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_incomplete_extraction_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_extractions"][0]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        extraction["extraction_status"] = "pending"
+        write_json(path, extraction)
+        replacement = self.repository.reference(reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_extractions"].__setitem__(0, replacement),
+        )
+        self.assertTrue(
+            any("source extraction must be complete" in error for error in self.validate(manifest))
+        )
+
+    def test_extraction_must_bind_exact_registered_source_frame(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_extractions"][0]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        extraction["source_frame"]["sha256"] = "0" * 64
+        write_json(path, extraction)
+        replacement = self.repository.reference(reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_extractions"].__setitem__(0, replacement),
+        )
+        self.assertTrue(
+            any("must bind an exact registered source frame" in error for error in self.validate(manifest))
+        )
+
+    def test_duplicate_source_entry_id_within_frame_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_extractions"][0]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        extraction["extracted_entries"].append(dict(extraction["extracted_entries"][0]))
+        write_json(path, extraction)
+        replacement = self.repository.reference(reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_extractions"].__setitem__(0, replacement),
+        )
+        self.assertTrue(
+            any("duplicate source_entry_id" in error for error in self.validate(manifest))
+        )
+
+    def test_unresolved_extraction_entry_fails_closed(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_extractions"][0]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        entry = extraction["extracted_entries"][0]
+        entry["normalization_disposition"] = "unresolved"
+        entry["target_domain_candidate_ids"] = []
+        write_json(path, extraction)
+        replacement = self.repository.reference(reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_extractions"].__setitem__(0, replacement),
+        )
+        self.assertTrue(
+            any("unresolved extraction entry" in error for error in self.validate(manifest))
+        )
+
+    def test_free_text_alone_cannot_satisfy_candidate_provenance(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["domain_candidates"][0]
+        candidate = json.loads(
+            (self.repository.root / reference["path"]).read_text(encoding="utf-8")
+        )
+        candidate["provenance_references"] = [
+            {
+                "source_frame_id": "test-only-frame-1",
+                "source_entry_reference": "arbitrary free text",
+            }
+        ]
+        errors = VALIDATE.validate_contract(candidate, self.schemas["candidate"], "test candidate")
+        self.assertTrue(any("source_extraction" in error for error in errors))
+
+    def test_extraction_target_outside_candidate_universe_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_extractions"][0]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        extraction["extracted_entries"][0]["target_domain_candidate_ids"] = [
+            "test-only-domain-outside-universe"
+        ]
+        write_json(path, extraction)
+        replacement = self.repository.reference(reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_extractions"].__setitem__(0, replacement),
+        )
+        self.assertTrue(
+            any("is outside candidate universe" in error for error in self.validate(manifest))
+        )
+
+    def test_candidate_and_extraction_provenance_must_be_reciprocal(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        candidate_reference = proposal["domain_candidates"][0]
+        candidate_path = self.repository.root / candidate_reference["path"]
+        candidate = json.loads(candidate_path.read_text(encoding="utf-8"))
+        candidate["provenance_references"][0]["source_entry_id"] = "missing-entry"
+        write_json(candidate_path, candidate)
+        new_candidate_reference = self.repository.reference(candidate_reference["path"])
+        decision_reference = proposal["eligibility_decisions"][0]
+        decision_path = self.repository.root / decision_reference["path"]
+        decision = json.loads(decision_path.read_text(encoding="utf-8"))
+        decision["domain_candidate"] = new_candidate_reference
+        write_json(decision_path, decision)
+        new_decision_reference = self.repository.reference(decision_reference["path"])
+
+        def mutate(current: dict[str, object]) -> None:
+            current["domain_candidates"][0] = new_candidate_reference
+            current["eligibility_decisions"][0] = new_decision_reference
+
+        self.repository.rewrite_chain(manifest, mutate)
+        errors = self.validate(manifest)
+        self.assertTrue(any("source_entry_id does not resolve" in error for error in errors))
+        self.assertTrue(any("entry-to-candidate provenance is not reciprocal" in error for error in errors))
+
+    def test_two_lineage_distinct_extractions_must_be_non_empty(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_extractions"][1]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        extraction["extracted_entries"] = []
+        write_json(path, extraction)
+        replacement = self.repository.reference(reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_extractions"].__setitem__(1, replacement),
+        )
+        self.assertTrue(
+            any("distinct source lineages must contribute non-empty" in error for error in self.validate(manifest))
+        )
+
+    def test_tampered_extraction_fails_sha_binding(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        reference = proposal["source_extractions"][0]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        extraction["rationale"] = "tampered temporary extraction fixture"
+        write_json(path, extraction)
+        self.assertTrue(any("SHA-256 mismatch" in error for error in self.validate(manifest)))
+
+    def test_unnormalized_source_frame_cannot_lock(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
+        )
+        frame_reference = proposal["source_frames"][0]
+        frame_path = self.repository.root / frame_reference["path"]
+        frame = json.loads(frame_path.read_text(encoding="utf-8"))
+        frame["normalization_status"] = "pending"
+        write_json(frame_path, frame)
+        replacement = self.repository.reference(frame_reference["path"])
+        self.repository.rewrite_chain(
+            manifest, lambda current: current["source_frames"].__setitem__(0, replacement)
+        )
+        self.assertTrue(any("must be normalized before lock" in error for error in self.validate(manifest)))
+
+    def test_one_frame_cannot_define_all_candidate_provenance(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
+        )
+        candidate_reference = proposal["domain_candidates"][1]
+        candidate_path = self.repository.root / candidate_reference["path"]
+        candidate = json.loads(candidate_path.read_text(encoding="utf-8"))
+        candidate["provenance_references"][0] = {
+            "source_extraction": proposal["source_extractions"][0],
+            "source_entry_id": "test-only-entry-1",
+        }
+        write_json(candidate_path, candidate)
+        new_candidate_reference = self.repository.reference(candidate_reference["path"])
+
+        decision_reference = proposal["eligibility_decisions"][1]
+        decision_path = self.repository.root / decision_reference["path"]
+        decision = json.loads(decision_path.read_text(encoding="utf-8"))
+        decision["domain_candidate"] = new_candidate_reference
+        write_json(decision_path, decision)
+        new_decision_reference = self.repository.reference(decision_reference["path"])
+
+        def mutate(current: dict[str, object]) -> None:
+            current["domain_candidates"][1] = new_candidate_reference
+            current["eligibility_decisions"][1] = new_decision_reference
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertTrue(any("no single source frame may define" in error for error in self.validate(manifest)))
+
+    def test_duplicate_domain_without_resolution_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest,
+            lambda proposal: proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
+                {"assessment": "duplicate_unresolved"}
+            ),
+        )
+        self.assertTrue(any("unresolved duplicate domain" in error for error in self.validate(manifest)))
+
+    def test_documented_overlap_does_not_invalidate_domain(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": "test-only-overlap",
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": "overlaps_with",
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": "documented",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical overlap claim.",
+            }
+            relative = "domain-universe/relations/test-only-overlap.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
+                {"assessment": "overlap_documented", "relation_ids": ["test-only-overlap"]}
+            )
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertEqual([], self.validate(manifest))
+
+    def test_depends_on_alone_cannot_support_overlap_documented(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": "test-only-dependency",
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": "depends_on",
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": "documented",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical dependency claim.",
+            }
+            relative = "domain-universe/relations/test-only-dependency.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
+                {
+                    "assessment": "overlap_documented",
+                    "relation_ids": ["test-only-dependency"],
+                }
+            )
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertTrue(
+            any("depends_on alone is insufficient" in error for error in self.validate(manifest))
+        )
+
+    def test_distinct_pair_may_record_depends_on_without_implying_overlap(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": "test-only-distinct-dependency",
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": "depends_on",
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": "documented",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical dependency claim.",
+            }
+            relative = "domain-universe/relations/test-only-distinct-dependency.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0][
+                "relation_ids"
+            ] = ["test-only-distinct-dependency"]
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertEqual([], self.validate(manifest))
+
+    def test_distinct_pair_cannot_cite_overlap_relation(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": "test-only-contradictory-overlap",
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": "overlaps_with",
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": "documented",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; intentionally contradictory.",
+            }
+            relative = "domain-universe/relations/test-only-contradictory-overlap.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0][
+                "relation_ids"
+            ] = ["test-only-contradictory-overlap"]
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertTrue(
+            any("distinct pair may only cite depends_on" in error for error in self.validate(manifest))
+        )
+
+    def test_orphan_relation_record_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": "test-only-orphan-relation",
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": "depends_on",
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": "documented",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; intentionally orphaned.",
+            }
+            relative = "domain-universe/relations/test-only-orphan-relation.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertTrue(any("orphan relation IDs" in error for error in self.validate(manifest)))
+
+    def test_relation_endpoints_must_match_assessed_pair(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": "test-only-wrong-endpoints",
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": "overlaps_with",
+                "object_domain_candidate_id": "test-only-domain-outside-universe",
+                "resolution_status": "documented",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; intentionally mismatched.",
+            }
+            relative = "domain-universe/relations/test-only-wrong-endpoints.json"
+            write_json(self.repository.root / relative, relation)
+            proposal["domain_relations"] = [self.repository.reference(relative)]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
+                {
+                    "assessment": "overlap_documented",
+                    "relation_ids": ["test-only-wrong-endpoints"],
+                }
+            )
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertTrue(
+            any("relation endpoints do not match assessed pair" in error for error in self.validate(manifest))
+        )
+
+    def test_duplicate_relation_ids_fail(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            relation = {
+                "domain_relation_id": "test-only-duplicate-relation-id",
+                "instrument_version": CURRENT_DOMAIN_VERSION,
+                "subject_domain_candidate_id": "test-only-domain-a",
+                "relation_type": "overlaps_with",
+                "object_domain_candidate_id": "test-only-domain-b",
+                "resolution_status": "documented",
+                "rationale": "TEMPORARY TEST FIXTURE ONLY; duplicated reference.",
+            }
+            relative = "domain-universe/relations/test-only-duplicate-relation-id.json"
+            write_json(self.repository.root / relative, relation)
+            reference = self.repository.reference(relative)
+            proposal["domain_relations"] = [reference, reference]
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"][0].update(
+                {
+                    "assessment": "overlap_documented",
+                    "relation_ids": ["test-only-duplicate-relation-id"],
+                }
+            )
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertTrue(
+            any("duplicate domain_relation_id" in error for error in self.validate(manifest))
+        )
+
+    def test_duplicate_resolved_with_both_candidates_eligible_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "resolved",
+            "duplicate_resolved",
+            "test-only-both-eligible-duplicate",
+        )
+
+        def retain_only_first(current: dict[str, object]) -> None:
+            current["domain_dispositions"][1]["disposition"] = "excluded"
+            current["included_domain_candidate_ids"] = ["test-only-domain-a"]
+
+        self.repository.rewrite_chain(manifest, retain_only_first)
+        self.assertTrue(
+            any(
+                "duplicate_resolved requires at least one pair member" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_duplicate_resolved_with_both_candidates_included_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "resolved",
+            "duplicate_resolved",
+            "test-only-both-included-duplicate",
+        )
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        self.assertEqual(2, len(proposal["included_domain_candidate_ids"]))
+        self.assertTrue(
+            any(
+                "duplicate_resolved requires at least one pair member" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_duplicate_resolved_passes_when_one_duplicate_is_ineligible(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "resolved",
+            "duplicate_resolved",
+            "test-only-coherent-resolved-duplicate",
+        )
+        removed_candidate_id = self.make_duplicate_candidate_ineligible(manifest)
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        removed_reference = proposal["eligibility_decisions"][1]
+        removed_decision = json.loads(
+            (self.repository.root / removed_reference["path"]).read_text(encoding="utf-8")
+        )
+        retained_reference = proposal["eligibility_decisions"][0]
+        retained_decision = json.loads(
+            (self.repository.root / retained_reference["path"]).read_text(encoding="utf-8")
+        )
+        self.assertEqual("failed", removed_decision["criteria"]["non_duplication"]["result"])
+        self.assertEqual("ineligible", removed_decision["decision_status"])
+        self.assertNotIn(removed_candidate_id, proposal["included_domain_candidate_ids"])
+        self.assertEqual("eligible", retained_decision["decision_status"])
+        self.assertIn("test-only-domain-a", proposal["included_domain_candidate_ids"])
+        self.assertEqual([], self.validate(manifest))
+
+    def test_revised_nonduplicate_pair_uses_distinct_or_overlap_documented(self) -> None:
+        distinct_manifest = self.repository.create_locked_domain_universe()
+        distinct_proposal = json.loads(
+            (
+                self.repository.root
+                / distinct_manifest["domain_universe_proposal"]["path"]
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual(
+            "distinct",
+            distinct_proposal["overlap_duplication_review"]["candidate_pair_assessments"][0][
+                "assessment"
+            ],
+        )
+        self.assertEqual([], self.validate(distinct_manifest))
+
+        overlap_manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            overlap_manifest,
+            "overlaps_with",
+            "documented",
+            "overlap_documented",
+            "test-only-revised-overlap",
+        )
+        self.assertEqual([], self.validate(overlap_manifest))
+
+    def test_unresolved_overlaps_with_cannot_support_overlap_documented(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "overlaps_with",
+            "unresolved",
+            "overlap_documented",
+            "test-only-unresolved-overlap",
+        )
+        self.assertTrue(
+            any("unresolved domain relation" in error for error in self.validate(manifest))
+        )
+
+    def test_unresolved_depends_on_cannot_support_distinct(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "depends_on",
+            "unresolved",
+            "distinct",
+            "test-only-unresolved-dependency",
+        )
+        self.assertTrue(
+            any("unresolved domain relation" in error for error in self.validate(manifest))
+        )
+
+    def test_unresolved_substantive_duplicate_continues_to_fail(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.set_pair_relation(
+            manifest,
+            "substantively_duplicates",
+            "unresolved",
+            "duplicate_resolved",
+            "test-only-unresolved-substantive-duplicate",
+        )
+        errors = self.validate(manifest)
+        self.assertTrue(any("unresolved domain relation" in error for error in errors))
+        self.assertTrue(any("duplicate domain relation must be explicitly resolved" in error for error in errors))
+
+    def test_unresolved_relation_records_of_every_type_fail_lock(self) -> None:
+        assessments = {
+            "overlaps_with": "overlap_documented",
+            "contains": "overlap_documented",
+            "contained_by": "overlap_documented",
+            "cross_cutting_with": "overlap_documented",
+            "depends_on": "distinct",
+            "substantively_duplicates": "duplicate_resolved",
+        }
+        for relation_type, assessment in assessments.items():
+            with self.subTest(relation_type=relation_type):
+                manifest = self.repository.create_locked_domain_universe()
+                self.set_pair_relation(
+                    manifest,
+                    relation_type,
+                    "unresolved",
+                    assessment,
+                    f"test-only-unresolved-{relation_type.replace('_', '-')}",
+                )
+                self.assertTrue(
+                    any("unresolved domain relation" in error for error in self.validate(manifest))
+                )
+
+    def test_missing_eligibility_decision_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest, lambda proposal: proposal["eligibility_decisions"].pop()
+        )
+        self.assertTrue(any("requires exactly one eligibility decision" in error for error in self.validate(manifest)))
+
+    def test_failed_or_unresolved_criterion_cannot_produce_eligible(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
+        )
+        reference = proposal["eligibility_decisions"][0]
+        record = json.loads((self.repository.root / reference["path"]).read_text(encoding="utf-8"))
+        for result, expected in (("failed", "ineligible"), ("unresolved", "unresolved")):
+            changed = json.loads(json.dumps(record))
+            changed["criteria"]["coverage_usefulness"]["result"] = result
+            changed["decision_status"] = "eligible"
+            errors = VALIDATE.validate_domain_eligibility_decision(
+                self.repository.root,
+                changed,
+                "test eligibility",
+                self.schemas["eligibility"],
+                self.schemas["candidate"],
+            )
+            self.assertTrue(any(f"deterministically be '{expected}'" in error for error in errors))
+
+    def test_domain_inclusion_cannot_depend_on_human_criticality_forecast(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
+        )
+        reference = proposal["domain_candidates"][0]
+        record = json.loads((self.repository.root / reference["path"]).read_text(encoding="utf-8"))
+        record["human_criticality_forecast"] = "weaken"
+        self.assertTrue(VALIDATE.validate_contract(record, self.schemas["candidate"], "test forecast"))
+        protocol = (ROOT / "DOMAIN_UNIVERSE.md").read_text(encoding="utf-8")
+        self.assertIn("Domain inclusion must not depend on an expectation that human criticality", protocol)
+
+    def test_duplication_adjudication_precedes_final_eligibility_in_protocol(self) -> None:
+        protocol = (ROOT / "DOMAIN_UNIVERSE.md").read_text(encoding="utf-8")
+        adjudication = protocol.index("-> Overlap / Duplication Adjudication")
+        eligibility = protocol.index("-> Final Domain Eligibility")
+        self.assertLess(adjudication, eligibility)
+
+    def test_excluded_eligible_domain_requires_rationale(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            proposal["domain_dispositions"][0].update(
+                {"disposition": "excluded", "rationale": "", "uncertainty": ""}
+            )
+            proposal["included_domain_candidate_ids"] = ["test-only-domain-b"]
+
+        self.repository.rewrite_chain(manifest, mutate)
+        self.assertTrue(any("excluded eligible domain requires rationale" in error for error in self.validate(manifest)))
+
+    def test_incomplete_coverage_audit_cannot_lock(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest, lambda proposal: proposal["coverage_audit"].update({"status": "incomplete"})
+        )
+        self.assertTrue(any("coverage audit must be complete" in error for error in self.validate(manifest)))
+
+    def test_coverage_audit_version_mismatch_cannot_lock(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest,
+            lambda proposal: proposal["coverage_audit"].update(
+                {"audit_version": "wrong-test-version"}
+            ),
+        )
+        self.assertTrue(
+            any("coverage audit version must match" in error for error in self.validate(manifest))
+        )
+
+    def test_proposal_review_governance_mismatch_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest,
+            mutate_review=lambda review: review.update(
+                {"domain_universe_proposal": manifest["scientific_review"]["review_record"]}
+            ),
+        )
+        self.assertTrue(any("scientific review must bind the exact" in error for error in self.validate(manifest)))
+
+    def test_tampered_proposal_review_or_governance_fails(self) -> None:
+        for role, wrapper in (
+            ("proposal", None),
+            ("review", "scientific_review"),
+            ("governance", "governance_authority"),
+        ):
+            repository = TemporaryDomainRepository()
+            try:
+                manifest = repository.create_locked_domain_universe()
+                reference = (
+                    manifest["domain_universe_proposal"]
+                    if wrapper is None
+                    else manifest[wrapper]["review_record" if wrapper == "scientific_review" else "decision_record"]
+                )
+                path = repository.root / reference["path"]
+                record = json.loads(path.read_text(encoding="utf-8"))
+                record[next(key for key in record if key.endswith("_at"))] = "2026-01-02T00:00:00Z"
+                write_json(path, record)
+                _, errors = VALIDATE.validate_domain_universe_manifest(
+                    repository.root,
+                    manifest,
+                    f"test tampered {role}",
+                    repository.domain_schemas(),
+                )
+                self.assertTrue(any("SHA-256 mismatch" in error for error in errors))
+            finally:
+                repository.close()
+
+    def test_empty_domain_universe_cannot_lock(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def mutate(proposal: dict[str, object]) -> None:
+            proposal["domain_candidates"] = []
+            proposal["eligibility_decisions"] = []
+            proposal["domain_dispositions"] = []
+            proposal["included_domain_candidate_ids"] = []
+            proposal["overlap_duplication_review"]["candidate_pair_assessments"] = []
+
+        self.repository.rewrite_chain(manifest, mutate)
+        errors = self.validate(manifest)
+        self.assertTrue(any("candidate universe must be non-empty" in error for error in errors))
+        self.assertTrue(any("must include at least one eligible domain" in error for error in errors))
+
+    def test_templates_are_invalid_and_repository_has_zero_domain_records(self) -> None:
+        for name, schema in self.schemas.items():
+            filename = {
+                "boundary": "domain-universe-boundary.template.json",
+                "source_frame": "domain-source-frame.template.json",
+                "extraction": "domain-source-extraction.template.json",
+                "candidate": "domain-candidate.template.json",
+                "eligibility": "domain-eligibility-decision.template.json",
+                "relation": "domain-relation.template.json",
+                "proposal": "domain-universe-proposal.template.json",
+                "review": "domain-universe-review.template.json",
+                "governance": "domain-universe-governance-decision.template.json",
+                "manifest": "domain-universe-manifest.template.json",
+            }[name]
+            template = json.loads((ROOT / "schemas/templates" / filename).read_text(encoding="utf-8"))
+            self.assertTrue(VALIDATE.validate_contract(template, schema, f"template {filename}"))
+        self.assertEqual([], list((ROOT / "domain-universe").rglob("*.json")))
+        self.assertEqual([ROOT / "domain-universe/README.md"], list((ROOT / "domain-universe").rglob("*")))
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):

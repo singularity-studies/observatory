@@ -1,9 +1,9 @@
 {
   "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a scientific review or approval",
-  "review_record_id": null,
+  "domain_universe_review_id": null,
   "instrument_version": "0.5.0-draft",
-  "review_type": "panel_selection_scientific_review",
-  "selection_proposal": null,
+  "review_type": "domain_universe_scientific_review",
+  "domain_universe_proposal": null,
   "outcome": "pending",
   "rationale": "No review has occurred",
   "responsible_role_id": null,

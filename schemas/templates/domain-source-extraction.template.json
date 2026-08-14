@@ -1,0 +1,13 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not an extraction or normalization record",
+  "extraction_id": null,
+  "instrument_version": "0.5.0-draft",
+  "source_frame": null,
+  "extraction_scope": "",
+  "traversal_or_selection_rule": "",
+  "extraction_status": "pending",
+  "extracted_entries": [],
+  "rationale": "",
+  "uncertainty": "Unresolved",
+  "recorded_at": null
+}

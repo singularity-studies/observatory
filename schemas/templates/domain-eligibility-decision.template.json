@@ -1,0 +1,11 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a domain eligibility decision",
+  "domain_eligibility_decision_id": null,
+  "domain_candidate_id": null,
+  "instrument_version": "0.5.0-draft",
+  "domain_candidate": null,
+  "criteria": {},
+  "decision_status": "unresolved",
+  "overall_rationale": "",
+  "overall_uncertainty": "Unresolved"
+}
