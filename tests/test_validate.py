@@ -2683,7 +2683,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             self.assertEqual(path.stem, record["extraction_id"])
             self.assertEqual("complete", record["extraction_status"])
             self.assertEqual(frame_path, record["source_frame"]["path"])
-            frame_bytes = (ROOT / frame_path).read_bytes()
+            # Scientific JSON is canonicalized to LF in .gitattributes. Normalize
+            # a pre-existing Windows checkout before hashing the repository bytes.
+            frame_bytes = (ROOT / frame_path).read_bytes().replace(b"\r\n", b"\n")
             self.assertEqual(hashlib.sha256(frame_bytes).hexdigest(), record["source_frame"]["sha256"])
             self.assertEqual(expected_count, len(record["extracted_entries"]))
             self.assertIn(f"Expected entry count: {expected_count}", record["extraction_scope"])

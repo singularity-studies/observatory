@@ -3,7 +3,7 @@
   "instrument_version": "0.5.0-draft",
   "source_frame": {
     "path": "domain-universe/source-frames/wipo-ipc-2026-01.json",
-    "sha256": "fd33d8037c596c4445e12f796362033e79b1e4e17a909934b2ecf26db05c4db6"
+    "sha256": "815729fe39b8c422b7151a64d1c64b0526926c9c0906cbf08e129a7336561dc8"
   },
   "extraction_scope": "Source version: IPC 2026.01. Extraction level: Class. Expected entry count: 132. Observed entry count: 132. The first-level Section is retained only as parent context.",
   "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every Class entry exactly once, retain its Section as context, and do not extract first-level parents or third-level and lower categories as independent entries.",

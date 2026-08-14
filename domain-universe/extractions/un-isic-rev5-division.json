@@ -3,7 +3,7 @@
   "instrument_version": "0.5.0-draft",
   "source_frame": {
     "path": "domain-universe/source-frames/un-isic-rev5.json",
-    "sha256": "5b6f0574243485ddc468e0fec5a6b7dc027315d35465c1b38e29c3b7e4901fae"
+    "sha256": "6e30b6fa28c8dcf3a3e06a1ca630e6ea9346b3c56ec5501fc442e0f13d94afea"
   },
   "extraction_scope": "Source version: ISIC Revision 5. Extraction level: Division. Expected entry count: 87. Observed entry count: 87. The first-level Section is retained only as parent context.",
   "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every Division entry exactly once, retain its Section as context, and do not extract first-level parents or third-level and lower categories as independent entries.",

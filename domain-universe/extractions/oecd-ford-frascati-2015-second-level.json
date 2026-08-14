@@ -3,7 +3,7 @@
   "instrument_version": "0.5.0-draft",
   "source_frame": {
     "path": "domain-universe/source-frames/oecd-ford-frascati-2015.json",
-    "sha256": "a45327e99fc68568f57e7872b272adae294c17d62f79ddd34018dd42fc63c6ef"
+    "sha256": "472c821fa78861e446222dd22730a08974573d3cac50fd7ee9865a58f9d9d348"
   },
   "extraction_scope": "Source version: Frascati Manual 2015, Table 2.2. Extraction level: second-level classification. Expected entry count: 42. Observed entry count: 42. The first-level broad classification is retained only as parent context.",
   "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every second-level classification entry exactly once, retain its broad classification as context, and do not extract first-level parents or third-level and lower categories as independent entries.",

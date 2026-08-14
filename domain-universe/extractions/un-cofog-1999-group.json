@@ -3,7 +3,7 @@
   "instrument_version": "0.5.0-draft",
   "source_frame": {
     "path": "domain-universe/source-frames/un-cofog-1999.json",
-    "sha256": "625da916390124e938d27df4d7370cd057a7edbd6cb0a0ba581af7395165dd7f"
+    "sha256": "1148106a005d2701e6f6142e55260c2979db25f98574f2c8ec1eca26da768d82"
   },
   "extraction_scope": "Source version: COFOG 1999. Extraction level: Group. Expected entry count: 69. Observed entry count: 69. The first-level Division is retained only as parent context.",
   "traversal_or_selection_rule": "Extract every category at the second formal hierarchical level of the registered classification. Traverse every Group entry exactly once, retain its Division as context, and do not extract first-level parents or third-level and lower categories as independent entries.",
