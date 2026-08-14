@@ -61,6 +61,7 @@ SCHEMA_FILES = (
     "schemas/eligibility-decision.schema.json",
     "schemas/panel-lineage.schema.json",
     "schemas/panel-selection-manifest.schema.json",
+    "schemas/panel-selection-proposal.schema.json",
     "schemas/panel-selection-review.schema.json",
     "schemas/panel-lock-governance-decision.schema.json",
 )
@@ -90,6 +91,7 @@ REQUIRED_SCHEMA_LOCKS = (
     "eligibility_decision",
     "panel_lineage",
     "panel_selection_manifest",
+    "panel_selection_proposal",
     "panel_selection_review",
     "panel_lock_governance_decision",
     "wave_manifest",
@@ -103,6 +105,7 @@ CURRENT_SCHEMA_PATHS = {
     "eligibility_decision": "schemas/eligibility-decision.schema.json",
     "panel_lineage": "schemas/panel-lineage.schema.json",
     "panel_selection_manifest": "schemas/panel-selection-manifest.schema.json",
+    "panel_selection_proposal": "schemas/panel-selection-proposal.schema.json",
     "panel_selection_review": "schemas/panel-selection-review.schema.json",
     "panel_lock_governance_decision": "schemas/panel-lock-governance-decision.schema.json",
     "wave_manifest": "schemas/wave-manifest.schema.json",
@@ -124,6 +127,7 @@ SELECTION_RECORD_PATHS = {
     "eligibility_decision": "selection/eligibility",
     "panel_lineage": "selection/lineage",
     "panel_selection_manifest": "selection/manifests",
+    "panel_selection_proposal": "selection/proposals",
     "panel_selection_review": "selection/reviews",
     "panel_lock_governance_decision": "selection/governance",
 }
@@ -135,6 +139,17 @@ CANDIDATE_IDENTITY_FIELDS = (
     "operational_boundary",
     "continuity_rule",
     "boundary_conditions",
+)
+
+PROPOSAL_CONTENT_FIELDS = (
+    "selection_protocol",
+    "candidate_universe_snapshot",
+    "eligibility_decisions",
+    "lineage_relations",
+    "coverage_redundancy_review",
+    "panel_size",
+    "selection_dispositions",
+    "selected_unit_ids",
 )
 
 LONGITUDINAL_EVENTS = {
@@ -653,11 +668,48 @@ def validate_lineage_record(
     return errors
 
 
+def _validate_record_filename(
+    record: dict[str, Any],
+    record_path: Path | None,
+    id_field: str,
+    location: str,
+) -> list[str]:
+    if record_path is None:
+        return []
+    record_id = record.get(id_field)
+    if isinstance(record_id, str) and record_id != record_path.stem:
+        return [
+            f"{location}: {id_field} must exactly match repository filename stem "
+            f"{record_path.stem!r}"
+        ]
+    return []
+
+
+def validate_selection_proposal(
+    record: Any,
+    schema: dict[str, Any],
+    location: str,
+    expected_version: str | None = None,
+    record_path: Path | None = None,
+) -> list[str]:
+    errors = validate_contract(record, schema, location)
+    if not isinstance(record, dict):
+        return errors
+    required_version = expected_version or schema.get("x-instrument-version")
+    if record.get("instrument_version") != required_version:
+        errors.append(f"{location}: selection proposal instrument_version mismatch")
+    errors.extend(
+        _validate_record_filename(record, record_path, "proposal_id", location)
+    )
+    return errors
+
+
 def validate_scientific_review_record(
     record: Any,
     schema: dict[str, Any],
     location: str,
     expected_version: str | None = None,
+    record_path: Path | None = None,
 ) -> list[str]:
     errors = validate_contract(record, schema, location)
     if not isinstance(record, dict):
@@ -665,6 +717,9 @@ def validate_scientific_review_record(
     required_version = expected_version or schema.get("x-instrument-version")
     if record.get("instrument_version") != required_version:
         errors.append(f"{location}: scientific review instrument_version mismatch")
+    errors.extend(
+        _validate_record_filename(record, record_path, "review_record_id", location)
+    )
     return errors
 
 
@@ -673,6 +728,7 @@ def validate_governance_decision_record(
     schema: dict[str, Any],
     location: str,
     expected_version: str | None = None,
+    record_path: Path | None = None,
 ) -> list[str]:
     errors = validate_contract(record, schema, location)
     if not isinstance(record, dict):
@@ -680,6 +736,11 @@ def validate_governance_decision_record(
     required_version = expected_version or schema.get("x-instrument-version")
     if record.get("instrument_version") != required_version:
         errors.append(f"{location}: governance decision instrument_version mismatch")
+    errors.extend(
+        _validate_record_filename(
+            record, record_path, "governance_decision_id", location
+        )
+    )
     return errors
 
 
@@ -700,6 +761,27 @@ def _validate_plain_artifact(
     return path, errors
 
 
+def _validate_selection_role_path(
+    reference: Any,
+    container: PurePosixPath | None,
+    role_directory: str,
+    location: str,
+) -> list[str]:
+    if container is None or not isinstance(reference, dict):
+        return []
+    relative = reference.get("path")
+    selection_directory = (
+        container if container.name == "selection" else container / "selection"
+    )
+    expected_directory = selection_directory / role_directory
+    if isinstance(relative, str) and not _is_within(relative, expected_directory):
+        return [
+            f"{location}: record must be inside "
+            f"{expected_directory.as_posix()}/"
+        ]
+    return []
+
+
 def validate_selection_manifest(
     root: Path,
     manifest: Any,
@@ -712,6 +794,7 @@ def validate_selection_manifest(
     candidate_schema = schemas.get("candidate_unit")
     eligibility_schema = schemas.get("eligibility_decision")
     lineage_schema = schemas.get("panel_lineage")
+    proposal_schema = schemas.get("panel_selection_proposal")
     review_schema = schemas.get("panel_selection_review")
     governance_schema = schemas.get("panel_lock_governance_decision")
     if not all(
@@ -721,6 +804,7 @@ def validate_selection_manifest(
             candidate_schema,
             eligibility_schema,
             lineage_schema,
+            proposal_schema,
             review_schema,
             governance_schema,
         )
@@ -741,6 +825,37 @@ def validate_selection_manifest(
 
     if manifest.get("status") != "locked":
         return {}, errors
+
+    proposal_reference = manifest.get("selection_proposal")
+    proposal, proposal_path, proposal_errors = _load_json_artifact(
+        root,
+        proposal_reference,
+        f"{location}: selection_proposal",
+        container,
+    )
+    errors.extend(proposal_errors)
+    errors.extend(
+        _validate_selection_role_path(
+            proposal_reference, container, "proposals", f"{location}: selection_proposal"
+        )
+    )
+    if proposal is not None:
+        errors.extend(
+            validate_selection_proposal(
+                proposal,
+                proposal_schema,
+                f"{location}: selection_proposal",
+                instrument_version,
+                proposal_path,
+            )
+        )
+        if isinstance(proposal, dict):
+            for field in PROPOSAL_CONTENT_FIELDS:
+                if manifest.get(field) != proposal.get(field):
+                    errors.append(
+                        f"{location}: manifest field {field!r} must exactly match "
+                        "the hash-bound selection proposal"
+                    )
 
     protocol = manifest.get("selection_protocol")
     if not isinstance(protocol, dict) or protocol.get("status") != "locked":
@@ -941,13 +1056,21 @@ def validate_selection_manifest(
     if not isinstance(scientific_review, dict) or scientific_review.get("status") != "complete":
         errors.append(f"{location}: locked selection requires completed scientific review")
     else:
-        review_record, _, review_errors = _load_json_artifact(
+        review_record, review_path, review_errors = _load_json_artifact(
             root,
             scientific_review.get("review_record"),
             f"{location}: scientific_review",
             container,
         )
         errors.extend(review_errors)
+        errors.extend(
+            _validate_selection_role_path(
+                scientific_review.get("review_record"),
+                container,
+                "reviews",
+                f"{location}: scientific_review",
+            )
+        )
         if review_record is not None:
             errors.extend(
                 validate_scientific_review_record(
@@ -955,11 +1078,18 @@ def validate_selection_manifest(
                     review_schema,
                     f"{location}: scientific_review",
                     instrument_version,
+                    review_path,
                 )
             )
             if not isinstance(review_record, dict) or review_record.get("outcome") != "approved":
                 errors.append(
                     f"{location}: locked selection requires explicitly approved scientific review"
+                )
+            if isinstance(review_record, dict) and review_record.get(
+                "selection_proposal"
+            ) != proposal_reference:
+                errors.append(
+                    f"{location}: scientific review does not bind the exact selection proposal"
                 )
 
     governance = manifest.get("governance_authority")
@@ -969,13 +1099,21 @@ def validate_selection_manifest(
         authority_id = governance.get("authority_id")
         if not isinstance(authority_id, str) or not authority_id.strip():
             errors.append(f"{location}: governance authority_id is required")
-        governance_record, _, governance_errors = _load_json_artifact(
+        governance_record, governance_path, governance_errors = _load_json_artifact(
             root,
             governance.get("decision_record"),
             f"{location}: governance_authority",
             container,
         )
         errors.extend(governance_errors)
+        errors.extend(
+            _validate_selection_role_path(
+                governance.get("decision_record"),
+                container,
+                "governance",
+                f"{location}: governance_authority",
+            )
+        )
         if governance_record is not None:
             errors.extend(
                 validate_governance_decision_record(
@@ -983,6 +1121,7 @@ def validate_selection_manifest(
                     governance_schema,
                     f"{location}: governance_authority",
                     instrument_version,
+                    governance_path,
                 )
             )
             if not isinstance(governance_record, dict) or governance_record.get(
@@ -995,6 +1134,21 @@ def validate_selection_manifest(
                 "responsible_authority_id"
             ) != authority_id:
                 errors.append(f"{location}: governance authority identity mismatch")
+            if isinstance(governance_record, dict) and governance_record.get(
+                "selection_proposal"
+            ) != proposal_reference:
+                errors.append(
+                    f"{location}: governance decision does not bind the exact selection proposal"
+                )
+            review_reference = scientific_review.get("review_record") if isinstance(
+                scientific_review, dict
+            ) else None
+            if isinstance(governance_record, dict) and governance_record.get(
+                "scientific_review"
+            ) != review_reference:
+                errors.append(
+                    f"{location}: governance decision does not bind the exact scientific review"
+                )
 
     selected_bindings = {
         candidate_id: (candidates[candidate_id], candidate_references_by_id[candidate_id])
@@ -1047,13 +1201,23 @@ def validate_selection_repository(root: Path) -> list[str]:
                 )
             elif name == "panel_lineage" and name in schemas:
                 errors.extend(validate_lineage_record(record, schemas[name], location))
+            elif name == "panel_selection_proposal" and name in schemas:
+                errors.extend(
+                    validate_selection_proposal(
+                        record, schemas[name], location, record_path=path
+                    )
+                )
             elif name == "panel_selection_review" and name in schemas:
                 errors.extend(
-                    validate_scientific_review_record(record, schemas[name], location)
+                    validate_scientific_review_record(
+                        record, schemas[name], location, record_path=path
+                    )
                 )
             elif name == "panel_lock_governance_decision" and name in schemas:
                 errors.extend(
-                    validate_governance_decision_record(record, schemas[name], location)
+                    validate_governance_decision_record(
+                        record, schemas[name], location, record_path=path
+                    )
                 )
             elif name == "panel_selection_manifest":
                 _, manifest_errors = validate_selection_manifest(

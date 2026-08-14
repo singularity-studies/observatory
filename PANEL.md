@@ -57,12 +57,13 @@ A candidate must satisfy every criterion below:
 For selection protocol v1, `failed`, missing, or `unresolved` on any criterion
 prevents an `eligible` decision. No exception mechanism exists.
 
-**Panel selection is outcome-blind with respect to human criticality.** No
-pre-selection human-criticality classification is collected or exposed by the
-candidate specification, eligibility decision, or selection disposition.
-After selection, `human_critical`, `mixed_or_contested`, `human_noncritical`,
-and `unknown` remain admissible Wave-observation states. They are observational
-outcomes, not candidate-selection inputs, targets, or forecasts.
+**Baseline human-criticality status is not a selection variable.** No baseline
+human-criticality classification is required by the candidate specification,
+eligibility decision, or selection disposition. **Baseline human-criticality
+is first coded after panel lock as a Wave-observation outcome.**
+`human_critical`, `mixed_or_contested`, `human_noncritical`, and `unknown`
+remain admissible Wave-observation states. They are observational outcomes,
+not candidate-selection inputs, targets, or forecasts.
 
 ## Anti-selection-bias rule
 
@@ -120,13 +121,18 @@ retroactively rewritten.
 ## Machine-readable records
 
 Versioned schemas define candidate unit specifications, eligibility decisions,
-lineage/retirement relations, panel-selection manifests, scientific reviews,
-and panel-lock governance decisions. Eligibility records preserve every
-criterion result, rationale, uncertainty, instrument version, and unresolved
-reviewer/adjudication fields when roles are unassigned. Scientific review and
-governance authority require structured, versioned, hash-bound records with an
-explicit permitting outcome. Templates under `schemas/templates/` are
-intentionally incomplete and are not candidate or approval records.
+lineage/retirement relations, panel-selection proposals and manifests,
+scientific reviews, and panel-lock governance decisions. Eligibility records
+preserve every criterion result, rationale, uncertainty, instrument version,
+and unresolved reviewer/adjudication fields when roles are unassigned.
+Scientific review and governance authority require structured, versioned,
+hash-bound records with an explicit permitting outcome. The immutable proposal
+contains the complete pre-approval selection state. A scientific review binds
+to its exact path and SHA-256; governance binds to that same proposal and exact
+approving review. Nothing in this chain hashes the final manifest, so the
+binding is non-circular. Structured proposal, review, and governance IDs must
+equal their repository filename stems. Templates under `schemas/templates/`
+are intentionally incomplete and are not candidate or approval records.
 
 Every candidate in a frozen candidate universe receives exactly one
 deterministic eligibility decision. Every eligible candidate then receives
@@ -149,13 +155,17 @@ A Frozen Panel must not be locked until all of the following resolve and pass:
 4. every eligible candidate has an explicit selection disposition;
 5. a coverage and redundancy review is recorded;
 6. panel size `N` has been prospectively fixed and matches the selected set;
-7. an approving scientific-review record and authorizing governance-decision
-   record are schema-valid and bound to exact bytes;
-8. the panel snapshot binds every unit to the exact selected candidate
+7. the complete pre-approval selection state is preserved as a versioned,
+   hash-bound proposal;
+8. an approving scientific-review record binds that exact proposal, and an
+   authorizing governance-decision record binds the same proposal and exact
+   review; all three records are schema-valid, version-compatible, and have IDs
+   matching their filename stems;
+9. the panel snapshot binds every unit to the exact selected candidate
    specification and preserves its semantic identity;
-9. the panel snapshot references the locked selection manifest by path and
+10. the panel snapshot references the locked selection manifest by path and
    SHA-256; and
-10. the selection manifest, its records, and its schemas are preserved inside
+11. the selection manifest, its records, and its schemas are preserved inside
    the immutable Wave package.
 
 No lock, authority, exception, candidate universe, or approval is created by

@@ -1,0 +1,15 @@
+{
+  "_template_notice": "INTENTIONALLY INVALID TEMPLATE; not a selection proposal or approval",
+  "proposal_id": null,
+  "instrument_version": "0.4.0-draft",
+  "proposal_type": "frozen_panel_selection",
+  "selection_protocol": {"status": "locked", "version": "0.4.0-draft", "artifact": null},
+  "candidate_universe_snapshot": {"snapshot_id": null, "captured_at": null, "candidate_specifications": []},
+  "eligibility_decisions": [],
+  "lineage_relations": [],
+  "coverage_redundancy_review": {"status": "unresolved", "rationale": "", "uncertainty": "Unresolved"},
+  "panel_size": {"status": "unresolved", "n": null, "rationale": ""},
+  "selection_dispositions": [],
+  "selected_unit_ids": [],
+  "created_at": null
+}

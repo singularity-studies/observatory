@@ -23,7 +23,7 @@ Technologies, products, organizations, deployments, and other sociotechnical sys
 
 Admission to a Frozen Panel follows the versioned eligibility, anti-selection-bias, lineage, panel-size, and fail-closed lock rules in `PANEL.md`. A frozen snapshot must resolve to a locked, hash-bound selection manifest inside its immutable Wave package. This draft admits no candidate or panel unit and authorizes no Wave.
 
-Panel selection is outcome-blind with respect to human criticality. Human-criticality states are recorded only as post-selection Wave-observation outcomes, never as candidate, eligibility, or inclusion inputs.
+Baseline human-criticality status is not a selection variable. Baseline human-criticality is first coded after panel lock as a Wave-observation outcome. Human-criticality states are never candidate, eligibility, or inclusion inputs.
 
 An observation is a source-backed record about a defined panel unit, one or more linked empirical systems, a construct, and an observation date. An evidence record is not itself a conclusion. Derived assessments must retain links to every supporting and conflicting evidence record.
 

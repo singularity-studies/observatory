@@ -1,12 +1,13 @@
 # Frozen Panel selection records
 
 This directory is reserved for future versioned candidate specifications,
-eligibility decisions, lineage records, and panel-selection manifests.
+eligibility decisions, lineage records, panel-selection proposals and
+manifests, scientific reviews, and governance decisions.
 
-It currently contains no candidate, eligibility, lineage, review, authority,
-approval, or lock record. The Live Registry remains separately mutable under
-`registry/`; locked Wave packages remain separately immutable under
-`data/waves/`.
+It currently contains no candidate, eligibility, disposition, lineage,
+proposal, review, authority, approval, or lock record. The Live Registry
+remains separately mutable under `registry/`; locked Wave packages remain
+separately immutable under `data/waves/`.
 
 Future records use these locations:
 
@@ -14,6 +15,7 @@ Future records use these locations:
 - `selection/eligibility/`
 - `selection/lineage/`
 - `selection/manifests/`
+- `selection/proposals/`
 - `selection/reviews/`
 - `selection/governance/`
 

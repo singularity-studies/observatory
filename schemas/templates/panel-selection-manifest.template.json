@@ -3,6 +3,7 @@
   "selection_manifest_id": null,
   "instrument_version": "0.4.0-draft",
   "status": "draft",
+  "selection_proposal": null,
   "selection_protocol": {"status": "draft", "version": "0.4.0-draft", "artifact": null},
   "candidate_universe_snapshot": {"snapshot_id": null, "captured_at": null, "candidate_specifications": []},
   "eligibility_decisions": [],

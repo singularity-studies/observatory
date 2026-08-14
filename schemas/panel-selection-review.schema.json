@@ -9,6 +9,7 @@
     "review_record_id",
     "instrument_version",
     "review_type",
+    "selection_proposal",
     "outcome",
     "rationale",
     "responsible_role_id",
@@ -18,6 +19,7 @@
     "review_record_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
     "instrument_version": {"type": "string", "minLength": 1},
     "review_type": {"const": "panel_selection_scientific_review"},
+    "selection_proposal": {"$ref": "#/$defs/artifact"},
     "outcome": {
       "type": "string",
       "enum": ["approved", "rejected", "unresolved", "pending"]
@@ -25,5 +27,16 @@
     "rationale": {"type": "string", "minLength": 1},
     "responsible_role_id": {"type": "string", "minLength": 1},
     "reviewed_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
   }
 }

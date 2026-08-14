@@ -9,6 +9,8 @@
     "governance_decision_id",
     "instrument_version",
     "decision_type",
+    "selection_proposal",
+    "scientific_review",
     "outcome",
     "rationale",
     "responsible_authority_id",
@@ -18,6 +20,8 @@
     "governance_decision_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
     "instrument_version": {"type": "string", "minLength": 1},
     "decision_type": {"const": "frozen_panel_lock_authorization"},
+    "selection_proposal": {"$ref": "#/$defs/artifact"},
+    "scientific_review": {"$ref": "#/$defs/artifact"},
     "outcome": {
       "type": "string",
       "enum": ["authorized", "unauthorized", "blocked", "unresolved", "pending"]
@@ -25,5 +29,16 @@
     "rationale": {"type": "string", "minLength": 1},
     "responsible_authority_id": {"type": "string", "minLength": 1},
     "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
   }
 }

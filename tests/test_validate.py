@@ -73,11 +73,18 @@ def candidate_specification(
 def scientific_review_record(
     version: str = CURRENT_SELECTION_VERSION,
     outcome: str = "approved",
+    proposal_reference: dict[str, str] | None = None,
+    record_id: str = "test-only-scientific-review",
 ) -> dict[str, object]:
+    proposal_reference = proposal_reference or {
+        "path": "selection/proposals/test-only-selection-proposal.json",
+        "sha256": "0" * 64,
+    }
     return {
-        "review_record_id": "test-only-scientific-review",
+        "review_record_id": record_id,
         "instrument_version": version,
         "review_type": "panel_selection_scientific_review",
+        "selection_proposal": proposal_reference,
         "outcome": outcome,
         "rationale": (
             "TEMPORARY TEST FIXTURE ONLY; exercises structure and does not record "
@@ -91,11 +98,24 @@ def scientific_review_record(
 def governance_decision_record(
     version: str = CURRENT_SELECTION_VERSION,
     outcome: str = "authorized",
+    proposal_reference: dict[str, str] | None = None,
+    review_reference: dict[str, str] | None = None,
+    record_id: str = "test-only-governance-decision",
 ) -> dict[str, object]:
+    proposal_reference = proposal_reference or {
+        "path": "selection/proposals/test-only-selection-proposal.json",
+        "sha256": "0" * 64,
+    }
+    review_reference = review_reference or {
+        "path": "selection/reviews/test-only-scientific-review.json",
+        "sha256": "0" * 64,
+    }
     return {
-        "governance_decision_id": "test-only-governance-decision",
+        "governance_decision_id": record_id,
         "instrument_version": version,
         "decision_type": "frozen_panel_lock_authorization",
+        "selection_proposal": proposal_reference,
+        "scientific_review": review_reference,
         "outcome": outcome,
         "rationale": (
             "TEMPORARY TEST FIXTURE ONLY; exercises structure and does not record "
@@ -330,48 +350,80 @@ class TemporaryRepository:
             )
             selected_ids.append(unit_id)
 
-        review_relative = f"{base_relative}/reviews/scientific-review.json"
+        selection_protocol = {
+            "status": "locked",
+            "version": version,
+            "artifact": protocol_reference,
+        }
+        candidate_universe_snapshot = {
+            "snapshot_id": "test-only-candidate-universe",
+            "captured_at": "2026-01-01T00:00:00Z",
+            "candidate_specifications": candidate_references,
+        }
+        coverage_redundancy_review = {
+            "status": "recorded",
+            "rationale": (
+                "TEMPORARY TEST FIXTURE ONLY; no real selection or approval."
+            ),
+            "uncertainty": "test-only; no empirical coverage determination",
+        }
+        panel_size = {
+            "status": "fixed",
+            "n": len(selected_ids),
+            "rationale": "test-only fixture size; not a proposed panel N",
+        }
+        proposal = {
+            "proposal_id": "test-only-selection-proposal",
+            "instrument_version": version,
+            "proposal_type": "frozen_panel_selection",
+            "selection_protocol": selection_protocol,
+            "candidate_universe_snapshot": candidate_universe_snapshot,
+            "eligibility_decisions": eligibility_references,
+            "lineage_relations": [],
+            "coverage_redundancy_review": coverage_redundancy_review,
+            "panel_size": panel_size,
+            "selection_dispositions": selection_dispositions,
+            "selected_unit_ids": selected_ids,
+            "created_at": "2026-01-01T00:00:00Z",
+        }
+        proposal_relative = f"{base_relative}/proposals/test-only-selection-proposal.json"
+        write_json(self.root / proposal_relative, proposal)
+        proposal_reference = self.reference(proposal_relative)
+
+        review_relative = f"{base_relative}/reviews/test-only-scientific-review.json"
         write_json(
             self.root / review_relative,
-            scientific_review_record(version),
+            scientific_review_record(version, proposal_reference=proposal_reference),
         )
-        authority_relative = f"{base_relative}/governance/decision.json"
+        review_reference = self.reference(review_relative)
+        authority_relative = (
+            f"{base_relative}/governance/test-only-governance-decision.json"
+        )
         write_json(
             self.root / authority_relative,
-            governance_decision_record(version),
+            governance_decision_record(
+                version,
+                proposal_reference=proposal_reference,
+                review_reference=review_reference,
+            ),
         )
 
         manifest: dict[str, object] = {
             "selection_manifest_id": "test-only-selection-manifest",
             "instrument_version": version,
             "status": "locked",
-            "selection_protocol": {
-                "status": "locked",
-                "version": version,
-                "artifact": protocol_reference,
-            },
-            "candidate_universe_snapshot": {
-                "snapshot_id": "test-only-candidate-universe",
-                "captured_at": "2026-01-01T00:00:00Z",
-                "candidate_specifications": candidate_references,
-            },
+            "selection_proposal": proposal_reference,
+            "selection_protocol": selection_protocol,
+            "candidate_universe_snapshot": candidate_universe_snapshot,
             "eligibility_decisions": eligibility_references,
             "lineage_relations": [],
-            "coverage_redundancy_review": {
-                "status": "recorded",
-                "rationale": "test-only structural coverage fixture",
-                "uncertainty": "test-only; no empirical coverage determination",
-            },
-            "panel_size": {
-                "status": "fixed",
-                "n": len(selected_ids),
-                "rationale": "test-only fixture size; not a proposed panel N",
-            },
+            "coverage_redundancy_review": coverage_redundancy_review,
+            "panel_size": panel_size,
             "selection_dispositions": selection_dispositions,
             "selected_unit_ids": selected_ids,
             "scientific_review": {
                 "status": "complete",
-                "review_record": self.reference(review_relative),
+                "review_record": review_reference,
             },
             "governance_authority": {
                 "status": "recorded",
@@ -590,13 +642,26 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
         errors = VALIDATE.validate_candidate_unit(record, self.candidate_schema, "test candidate")
         self.assertTrue(any("continuity_rule" in error for error in errors))
 
-    def test_selection_is_outcome_blind_and_wave_outcomes_remain_representable(self) -> None:
+    def test_baseline_status_is_not_a_selection_variable(self) -> None:
         panel = (ROOT / "PANEL.md").read_text(encoding="utf-8")
         protocol = (ROOT / "PROTOCOL.md").read_text(encoding="utf-8")
-        exact_principle = "Panel selection is outcome-blind with respect to human criticality."
+        agents = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        exact_principle = "Baseline human-criticality status is not a selection variable."
+        timing_principle = (
+            "Baseline human-criticality is first coded after panel lock as a "
+            "Wave-observation outcome."
+        )
         self.assertIn(exact_principle, panel)
         self.assertIn(exact_principle, protocol)
+        self.assertIn(timing_principle, panel.replace("\n", " "))
+        self.assertIn(timing_principle, protocol)
+        self.assertNotIn("outcome-blind", panel.lower())
+        self.assertNotIn("outcome-blind", protocol.lower())
+        self.assertNotIn("outcome-blind", agents.lower())
         self.assertNotIn("baseline_human_criticality", self.candidate_schema["properties"])
+        self.assertNotIn(
+            "baseline_human_criticality", json.dumps(self.eligibility_schema)
+        )
         record = candidate_specification()
         record["baseline_human_criticality"] = "unknown"
         self.assertTrue(
@@ -635,6 +700,11 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
             "panel-lineage.template.json": self.lineage_schema,
             "panel-selection-manifest.template.json": json.loads(
                 (ROOT / "schemas/panel-selection-manifest.schema.json").read_text(
+                    encoding="utf-8"
+                )
+            ),
+            "panel-selection-proposal.template.json": json.loads(
+                (ROOT / "schemas/panel-selection-proposal.schema.json").read_text(
                     encoding="utf-8"
                 )
             ),
@@ -743,14 +813,77 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
         finally:
             repository.close()
 
-    def test_complete_temporary_selection_fixture_passes_internal_gate_only(self) -> None:
-        errors = self._validate_manifest_change(lambda manifest: None)
-        self.assertEqual([], errors)
-        source = Path(__file__).read_text(encoding="utf-8")
-        self.assertIn(
-            "TEMPORARY TEST FIXTURE ONLY; exercises structure and does not record",
-            source,
+    def _create_alternate_proposal(
+        self,
+        repository: TemporaryRepository,
+        manifest: dict[str, object],
+    ) -> dict[str, str]:
+        original_reference = manifest["selection_proposal"]
+        proposal = json.loads(
+            (repository.root / original_reference["path"]).read_text(encoding="utf-8")
         )
+        proposal["proposal_id"] = "test-only-selection-proposal-b"
+        proposal["created_at"] = "2026-01-01T00:00:01Z"
+        relative = "selection/proposals/test-only-selection-proposal-b.json"
+        write_json(repository.root / relative, proposal)
+        return repository.reference(relative)
+
+    def _create_review_for_proposal(
+        self,
+        repository: TemporaryRepository,
+        proposal_reference: dict[str, str],
+        record_id: str,
+    ) -> dict[str, str]:
+        relative = f"selection/reviews/{record_id}.json"
+        write_json(
+            repository.root / relative,
+            scientific_review_record(
+                proposal_reference=proposal_reference,
+                record_id=record_id,
+            ),
+        )
+        return repository.reference(relative)
+
+    def test_complete_temporary_selection_fixture_passes_internal_gate_only(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            manifest, _ = repository.create_locked_selection()
+            _, errors = VALIDATE.validate_selection_manifest(
+                repository.root,
+                manifest,
+                "test selection manifest",
+                repository.selection_schemas(),
+                PurePosixPath("selection"),
+                CURRENT_SELECTION_VERSION,
+            )
+            self.assertEqual([], errors)
+            for reference in (
+                manifest["selection_proposal"],
+                manifest["scientific_review"]["review_record"],
+                manifest["governance_authority"]["decision_record"],
+            ):
+                fixture_text = (repository.root / reference["path"]).read_text(
+                    encoding="utf-8"
+                )
+                self.assertIn("TEMPORARY TEST FIXTURE ONLY", fixture_text)
+            self.assertIn(
+                "no real selection or approval",
+                (repository.root / manifest["selection_proposal"]["path"]).read_text(
+                    encoding="utf-8"
+                ),
+            )
+            self.assertIn(
+                "does not record a real scientific review or approval",
+                (repository.root / manifest["scientific_review"]["review_record"]["path"])
+                .read_text(encoding="utf-8"),
+            )
+            self.assertIn(
+                "does not record real governance authority or authorization",
+                (repository.root / manifest["governance_authority"]["decision_record"]["path"])
+                .read_text(encoding="utf-8"),
+            )
+        finally:
+            repository.close()
 
     def test_every_universe_member_requires_exactly_one_decision(self) -> None:
         def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
@@ -881,6 +1014,166 @@ class FrozenPanelSelectionProtocolTests(unittest.TestCase):
         errors = self._validate_manifest_change(mutate)
         self.assertTrue(any("locked protocol" in error for error in errors))
         self.assertTrue(any("governance authority" in error for error in errors))
+
+    def test_review_for_proposal_a_cannot_approve_proposal_b(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            manifest["selection_proposal"] = self._create_alternate_proposal(
+                repository, manifest
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(
+            any("scientific review does not bind the exact selection proposal" in error for error in errors)
+        )
+
+    def test_manifest_selection_content_must_match_exact_proposal(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            manifest["coverage_redundancy_review"]["rationale"] = (
+                "different temporary manifest-only rationale"
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(
+            any("must exactly match the hash-bound selection proposal" in error for error in errors)
+        )
+
+    def test_wrong_selection_proposal_record_identity_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["selection_proposal"]
+            proposal = json.loads(
+                (repository.root / reference["path"]).read_text(encoding="utf-8")
+            )
+            proposal["proposal_id"] = "wrong-proposal-identity"
+            write_json(repository.root / reference["path"], proposal)
+            manifest["selection_proposal"] = repository.reference(reference["path"])
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("proposal_id must exactly match" in error for error in errors))
+
+    def test_governance_for_proposal_a_cannot_authorize_proposal_b(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            proposal_b = self._create_alternate_proposal(repository, manifest)
+            review_b = self._create_review_for_proposal(
+                repository,
+                proposal_b,
+                "test-only-scientific-review-b",
+            )
+            manifest["selection_proposal"] = proposal_b
+            manifest["scientific_review"]["review_record"] = review_b
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(
+            any("governance decision does not bind the exact selection proposal" in error for error in errors)
+        )
+
+    def test_governance_referencing_different_scientific_review_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            alternate_review = self._create_review_for_proposal(
+                repository,
+                manifest["selection_proposal"],
+                "test-only-scientific-review-b",
+            )
+            governance_reference = manifest["governance_authority"]["decision_record"]
+            governance = json.loads(
+                (repository.root / governance_reference["path"]).read_text(encoding="utf-8")
+            )
+            governance["scientific_review"] = alternate_review
+            write_json(repository.root / governance_reference["path"], governance)
+            manifest["governance_authority"]["decision_record"] = repository.reference(
+                governance_reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(
+            any("governance decision does not bind the exact scientific review" in error for error in errors)
+        )
+
+    def test_tampered_selection_proposal_fails_sha_binding(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            proposal_reference = manifest["selection_proposal"]
+            proposal = json.loads(
+                (repository.root / proposal_reference["path"]).read_text(encoding="utf-8")
+            )
+            proposal["created_at"] = "2026-01-01T00:00:02Z"
+            write_json(repository.root / proposal_reference["path"], proposal)
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("SHA-256 mismatch" in error for error in errors))
+
+    def test_tampered_review_binding_fails_governance_authorization(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            review_reference = manifest["scientific_review"]["review_record"]
+            review = json.loads(
+                (repository.root / review_reference["path"]).read_text(encoding="utf-8")
+            )
+            review["rationale"] = (
+                "TEMPORARY TEST FIXTURE ONLY; changed test rationale and no real approval."
+            )
+            write_json(repository.root / review_reference["path"], review)
+            manifest["scientific_review"]["review_record"] = repository.reference(
+                review_reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(
+            any("governance decision does not bind the exact scientific review" in error for error in errors)
+        )
+
+    def test_wrong_scientific_review_record_identity_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["scientific_review"]["review_record"]
+            review = json.loads(
+                (repository.root / reference["path"]).read_text(encoding="utf-8")
+            )
+            review["review_record_id"] = "wrong-review-identity"
+            write_json(repository.root / reference["path"], review)
+            manifest["scientific_review"]["review_record"] = repository.reference(
+                reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("review_record_id must exactly match" in error for error in errors))
+
+    def test_wrong_governance_record_identity_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            reference = manifest["governance_authority"]["decision_record"]
+            decision = json.loads(
+                (repository.root / reference["path"]).read_text(encoding="utf-8")
+            )
+            decision["governance_decision_id"] = "wrong-governance-identity"
+            write_json(repository.root / reference["path"], decision)
+            manifest["governance_authority"]["decision_record"] = repository.reference(
+                reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(
+            any("governance_decision_id must exactly match" in error for error in errors)
+        )
+
+    def test_replayed_review_outside_canonical_directory_fails(self) -> None:
+        def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
+            review_reference = manifest["scientific_review"]["review_record"]
+            review = json.loads(
+                (repository.root / review_reference["path"]).read_text(encoding="utf-8")
+            )
+            replay_relative = "selection/replayed/test-only-scientific-review.json"
+            write_json(repository.root / replay_relative, review)
+            replay_reference = repository.reference(replay_relative)
+            manifest["scientific_review"]["review_record"] = replay_reference
+
+            governance_reference = manifest["governance_authority"]["decision_record"]
+            governance = json.loads(
+                (repository.root / governance_reference["path"]).read_text(encoding="utf-8")
+            )
+            governance["scientific_review"] = replay_reference
+            write_json(repository.root / governance_reference["path"], governance)
+            manifest["governance_authority"]["decision_record"] = repository.reference(
+                governance_reference["path"]
+            )
+
+        errors = self._validate_manifest_repository_change(mutate)
+        self.assertTrue(any("record must be inside selection/reviews/" in error for error in errors))
 
     def test_arbitrary_text_cannot_satisfy_scientific_review(self) -> None:
         def mutate(repository: TemporaryRepository, manifest: dict[str, object]) -> None:
