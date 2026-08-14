@@ -5,6 +5,7 @@
   "proposal_type": "domain_universe",
   "universe_boundary": null,
   "source_frames": [],
+  "source_extractions": [],
   "domain_candidates": [],
   "eligibility_decisions": [],
   "domain_relations": [],

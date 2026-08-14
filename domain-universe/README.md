@@ -1,13 +1,15 @@
 # Domain Universe records
 
 This namespace is reserved for future governed Domain Universe records. It
-currently contains no boundary, source frame, candidate, eligibility decision,
-relation, proposal, review, governance decision, manifest, approval, or lock.
+currently contains no boundary, source frame, extraction, candidate,
+eligibility decision, relation, proposal, review, governance decision,
+manifest, approval, or lock.
 
 Future records use these canonical locations:
 
 - `domain-universe/boundaries/`
 - `domain-universe/source-frames/`
+- `domain-universe/extractions/`
 - `domain-universe/candidates/`
 - `domain-universe/eligibility/`
 - `domain-universe/relations/`

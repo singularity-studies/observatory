@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-source-extraction.schema.json",
+  "title": "Domain source extraction and normalization ledger",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "extraction_id", "instrument_version", "source_frame",
+    "extraction_scope", "traversal_or_selection_rule", "extraction_status",
+    "extracted_entries", "rationale", "uncertainty", "recorded_at"
+  ],
+  "properties": {
+    "extraction_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+    "instrument_version": {"type": "string", "minLength": 1},
+    "source_frame": {"$ref": "#/$defs/artifact"},
+    "extraction_scope": {"type": "string", "minLength": 1},
+    "traversal_or_selection_rule": {"type": "string", "minLength": 1},
+    "extraction_status": {"type": "string", "enum": ["pending", "complete"]},
+    "extracted_entries": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/entry"}
+    },
+    "rationale": {"type": "string", "minLength": 1},
+    "uncertainty": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_entry_id", "source_entry_reference", "source_entry_descriptor",
+        "normalization_disposition", "target_domain_candidate_ids", "rationale"
+      ],
+      "properties": {
+        "source_entry_id": {"type": "string", "minLength": 1},
+        "source_entry_reference": {"type": "string", "minLength": 1},
+        "source_entry_descriptor": {"type": ["string", "null"], "minLength": 1},
+        "normalization_disposition": {
+          "type": "string",
+          "enum": [
+            "candidate_created", "merged_into_candidate", "excluded_out_of_scope",
+            "excluded_duplicate", "unresolved"
+          ]
+        },
+        "target_domain_candidate_ids": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "rationale": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "normalization_disposition": {
+                "enum": ["candidate_created", "merged_into_candidate"]
+              }
+            },
+            "required": ["normalization_disposition"]
+          },
+          "then": {"properties": {"target_domain_candidate_ids": {"minItems": 1}}}
+        },
+        {
+          "if": {
+            "properties": {
+              "normalization_disposition": {
+                "enum": ["excluded_out_of_scope", "excluded_duplicate", "unresolved"]
+              }
+            },
+            "required": ["normalization_disposition"]
+          },
+          "then": {"properties": {"target_domain_candidate_ids": {"maxItems": 0}}}
+        }
+      ]
+    }
+  }
+}

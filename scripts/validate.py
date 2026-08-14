@@ -69,6 +69,7 @@ SCHEMA_FILES = (
     "schemas/panel-lock-governance-decision.schema.json",
     "schemas/domain-universe-boundary.schema.json",
     "schemas/domain-source-frame.schema.json",
+    "schemas/domain-source-extraction.schema.json",
     "schemas/domain-candidate.schema.json",
     "schemas/domain-eligibility-decision.schema.json",
     "schemas/domain-relation.schema.json",
@@ -176,6 +177,7 @@ DOMAIN_ELIGIBILITY_CRITERIA = (
 DOMAIN_SCHEMA_PATHS = {
     "boundary": "schemas/domain-universe-boundary.schema.json",
     "source_frame": "schemas/domain-source-frame.schema.json",
+    "extraction": "schemas/domain-source-extraction.schema.json",
     "candidate": "schemas/domain-candidate.schema.json",
     "eligibility": "schemas/domain-eligibility-decision.schema.json",
     "relation": "schemas/domain-relation.schema.json",
@@ -188,6 +190,7 @@ DOMAIN_SCHEMA_PATHS = {
 DOMAIN_RECORD_PATHS = {
     "boundary": "domain-universe/boundaries",
     "source_frame": "domain-universe/source-frames",
+    "extraction": "domain-universe/extractions",
     "candidate": "domain-universe/candidates",
     "eligibility": "domain-universe/eligibility",
     "relation": "domain-universe/relations",
@@ -1322,6 +1325,16 @@ def _load_domain_record(
     return record, path, errors
 
 
+def _artifact_identity(reference: Any) -> tuple[str, str] | None:
+    if not isinstance(reference, dict):
+        return None
+    path = reference.get("path")
+    digest = reference.get("sha256")
+    if not isinstance(path, str) or not isinstance(digest, str):
+        return None
+    return path, digest
+
+
 def validate_domain_eligibility_decision(
     root: Path,
     record: Any,
@@ -1445,7 +1458,10 @@ def validate_domain_universe_manifest(
             errors.append(f"{location}: Domain Universe boundary must be prospectively fixed")
 
     source_frames: dict[str, dict[str, Any]] = {}
+    source_frames_by_artifact: dict[tuple[str, str], dict[str, Any]] = {}
     independence_groups: set[str] = set()
+    source_lineages: set[str] = set()
+    source_fingerprints: dict[tuple[str, str, str], str] = {}
     frame_references = proposal.get("source_frames")
     if not isinstance(frame_references, list):
         frame_references = []
@@ -1473,19 +1489,132 @@ def validate_domain_universe_manifest(
                 if frame_id in source_frames:
                     errors.append(f"{frame_location}: duplicate source_frame_id {frame_id!r}")
                 source_frames[frame_id] = frame
+            artifact_key = _artifact_identity(reference)
+            if artifact_key is not None:
+                if artifact_key in source_frames_by_artifact:
+                    errors.append(f"{frame_location}: exact duplicate source-frame artifact")
+                source_frames_by_artifact[artifact_key] = frame
             group = frame.get("independence_group")
             if isinstance(group, str) and group:
                 independence_groups.add(group)
+            lineage_id = frame.get("source_lineage_id")
+            if isinstance(lineage_id, str) and lineage_id:
+                source_lineages.add(lineage_id)
+            fingerprint_fields = (
+                frame.get("source_identity"),
+                frame.get("source_version_or_date"),
+                frame.get("source_uri"),
+            )
+            if all(isinstance(value, str) and value for value in fingerprint_fields):
+                fingerprint = tuple(value.strip() for value in fingerprint_fields)
+                prior_frame_id = source_fingerprints.get(fingerprint)
+                if prior_frame_id is not None:
+                    errors.append(
+                        f"{frame_location}: duplicate source identity/version/URI registration "
+                        f"already used by {prior_frame_id!r}"
+                    )
+                elif isinstance(frame_id, str):
+                    source_fingerprints[fingerprint] = frame_id
             if frame.get("normalization_status") != "complete":
                 errors.append(f"{frame_location}: source frame must be normalized before lock")
-    if len(source_frames) < 2 or len(independence_groups) < 2:
+    if (
+        len(source_frames) < 2
+        or len(independence_groups) < 2
+        or len(source_lineages) < 2
+    ):
         errors.append(
-            f"{location}: locked Domain Universe requires at least two independent source frames"
+            f"{location}: locked Domain Universe requires at least two source frames "
+            "with distinct independence groups and source lineages"
+        )
+
+    extractions_by_artifact: dict[tuple[str, str], dict[str, Any]] = {}
+    extraction_source_frames: dict[tuple[str, str], tuple[str, str]] = {}
+    extraction_entries: dict[tuple[tuple[str, str], str], dict[str, Any]] = {}
+    extraction_counts_by_frame: dict[tuple[str, str], int] = {}
+    extraction_ids: set[str] = set()
+    contributing_lineages: set[str] = set()
+    extraction_references = proposal.get("source_extractions")
+    if not isinstance(extraction_references, list):
+        extraction_references = []
+    for index, reference in enumerate(extraction_references):
+        extraction_location = f"{location}: proposal source_extractions[{index}]"
+        extraction, extraction_path, extraction_errors = _load_domain_record(
+            root, reference, extraction_location, container, "extractions"
+        )
+        errors.extend(extraction_errors)
+        if extraction is None:
+            continue
+        errors.extend(
+            _validate_domain_record(
+                extraction,
+                schemas["extraction"],
+                extraction_location,
+                version,
+                "extraction_id",
+                extraction_path,
+            )
+        )
+        if not isinstance(extraction, dict):
+            continue
+        extraction_id = extraction.get("extraction_id")
+        if isinstance(extraction_id, str):
+            if extraction_id in extraction_ids:
+                errors.append(f"{extraction_location}: duplicate extraction_id {extraction_id!r}")
+            extraction_ids.add(extraction_id)
+        extraction_key = _artifact_identity(reference)
+        if extraction_key is None:
+            continue
+        if extraction_key in extractions_by_artifact:
+            errors.append(f"{extraction_location}: exact duplicate extraction artifact")
+        extractions_by_artifact[extraction_key] = extraction
+        frame_key = _artifact_identity(extraction.get("source_frame"))
+        if frame_key not in source_frames_by_artifact:
+            errors.append(
+                f"{extraction_location}: source_frame must bind an exact registered source frame"
+            )
+        elif frame_key is not None:
+            extraction_source_frames[extraction_key] = frame_key
+            extraction_counts_by_frame[frame_key] = extraction_counts_by_frame.get(frame_key, 0) + 1
+        if extraction.get("extraction_status") != "complete":
+            errors.append(f"{extraction_location}: source extraction must be complete before lock")
+        entries = extraction.get("extracted_entries")
+        if not isinstance(entries, list):
+            entries = []
+        entry_ids: set[str] = set()
+        for entry_index, entry in enumerate(entries):
+            entry_location = f"{extraction_location}: extracted_entries[{entry_index}]"
+            if not isinstance(entry, dict):
+                continue
+            entry_id = entry.get("source_entry_id")
+            if isinstance(entry_id, str):
+                if entry_id in entry_ids:
+                    errors.append(
+                        f"{entry_location}: duplicate source_entry_id within source frame"
+                    )
+                entry_ids.add(entry_id)
+                extraction_entries[(extraction_key, entry_id)] = entry
+            if entry.get("normalization_disposition") == "unresolved":
+                errors.append(f"{entry_location}: unresolved extraction entry cannot pass lock")
+        if entries and frame_key in source_frames_by_artifact:
+            frame = source_frames_by_artifact[frame_key]
+            lineage_id = frame.get("source_lineage_id")
+            if isinstance(lineage_id, str) and lineage_id:
+                contributing_lineages.add(lineage_id)
+
+    for frame_key in source_frames_by_artifact:
+        if extraction_counts_by_frame.get(frame_key, 0) != 1:
+            errors.append(
+                f"{location}: every registered source frame requires exactly one complete extraction record"
+            )
+    if len(contributing_lineages) < 2:
+        errors.append(
+            f"{location}: at least two distinct source lineages must contribute non-empty extracted-entry sets"
         )
 
     candidates: dict[str, dict[str, Any]] = {}
     candidate_references: dict[str, dict[str, Any]] = {}
     provenance_frame_ids: set[str] = set()
+    candidate_provenance: dict[str, set[tuple[tuple[str, str], str]]] = {}
     raw_candidates = proposal.get("domain_candidates")
     if not isinstance(raw_candidates, list):
         raw_candidates = []
@@ -1518,19 +1647,59 @@ def validate_domain_universe_manifest(
             provenance = candidate.get("provenance_references")
             if isinstance(provenance, list):
                 for item in provenance:
-                    frame_id = item.get("source_frame_id") if isinstance(item, dict) else None
+                    if not isinstance(item, dict) or not isinstance(candidate_id, str):
+                        continue
+                    extraction_key = _artifact_identity(item.get("source_extraction"))
+                    entry_id = item.get("source_entry_id")
+                    if extraction_key not in extractions_by_artifact:
+                        errors.append(
+                            f"{candidate_location}: provenance must bind an exact proposal extraction"
+                        )
+                        continue
+                    if not isinstance(entry_id, str) or (
+                        extraction_key, entry_id
+                    ) not in extraction_entries:
+                        errors.append(
+                            f"{candidate_location}: provenance source_entry_id does not resolve"
+                        )
+                        continue
+                    provenance_key = (extraction_key, entry_id)
+                    candidate_provenance.setdefault(candidate_id, set()).add(provenance_key)
+                    entry = extraction_entries[provenance_key]
+                    targets = entry.get("target_domain_candidate_ids")
+                    if not isinstance(targets, list) or candidate_id not in targets:
+                        errors.append(
+                            f"{candidate_location}: candidate-to-entry provenance is not reciprocal"
+                        )
+                    frame_key = extraction_source_frames.get(extraction_key)
+                    frame = source_frames_by_artifact.get(frame_key) if frame_key is not None else None
+                    frame_id = frame.get("source_frame_id") if isinstance(frame, dict) else None
                     if isinstance(frame_id, str):
                         provenance_frame_ids.add(frame_id)
-                        if frame_id not in source_frames:
-                            errors.append(
-                                f"{candidate_location}: provenance source_frame_id {frame_id!r} is not registered"
-                            )
+            if isinstance(candidate_id, str) and not candidate_provenance.get(candidate_id):
+                errors.append(
+                    f"{candidate_location}: candidate requires resolved extraction-entry provenance"
+                )
     if not candidates:
         errors.append(f"{location}: locked Domain Universe candidate universe must be non-empty")
     if len(provenance_frame_ids & set(source_frames)) < 2:
         errors.append(
             f"{location}: no single source frame may define the Domain Universe"
         )
+
+    for (extraction_key, entry_id), entry in extraction_entries.items():
+        targets = entry.get("target_domain_candidate_ids")
+        if not isinstance(targets, list):
+            continue
+        for candidate_id in targets:
+            if candidate_id not in candidates:
+                errors.append(
+                    f"{location}: extraction entry target {candidate_id!r} is outside candidate universe"
+                )
+            elif (extraction_key, entry_id) not in candidate_provenance.get(candidate_id, set()):
+                errors.append(
+                    f"{location}: extraction-entry-to-candidate provenance is not reciprocal"
+                )
 
     decisions_by_candidate: dict[str, list[dict[str, Any]]] = {}
     decision_ids: set[str] = set()
@@ -1638,6 +1807,13 @@ def validate_domain_universe_manifest(
     else:
         assessments = review.get("candidate_pair_assessments", [])
     assessed_pairs: set[tuple[str, str]] = set()
+    relation_usage: dict[str, int] = {}
+    overlap_relation_types = {
+        "overlaps_with",
+        "contains",
+        "contained_by",
+        "cross_cutting_with",
+    }
     if not isinstance(assessments, list):
         assessments = []
     for index, assessment in enumerate(assessments):
@@ -1659,29 +1835,65 @@ def validate_domain_universe_manifest(
         relation_ids = assessment.get("relation_ids", [])
         if assessment_value == "duplicate_unresolved":
             errors.append(f"{assessment_location}: unresolved duplicate domain cannot pass coverage review")
-        if assessment_value in {"overlap_documented", "duplicate_resolved"}:
-            if not isinstance(relation_ids, list) or not relation_ids:
-                errors.append(f"{assessment_location}: documented overlap or duplicate requires relation IDs")
-            for relation_id in relation_ids if isinstance(relation_ids, list) else []:
-                relation = relations.get(relation_id)
-                if relation is None:
-                    errors.append(f"{assessment_location}: relation ID {relation_id!r} does not resolve")
-                    continue
-                subject = relation.get("subject_domain_candidate_id")
-                target = relation.get("object_domain_candidate_id")
-                if not isinstance(subject, str) or not isinstance(target, str):
-                    continue
+        if not isinstance(relation_ids, list):
+            relation_ids = []
+        if assessment_value in {"overlap_documented", "duplicate_resolved"} and not relation_ids:
+            errors.append(f"{assessment_location}: documented overlap or duplicate requires relation IDs")
+        resolved_relation_types: list[str] = []
+        for relation_id in relation_ids:
+            if not isinstance(relation_id, str):
+                continue
+            relation_usage[relation_id] = relation_usage.get(relation_id, 0) + 1
+            relation = relations.get(relation_id)
+            if relation is None:
+                errors.append(f"{assessment_location}: relation ID {relation_id!r} does not resolve")
+                continue
+            subject = relation.get("subject_domain_candidate_id")
+            target = relation.get("object_domain_candidate_id")
+            if isinstance(subject, str) and isinstance(target, str):
                 endpoints = tuple(sorted((subject, target)))
                 if endpoints != pair:
                     errors.append(f"{assessment_location}: relation endpoints do not match assessed pair")
-            if assessment_value == "duplicate_resolved" and not any(
-                relations.get(relation_id, {}).get("relation_type") == "substantively_duplicates"
-                and relations.get(relation_id, {}).get("resolution_status") == "resolved"
-                for relation_id in relation_ids if isinstance(relation_ids, list)
-            ):
-                errors.append(f"{assessment_location}: resolved duplicate requires a resolved duplicate relation")
+            relation_type = relation.get("relation_type")
+            if isinstance(relation_type, str):
+                resolved_relation_types.append(relation_type)
+        if assessment_value == "overlap_documented" and not any(
+            relation_type in overlap_relation_types
+            for relation_type in resolved_relation_types
+        ):
+            errors.append(
+                f"{assessment_location}: overlap_documented requires an overlap, containment, "
+                "or cross-cutting relation; depends_on alone is insufficient"
+            )
+        if assessment_value == "duplicate_resolved" and not any(
+            relations.get(relation_id, {}).get("relation_type") == "substantively_duplicates"
+            and relations.get(relation_id, {}).get("resolution_status") == "resolved"
+            for relation_id in relation_ids
+            if isinstance(relation_id, str)
+        ):
+            errors.append(f"{assessment_location}: resolved duplicate requires a resolved duplicate relation")
+        if assessment_value == "distinct" and any(
+            relation_type != "depends_on" for relation_type in resolved_relation_types
+        ):
+            errors.append(
+                f"{assessment_location}: distinct pair may only cite depends_on relations"
+            )
     if assessed_pairs != expected_pairs:
         errors.append(f"{location}: every candidate pair requires exactly one overlap/duplication assessment")
+    orphan_relation_ids = set(relations) - set(relation_usage)
+    if orphan_relation_ids:
+        errors.append(
+            f"{location}: orphan relation IDs are not accounted for by pair assessments: "
+            f"{sorted(orphan_relation_ids)}"
+        )
+    repeated_relation_ids = sorted(
+        relation_id for relation_id, count in relation_usage.items() if count != 1
+    )
+    if repeated_relation_ids:
+        errors.append(
+            f"{location}: relation IDs must be cited by exactly one pair assessment: "
+            f"{repeated_relation_ids}"
+        )
 
     coverage = proposal.get("coverage_audit")
     if not isinstance(coverage, dict) or coverage.get("status") != "complete":
@@ -1803,6 +2015,7 @@ def validate_domain_universe_repository(root: Path) -> list[str]:
     id_fields = {
         "boundary": "boundary_specification_id",
         "source_frame": "source_frame_id",
+        "extraction": "extraction_id",
         "candidate": "domain_candidate_id",
         "relation": "domain_relation_id",
         "proposal": "domain_universe_proposal_id",

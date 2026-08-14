@@ -7,7 +7,7 @@
   "additionalProperties": false,
   "required": [
     "domain_universe_proposal_id", "instrument_version", "proposal_type",
-    "universe_boundary", "source_frames", "domain_candidates",
+    "universe_boundary", "source_frames", "source_extractions", "domain_candidates",
     "eligibility_decisions", "domain_relations",
     "overlap_duplication_review", "coverage_audit", "domain_dispositions",
     "included_domain_candidate_ids", "created_at"
@@ -18,6 +18,10 @@
     "proposal_type": {"const": "domain_universe"},
     "universe_boundary": {"$ref": "#/$defs/artifact"},
     "source_frames": {
+      "type": "array", "minItems": 2, "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "source_extractions": {
       "type": "array", "minItems": 2, "uniqueItems": true,
       "items": {"$ref": "#/$defs/artifact"}
     },

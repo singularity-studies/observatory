@@ -19,7 +19,7 @@ divided into those categories. The protocol asks:
 > Panel systematically miss?
 
 The goal is coverage, not a metaphysical taxonomy. No domain, source frame,
-candidate, review, authority, or lock is created by this draft.
+extraction, candidate, review, authority, or lock is created by this draft.
 
 ## Universe boundary
 
@@ -73,20 +73,47 @@ an undocumented or unresolved duplicate is not.
 
 No single person or source classification may define the Domain Universe.
 Future candidate generation must use at least two independently identified
-source frames. Each frame records its identity, classification family,
-version/date, auditable source reference, independence group, registration
-date, and completed normalization note before it can enter a locked proposal.
+source frames from distinct source lineages. Each frame records its identity,
+classification family, version/date, auditable source reference,
+`source_lineage_id`, independence group, an explicit `independence_basis`, and
+registration date. A lineage identifies the underlying classification origin,
+not a file or edition. Exact duplicate identity/version/URI registrations do
+not count twice, even when their frame IDs or independence-group labels differ.
 Potential frame families include scientific/research, economic/activity,
 engineering/technology, public-sector or institutional-function, and other
 defensible structured classifications. This task chooses or fetches none.
+
+Machine validation cannot substantively prove intellectual independence. It
+can require reviewable provenance and block obvious duplication or relabeling;
+scientific review remains responsible for assessing the stated independence
+basis.
+
+## Extraction and normalization ledger
+
+Every source frame in a locked proposal has exactly one complete, versioned
+extraction record under `domain-universe/extractions/`. The record is bound to
+the exact source-frame path and SHA-256, states the extraction scope and
+prospective traversal or selection rule, and records every traversed source
+entry's disposition. It may use stable identifiers and short descriptors; no
+copyrighted source document must be copied into this repository.
+
+Entry dispositions are `candidate_created`, `merged_into_candidate`,
+`excluded_out_of_scope`, `excluded_duplicate`, or `unresolved`. Source-entry
+IDs are unique within a frame, and unresolved entries fail closed. Every
+candidate provenance reference identifies an exact extraction artifact and
+concrete entry ID. Candidate-to-entry and entry-to-candidate references must
+agree. This ledger prevents a free-text reference from concealing silent
+cherry-picking or omitted normalization decisions. At least two structurally
+independent source lineages must contribute non-empty extracted-entry sets.
 
 ## Construction pipeline
 
 ```text
 Universe Boundary
 -> Source-Frame Registration
--> Raw Domain Candidates
--> Normalization
+-> Raw Source-Entry Extraction
+-> Normalization Ledger
+-> Domain Candidates
 -> Domain Eligibility
 -> Overlap / Duplication Review
 -> Coverage Audit
@@ -121,15 +148,27 @@ domain-selection variables.
 
 ## Fail-closed lock
 
-A lock requires a fixed boundary, at least two independent normalized source
-frames, a non-empty candidate universe, exactly one deterministic eligibility
-decision per candidate, complete pairwise overlap/duplication review, complete
-coverage audit, explicit disposition of every eligible candidate, a non-empty
-included set containing only eligible candidates, and rationale plus
-uncertainty for every excluded eligible candidate.
+A lock requires a fixed boundary, at least two source frames with distinct
+lineages and reviewable independence bases, exactly one complete extraction
+ledger per frame, at least two lineage-distinct non-empty extractions,
+reciprocal entry-level candidate provenance, a non-empty candidate universe,
+exactly one deterministic eligibility decision per candidate, semantically
+consistent and exhaustive relation/pair accounting, complete pairwise
+overlap/duplication review, complete coverage audit, explicit disposition of
+every eligible candidate, a non-empty included set containing only eligible
+candidates, and rationale plus uncertainty for every excluded eligible
+candidate.
 
-The complete pre-approval state is an immutable proposal bound by path and
-SHA-256. Scientific review must explicitly approve that exact proposal.
+Every relation in the proposal must be cited by exactly one assessment for its
+endpoint pair. `overlap_documented` requires an overlap, containment, or
+cross-cutting relation; `depends_on` alone does not establish overlap.
+`duplicate_resolved` requires a resolved `substantively_duplicates` relation.
+Orphan, repeated, contradictory, endpoint-mismatched, and unresolved relation
+records fail closed.
+
+The complete pre-approval state, including every extraction ledger, is an
+immutable proposal bound by path and SHA-256. Scientific review must explicitly
+approve that exact proposal.
 Governance must explicitly authorize the same proposal and exact approving
 review. Proposal, review, and governance IDs match their filename stems and use
 canonical record directories. The final manifest references this non-circular

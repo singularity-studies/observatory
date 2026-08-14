@@ -8,7 +8,8 @@
   "required": [
     "source_frame_id", "instrument_version", "canonical_name",
     "classification_family", "source_identity", "source_version_or_date",
-    "source_uri", "independence_group", "audit_note", "registered_at",
+    "source_uri", "source_lineage_id", "independence_group",
+    "independence_basis", "audit_note", "registered_at",
     "normalization_status", "normalization_note"
   ],
   "properties": {
@@ -19,7 +20,9 @@
     "source_identity": {"type": "string", "minLength": 1},
     "source_version_or_date": {"type": "string", "minLength": 1},
     "source_uri": {"type": "string", "format": "uri"},
+    "source_lineage_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
     "independence_group": {"type": "string", "minLength": 1},
+    "independence_basis": {"type": "string", "minLength": 1},
     "audit_note": {"type": "string", "minLength": 1},
     "registered_at": {"type": "string", "format": "date-time"},
     "normalization_status": {"type": "string", "enum": ["pending", "complete"]},
