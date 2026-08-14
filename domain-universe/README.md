@@ -12,6 +12,13 @@ classification categories, not Domains. Every normalization disposition is
 intentionally `unresolved`; normalization and candidate generation have not
 begun.
 
+`NORMALIZATION_CODEBOOK.md` v0.1 is prospectively fixed for normalization but
+is not scientifically approved. It fixes the decision rules before any of the
+330 entries can change disposition. Normalization itself has not begun, the
+entries remain untouched and `unresolved`, and the candidate count remains
+zero. Final Domain eligibility rules remain separate, and final governance
+authority remains unresolved.
+
 There is no Domain candidate, eligibility decision, relation, proposal,
 scientific review, governance decision, manifest, included or locked Domain,
 approval, or lock. The Domain Universe is not established or locked, final

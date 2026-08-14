@@ -2746,6 +2746,59 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         self.assertIn("The Domain Universe is not established or locked", current_state)
         self.assertIn("Wave 0 remains unauthorized", current_state.replace("\n", " "))
 
+    def test_normalization_codebook_v0_1_is_prospectively_fixed(self) -> None:
+        path = ROOT / "domain-universe/NORMALIZATION_CODEBOOK.md"
+        self.assertTrue(path.is_file())
+        codebook = path.read_text(encoding="utf-8")
+        self.assertIn("# Domain Universe Normalization Decision Codebook", codebook)
+        self.assertIn("Version: `v0.1`", codebook)
+        self.assertIn(
+            "PROSPECTIVELY FIXED FOR NORMALIZATION; NOT SCIENTIFICALLY APPROVED",
+            codebook,
+        )
+        self.assertIn("Effective normalization batch: **none yet**", codebook)
+        for phrase in (
+            "Normalization is a topic-preserving translation",
+            "Semantic equivalence is not partial overlap.",
+            "Preserve overlap; do not normalize it away.",
+            "Normalization is blind to expected AI advancement",
+        ):
+            self.assertIn(phrase, codebook)
+        self.assertIn("RESERVED / DISABLED IN NORMALIZATION v0.1", codebook)
+        self.assertIn("(source_frame_id, source_entry_id)", codebook)
+        self.assertIn("no scientific priority, evidentiary priority, or conceptual", codebook)
+        self.assertIn("Pass 1 — independent entry interpretation", codebook)
+        self.assertIn("Pass 2 — cross-entry equivalence clustering", codebook)
+        self.assertIn("du-cand-NNNN", codebook)
+        self.assertIn("du-cand-0001", codebook)
+
+    def test_codebook_fixation_does_not_start_normalization(self) -> None:
+        extraction_paths = sorted((ROOT / "domain-universe/extractions").glob("*.json"))
+        entries = []
+        for path in extraction_paths:
+            record = json.loads(path.read_text(encoding="utf-8"))
+            entries.extend(record["extracted_entries"])
+        self.assertEqual(4, len(extraction_paths))
+        self.assertEqual(330, len(entries))
+        self.assertEqual(330, sum(
+            entry["normalization_disposition"] == "unresolved" for entry in entries
+        ))
+        self.assertTrue(all(entry["target_domain_candidate_ids"] == [] for entry in entries))
+
+        frames = [
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in sorted((ROOT / "domain-universe/source-frames").glob("*.json"))
+        ]
+        self.assertEqual(4, len(frames))
+        self.assertTrue(all(frame["normalization_status"] == "pending" for frame in frames))
+        for directory in (
+            "candidates", "eligibility", "relations", "proposals", "reviews",
+            "governance", "manifests",
+        ):
+            self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
+        self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
+        self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+
 
 class HistoricalSelfContainmentTests(unittest.TestCase):
     def setUp(self) -> None:

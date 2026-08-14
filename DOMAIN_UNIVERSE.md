@@ -135,6 +135,15 @@ context. Every entry remains `unresolved` with no target candidate. Extraction
 completeness does not establish scope, duplication, eligibility, a Domain, or a
 Domain Universe.
 
+Normalization Codebook v0.1 is now prospectively fixed in
+`domain-universe/NORMALIZATION_CODEBOOK.md`, before any normalization
+disposition changes. The codebook defines topic-preserving interpretation,
+high-bar equivalence, partial-overlap preservation, deterministic anchors, and
+the two-pass procedure. It is not scientifically approved, normalization has
+not begun, all 330 entries remain untouched and `unresolved`, and the Domain
+candidate count remains zero. Final Domain eligibility remains a separate
+governed stage.
+
 ## Construction pipeline
 
 ```text
@@ -211,6 +220,7 @@ chain and creates no authority by itself.
 
 Domain names, domain count, source-entry normalization outcomes, weights, panel
 quotas, final Frozen Panel size, improvement-loop stage taxonomy, final
-Singularity measurement dimensions, and final Domain Universe governance
-authority remain unresolved. No Domain Universe is established or locked, the
-Frozen Panel remains unselected, and Wave 0 remains unauthorized.
+Singularity measurement dimensions, scientific approval of the normalization
+codebook, and final Domain Universe governance authority remain unresolved. No
+Domain Universe is established or locked, the Frozen Panel remains unselected,
+and Wave 0 remains unauthorized.
