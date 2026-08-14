@@ -18,8 +18,10 @@ divided into those categories. The protocol asks:
 > What parts of civilization's recurrent improvement activity could our Frozen
 > Panel systematically miss?
 
-The goal is coverage, not a metaphysical taxonomy. No domain, source frame,
-extraction, candidate, review, authority, or lock is created by this draft.
+The goal is coverage, not a metaphysical taxonomy. Construction has begun with
+one prospectively fixed boundary and four registered source frames. No source
+entry has been extracted or normalized, and no Domain, candidate, eligibility
+decision, proposal, review, authority, or lock has been created.
 
 ## Universe boundary
 
@@ -34,7 +36,8 @@ prospectively. It must explain how the research universe treats:
 
 It must also distinguish this research universe from all human activity, all
 economic sectors, all AI applications, all occupations, all tasks, and generic
-automation. This scaffold does not settle the substantive boundary.
+automation. Boundary `du-boundary-v0.1` is now fixed prospectively for Domain
+candidate generation. Fixing it does not establish or lock a Domain Universe.
 
 ## Domain unit and eligibility
 
@@ -95,7 +98,10 @@ not a file or edition. Exact duplicate identity/version/URI registrations do
 not count twice, even when their frame IDs or independence-group labels differ.
 Potential frame families include scientific/research, economic/activity,
 engineering/technology, public-sector or institutional-function, and other
-defensible structured classifications. This task chooses or fetches none.
+defensible structured classifications. The registered frames are OECD FORD
+(Frascati Manual 2015), UN ISIC Revision 5, WIPO IPC 2026.01, and UN COFOG
+1999. Registration records provenance only; extraction and normalization have
+not begun.
 
 Machine validation cannot substantively prove intellectual independence. It
 can require reviewable provenance and block obvious duplication or relabeling;
@@ -194,6 +200,8 @@ chain and creates no authority by itself.
 
 ## Unresolved scientific decisions
 
-Actual boundary content, source frames, domain names, domain count, weights,
-panel quotas, final Frozen Panel size, improvement-loop stage taxonomy, and
-final Singularity measurement dimensions remain unresolved.
+Domain names, domain count, source-entry traversal and normalization outcomes,
+weights, panel quotas, final Frozen Panel size, improvement-loop stage taxonomy,
+final Singularity measurement dimensions, and final Domain Universe governance
+authority remain unresolved. No Domain Universe is established or locked, and
+Wave 0 remains unauthorized.

@@ -1,0 +1,16 @@
+{
+  "source_frame_id": "wipo-ipc-2026-01",
+  "instrument_version": "0.5.0-draft",
+  "canonical_name": "WIPO International Patent Classification (IPC), 2026.01",
+  "classification_family": "engineering_technology",
+  "source_identity": "International Patent Classification (IPC), version 2026.01",
+  "source_version_or_date": "2026.01; effective 2026-01-01",
+  "source_uri": "https://www.wipo.int/classifications/data/ipc/ITSupport_and_download_area/20260101/MasterFiles/",
+  "source_lineage_id": "wipo-ipc",
+  "independence_group": "technology-domain",
+  "independence_basis": "This frame classifies technological subject matter represented in patents and utility models. Its primary classification object differs from R&D knowledge domain (FORD), economic activity (ISIC), and government expenditure purpose (COFOG). Structural independence is recorded for candidate generation; substantive independence remains reviewable at scientific review.",
+  "audit_note": "WIPO identifies IPC 2026.01 as the current edition for the Task 103 registration date and states that it entered into force on 2026-01-01. Use the version-specific 2026.01 master files. Do not mix entries from the early-published IPC 2027.01.",
+  "registered_at": "2026-08-14T14:05:55Z",
+  "normalization_status": "pending",
+  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified IPC 2026.01 hierarchy."
+}

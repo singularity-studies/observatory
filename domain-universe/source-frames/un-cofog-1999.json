@@ -1,0 +1,16 @@
+{
+  "source_frame_id": "un-cofog-1999",
+  "instrument_version": "0.5.0-draft",
+  "canonical_name": "United Nations Classification of the Functions of Government (COFOG), 1999",
+  "classification_family": "public_institutional_function",
+  "source_identity": "Classification of the Functions of Government (COFOG), 1999",
+  "source_version_or_date": "1999; operational legacy-current classification",
+  "source_uri": "https://unstats.un.org/unsd/classifications/Econ",
+  "source_lineage_id": "un-cofog",
+  "independence_group": "public-purpose",
+  "independence_basis": "This frame classifies the functions or socioeconomic objectives of general government expenditure. Although COFOG and ISIC both sit within the broader United Nations statistical-classification ecosystem, they are distinct classification lineages with different target concepts: government-purpose classification versus kind of economic activity. This structural-independence claim remains subject to substantive scientific review.",
+  "audit_note": "UNSD lists COFOG 1999 as operational. An official COFOG revision is underway and is anticipated to be completed around 2028. Treat COFOG 1999 as legacy-current for this construction cycle. A future revised COFOG must not retroactively rewrite this source-frame record.",
+  "registered_at": "2026-08-14T14:05:55Z",
+  "normalization_status": "pending",
+  "normalization_note": "No source-entry extraction or normalization has occurred. A later governed task will traverse the prospectively specified COFOG 1999 levels."
+}

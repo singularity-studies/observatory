@@ -1,11 +1,18 @@
 # Domain Universe records
 
-This namespace is reserved for future governed Domain Universe records. It
-currently contains no boundary, source frame, extraction, candidate,
-eligibility decision, relation, proposal, review, governance decision,
-manifest, approval, or lock.
+Domain Universe construction is in progress. This namespace contains one
+prospectively fixed boundary specification, `du-boundary-v0.1`, and exactly
+four registered source frames: OECD FORD (Frascati Manual 2015), UN ISIC
+Revision 5, WIPO IPC 2026.01, and UN COFOG 1999.
 
-Future records use these canonical locations:
+Source extraction and normalization have not begun. There is no extraction,
+Domain candidate, eligibility decision, relation, proposal, scientific review,
+governance decision, manifest, included or locked Domain, approval, or lock.
+The Domain Universe is not established or locked, final governance authority
+remains unresolved, Frozen Panel selection has not begun, and Wave 0 remains
+unauthorized.
+
+Records use these canonical locations:
 
 - `domain-universe/boundaries/`
 - `domain-universe/source-frames/`
