@@ -180,6 +180,7 @@ DOMAIN_SCHEMA_PATHS = {
     "boundary": "schemas/domain-universe-boundary.schema.json",
     "source_frame": "schemas/domain-source-frame.schema.json",
     "extraction": "schemas/domain-source-extraction.schema.json",
+    "normalization_overlay": "schemas/domain-normalization-disposition-overlay.schema.json",
     "candidate": "schemas/domain-candidate.schema.json",
     "eligibility": "schemas/domain-eligibility-decision.schema.json",
     "relation": "schemas/domain-relation.schema.json",
@@ -1337,6 +1338,35 @@ def _artifact_identity(reference: Any) -> tuple[str, str] | None:
     return path, digest
 
 
+def _schema_constant_artifact(
+    schema: dict[str, Any], definition_name: str
+) -> dict[str, str] | None:
+    definition = schema.get("$defs", {}).get(definition_name)
+    if not isinstance(definition, dict):
+        return None
+    path: str | None = None
+    digest: str | None = None
+    nodes = [definition]
+    all_of = definition.get("allOf")
+    if isinstance(all_of, list):
+        nodes.extend(item for item in all_of if isinstance(item, dict))
+    for node in nodes:
+        properties = node.get("properties")
+        if not isinstance(properties, dict):
+            continue
+        path_schema = properties.get("path")
+        digest_schema = properties.get("sha256")
+        if isinstance(path_schema, dict) and isinstance(path_schema.get("const"), str):
+            path = path_schema["const"]
+        if isinstance(digest_schema, dict) and isinstance(
+            digest_schema.get("const"), str
+        ):
+            digest = digest_schema["const"]
+    if path is None or digest is None:
+        return None
+    return {"path": path, "sha256": digest}
+
+
 def validate_domain_eligibility_decision(
     root: Path,
     record: Any,
@@ -1517,8 +1547,6 @@ def validate_domain_universe_manifest(
                     )
                 elif isinstance(frame_id, str):
                     source_fingerprints[fingerprint] = frame_id
-            if frame.get("normalization_status") != "complete":
-                errors.append(f"{frame_location}: source frame must be normalized before lock")
     if (
         len(source_frames) < 2
         or len(independence_groups) < 2
@@ -1595,8 +1623,6 @@ def validate_domain_universe_manifest(
                     )
                 entry_ids.add(entry_id)
                 extraction_entries[(extraction_key, entry_id)] = entry
-            if entry.get("normalization_disposition") == "unresolved":
-                errors.append(f"{entry_location}: unresolved extraction entry cannot pass lock")
         if entries and frame_key in source_frames_by_artifact:
             frame = source_frames_by_artifact[frame_key]
             lineage_id = frame.get("source_lineage_id")
@@ -1612,6 +1638,168 @@ def validate_domain_universe_manifest(
         errors.append(
             f"{location}: at least two distinct source lineages must contribute non-empty extracted-entry sets"
         )
+
+    overlay_reference = proposal.get("normalization_disposition_overlay")
+    overlay, overlay_path, overlay_errors = _load_domain_record(
+        root,
+        overlay_reference,
+        f"{location}: proposal normalization_disposition_overlay",
+        container,
+        "normalization/dispositions",
+    )
+    errors.extend(overlay_errors)
+    overlay_entries_by_identity: dict[
+        tuple[tuple[str, str], str], dict[str, Any]
+    ] = {}
+    if overlay is not None:
+        errors.extend(
+            _validate_domain_record(
+                overlay,
+                schemas["normalization_overlay"],
+                f"{location}: proposal normalization_disposition_overlay",
+                version,
+                "normalization_disposition_overlay_id",
+                overlay_path,
+            )
+        )
+    if isinstance(overlay, dict):
+        overlay_schema = schemas["normalization_overlay"]
+        expected_single_inputs = {
+            field: _schema_constant_artifact(overlay_schema, definition)
+            for field, definition in {
+                "materialization_protocol": "materialization_protocol",
+                "normalization_codebook": "normalization_codebook",
+                "universe_boundary": "universe_boundary",
+                "pass2a_record": "pass2a_record",
+                "pass2b_record": "pass2b_record",
+            }.items()
+        }
+        for field, expected_reference in expected_single_inputs.items():
+            if expected_reference is None or overlay.get(field) != expected_reference:
+                errors.append(
+                    f"{location}: normalization overlay must bind the exact {field} artifact"
+                )
+        expected_extractions = [
+            _schema_constant_artifact(overlay_schema, definition)
+            for definition in (
+                "ford_extraction",
+                "isic_extraction",
+                "ipc_extraction",
+                "cofog_extraction",
+            )
+        ]
+        expected_pass1 = [
+            _schema_constant_artifact(overlay_schema, definition)
+            for definition in (
+                "ford_pass1",
+                "isic_pass1",
+                "ipc_pass1",
+                "cofog_pass1",
+            )
+        ]
+        if any(reference is None for reference in expected_extractions) or overlay.get(
+            "source_extractions"
+        ) != expected_extractions:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact four Task 104 extractions"
+            )
+        if any(reference is None for reference in expected_pass1) or overlay.get(
+            "pass1_records"
+        ) != expected_pass1:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact four Pass 1 records"
+            )
+        if overlay.get("status") != "complete":
+            errors.append(f"{location}: proposal normalization overlay must be complete")
+        overlay_entries = overlay.get("entries")
+        if not isinstance(overlay_entries, list):
+            overlay_entries = []
+        if len(overlay_entries) != 330:
+            errors.append(
+                f"{location}: complete normalization overlay must contain exactly 330 entries"
+            )
+        if overlay.get("universe_boundary") != boundary_reference:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact proposal boundary"
+            )
+        if overlay.get("source_extractions") != extraction_references:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact proposal extractions"
+            )
+
+        single_input_fields = (
+            "materialization_protocol",
+            "normalization_codebook",
+            "universe_boundary",
+            "pass2a_record",
+            "pass2b_record",
+        )
+        for field in single_input_fields:
+            _, input_errors = validate_artifact_ref(
+                root,
+                overlay.get(field),
+                f"{location}: normalization overlay {field}",
+            )
+            errors.extend(input_errors)
+        for field in ("source_extractions", "pass1_records"):
+            references = overlay.get(field)
+            if not isinstance(references, list):
+                references = []
+            for index, reference in enumerate(references):
+                _, input_errors = validate_artifact_ref(
+                    root,
+                    reference,
+                    f"{location}: normalization overlay {field}[{index}]",
+                )
+                errors.extend(input_errors)
+
+        for index, entry in enumerate(overlay_entries):
+            entry_location = f"{location}: normalization overlay entries[{index}]"
+            if not isinstance(entry, dict):
+                continue
+            extraction_key = _artifact_identity(entry.get("source_extraction"))
+            entry_id = entry.get("source_entry_id")
+            if extraction_key not in extractions_by_artifact:
+                errors.append(
+                    f"{entry_location}: source extraction is not an exact proposal extraction"
+                )
+                continue
+            if not isinstance(entry_id, str) or (
+                extraction_key, entry_id
+            ) not in extraction_entries:
+                errors.append(
+                    f"{entry_location}: source entry does not resolve in its immutable extraction"
+                )
+                continue
+            identity = (extraction_key, entry_id)
+            if identity in overlay_entries_by_identity:
+                errors.append(
+                    f"{entry_location}: duplicate normalization-overlay source-entry identity"
+                )
+                continue
+            overlay_entries_by_identity[identity] = entry
+            frame_key = extraction_source_frames.get(extraction_key)
+            frame = source_frames_by_artifact.get(frame_key) if frame_key is not None else None
+            expected_frame_id = frame.get("source_frame_id") if isinstance(frame, dict) else None
+            if entry.get("source_frame_id") != expected_frame_id:
+                errors.append(
+                    f"{entry_location}: source_frame_id does not match immutable extraction provenance"
+                )
+            if entry.get("normalization_disposition") == "unresolved":
+                errors.append(
+                    f"{entry_location}: unresolved normalization overlay entry cannot pass lock"
+                )
+
+        missing_identities = set(extraction_entries) - set(overlay_entries_by_identity)
+        extra_identities = set(overlay_entries_by_identity) - set(extraction_entries)
+        if missing_identities:
+            errors.append(
+                f"{location}: normalization overlay omits immutable source-entry identities"
+            )
+        if extra_identities:
+            errors.append(
+                f"{location}: normalization overlay contains extra source-entry identities"
+            )
 
     candidates: dict[str, dict[str, Any]] = {}
     candidate_references: dict[str, dict[str, Any]] = {}
@@ -1646,6 +1834,10 @@ def validate_domain_universe_manifest(
                 candidates[candidate_id] = candidate
                 if isinstance(reference, dict):
                     candidate_references[candidate_id] = reference
+            if candidate.get("normalization_disposition_record") != overlay_reference:
+                errors.append(
+                    f"{candidate_location}: candidate must bind the exact proposal normalization overlay"
+                )
             provenance = candidate.get("provenance_references")
             if isinstance(provenance, list):
                 for item in provenance:
@@ -1667,11 +1859,17 @@ def validate_domain_universe_manifest(
                         continue
                     provenance_key = (extraction_key, entry_id)
                     candidate_provenance.setdefault(candidate_id, set()).add(provenance_key)
-                    entry = extraction_entries[provenance_key]
-                    targets = entry.get("target_domain_candidate_ids")
-                    if not isinstance(targets, list) or candidate_id not in targets:
+                    overlay_entry = overlay_entries_by_identity.get(provenance_key)
+                    if overlay_entry is None:
                         errors.append(
-                            f"{candidate_location}: candidate-to-entry provenance is not reciprocal"
+                            f"{candidate_location}: provenance has no reciprocal normalization-overlay entry"
+                        )
+                    elif overlay_entry.get("normalization_disposition") not in {
+                        "candidate_created",
+                        "merged_into_candidate",
+                    } or overlay_entry.get("target_domain_candidate_ids") != [candidate_id]:
+                        errors.append(
+                            f"{candidate_location}: candidate-to-overlay provenance is not reciprocal"
                         )
                     frame_key = extraction_source_frames.get(extraction_key)
                     frame = source_frames_by_artifact.get(frame_key) if frame_key is not None else None
@@ -1689,19 +1887,42 @@ def validate_domain_universe_manifest(
             f"{location}: no single source frame may define the Domain Universe"
         )
 
-    for (extraction_key, entry_id), entry in extraction_entries.items():
-        targets = entry.get("target_domain_candidate_ids")
-        if not isinstance(targets, list):
+    anchor_counts: dict[str, int] = {}
+    for (extraction_key, entry_id), entry in overlay_entries_by_identity.items():
+        disposition = entry.get("normalization_disposition")
+        if disposition not in {"candidate_created", "merged_into_candidate"}:
             continue
-        for candidate_id in targets:
-            if candidate_id not in candidates:
-                errors.append(
-                    f"{location}: extraction entry target {candidate_id!r} is outside candidate universe"
-                )
-            elif (extraction_key, entry_id) not in candidate_provenance.get(candidate_id, set()):
-                errors.append(
-                    f"{location}: extraction-entry-to-candidate provenance is not reciprocal"
-                )
+        targets = entry.get("target_domain_candidate_ids")
+        if not isinstance(targets, list) or len(targets) != 1:
+            errors.append(
+                f"{location}: candidate-bearing normalization overlay entry requires exactly one target"
+            )
+            continue
+        candidate_id = targets[0]
+        if candidate_id not in candidates:
+            errors.append(
+                f"{location}: normalization overlay target {candidate_id!r} is outside candidate universe"
+            )
+        elif (extraction_key, entry_id) not in candidate_provenance.get(candidate_id, set()):
+            errors.append(
+                f"{location}: overlay-to-candidate provenance is not reciprocal"
+            )
+        if disposition == "candidate_created":
+            anchor_counts[candidate_id] = anchor_counts.get(candidate_id, 0) + 1
+
+    represented_candidate_ids = {
+        target
+        for entry in overlay_entries_by_identity.values()
+        if entry.get("normalization_disposition")
+        in {"candidate_created", "merged_into_candidate"}
+        for target in entry.get("target_domain_candidate_ids", [])
+        if isinstance(target, str)
+    }
+    for candidate_id in represented_candidate_ids:
+        if anchor_counts.get(candidate_id, 0) != 1:
+            errors.append(
+                f"{location}: candidate {candidate_id!r} requires exactly one candidate_created anchor"
+            )
 
     decisions_by_candidate: dict[str, list[dict[str, Any]]] = {}
     decision_ids: set[str] = set()

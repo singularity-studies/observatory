@@ -1305,101 +1305,103 @@ class TemporaryDomainRepository(TemporaryRepository):
 
     def create_locked_domain_universe(self) -> dict[str, object]:
         version = CURRENT_DOMAIN_VERSION
-        boundary = {
-            "boundary_specification_id": "test-only-boundary",
-            "instrument_version": version,
-            "status": "fixed",
-            "domain_definition": (
-                "A domain is a relatively stable locus of recurrent improvement activity, "
-                "defined for coverage and sampling rather than as an exclusive ontological category."
-            ),
-            "coverage_question": (
-                "What parts of civilization's recurrent improvement activity could our "
-                "Frozen Panel systematically miss?"
-            ),
-            "in_scope": {
-                "recurrent_improvement_activity": "TEMPORARY TEST FIXTURE ONLY; no real boundary.",
-                "later_cycle_change": "TEMPORARY TEST FIXTURE ONLY; no real boundary.",
-                "human_criticality_investigability": "TEMPORARY TEST FIXTURE ONLY; no real boundary.",
-            },
-            "research_universe_distinctions": {
-                key: "TEMPORARY TEST FIXTURE ONLY; no substantive distinction."
-                for key in (
-                    "all_human_activity",
-                    "all_economic_sectors",
-                    "all_ai_applications",
-                    "all_occupations",
-                    "all_tasks",
-                    "generic_automation",
-                )
-            },
-            "rationale": "TEMPORARY TEST FIXTURE ONLY; not a real universe boundary.",
-            "fixed_at": "2026-01-01T00:00:00Z",
-        }
-        boundary_relative = "domain-universe/boundaries/test-only-boundary.json"
-        write_json(self.root / boundary_relative, boundary)
-
-        frame_references: list[dict[str, str]] = []
-        for index, family in enumerate(("scientific_research", "economic_activity"), 1):
-            frame_id = f"test-only-frame-{index}"
-            frame = {
-                "source_frame_id": frame_id,
-                "instrument_version": version,
-                "canonical_name": f"Temporary source frame {index}",
-                "classification_family": family,
-                "source_identity": "TEMPORARY TEST FIXTURE ONLY; no real source selected.",
-                "source_version_or_date": "test-only-version",
-                "source_uri": f"urn:test:{frame_id}",
-                "source_lineage_id": f"test-only-lineage-{index}",
-                "independence_group": f"test-only-independent-group-{index}",
-                "independence_basis": (
-                    "TEMPORARY TEST FIXTURE ONLY; structurally distinct lineage for validation."
-                ),
-                "audit_note": "TEMPORARY TEST FIXTURE ONLY; independently auditable structure only.",
-                "registered_at": "2026-01-01T00:00:00Z",
-                "normalization_status": "complete",
-                "normalization_note": "TEMPORARY TEST FIXTURE ONLY; no real normalization.",
-            }
-            relative = f"domain-universe/source-frames/{frame_id}.json"
-            write_json(self.root / relative, frame)
-            frame_references.append(self.reference(relative))
-
-        domain_ids = ("test-only-domain-a", "test-only-domain-b")
-        extraction_references: list[dict[str, str]] = []
-        for index, (frame_reference, domain_id) in enumerate(
-            zip(frame_references, domain_ids), 1
+        boundary_relative = "domain-universe/boundaries/du-boundary-v0.1.json"
+        for relative in (
+            boundary_relative,
+            "domain-universe/NORMALIZATION_CODEBOOK.md",
         ):
-            extraction_id = f"test-only-extraction-{index}"
-            extraction = {
-                "extraction_id": extraction_id,
-                "instrument_version": version,
-                "source_frame": frame_reference,
-                "extraction_scope": "TEMPORARY TEST FIXTURE ONLY; no real extraction scope.",
-                "traversal_or_selection_rule": (
-                    "TEMPORARY TEST FIXTURE ONLY; no real traversal or selection."
-                ),
-                "extraction_status": "complete",
-                "extracted_entries": [
+            path = self.root / relative
+            path.write_bytes(path.read_bytes().replace(b"\r\n", b"\n"))
+        extraction_relatives = (
+            "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json",
+            "domain-universe/extractions/un-isic-rev5-division.json",
+            "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+            "domain-universe/extractions/un-cofog-1999-group.json",
+        )
+        extraction_references = [self.reference(relative) for relative in extraction_relatives]
+        extractions = [
+            json.loads((self.root / relative).read_text(encoding="utf-8"))
+            for relative in extraction_relatives
+        ]
+        frame_references = [dict(extraction["source_frame"]) for extraction in extractions]
+        frame_ids = [
+            json.loads(
+                (self.root / reference["path"]).read_text(encoding="utf-8")
+            )["source_frame_id"]
+            for reference in frame_references
+        ]
+
+        domain_ids = ("du-cand-0001", "du-cand-0002")
+        anchor_identities = {
+            (extraction_references[0]["path"], extractions[0]["extracted_entries"][0]["source_entry_id"]): domain_ids[0],
+            (extraction_references[1]["path"], extractions[1]["extracted_entries"][0]["source_entry_id"]): domain_ids[1],
+        }
+        overlay_entries: list[dict[str, object]] = []
+        for frame_id, extraction_reference, extraction in zip(
+            frame_ids, extraction_references, extractions
+        ):
+            for source_entry in extraction["extracted_entries"]:
+                identity = (extraction_reference["path"], source_entry["source_entry_id"])
+                candidate_id = anchor_identities.get(identity)
+                overlay_entries.append(
                     {
-                        "source_entry_id": f"test-only-entry-{index}",
-                        "source_entry_reference": "urn:test:source-entry",
-                        "source_entry_descriptor": (
-                            "TEMPORARY TEST FIXTURE ONLY; no real source descriptor."
+                        "source_frame_id": frame_id,
+                        "source_extraction": extraction_reference,
+                        "source_entry_id": source_entry["source_entry_id"],
+                        "normalization_group_id": "ng-0000000000000001",
+                        "normalization_disposition": (
+                            "candidate_created" if candidate_id else "excluded_out_of_scope"
                         ),
-                        "normalization_disposition": "candidate_created",
-                        "target_domain_candidate_ids": [domain_id],
+                        "target_domain_candidate_ids": [candidate_id] if candidate_id else [],
                         "rationale": (
-                            "TEMPORARY TEST FIXTURE ONLY; no scientific normalization."
+                            "TEMPORARY TEST FIXTURE ONLY; exercises lock structure and makes "
+                            "no scientific normalization decision."
+                        ),
+                        "uncertainty": (
+                            "TEMPORARY TEST FIXTURE ONLY; not a scientific determination."
                         ),
                     }
-                ],
-                "rationale": "TEMPORARY TEST FIXTURE ONLY; no real extraction rationale.",
-                "uncertainty": "TEMPORARY TEST FIXTURE ONLY; unresolved scientifically.",
-                "recorded_at": "2026-01-01T00:00:00Z",
-            }
-            relative = f"domain-universe/extractions/{extraction_id}.json"
-            write_json(self.root / relative, extraction)
-            extraction_references.append(self.reference(relative))
+                )
+
+        pass1_relatives = (
+            "domain-universe/normalization/pass1/oecd-ford-frascati-2015-pass1.json",
+            "domain-universe/normalization/pass1/un-isic-rev5-pass1.json",
+            "domain-universe/normalization/pass1/wipo-ipc-2026-01-pass1.json",
+            "domain-universe/normalization/pass1/un-cofog-1999-pass1.json",
+        )
+        overlay = {
+            "normalization_disposition_overlay_id": "test-only-normalization-overlay",
+            "instrument_version": version,
+            "materialization_protocol": self.reference(
+                "domain-universe/NORMALIZATION_MATERIALIZATION_PROTOCOL.md"
+            ),
+            "normalization_codebook": self.reference(
+                "domain-universe/NORMALIZATION_CODEBOOK.md"
+            ),
+            "universe_boundary": self.reference(boundary_relative),
+            "source_extractions": extraction_references,
+            "pass1_records": [self.reference(relative) for relative in pass1_relatives],
+            "pass2a_record": self.reference(
+                "domain-universe/normalization/pass2a/equivalence-groups-v0.1.json"
+            ),
+            "pass2b_record": self.reference(
+                "domain-universe/normalization/pass2b/deferred-equivalence-adjudication-v0.1.json"
+            ),
+            "status": "complete",
+            "entries": overlay_entries,
+            "rationale": (
+                "TEMPORARY TEST FIXTURE ONLY; not a real normalization overlay."
+            ),
+            "uncertainty": (
+                "TEMPORARY TEST FIXTURE ONLY; no scientific inference is represented."
+            ),
+            "recorded_at": "2026-01-01T00:00:00Z",
+        }
+        overlay_relative = (
+            "domain-universe/normalization/dispositions/test-only-normalization-overlay.json"
+        )
+        write_json(self.root / overlay_relative, overlay)
+        overlay_reference = self.reference(overlay_relative)
 
         candidate_references: list[dict[str, str]] = []
         eligibility_references: list[dict[str, str]] = []
@@ -1415,14 +1417,13 @@ class TemporaryDomainRepository(TemporaryRepository):
                 "recurrent_improvement_rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical claim.",
                 "continuity_rule": "TEMPORARY TEST FIXTURE ONLY; no real continuity determination.",
                 "overlap_notes": "TEMPORARY TEST FIXTURE ONLY; overlap not empirically assessed.",
-                "normalization_disposition_record": {
-                    "path": "test-only/normalization-disposition-overlay.json",
-                    "sha256": "0" * 64,
-                },
+                "normalization_disposition_record": overlay_reference,
                 "provenance_references": [
                     {
                         "source_extraction": extraction_references[index - 1],
-                        "source_entry_id": f"test-only-entry-{index}",
+                        "source_entry_id": extractions[index - 1]["extracted_entries"][0][
+                            "source_entry_id"
+                        ],
                     }
                 ],
             }
@@ -1464,6 +1465,7 @@ class TemporaryDomainRepository(TemporaryRepository):
             "universe_boundary": self.reference(boundary_relative),
             "source_frames": frame_references,
             "source_extractions": extraction_references,
+            "normalization_disposition_overlay": overlay_reference,
             "domain_candidates": candidate_references,
             "eligibility_decisions": eligibility_references,
             "domain_relations": [],
@@ -1601,6 +1603,58 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         )
         return errors
 
+    def mutate_overlay(
+        self, manifest: dict[str, object], mutate
+    ) -> dict[str, object]:
+        proposal_reference = manifest["domain_universe_proposal"]
+        proposal = json.loads(
+            (self.repository.root / proposal_reference["path"]).read_text(
+                encoding="utf-8"
+            )
+        )
+        overlay_reference = proposal["normalization_disposition_overlay"]
+        overlay_path = self.repository.root / overlay_reference["path"]
+        overlay = json.loads(overlay_path.read_text(encoding="utf-8"))
+        mutate(overlay)
+        write_json(overlay_path, overlay)
+        replacement = self.repository.reference(overlay_reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current.update(
+                {"normalization_disposition_overlay": replacement}
+            ),
+        )
+        return overlay
+
+    def mutate_candidate(
+        self, manifest: dict[str, object], candidate_index: int, mutate
+    ) -> None:
+        proposal = json.loads(
+            (
+                self.repository.root
+                / manifest["domain_universe_proposal"]["path"]
+            ).read_text(encoding="utf-8")
+        )
+        candidate_reference = proposal["domain_candidates"][candidate_index]
+        candidate_path = self.repository.root / candidate_reference["path"]
+        candidate = json.loads(candidate_path.read_text(encoding="utf-8"))
+        mutate(candidate)
+        write_json(candidate_path, candidate)
+        new_candidate_reference = self.repository.reference(candidate_reference["path"])
+
+        decision_reference = proposal["eligibility_decisions"][candidate_index]
+        decision_path = self.repository.root / decision_reference["path"]
+        decision = json.loads(decision_path.read_text(encoding="utf-8"))
+        decision["domain_candidate"] = new_candidate_reference
+        write_json(decision_path, decision)
+        new_decision_reference = self.repository.reference(decision_reference["path"])
+
+        def mutate_proposal(current: dict[str, object]) -> None:
+            current["domain_candidates"][candidate_index] = new_candidate_reference
+            current["eligibility_decisions"][candidate_index] = new_decision_reference
+
+        self.repository.rewrite_chain(manifest, mutate_proposal)
+
     def set_pair_relation(
         self,
         manifest: dict[str, object],
@@ -1613,9 +1667,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": relation_id,
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": relation_type,
-                "object_domain_candidate_id": "test-only-domain-b",
+                "object_domain_candidate_id": "du-cand-0002",
                 "resolution_status": resolution_status,
                 "rationale": (
                     "TEMPORARY TEST FIXTURE ONLY; no real relation determination."
@@ -1676,6 +1730,290 @@ class DomainUniverseProtocolTests(unittest.TestCase):
                 (self.repository.root / reference["path"]).read_text(encoding="utf-8"),
             )
 
+    def test_proposal_without_normalization_overlay_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.repository.rewrite_chain(
+            manifest,
+            lambda proposal: proposal.pop("normalization_disposition_overlay"),
+        )
+        self.assertTrue(
+            any(
+                "normalization_disposition_overlay" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_proposal_overlay_must_be_under_dispositions_directory(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (
+                self.repository.root
+                / manifest["domain_universe_proposal"]["path"]
+            ).read_text(encoding="utf-8")
+        )
+        source = self.repository.root / proposal["normalization_disposition_overlay"]["path"]
+        outside_relative = "domain-universe/normalization/test-only-overlay.json"
+        write_json(
+            self.repository.root / outside_relative,
+            json.loads(source.read_text(encoding="utf-8")),
+        )
+        outside_reference = self.repository.reference(outside_relative)
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current.update(
+                {"normalization_disposition_overlay": outside_reference}
+            ),
+        )
+        self.assertTrue(
+            any("normalization/dispositions" in error for error in self.validate(manifest))
+        )
+
+    def test_partial_proposal_overlay_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.mutate_overlay(manifest, lambda overlay: overlay.update({"status": "partial"}))
+        self.assertTrue(
+            any("overlay must be complete" in error for error in self.validate(manifest))
+        )
+
+    def test_complete_overlay_with_fewer_than_330_identities_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.mutate_overlay(manifest, lambda overlay: overlay["entries"].pop())
+        self.assertTrue(
+            any("exactly 330 entries" in error for error in self.validate(manifest))
+        )
+
+    def test_complete_overlay_duplicate_identity_with_length_330_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def duplicate_identity(overlay: dict[str, object]) -> None:
+            overlay["entries"][-1] = dict(overlay["entries"][0])
+
+        self.mutate_overlay(manifest, duplicate_identity)
+        self.assertTrue(
+            any(
+                "duplicate normalization-overlay source-entry identity" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_complete_overlay_with_unresolved_entry_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def make_unresolved(overlay: dict[str, object]) -> None:
+            entry = overlay["entries"][-1]
+            entry["normalization_disposition"] = "unresolved"
+            entry["target_domain_candidate_ids"] = []
+
+        self.mutate_overlay(manifest, make_unresolved)
+        self.assertTrue(
+            any(
+                "unresolved normalization overlay entry" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_overlay_entry_absent_from_immutable_extraction_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.mutate_overlay(
+            manifest,
+            lambda overlay: overlay["entries"][-1].update(
+                {"source_entry_id": "test-only-missing-source-entry"}
+            ),
+        )
+        self.assertTrue(
+            any(
+                "does not resolve in its immutable extraction" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_overlay_exact_input_chain_mismatches_fail(self) -> None:
+        mutations = (
+            (
+                "materialization_protocol",
+                lambda overlay: overlay["materialization_protocol"].update(
+                    {"sha256": "0" * 64}
+                ),
+            ),
+            (
+                "normalization_codebook",
+                lambda overlay: overlay["normalization_codebook"].update(
+                    {"sha256": "0" * 64}
+                ),
+            ),
+            (
+                "universe_boundary",
+                lambda overlay: overlay["universe_boundary"].update(
+                    {"sha256": "0" * 64}
+                ),
+            ),
+            (
+                "Task 104 extractions",
+                lambda overlay: overlay["source_extractions"][0].update(
+                    {"sha256": "0" * 64}
+                ),
+            ),
+            (
+                "Pass 1 records",
+                lambda overlay: overlay["pass1_records"][0].update(
+                    {"sha256": "0" * 64}
+                ),
+            ),
+            (
+                "pass2a_record",
+                lambda overlay: overlay["pass2a_record"].update(
+                    {"sha256": "0" * 64}
+                ),
+            ),
+            (
+                "pass2b_record",
+                lambda overlay: overlay["pass2b_record"].update(
+                    {"sha256": "0" * 64}
+                ),
+            ),
+        )
+        for expected_error, mutate in mutations:
+            with self.subTest(input=expected_error):
+                manifest = self.repository.create_locked_domain_universe()
+                self.mutate_overlay(manifest, mutate)
+                self.assertTrue(
+                    any(expected_error in error for error in self.validate(manifest))
+                )
+
+    def test_candidate_must_bind_exact_proposal_overlay(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.mutate_candidate(
+            manifest,
+            0,
+            lambda candidate: candidate.update(
+                {
+                    "normalization_disposition_record": {
+                        "path": "domain-universe/normalization/dispositions/test-only-other.json",
+                        "sha256": "0" * 64,
+                    }
+                }
+            ),
+        )
+        self.assertTrue(
+            any(
+                "must bind the exact proposal normalization overlay" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_candidate_provenance_without_reciprocal_overlay_target_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (
+                self.repository.root
+                / manifest["domain_universe_proposal"]["path"]
+            ).read_text(encoding="utf-8")
+        )
+        overlay = json.loads(
+            (
+                self.repository.root
+                / proposal["normalization_disposition_overlay"]["path"]
+            ).read_text(encoding="utf-8")
+        )
+        excluded = overlay["entries"][-1]
+        self.mutate_candidate(
+            manifest,
+            0,
+            lambda candidate: candidate.update(
+                {
+                    "provenance_references": [
+                        {
+                            "source_extraction": excluded["source_extraction"],
+                            "source_entry_id": excluded["source_entry_id"],
+                        }
+                    ]
+                }
+            ),
+        )
+        self.assertTrue(
+            any(
+                "candidate-to-overlay provenance is not reciprocal" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_overlay_target_without_reciprocal_candidate_provenance_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def add_target(overlay: dict[str, object]) -> None:
+            entry = overlay["entries"][-1]
+            entry["normalization_disposition"] = "merged_into_candidate"
+            entry["target_domain_candidate_ids"] = ["du-cand-0001"]
+
+        self.mutate_overlay(manifest, add_target)
+        self.assertTrue(
+            any(
+                "overlay-to-candidate provenance is not reciprocal" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_candidate_with_zero_created_anchors_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.mutate_overlay(
+            manifest,
+            lambda overlay: overlay["entries"][0].update(
+                {"normalization_disposition": "merged_into_candidate"}
+            ),
+        )
+        self.assertTrue(
+            any(
+                "requires exactly one candidate_created anchor" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_candidate_with_two_created_anchors_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+
+        def add_anchor(overlay: dict[str, object]) -> None:
+            entry = overlay["entries"][1]
+            entry["normalization_disposition"] = "candidate_created"
+            entry["target_domain_candidate_ids"] = ["du-cand-0001"]
+
+        self.mutate_overlay(manifest, add_anchor)
+        self.assertTrue(
+            any(
+                "requires exactly one candidate_created anchor" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_modified_task104_targets_cannot_replace_overlay_authority(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        proposal = json.loads(
+            (
+                self.repository.root
+                / manifest["domain_universe_proposal"]["path"]
+            ).read_text(encoding="utf-8")
+        )
+        reference = proposal["source_extractions"][0]
+        path = self.repository.root / reference["path"]
+        extraction = json.loads(path.read_text(encoding="utf-8"))
+        extraction["extracted_entries"][0].update(
+            {
+                "normalization_disposition": "candidate_created",
+                "target_domain_candidate_ids": ["du-cand-0001"],
+            }
+        )
+        write_json(path, extraction)
+        replacement = self.repository.reference(reference["path"])
+        self.repository.rewrite_chain(
+            manifest,
+            lambda current: current["source_extractions"].__setitem__(0, replacement),
+        )
+        self.assertTrue(
+            any(
+                "overlay must bind the exact proposal extractions" in error
+                for error in self.validate(manifest)
+            )
+        )
+
     def test_product_company_or_model_cannot_be_domain_unit(self) -> None:
         schema = self.schemas["candidate"]
         manifest = self.repository.create_locked_domain_universe()
@@ -1704,7 +2042,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
     def test_one_source_frame_cannot_lock_universe(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
         self.repository.rewrite_chain(
-            manifest, lambda proposal: proposal["source_frames"].pop()
+            manifest, lambda proposal: proposal.update({"source_frames": proposal["source_frames"][:1]})
         )
         self.assertTrue(any("at least two source frames" in error for error in self.validate(manifest)))
 
@@ -1729,14 +2067,15 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         proposal = json.loads(
             (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
         )
-        frame_reference = proposal["source_frames"][1]
-        frame_path = self.repository.root / frame_reference["path"]
-        frame = json.loads(frame_path.read_text(encoding="utf-8"))
-        frame["independence_group"] = "test-only-independent-group-1"
-        write_json(frame_path, frame)
-        replacement = self.repository.reference(frame_reference["path"])
+        replacements = []
+        for frame_reference in proposal["source_frames"]:
+            frame_path = self.repository.root / frame_reference["path"]
+            frame = json.loads(frame_path.read_text(encoding="utf-8"))
+            frame["independence_group"] = "test-only-shared-independence-group"
+            write_json(frame_path, frame)
+            replacements.append(self.repository.reference(frame_reference["path"]))
         self.repository.rewrite_chain(
-            manifest, lambda current: current["source_frames"].__setitem__(1, replacement)
+            manifest, lambda current: current.update({"source_frames": replacements})
         )
         self.assertTrue(any("at least two source frames" in error for error in self.validate(manifest)))
 
@@ -1789,16 +2128,17 @@ class DomainUniverseProtocolTests(unittest.TestCase):
                 encoding="utf-8"
             )
         )
-        second_reference = proposal["source_frames"][1]
-        second_path = self.repository.root / second_reference["path"]
-        second = json.loads(second_path.read_text(encoding="utf-8"))
-        self.assertNotEqual(first["independence_group"], second["independence_group"])
-        second["source_lineage_id"] = first["source_lineage_id"]
-        write_json(second_path, second)
-        replacement = self.repository.reference(second_reference["path"])
+        replacements = [proposal["source_frames"][0]]
+        for reference in proposal["source_frames"][1:]:
+            path = self.repository.root / reference["path"]
+            frame = json.loads(path.read_text(encoding="utf-8"))
+            self.assertNotEqual(first["independence_group"], frame["independence_group"])
+            frame["source_lineage_id"] = first["source_lineage_id"]
+            write_json(path, frame)
+            replacements.append(self.repository.reference(reference["path"]))
         self.repository.rewrite_chain(
             manifest,
-            lambda current: current["source_frames"].__setitem__(1, replacement),
+            lambda current: current.update({"source_frames": replacements}),
         )
         self.assertTrue(
             any("distinct independence groups and source lineages" in error for error in self.validate(manifest))
@@ -1817,7 +2157,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             )["source_lineage_id"]
             for reference in proposal["source_frames"]
         }
-        self.assertEqual(2, len(lineages))
+        self.assertEqual(4, len(lineages))
         self.assertEqual([], self.validate(manifest))
 
     def test_source_frame_requires_reviewable_independence_basis(self) -> None:
@@ -1925,28 +2265,25 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             any("duplicate source_entry_id" in error for error in self.validate(manifest))
         )
 
-    def test_unresolved_extraction_entry_fails_closed(self) -> None:
+    def test_historical_unresolved_extraction_entries_pass_with_complete_overlay(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
         proposal = json.loads(
             (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
                 encoding="utf-8"
             )
         )
-        reference = proposal["source_extractions"][0]
-        path = self.repository.root / reference["path"]
-        extraction = json.loads(path.read_text(encoding="utf-8"))
-        entry = extraction["extracted_entries"][0]
-        entry["normalization_disposition"] = "unresolved"
-        entry["target_domain_candidate_ids"] = []
-        write_json(path, extraction)
-        replacement = self.repository.reference(reference["path"])
-        self.repository.rewrite_chain(
-            manifest,
-            lambda current: current["source_extractions"].__setitem__(0, replacement),
-        )
-        self.assertTrue(
-            any("unresolved extraction entry" in error for error in self.validate(manifest))
-        )
+        for reference in proposal["source_extractions"]:
+            extraction = json.loads(
+                (self.repository.root / reference["path"]).read_text(encoding="utf-8")
+            )
+            self.assertTrue(
+                all(
+                    entry["normalization_disposition"] == "unresolved"
+                    and entry["target_domain_candidate_ids"] == []
+                    for entry in extraction["extracted_entries"]
+                )
+            )
+        self.assertEqual([], self.validate(manifest))
 
     def test_free_text_alone_cannot_satisfy_candidate_provenance(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
@@ -1968,24 +2305,22 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         errors = VALIDATE.validate_contract(candidate, self.schemas["candidate"], "test candidate")
         self.assertTrue(any("source_extraction" in error for error in errors))
 
-    def test_extraction_target_outside_candidate_universe_fails(self) -> None:
+    def test_overlay_target_outside_candidate_universe_fails(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
         proposal = json.loads(
             (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(
                 encoding="utf-8"
             )
         )
-        reference = proposal["source_extractions"][0]
+        reference = proposal["normalization_disposition_overlay"]
         path = self.repository.root / reference["path"]
-        extraction = json.loads(path.read_text(encoding="utf-8"))
-        extraction["extracted_entries"][0]["target_domain_candidate_ids"] = [
-            "test-only-domain-outside-universe"
-        ]
-        write_json(path, extraction)
+        overlay = json.loads(path.read_text(encoding="utf-8"))
+        overlay["entries"][0]["target_domain_candidate_ids"] = ["du-cand-9999"]
+        write_json(path, overlay)
         replacement = self.repository.reference(reference["path"])
         self.repository.rewrite_chain(
             manifest,
-            lambda current: current["source_extractions"].__setitem__(0, replacement),
+            lambda current: current.update({"normalization_disposition_overlay": replacement}),
         )
         self.assertTrue(
             any("is outside candidate universe" in error for error in self.validate(manifest))
@@ -2018,7 +2353,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         self.repository.rewrite_chain(manifest, mutate)
         errors = self.validate(manifest)
         self.assertTrue(any("source_entry_id does not resolve" in error for error in errors))
-        self.assertTrue(any("entry-to-candidate provenance is not reciprocal" in error for error in errors))
+        self.assertTrue(any("overlay-to-candidate provenance is not reciprocal" in error for error in errors))
 
     def test_two_lineage_distinct_extractions_must_be_non_empty(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
@@ -2027,15 +2362,16 @@ class DomainUniverseProtocolTests(unittest.TestCase):
                 encoding="utf-8"
             )
         )
-        reference = proposal["source_extractions"][1]
-        path = self.repository.root / reference["path"]
-        extraction = json.loads(path.read_text(encoding="utf-8"))
-        extraction["extracted_entries"] = []
-        write_json(path, extraction)
-        replacement = self.repository.reference(reference["path"])
+        replacements = [proposal["source_extractions"][0]]
+        for reference in proposal["source_extractions"][1:]:
+            path = self.repository.root / reference["path"]
+            extraction = json.loads(path.read_text(encoding="utf-8"))
+            extraction["extracted_entries"] = []
+            write_json(path, extraction)
+            replacements.append(self.repository.reference(reference["path"]))
         self.repository.rewrite_chain(
             manifest,
-            lambda current: current["source_extractions"].__setitem__(1, replacement),
+            lambda current: current.update({"source_extractions": replacements}),
         )
         self.assertTrue(
             any("distinct source lineages must contribute non-empty" in error for error in self.validate(manifest))
@@ -2055,21 +2391,17 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         write_json(path, extraction)
         self.assertTrue(any("SHA-256 mismatch" in error for error in self.validate(manifest)))
 
-    def test_unnormalized_source_frame_cannot_lock(self) -> None:
+    def test_historical_pending_source_frames_pass_with_complete_overlay(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
         proposal = json.loads(
             (self.repository.root / manifest["domain_universe_proposal"]["path"]).read_text(encoding="utf-8")
         )
-        frame_reference = proposal["source_frames"][0]
-        frame_path = self.repository.root / frame_reference["path"]
-        frame = json.loads(frame_path.read_text(encoding="utf-8"))
-        frame["normalization_status"] = "pending"
-        write_json(frame_path, frame)
-        replacement = self.repository.reference(frame_reference["path"])
-        self.repository.rewrite_chain(
-            manifest, lambda current: current["source_frames"].__setitem__(0, replacement)
-        )
-        self.assertTrue(any("must be normalized before lock" in error for error in self.validate(manifest)))
+        for frame_reference in proposal["source_frames"]:
+            frame = json.loads(
+                (self.repository.root / frame_reference["path"]).read_text(encoding="utf-8")
+            )
+            self.assertEqual("pending", frame["normalization_status"])
+        self.assertEqual([], self.validate(manifest))
 
     def test_one_frame_cannot_define_all_candidate_provenance(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
@@ -2081,7 +2413,11 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         candidate = json.loads(candidate_path.read_text(encoding="utf-8"))
         candidate["provenance_references"][0] = {
             "source_extraction": proposal["source_extractions"][0],
-            "source_entry_id": "test-only-entry-1",
+            "source_entry_id": json.loads(
+                (self.repository.root / proposal["source_extractions"][0]["path"]).read_text(
+                    encoding="utf-8"
+                )
+            )["extracted_entries"][1]["source_entry_id"],
         }
         write_json(candidate_path, candidate)
         new_candidate_reference = self.repository.reference(candidate_reference["path"])
@@ -2117,9 +2453,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": "test-only-overlap",
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": "overlaps_with",
-                "object_domain_candidate_id": "test-only-domain-b",
+                "object_domain_candidate_id": "du-cand-0002",
                 "resolution_status": "documented",
                 "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical overlap claim.",
             }
@@ -2140,9 +2476,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": "test-only-dependency",
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": "depends_on",
-                "object_domain_candidate_id": "test-only-domain-b",
+                "object_domain_candidate_id": "du-cand-0002",
                 "resolution_status": "documented",
                 "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical dependency claim.",
             }
@@ -2168,9 +2504,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": "test-only-distinct-dependency",
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": "depends_on",
-                "object_domain_candidate_id": "test-only-domain-b",
+                "object_domain_candidate_id": "du-cand-0002",
                 "resolution_status": "documented",
                 "rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical dependency claim.",
             }
@@ -2191,9 +2527,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": "test-only-contradictory-overlap",
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": "overlaps_with",
-                "object_domain_candidate_id": "test-only-domain-b",
+                "object_domain_candidate_id": "du-cand-0002",
                 "resolution_status": "documented",
                 "rationale": "TEMPORARY TEST FIXTURE ONLY; intentionally contradictory.",
             }
@@ -2216,9 +2552,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": "test-only-orphan-relation",
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": "depends_on",
-                "object_domain_candidate_id": "test-only-domain-b",
+                "object_domain_candidate_id": "du-cand-0002",
                 "resolution_status": "documented",
                 "rationale": "TEMPORARY TEST FIXTURE ONLY; intentionally orphaned.",
             }
@@ -2236,7 +2572,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": "test-only-wrong-endpoints",
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": "overlaps_with",
                 "object_domain_candidate_id": "test-only-domain-outside-universe",
                 "resolution_status": "documented",
@@ -2264,9 +2600,9 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             relation = {
                 "domain_relation_id": "test-only-duplicate-relation-id",
                 "instrument_version": CURRENT_DOMAIN_VERSION,
-                "subject_domain_candidate_id": "test-only-domain-a",
+                "subject_domain_candidate_id": "du-cand-0001",
                 "relation_type": "overlaps_with",
-                "object_domain_candidate_id": "test-only-domain-b",
+                "object_domain_candidate_id": "du-cand-0002",
                 "resolution_status": "documented",
                 "rationale": "TEMPORARY TEST FIXTURE ONLY; duplicated reference.",
             }
@@ -2298,7 +2634,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
 
         def retain_only_first(current: dict[str, object]) -> None:
             current["domain_dispositions"][1]["disposition"] = "excluded"
-            current["included_domain_candidate_ids"] = ["test-only-domain-a"]
+            current["included_domain_candidate_ids"] = ["du-cand-0001"]
 
         self.repository.rewrite_chain(manifest, retain_only_first)
         self.assertTrue(
@@ -2357,7 +2693,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         self.assertEqual("ineligible", removed_decision["decision_status"])
         self.assertNotIn(removed_candidate_id, proposal["included_domain_candidate_ids"])
         self.assertEqual("eligible", retained_decision["decision_status"])
-        self.assertIn("test-only-domain-a", proposal["included_domain_candidate_ids"])
+        self.assertIn("du-cand-0001", proposal["included_domain_candidate_ids"])
         self.assertEqual([], self.validate(manifest))
 
     def test_revised_nonduplicate_pair_uses_distinct_or_overlap_documented(self) -> None:
@@ -2500,7 +2836,7 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             proposal["domain_dispositions"][0].update(
                 {"disposition": "excluded", "rationale": "", "uncertainty": ""}
             )
-            proposal["included_domain_candidate_ids"] = ["test-only-domain-b"]
+            proposal["included_domain_candidate_ids"] = ["du-cand-0002"]
 
         self.repository.rewrite_chain(manifest, mutate)
         self.assertTrue(any("excluded eligible domain requires rationale" in error for error in self.validate(manifest)))
@@ -2579,6 +2915,8 @@ class DomainUniverseProtocolTests(unittest.TestCase):
 
     def test_domain_universe_templates_remain_invalid_non_records(self) -> None:
         for name, schema in self.schemas.items():
+            if name == "normalization_overlay":
+                continue
             filename = {
                 "boundary": "domain-universe-boundary.template.json",
                 "source_frame": "domain-source-frame.template.json",

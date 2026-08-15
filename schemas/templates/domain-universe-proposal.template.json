@@ -6,6 +6,7 @@
   "universe_boundary": null,
   "source_frames": [],
   "source_extractions": [],
+  "normalization_disposition_overlay": null,
   "domain_candidates": [],
   "eligibility_decisions": [],
   "domain_relations": [],
