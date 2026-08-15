@@ -17,8 +17,47 @@ PASS1_DIRECTORY = "domain-universe/normalization/pass1"
 PASS2A_SCHEMA_PATH = "schemas/domain-normalization-pass2a.schema.json"
 PASS2A_DIRECTORY = "domain-universe/normalization/pass2a"
 PASS2A_PATH = f"{PASS2A_DIRECTORY}/equivalence-groups-v0.1.json"
+PASS2B_SCHEMA_PATH = "schemas/domain-normalization-pass2b.schema.json"
+PASS2B_DIRECTORY = "domain-universe/normalization/pass2b"
+PASS2B_PATH = f"{PASS2B_DIRECTORY}/deferred-equivalence-adjudication-v0.1.json"
 CODEBOOK_PATH = "domain-universe/NORMALIZATION_CODEBOOK.md"
 BOUNDARY_PATH = "domain-universe/boundaries/du-boundary-v0.1.json"
+EXPECTED_PASS2A_SHA256 = "e830a1cf566888badc31776ad263077208dae458d5f9e53f0783a5bdd778c822"
+PASS2B_CRITERIA = (
+    "same_substantive_locus",
+    "equivalent_inclusion_envelope",
+    "equivalent_exclusion_envelope",
+    "no_material_scope_asymmetry",
+    "lens_difference_only",
+)
+EXPECTED_PASS2B_ADJUDICATIONS = {
+    "civil-engineering-ford-isic": (
+        ("oecd-ford-frascati-2015", "ford-2.1", "ng-73a29d43db0bb8be"),
+        ("un-isic-rev5", "isic-42", "ng-e0e507e25b84e9a4"),
+    ),
+    "education-ford-isic": (
+        ("oecd-ford-frascati-2015", "ford-5.3", "ng-d0e631acf950ddad"),
+        ("un-isic-rev5", "isic-85", "ng-35c79c5f079afbd3"),
+    ),
+}
+EXPECTED_PASS2B_SOURCES = {
+    "oecd-frascati-2015-official-pdf": {
+        "source_frame_id": "oecd-ford-frascati-2015",
+        "source_uri": (
+            "https://www.oecd.org/content/dam/oecd/en/publications/reports/2015/10/"
+            "frascati-manual-2015_g1g57dcb/9789264239012-en.pdf"
+        ),
+        "sha256": "98e19466a97c2c63e2d8070fe66de7ac8ad18db253429d979349f8a2e72f3775",
+    },
+    "un-isic-rev5-explanatory-notes-2024-03-11": {
+        "source_frame_id": "un-isic-rev5",
+        "source_uri": (
+            "https://unstats.un.org/unsd/classifications/Econ/Download/In%20Text/"
+            "ISIC5_Exp_Notes_11Mar2024.pdf"
+        ),
+        "sha256": "b9ef4ac00d3b1736a5d7068e437babaa0105dd02ad70a86c11c9905878271ae8",
+    },
+}
 EXPECTED_PASS1: dict[str, tuple[str, str, int]] = {
     "oecd-ford-frascati-2015-pass1.json": (
         "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json",
@@ -101,6 +140,8 @@ def validate_normalization_repository(
     if not records:
         if (root / PASS2A_DIRECTORY).exists():
             errors.append(f"{PASS2A_DIRECTORY}: Pass 2A requires the exact Pass 1 records")
+        if (root / PASS2B_DIRECTORY).exists():
+            errors.append(f"{PASS2B_DIRECTORY}: Pass 2B requires the exact Pass 1 records")
         return errors
 
     expected_names = set(EXPECTED_PASS1)
@@ -286,6 +327,7 @@ def validate_normalization_repository(
             f"found {total_interpretations}"
         )
     errors.extend(validate_pass2a_repository(root, validate_contract))
+    errors.extend(validate_pass2b_repository(root, validate_contract))
     return errors
 
 
@@ -680,6 +722,314 @@ def validate_pass2a_repository(
     return errors
 
 
+def pass2a_group_index(record: Any) -> dict[Pass1Key, tuple[str, str]]:
+    """Map every Pass 2A member to its immutable group identity and kind."""
+
+    result: dict[Pass1Key, tuple[str, str]] = {}
+    if not isinstance(record, dict):
+        return result
+    for group in record.get("groups", []):
+        if not isinstance(group, dict):
+            continue
+        group_id = group.get("normalization_group_id")
+        group_kind = group.get("group_kind")
+        for member in group.get("members", []):
+            key = locator_key(member)
+            if key is not None and isinstance(group_id, str) and isinstance(group_kind, str):
+                result[key] = group_id, group_kind
+    return result
+
+
+def find_prohibited_pass2b_content(value: Any, location: str) -> list[str]:
+    """Reject candidate identifiers without rejecting the permission status field."""
+
+    errors: list[str] = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            errors.extend(find_prohibited_pass2b_content(child, f"{location}.{key}"))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            errors.extend(find_prohibited_pass2b_content(child, f"{location}[{index}]"))
+    elif isinstance(value, str) and "du-cand-" in value.lower():
+        errors.append(f"{location}: prohibited Domain candidate identifier")
+    return errors
+
+
+def validate_pass2b_outcome(adjudication: Any, location: str) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(adjudication, dict):
+        return [f"{location}: adjudication must be an object"]
+    criteria = adjudication.get("criteria")
+    if not isinstance(criteria, dict):
+        return [f"{location}: criteria must be an object"]
+    values: list[bool | None] = []
+    for criterion in PASS2B_CRITERIA:
+        value = criteria.get(criterion)
+        if value is not True and value is not False and value is not None:
+            errors.append(f"{location}: {criterion} must be true, false, or null")
+        values.append(value)
+    outcome = adjudication.get("outcome")
+    if outcome == "coextensive":
+        if not all(value is True for value in values):
+            errors.append(f"{location}: coextensive requires all five criteria true")
+    elif outcome == "not_coextensive_for_normalization":
+        if not any(value is False for value in values):
+            errors.append(
+                f"{location}: not_coextensive_for_normalization requires a false criterion"
+            )
+    elif outcome == "unresolved":
+        if any(value is False for value in values) or not any(value is None for value in values):
+            errors.append(
+                f"{location}: unresolved requires no false criterion and at least one null"
+            )
+    else:
+        errors.append(f"{location}: unrecognized outcome")
+    return errors
+
+
+def validate_pass2b_record(
+    record: Any,
+    pass1_index: dict[Pass1Key, dict[str, Any]],
+    record_hashes: dict[str, str],
+    pass2a_record: Any,
+    pass2a_sha256: str,
+    location: str = PASS2B_PATH,
+) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(record, dict):
+        return [f"{location}: Pass 2B record must be an object"]
+    if record.get("pass2b_record_id") != "deferred-equivalence-adjudication-v0.1":
+        errors.append(f"{location}: pass2b_record_id mismatch")
+    if record.get("instrument_version") != "0.5.0-draft":
+        errors.append(f"{location}: instrument_version mismatch")
+    if record.get("procedure") != "deferred_equivalence_adjudication":
+        errors.append(f"{location}: procedure mismatch")
+    if record.get("status") != "complete":
+        errors.append(f"{location}: status must be complete")
+    errors.extend(find_prohibited_pass2b_content(record, location))
+
+    if pass2a_sha256 != EXPECTED_PASS2A_SHA256:
+        errors.append(f"{location}: immutable Pass 2A bytes changed")
+    pass2a_reference = record.get("pass2a_record")
+    if not isinstance(pass2a_reference, dict):
+        errors.append(f"{location}: pass2a_record must be an artifact reference")
+    else:
+        if pass2a_reference.get("path") != PASS2A_PATH:
+            errors.append(f"{location}: pass2a_record path mismatch")
+        if pass2a_reference.get("sha256") != pass2a_sha256:
+            errors.append(f"{location}: Pass 2A SHA-256 mismatch")
+
+    relevant_paths = {
+        pass1_record_path("oecd-ford-frascati-2015-pass1.json"),
+        pass1_record_path("un-isic-rev5-pass1.json"),
+    }
+    references = record.get("pass1_records", [])
+    if not isinstance(references, list):
+        references = []
+    paths = [item.get("path") for item in references if isinstance(item, dict)]
+    if len(paths) != len(set(paths)) or set(paths) != relevant_paths:
+        errors.append(f"{location}: must bind exactly the relevant FORD and ISIC Pass 1 records")
+    for reference in references:
+        if not isinstance(reference, dict):
+            errors.append(f"{location}: pass1_records entry must be an artifact reference")
+            continue
+        path = reference.get("path")
+        if path in relevant_paths and reference.get("sha256") != record_hashes.get(path):
+            errors.append(f"{location}: Pass 1 SHA-256 mismatch for {path}")
+
+    sources = record.get("clarification_sources", [])
+    if not isinstance(sources, list):
+        sources = []
+    sources_by_id: dict[str, dict[str, Any]] = {}
+    for index, source in enumerate(sources):
+        source_location = f"{location}: clarification_sources[{index}]"
+        if not isinstance(source, dict):
+            errors.append(f"{source_location}: clarification source must be an object")
+            continue
+        source_id = source.get("clarification_source_id")
+        if not isinstance(source_id, str) or source_id in sources_by_id:
+            errors.append(f"{source_location}: clarification_source_id is invalid or duplicate")
+            continue
+        sources_by_id[source_id] = source
+        expected_source = EXPECTED_PASS2B_SOURCES.get(source_id)
+        if expected_source is None:
+            errors.append(f"{source_location}: clarification source is outside permitted lineage")
+            continue
+        for field in ("source_frame_id", "source_uri", "sha256"):
+            if source.get(field) != expected_source[field]:
+                errors.append(f"{source_location}: {field} does not match official provenance")
+    if set(sources_by_id) != set(EXPECTED_PASS2B_SOURCES):
+        errors.append(f"{location}: exact two official clarification sources are required")
+
+    group_index = pass2a_group_index(pass2a_record)
+    deferred = pass2a_record.get("deferred_equivalence_questions", []) if isinstance(
+        pass2a_record, dict
+    ) else []
+    deferred_pairs = {
+        frozenset((left, right))
+        for item in deferred
+        if isinstance(item, dict)
+        for left, right in [(locator_key(item.get("left_member")), locator_key(item.get("right_member")))]
+        if left is not None and right is not None and left != right
+    }
+    expected_pairs = {
+        frozenset(((left[0], left[1]), (right[0], right[1])))
+        for left, right in EXPECTED_PASS2B_ADJUDICATIONS.values()
+    }
+    if deferred_pairs != expected_pairs:
+        errors.append(f"{location}: merged Pass 2A does not contain the exact deferred pairs")
+
+    adjudications = record.get("adjudications", [])
+    if not isinstance(adjudications, list):
+        adjudications = []
+    ids: list[str] = []
+    actual_pairs: list[frozenset[Pass1Key]] = []
+    outcomes: list[str] = []
+    for index, adjudication in enumerate(adjudications):
+        item_location = f"{location}: adjudications[{index}]"
+        if not isinstance(adjudication, dict):
+            errors.append(f"{item_location}: adjudication must be an object")
+            continue
+        adjudication_id = adjudication.get("adjudication_id")
+        if isinstance(adjudication_id, str):
+            ids.append(adjudication_id)
+        expected_pair = EXPECTED_PASS2B_ADJUDICATIONS.get(str(adjudication_id))
+        left = locator_key(adjudication.get("left_member"))
+        right = locator_key(adjudication.get("right_member"))
+        if left is None or right is None or left == right:
+            errors.append(f"{item_location}: member pair is invalid")
+            continue
+        pair = frozenset((left, right))
+        actual_pairs.append(pair)
+        if expected_pair is None or pair != frozenset(
+            ((expected_pair[0][0], expected_pair[0][1]), (expected_pair[1][0], expected_pair[1][1]))
+        ):
+            errors.append(f"{item_location}: adjudication ID and deferred pair mismatch")
+
+        for side, key, envelope_field in (
+            ("left", left, "left_envelope"),
+            ("right", right, "right_envelope"),
+        ):
+            member = adjudication.get(f"{side}_member")
+            member_location = f"{item_location}: {side}_member"
+            expected_member = pass1_index.get(key)
+            if expected_member is None:
+                errors.append(f"{member_location}: member does not resolve to Pass 1")
+                continue
+            if expected_member.get("minimal_gate_result") != "passes":
+                errors.append(f"{member_location}: member must be a Pass 1 pass")
+            errors.extend(
+                validate_bound_pass1_reference(
+                    member.get("pass1_record") if isinstance(member, dict) else None,
+                    expected_member,
+                    member_location,
+                )
+            )
+            actual_group = group_index.get(key)
+            if actual_group is None or actual_group[1] != "singleton":
+                errors.append(f"{member_location}: member must resolve to a Pass 2A singleton")
+            elif not isinstance(member, dict) or member.get("pass2a_group_id") != actual_group[0]:
+                errors.append(f"{member_location}: pass2a_group_id mismatch")
+            envelope = adjudication.get(envelope_field)
+            if not isinstance(envelope, dict):
+                errors.append(f"{item_location}: {envelope_field} must be an object")
+                continue
+            if envelope.get("substantive_locus") != expected_member.get(
+                "normalized_substantive_locus"
+            ):
+                errors.append(f"{item_location}: {envelope_field} changes the Pass 1 locus")
+            evidence_ids = envelope.get("evidence_source_ids", [])
+            if not isinstance(evidence_ids, list) or not evidence_ids:
+                errors.append(f"{item_location}: {envelope_field} requires evidence sources")
+                continue
+            for source_id in evidence_ids:
+                source = sources_by_id.get(source_id)
+                if source is None:
+                    errors.append(f"{item_location}: unresolved clarification source {source_id!r}")
+                elif source.get("source_frame_id") != key[0]:
+                    errors.append(
+                        f"{item_location}: {envelope_field} uses another classification lineage"
+                    )
+        errors.extend(validate_pass2b_outcome(adjudication, item_location))
+        outcome = adjudication.get("outcome")
+        if isinstance(outcome, str):
+            outcomes.append(outcome)
+
+    if len(ids) != len(set(ids)) or set(ids) != set(EXPECTED_PASS2B_ADJUDICATIONS):
+        errors.append(f"{location}: exactly the two required adjudication IDs are required")
+    if len(actual_pairs) != len(set(actual_pairs)) or set(actual_pairs) != expected_pairs:
+        errors.append(f"{location}: adjudications must exactly close the two deferred pairs")
+
+    all_closed = len(outcomes) == 2 and all(outcome != "unresolved" for outcome in outcomes)
+    revision_required = len(outcomes) == 2 and any(outcome == "coextensive" for outcome in outcomes)
+    materialization_permitted = all_closed and not revision_required
+    for field, expected in (
+        ("all_deferred_questions_closed", all_closed),
+        ("grouping_revision_required", revision_required),
+        ("candidate_materialization_permitted", materialization_permitted),
+    ):
+        if record.get(field) is not expected:
+            errors.append(f"{location}: {field} does not match adjudication outcomes")
+    return errors
+
+
+def validate_pass2b_repository(
+    root: Path,
+    validate_contract: Callable[[Any, Any, str], list[str]],
+) -> list[str]:
+    directory = root / PASS2B_DIRECTORY
+    if not directory.exists():
+        return []
+    errors: list[str] = []
+    files = sorted(directory.glob("*.json")) if directory.is_dir() else []
+    expected_file = root / PASS2B_PATH
+    if files != [expected_file]:
+        errors.append(
+            f"{PASS2B_DIRECTORY}: expected exactly deferred-equivalence-adjudication-v0.1.json"
+        )
+    if not expected_file.is_file():
+        return errors
+    schema_path = root / PASS2B_SCHEMA_PATH
+    if not schema_path.is_file():
+        return errors + [f"{PASS2B_SCHEMA_PATH}: required when Pass 2B exists"]
+    pass2a_path = root / PASS2A_PATH
+    if not pass2a_path.is_file():
+        return errors + [f"{PASS2B_PATH}: exact Pass 2A record is required"]
+    try:
+        schema = read_json(schema_path)
+        record = read_json(expected_file)
+        pass2a_record = read_json(pass2a_path)
+    except json.JSONDecodeError as exc:
+        return errors + [f"{PASS2B_PATH}: invalid JSON dependency: {exc}"]
+    if schema.get("x-instrument-version") != "0.5.0-draft":
+        errors.append(f"{PASS2B_SCHEMA_PATH}: x-instrument-version mismatch")
+    errors.extend(find_prohibited_pass2b_content(schema, PASS2B_SCHEMA_PATH))
+    errors.extend(validate_contract(record, schema, PASS2B_PATH))
+    for field, expected_path in (
+        ("normalization_codebook", CODEBOOK_PATH),
+        ("universe_boundary", BOUNDARY_PATH),
+    ):
+        _, artifact_errors = validate_artifact(
+            root, record.get(field), expected_path, f"{PASS2B_PATH}: {field}"
+        )
+        errors.extend(artifact_errors)
+    pass1_index, record_hashes, index_errors = build_pass1_index(root)
+    errors.extend(index_errors)
+    errors.extend(
+        validate_pass2b_record(
+            record,
+            pass1_index,
+            record_hashes,
+            pass2a_record,
+            canonical_lf_sha256(pass2a_path),
+        )
+    )
+    candidate_files = list((root / "domain-universe/candidates").glob("*.json"))
+    if candidate_files:
+        errors.append(f"{PASS2B_PATH}: Pass 2B requires zero Domain candidate records")
+    return errors
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     validator_path = root / "scripts/validate.py"
@@ -695,7 +1045,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Normalization validation passed: Pass 1 and Pass 2A contracts are sound.")
+    print("Normalization validation passed: Pass 1, Pass 2A, and Pass 2B contracts are sound.")
     return 0
 
 

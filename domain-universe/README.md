@@ -9,7 +9,7 @@ Exhaustive Task 104 second-level extraction is complete: 42 FORD fields, 87
 ISIC Rev.5 Divisions, 132 IPC 2026.01 Classes, and 69 COFOG 1999 Groups, for
 330 source categories in four extraction ledgers. The entries are source
 classification categories, not Domains. Every normalization disposition is
-intentionally `unresolved`; Pass 1 and Pass 2A have not changed those
+intentionally `unresolved`; Pass 1, Pass 2A, and Pass 2B have not changed those
 dispositions, and candidate generation has not begun.
 
 `NORMALIZATION_CODEBOOK.md` v0.1 is prospectively fixed for normalization but
@@ -35,6 +35,16 @@ outside grouping, and two same-wording cross-frame comparisons are deferred.
 No candidate ID or candidate record exists, Task 104 dispositions remain
 untouched, and final eligibility has not begun.
 
+Task 105C2 Pass 2B deferred-equivalence adjudication is complete pending
+scientific review. Official same-classification clarification closed both
+Pass 2A deferred pairs as `not_coextensive_for_normalization`: their shared
+topic labels do not make the FORD R&D-content envelopes coextensive with the
+ISIC economic-activity envelopes. This normalization-specific result does not
+establish no overlap, final non-duplication, Domain separation, or eligibility.
+The Pass 2A singleton grouping requires no revision, and candidate
+materialization is structurally permitted for a later governed task; no
+candidate has been created here.
+
 There is no Domain candidate, eligibility decision, relation, proposal,
 scientific review, governance decision, manifest, included or locked Domain,
 approval, or lock. The Domain Universe is not established or locked, final
@@ -48,6 +58,7 @@ Records use these canonical locations:
 - `domain-universe/extractions/`
 - `domain-universe/normalization/pass1/`
 - `domain-universe/normalization/pass2a/`
+- `domain-universe/normalization/pass2b/`
 - `domain-universe/candidates/`
 - `domain-universe/eligibility/`
 - `domain-universe/relations/`

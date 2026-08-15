@@ -182,6 +182,41 @@ This entry records construction progress only. It identifies no reviewer,
 scientific approval, governance authority, or lock authorization and creates no
 Domain Universe, Frozen Panel, Wave, or authorization of Wave 0.
 
+## Prospective construction record DU-007
+
+- Date: `2026-08-16`
+- Status: Task 105C2 Pass 2B deferred-equivalence adjudication complete;
+  pending scientific review; normalization not complete
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instruments: Domain Universe Normalization Decision Codebook `v0.1`
+  and Pass 2B schema `0.5.0-draft`
+- Construction action: independently constructed official-source envelopes
+  for the two exact Pass 2A deferred pairs and compared them using the five
+  fixed high-bar coextensiveness criteria.
+- Outcome: both Civil engineering (FORD 2.1 / ISIC 42) and Education (FORD 5.3
+  / ISIC 85) are `not_coextensive_for_normalization`. The shared substantive
+  topic does not overcome materially different R&D-content and economic-activity
+  inclusion and exclusion envelopes.
+- Aggregate audit: 2 deferred questions considered; 2 closed; 0 unresolved;
+  Pass 2A grouping revision not required; later candidate materialization is
+  structurally permitted but did not occur in this task.
+- Rationale: official OECD and United Nations clarification establishes that
+  the classification-object distinction changes coverage rather than acting as
+  a removable source-frame lens.
+- Comparability impact: none; Pass 1 and Pass 2A bytes are unchanged, all Task
+  104 extraction dispositions remain `unresolved`, all candidate targets remain
+  empty, and no Domain candidate or final eligibility decision exists.
+- Unresolved follow-up: scientific review, the eight Pass 1 unresolved IPC
+  residual classes, candidate materialization, final eligibility and overlap
+  review, coverage audit, final governance authority, and governance lock.
+
+This entry records construction progress only. It identifies no reviewer,
+scientific approval, governance authority, or lock authorization. A
+normalization-specific not-coextensive decision does not establish no overlap,
+final non-duplication, Domain separation, or eligibility, and it creates no
+Domain Universe, Frozen Panel, Wave, or authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

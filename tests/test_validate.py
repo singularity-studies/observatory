@@ -3325,6 +3325,203 @@ class DomainNormalizationPass2ATests(unittest.TestCase):
         self.assertEqual(1, len((ROOT / "registry/live-registry.csv").read_text(encoding="utf-8").splitlines()))
 
 
+class DomainNormalizationPass2BTests(unittest.TestCase):
+    PATH = ROOT / (
+        "domain-universe/normalization/pass2b/"
+        "deferred-equivalence-adjudication-v0.1.json"
+    )
+
+    def setUp(self) -> None:
+        self.schema = json.loads(
+            (ROOT / "schemas/domain-normalization-pass2b.schema.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.record = json.loads(self.PATH.read_text(encoding="utf-8"))
+        self.pass2a_path = ROOT / NORMALIZATION_VALIDATE.PASS2A_PATH
+        self.pass2a = json.loads(self.pass2a_path.read_text(encoding="utf-8"))
+        self.pass2a_sha = NORMALIZATION_VALIDATE.canonical_lf_sha256(self.pass2a_path)
+        self.pass1_index, self.record_hashes, errors = (
+            NORMALIZATION_VALIDATE.build_pass1_index(ROOT)
+        )
+        self.assertEqual([], errors)
+
+    def _errors(
+        self,
+        record: dict[str, object],
+        *,
+        pass2a: dict[str, object] | None = None,
+        pass2a_sha: str | None = None,
+    ) -> list[str]:
+        return VALIDATE.validate_contract(record, self.schema, "test-pass2b") + (
+            NORMALIZATION_VALIDATE.validate_pass2b_record(
+                record,
+                self.pass1_index,
+                self.record_hashes,
+                pass2a if pass2a is not None else self.pass2a,
+                pass2a_sha if pass2a_sha is not None else self.pass2a_sha,
+                "test-pass2b",
+            )
+        )
+
+    def test_schema_and_exact_single_artifact_exist(self) -> None:
+        self.assertEqual("https://json-schema.org/draft/2020-12/schema", self.schema["$schema"])
+        self.assertEqual("0.5.0-draft", self.schema["x-instrument-version"])
+        self.assertEqual(
+            [self.PATH],
+            list((ROOT / "domain-universe/normalization/pass2b").glob("*.json")),
+        )
+        self.assertEqual([], VALIDATE.validate_contract(self.record, self.schema, str(self.PATH)))
+
+    def test_exact_artifact_hashes_resolve(self) -> None:
+        expected = {
+            "normalization_codebook": NORMALIZATION_VALIDATE.CODEBOOK_PATH,
+            "universe_boundary": NORMALIZATION_VALIDATE.BOUNDARY_PATH,
+            "pass2a_record": NORMALIZATION_VALIDATE.PASS2A_PATH,
+        }
+        for field, relative in expected.items():
+            self.assertEqual(relative, self.record[field]["path"])
+            self.assertEqual(
+                NORMALIZATION_VALIDATE.canonical_lf_sha256(ROOT / relative),
+                self.record[field]["sha256"],
+            )
+        self.assertEqual(NORMALIZATION_VALIDATE.EXPECTED_PASS2A_SHA256, self.pass2a_sha)
+        self.assertEqual(
+            {
+                NORMALIZATION_VALIDATE.pass1_record_path(
+                    "oecd-ford-frascati-2015-pass1.json"
+                ),
+                NORMALIZATION_VALIDATE.pass1_record_path("un-isic-rev5-pass1.json"),
+            },
+            {item["path"] for item in self.record["pass1_records"]},
+        )
+        for item in self.record["pass1_records"]:
+            self.assertEqual(self.record_hashes[item["path"]], item["sha256"])
+
+    def test_exact_two_deferred_pairs_and_official_source_lineage(self) -> None:
+        self.assertEqual(
+            set(NORMALIZATION_VALIDATE.EXPECTED_PASS2B_ADJUDICATIONS),
+            {item["adjudication_id"] for item in self.record["adjudications"]},
+        )
+        deferred_pairs = {
+            frozenset(
+                (
+                    (item["left_member"]["source_frame_id"], item["left_member"]["source_entry_id"]),
+                    (item["right_member"]["source_frame_id"], item["right_member"]["source_entry_id"]),
+                )
+            )
+            for item in self.pass2a["deferred_equivalence_questions"]
+        }
+        adjudicated_pairs = {
+            frozenset(
+                (
+                    (item["left_member"]["source_frame_id"], item["left_member"]["source_entry_id"]),
+                    (item["right_member"]["source_frame_id"], item["right_member"]["source_entry_id"]),
+                )
+            )
+            for item in self.record["adjudications"]
+        }
+        self.assertEqual(deferred_pairs, adjudicated_pairs)
+        sources = {
+            item["clarification_source_id"]: item
+            for item in self.record["clarification_sources"]
+        }
+        self.assertEqual(set(NORMALIZATION_VALIDATE.EXPECTED_PASS2B_SOURCES), set(sources))
+        for source_id, expected in NORMALIZATION_VALIDATE.EXPECTED_PASS2B_SOURCES.items():
+            for field in ("source_frame_id", "source_uri", "sha256"):
+                self.assertEqual(expected[field], sources[source_id][field])
+        self.assertEqual([], self._errors(self.record))
+
+    def test_coextensive_with_one_false_criterion_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        item = changed["adjudications"][0]
+        item["outcome"] = "coextensive"
+        item["criteria"] = {criterion: True for criterion in NORMALIZATION_VALIDATE.PASS2B_CRITERIA}
+        item["criteria"]["lens_difference_only"] = False
+        self.assertTrue(any("coextensive requires all five" in error for error in self._errors(changed)))
+
+    def test_not_coextensive_without_a_false_criterion_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        item = changed["adjudications"][0]
+        item["criteria"] = {criterion: True for criterion in NORMALIZATION_VALIDATE.PASS2B_CRITERIA}
+        self.assertTrue(any("requires a false criterion" in error for error in self._errors(changed)))
+
+    def test_unresolved_with_a_false_criterion_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        item = changed["adjudications"][0]
+        item["outcome"] = "unresolved"
+        item["criteria"] = {criterion: None for criterion in NORMALIZATION_VALIDATE.PASS2B_CRITERIA}
+        item["criteria"]["lens_difference_only"] = False
+        self.assertTrue(any("unresolved requires no false" in error for error in self._errors(changed)))
+
+    def test_unresolved_with_all_true_criteria_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        item = changed["adjudications"][0]
+        item["outcome"] = "unresolved"
+        item["criteria"] = {criterion: True for criterion in NORMALIZATION_VALIDATE.PASS2B_CRITERIA}
+        self.assertTrue(any("at least one null" in error for error in self._errors(changed)))
+
+    def test_unknown_third_and_missing_required_adjudications_fail(self) -> None:
+        added = json.loads(json.dumps(self.record))
+        third = json.loads(json.dumps(added["adjudications"][0]))
+        third["adjudication_id"] = "test-only-unknown-third"
+        added["adjudications"].append(third)
+        self.assertTrue(any("two required adjudication IDs" in error for error in self._errors(added)))
+
+        missing = json.loads(json.dumps(self.record))
+        missing["adjudications"].pop()
+        self.assertTrue(any("two required adjudication IDs" in error for error in self._errors(missing)))
+
+    def test_wrong_pass2a_group_id_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["adjudications"][0]["left_member"]["pass2a_group_id"] = "ng-test-only"
+        self.assertTrue(any("pass2a_group_id mismatch" in error for error in self._errors(changed)))
+
+    def test_changed_pass2a_bytes_fail_immutable_binding(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            changed_path = Path(temporary) / "pass2a.json"
+            changed_path.write_bytes(self.pass2a_path.read_bytes() + b"\n")
+            changed_sha = NORMALIZATION_VALIDATE.canonical_lf_sha256(changed_path)
+        self.assertNotEqual(self.pass2a_sha, changed_sha)
+        errors = self._errors(self.record, pass2a_sha=changed_sha)
+        self.assertTrue(any("immutable Pass 2A bytes changed" in error for error in errors))
+
+    def test_candidate_identifier_insertion_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["uncertainty"] += " Test-only prohibited identifier du-cand-0001."
+        self.assertTrue(any("prohibited Domain candidate identifier" in error for error in self._errors(changed)))
+
+    def test_scientific_state_remains_unchanged_and_downstream_empty(self) -> None:
+        entries = []
+        for path in sorted((ROOT / "domain-universe/extractions").glob("*.json")):
+            entries.extend(json.loads(path.read_text(encoding="utf-8"))["extracted_entries"])
+        self.assertEqual(330, sum(item["normalization_disposition"] == "unresolved" for item in entries))
+        self.assertEqual(330, sum(item["target_domain_candidate_ids"] == [] for item in entries))
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_PASS2A_SHA256,
+            NORMALIZATION_VALIDATE.canonical_lf_sha256(self.pass2a_path),
+        )
+        for filename, expected_hash in NORMALIZATION_VALIDATE.EXPECTED_PASS1_SHA256.items():
+            self.assertEqual(
+                expected_hash,
+                NORMALIZATION_VALIDATE.canonical_lf_sha256(
+                    ROOT / NORMALIZATION_VALIDATE.pass1_record_path(filename)
+                ),
+            )
+        frames = [
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in sorted((ROOT / "domain-universe/source-frames").glob("*.json"))
+        ]
+        self.assertEqual(4, sum(frame["normalization_status"] == "pending" for frame in frames))
+        for directory in (
+            "candidates", "eligibility", "relations", "proposals", "reviews",
+            "governance", "manifests",
+        ):
+            self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
+        self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
+        self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+
+
 class HistoricalSelfContainmentTests(unittest.TestCase):
     def setUp(self) -> None:
         self.repository = TemporaryRepository()

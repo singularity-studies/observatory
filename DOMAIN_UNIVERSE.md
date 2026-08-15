@@ -21,10 +21,11 @@ divided into those categories. The protocol asks:
 The goal is coverage, not a metaphysical taxonomy. Construction has begun with
 one prospectively fixed boundary, four registered source frames, and exhaustive
 second-level extraction of 330 official source categories. These source
-categories are not Domains. Pass 1 interpretation and Pass 2A conservative
-equivalence grouping are complete pending scientific review. Every extraction
-normalization disposition remains unresolved, and neither stage creates a
-Domain, candidate, eligibility decision, proposal, review, authority, or lock.
+categories are not Domains. Pass 1 interpretation, Pass 2A conservative
+equivalence grouping, and Pass 2B adjudication of the two deferred pairs are
+complete pending scientific review. Every extraction normalization disposition
+remains unresolved, and none of these stages creates a Domain, candidate,
+eligibility decision, proposal, review, authority, or lock.
 
 ## Universe boundary
 
@@ -104,8 +105,9 @@ engineering/technology, public-sector or institutional-function, and other
 defensible structured classifications. The registered frames are OECD FORD
 (Frascati Manual 2015), UN ISIC Revision 5, WIPO IPC 2026.01, and UN COFOG
 1999. Their prospectively specified second levels have been exhaustively
-extracted. Pass 1 interpretation and Pass 2A equivalence grouping are complete
-pending scientific review; candidate generation has not begun.
+extracted. Pass 1 interpretation, Pass 2A equivalence grouping, and Pass 2B
+adjudication of the two deferred pairs are complete pending scientific review;
+candidate generation has not begun.
 
 Machine validation cannot substantively prove intellectual independence. It
 can require reviewable provenance and block obvious duplication or relabeling;
@@ -159,10 +161,19 @@ singleton groups; the eight unresolved IPC residual classes remain outside
 grouping. No pair was merged because the permitted Pass 1 evidence did not
 affirm all five coextensiveness conditions. This is not evidence that the
 groups are disjoint, non-overlapping, independent, finally non-duplicate, or
-eligible. Two same-wording cross-frame comparisons remain explicit deferred
-questions. No candidate ID or candidate record exists, extraction dispositions
-remain untouched, and final Domain eligibility has not begun. Pass 1 and Pass
-2A completion do not complete normalization.
+eligible. Two same-wording cross-frame comparisons remained explicit deferred
+questions at Pass 2A. Pass 2B independently constructed each member's
+official-source envelope and closed both as
+`not_coextensive_for_normalization`: FORD classifies R&D subject-matter fields,
+whereas the corresponding ISIC divisions classify construction or education
+economic activity with materially different inclusion and exclusion envelopes.
+The decision is normalization-specific and does not establish disjointness, no
+overlap, final non-duplication, Domain separation, or eligibility. The Pass 2A
+singleton partition needs no revision, so later candidate materialization is
+structurally permitted but has not begun. No candidate ID or candidate record
+exists, extraction dispositions remain untouched, and final Domain eligibility
+has not begun. Pass 1, Pass 2A, and Pass 2B completion do not complete
+normalization.
 
 ## Construction pipeline
 
