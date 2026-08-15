@@ -97,6 +97,32 @@ This entry records source extraction only. It does not decide scope,
 duplication, eligibility, Domain identity, approval, lock, or authorization of
 Wave 0.
 
+## Prospective construction record DU-004
+
+- Date: `2026-08-15`
+- Status: Normalization Codebook v0.1 prospectively fixed for normalization;
+  not scientifically approved
+- Decision authority: unresolved
+- Effective normalization batch: none
+- Effective Wave: none
+- Affected instrument: Domain Universe Normalization Decision Codebook `v0.1`
+- Construction action: fixed topic-preserving translation, frame-role
+  stripping, high-bar equivalence, partial-overlap preservation,
+  deterministic anchor and candidate-ID rules, allowed evidence, and a
+  two-pass normalization procedure before any source-entry disposition changes.
+- Rationale: prevent processing order, current AI capability, expected
+  Singularity proximity, or human-criticality forecasts from silently shaping
+  provisional coverage strata.
+- Comparability impact: none; normalization has not begun, all 330 entries
+  remain unresolved with empty candidate targets, and no candidate exists.
+- Unresolved follow-up: every substantive normalization outcome, candidate
+  label and boundary, scientific review, final eligibility, relations,
+  coverage audit, final governance authority, and governance lock.
+
+This entry records prospective decision rules only. It identifies no reviewer,
+approver, or authority and creates no normalization outcome, candidate,
+approval, Domain Universe lock, Frozen Panel, Wave, or authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;
