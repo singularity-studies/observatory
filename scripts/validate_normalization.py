@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import itertools
 import json
 import sys
 from pathlib import Path
@@ -13,6 +14,9 @@ from typing import Any, Callable
 
 PASS1_SCHEMA_PATH = "schemas/domain-normalization-pass1.schema.json"
 PASS1_DIRECTORY = "domain-universe/normalization/pass1"
+PASS2A_SCHEMA_PATH = "schemas/domain-normalization-pass2a.schema.json"
+PASS2A_DIRECTORY = "domain-universe/normalization/pass2a"
+PASS2A_PATH = f"{PASS2A_DIRECTORY}/equivalence-groups-v0.1.json"
 CODEBOOK_PATH = "domain-universe/NORMALIZATION_CODEBOOK.md"
 BOUNDARY_PATH = "domain-universe/boundaries/du-boundary-v0.1.json"
 EXPECTED_PASS1: dict[str, tuple[str, str, int]] = {
@@ -36,6 +40,20 @@ EXPECTED_PASS1: dict[str, tuple[str, str, int]] = {
         "un-cofog-1999",
         69,
     ),
+}
+EXPECTED_PASS1_SHA256 = {
+    "oecd-ford-frascati-2015-pass1.json":
+        "d62c8f899b3b966381cdd693adcb1e9bf89cd6210474b8d30a4550889fb5612d",
+    "un-cofog-1999-pass1.json":
+        "e95466d6e82c20f4d0f082e914509c080ebb962182c09fce20faad0786f226cc",
+    "un-isic-rev5-pass1.json":
+        "7b02e4a2864076700c2d1d26910ef2b591e7771007d4819670f8c30a70d82cb3",
+    "wipo-ipc-2026-01-pass1.json":
+        "8ca43b8888fe64d5f96c663dead2a2e37b8da9f687af1ee42188c21926723a9a",
+}
+EXPECTED_UNRESOLVED = {
+    ("wipo-ipc-2026-01", f"ipc-{section}99")
+    for section in "ABCDEFGH"
 }
 
 
@@ -81,6 +99,8 @@ def validate_normalization_repository(
     directory = root / PASS1_DIRECTORY
     records = sorted(directory.glob("*.json")) if directory.is_dir() else []
     if not records:
+        if (root / PASS2A_DIRECTORY).exists():
+            errors.append(f"{PASS2A_DIRECTORY}: Pass 2A requires the exact Pass 1 records")
         return errors
 
     expected_names = set(EXPECTED_PASS1)
@@ -265,6 +285,398 @@ def validate_normalization_repository(
             f"{PASS1_DIRECTORY}: expected 330 interpretations across all records, "
             f"found {total_interpretations}"
         )
+    errors.extend(validate_pass2a_repository(root, validate_contract))
+    return errors
+
+
+Pass1Key = tuple[str, str]
+
+
+def pass1_record_path(filename: str) -> str:
+    return f"{PASS1_DIRECTORY}/{filename}"
+
+
+def group_id_for_members(members: list[Pass1Key]) -> str:
+    tokens = sorted(f"{source_frame_id}|{source_entry_id}" for source_frame_id, source_entry_id in members)
+    digest = hashlib.sha256("\n".join(tokens).encode("utf-8")).hexdigest()[:16]
+    return f"ng-{digest}"
+
+
+def locator_key(value: Any) -> Pass1Key | None:
+    if not isinstance(value, dict):
+        return None
+    source_frame_id = value.get("source_frame_id")
+    source_entry_id = value.get("source_entry_id")
+    if not isinstance(source_frame_id, str) or not isinstance(source_entry_id, str):
+        return None
+    return source_frame_id, source_entry_id
+
+
+def build_pass1_index(root: Path) -> tuple[dict[Pass1Key, dict[str, Any]], dict[str, str], list[str]]:
+    index: dict[Pass1Key, dict[str, Any]] = {}
+    record_hashes: dict[str, str] = {}
+    errors: list[str] = []
+    for filename, (_, source_frame_id, _) in EXPECTED_PASS1.items():
+        relative = pass1_record_path(filename)
+        path = root / relative
+        if not path.is_file():
+            errors.append(f"{PASS2A_PATH}: required Pass 1 record is missing: {relative}")
+            continue
+        try:
+            record = read_json(path)
+        except json.JSONDecodeError as exc:
+            errors.append(f"{PASS2A_PATH}: invalid bound Pass 1 JSON {relative}: {exc}")
+            continue
+        record_hashes[relative] = canonical_lf_sha256(path)
+        if record_hashes[relative] != EXPECTED_PASS1_SHA256[filename]:
+            errors.append(f"{PASS2A_PATH}: immutable Pass 1 bytes changed: {relative}")
+        for interpretation in record.get("interpretations", []):
+            if not isinstance(interpretation, dict):
+                continue
+            source_entry_id = interpretation.get("source_entry_id")
+            if not isinstance(source_entry_id, str):
+                continue
+            key = source_frame_id, source_entry_id
+            if key in index:
+                errors.append(f"{PASS2A_PATH}: duplicate Pass 1 identity {key!r}")
+                continue
+            index[key] = {
+                "record_path": relative,
+                "record_sha256": record_hashes[relative],
+                "minimal_gate_result": interpretation.get("minimal_gate_result"),
+                "normalized_substantive_locus": interpretation.get(
+                    "normalized_substantive_locus"
+                ),
+            }
+    return index, record_hashes, errors
+
+
+def validate_bound_pass1_reference(
+    reference: Any,
+    expected: dict[str, Any],
+    location: str,
+) -> list[str]:
+    if not isinstance(reference, dict):
+        return [f"{location}: pass1_record must be an artifact reference"]
+    errors: list[str] = []
+    if reference.get("path") != expected["record_path"]:
+        errors.append(f"{location}: pass1_record path does not match the member identity")
+    if reference.get("sha256") != expected["record_sha256"]:
+        errors.append(f"{location}: pass1_record SHA-256 mismatch")
+    return errors
+
+
+def validate_group_structure(
+    group: Any,
+    pass1_index: dict[Pass1Key, dict[str, Any]],
+    location: str,
+) -> tuple[list[str], list[Pass1Key]]:
+    errors: list[str] = []
+    if not isinstance(group, dict):
+        return [f"{location}: group must be an object"], []
+    members = group.get("members", [])
+    if not isinstance(members, list):
+        return [f"{location}: members must be an array"], []
+
+    member_keys: list[Pass1Key] = []
+    for index, member in enumerate(members):
+        member_location = f"{location}: members[{index}]"
+        key = locator_key(member)
+        if key is None:
+            errors.append(f"{member_location}: member identity is invalid")
+            continue
+        member_keys.append(key)
+        expected = pass1_index.get(key)
+        if expected is None:
+            errors.append(f"{member_location}: member does not resolve to Pass 1")
+            continue
+        errors.extend(
+            validate_bound_pass1_reference(member.get("pass1_record"), expected, member_location)
+        )
+        if expected["minimal_gate_result"] != "passes":
+            errors.append(f"{member_location}: only Pass 1 passes may be grouped")
+        if member.get("normalized_substantive_locus") != expected[
+            "normalized_substantive_locus"
+        ]:
+            errors.append(f"{member_location}: normalized_substantive_locus mismatch")
+
+    if len(member_keys) != len(set(member_keys)):
+        errors.append(f"{location}: a member appears more than once in the group")
+    if member_keys:
+        expected_id = group_id_for_members(member_keys)
+        if group.get("normalization_group_id") != expected_id:
+            errors.append(f"{location}: normalization_group_id does not match deterministic hash")
+        anchor_key = min(member_keys)
+        if locator_key(group.get("deterministic_anchor")) != anchor_key:
+            errors.append(f"{location}: deterministic_anchor is not the lexicographic minimum")
+
+    assertions = group.get("pairwise_equivalence_assertions", [])
+    if not isinstance(assertions, list):
+        assertions = []
+    group_kind = group.get("group_kind")
+    if group_kind == "singleton":
+        if len(member_keys) != 1:
+            errors.append(f"{location}: singleton must contain exactly one member")
+        if assertions:
+            errors.append(f"{location}: singleton must contain zero pairwise assertions")
+        if member_keys:
+            expected = pass1_index.get(member_keys[0])
+            if expected and group.get("group_locus_statement") != expected[
+                "normalized_substantive_locus"
+            ]:
+                errors.append(f"{location}: singleton locus must equal its Pass 1 locus")
+    elif group_kind == "coextensive_equivalence":
+        if len(member_keys) < 2:
+            errors.append(f"{location}: coextensive_equivalence requires at least two members")
+        expected_pairs = {
+            frozenset((left, right))
+            for left, right in itertools.combinations(set(member_keys), 2)
+        }
+        actual_pairs: list[frozenset[Pass1Key]] = []
+        criteria = (
+            "same_substantive_locus",
+            "equivalent_inclusion_envelope",
+            "equivalent_exclusion_envelope",
+            "no_material_scope_asymmetry",
+            "lens_difference_only",
+        )
+        for assertion_index, assertion in enumerate(assertions):
+            assertion_location = (
+                f"{location}: pairwise_equivalence_assertions[{assertion_index}]"
+            )
+            if not isinstance(assertion, dict):
+                errors.append(f"{assertion_location}: assertion must be an object")
+                continue
+            left = locator_key(assertion.get("left_member"))
+            right = locator_key(assertion.get("right_member"))
+            if left is None or right is None or left == right:
+                errors.append(f"{assertion_location}: assertion pair is invalid")
+                continue
+            pair = frozenset((left, right))
+            actual_pairs.append(pair)
+            if left not in set(member_keys) or right not in set(member_keys):
+                errors.append(f"{assertion_location}: assertion references a non-member")
+            for criterion in criteria:
+                if assertion.get(criterion) is not True:
+                    errors.append(f"{assertion_location}: {criterion} must be true")
+        if len(actual_pairs) != len(set(actual_pairs)):
+            errors.append(f"{location}: duplicate unordered pairwise assertion")
+        if set(actual_pairs) != expected_pairs:
+            errors.append(
+                f"{location}: pairwise assertions must form a complete equivalence clique"
+            )
+    else:
+        errors.append(f"{location}: unrecognized group_kind")
+    return errors, member_keys
+
+
+def find_prohibited_pass2a_content(value: Any, location: str) -> list[str]:
+    errors: list[str] = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if "candidate" in key.lower():
+                errors.append(f"{location}: prohibited candidate field {key!r}")
+            errors.extend(find_prohibited_pass2a_content(child, f"{location}.{key}"))
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            errors.extend(find_prohibited_pass2a_content(child, f"{location}[{index}]"))
+    elif isinstance(value, str) and "du-cand-" in value.lower():
+        errors.append(f"{location}: prohibited Domain candidate identifier")
+    return errors
+
+
+def validate_pass2a_record(
+    record: Any,
+    pass1_index: dict[Pass1Key, dict[str, Any]],
+    record_hashes: dict[str, str],
+    location: str = PASS2A_PATH,
+) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(record, dict):
+        return [f"{location}: Pass 2A record must be an object"]
+    if record.get("pass2a_record_id") != "equivalence-groups-v0.1":
+        errors.append(f"{location}: pass2a_record_id mismatch")
+    if record.get("instrument_version") != "0.5.0-draft":
+        errors.append(f"{location}: instrument_version mismatch")
+    if record.get("procedure") != "high_precision_equivalence_grouping":
+        errors.append(f"{location}: procedure mismatch")
+    if record.get("status") != "complete":
+        errors.append(f"{location}: status must be complete")
+    errors.extend(find_prohibited_pass2a_content(record, location))
+
+    references = record.get("pass1_records", [])
+    if not isinstance(references, list):
+        references = []
+    reference_paths = [
+        reference.get("path")
+        for reference in references
+        if isinstance(reference, dict)
+    ]
+    if len(reference_paths) != len(set(reference_paths)):
+        errors.append(f"{location}: duplicate Pass 1 artifact binding")
+    if set(reference_paths) != set(record_hashes):
+        errors.append(f"{location}: must bind the exact four Pass 1 records")
+    for reference in references:
+        if not isinstance(reference, dict):
+            errors.append(f"{location}: pass1_records entry must be an artifact reference")
+            continue
+        path = reference.get("path")
+        if path in record_hashes and reference.get("sha256") != record_hashes[path]:
+            errors.append(f"{location}: Pass 1 SHA-256 mismatch for {path}")
+
+    groups = record.get("groups", [])
+    if not isinstance(groups, list):
+        groups = []
+    all_grouped: list[Pass1Key] = []
+    group_ids: list[str] = []
+    group_for_member: dict[Pass1Key, tuple[str, str]] = {}
+    for index, group in enumerate(groups):
+        group_location = f"{location}: groups[{index}]"
+        group_errors, member_keys = validate_group_structure(
+            group, pass1_index, group_location
+        )
+        errors.extend(group_errors)
+        all_grouped.extend(member_keys)
+        if isinstance(group, dict):
+            group_id = group.get("normalization_group_id")
+            if isinstance(group_id, str):
+                group_ids.append(group_id)
+            for key in member_keys:
+                group_for_member[key] = (str(group_id), str(group.get("group_kind")))
+    if len(group_ids) != len(set(group_ids)):
+        errors.append(f"{location}: duplicate normalization_group_id")
+
+    expected_passes = {
+        key
+        for key, value in pass1_index.items()
+        if value.get("minimal_gate_result") == "passes"
+    }
+    if len(all_grouped) != len(set(all_grouped)):
+        errors.append(f"{location}: a passed interpretation appears in multiple groups")
+    grouped_set = set(all_grouped)
+    if grouped_set != expected_passes:
+        missing = sorted(expected_passes - grouped_set)
+        extra = sorted(grouped_set - expected_passes)
+        errors.append(
+            f"{location}: groups must partition every Pass 1 pass exactly once; "
+            f"missing={missing}, extra={extra}"
+        )
+    if len(all_grouped) != 322:
+        errors.append(f"{location}: expected exactly 322 grouped members")
+
+    excluded = record.get("excluded_from_grouping", [])
+    if not isinstance(excluded, list):
+        excluded = []
+    excluded_keys: list[Pass1Key] = []
+    for index, item in enumerate(excluded):
+        item_location = f"{location}: excluded_from_grouping[{index}]"
+        key = locator_key(item)
+        if key is None:
+            errors.append(f"{item_location}: excluded identity is invalid")
+            continue
+        excluded_keys.append(key)
+        expected = pass1_index.get(key)
+        if expected is None:
+            errors.append(f"{item_location}: excluded identity does not resolve to Pass 1")
+            continue
+        errors.extend(
+            validate_bound_pass1_reference(item.get("pass1_record"), expected, item_location)
+        )
+        result = expected.get("minimal_gate_result")
+        expected_reason = {
+            "unresolved": "pass1_unresolved",
+            "fails_out_of_scope": "pass1_fails_out_of_scope",
+        }.get(result)
+        if expected_reason is None:
+            errors.append(f"{item_location}: a Pass 1 pass cannot be excluded")
+        elif item.get("reason") != expected_reason:
+            errors.append(f"{item_location}: exclusion reason does not match Pass 1")
+    expected_excluded = set(pass1_index) - expected_passes
+    if len(excluded_keys) != len(set(excluded_keys)):
+        errors.append(f"{location}: duplicate excluded Pass 1 identity")
+    if set(excluded_keys) != expected_excluded:
+        errors.append(f"{location}: excluded entries must account for every non-pass exactly once")
+    if len(excluded_keys) != 8 or set(excluded_keys) != EXPECTED_UNRESOLVED:
+        errors.append(f"{location}: expected exactly the eight unresolved IPC A99-H99 entries")
+
+    deferred = record.get("deferred_equivalence_questions", [])
+    if not isinstance(deferred, list):
+        deferred = []
+    deferred_pairs: list[frozenset[Pass1Key]] = []
+    for index, item in enumerate(deferred):
+        item_location = f"{location}: deferred_equivalence_questions[{index}]"
+        if not isinstance(item, dict):
+            errors.append(f"{item_location}: deferred question must be an object")
+            continue
+        left = locator_key(item.get("left_member"))
+        right = locator_key(item.get("right_member"))
+        if left is None or right is None or left == right:
+            errors.append(f"{item_location}: deferred pair is invalid")
+            continue
+        pair = frozenset((left, right))
+        deferred_pairs.append(pair)
+        for key in (left, right):
+            if key not in expected_passes:
+                errors.append(f"{item_location}: deferred member must resolve to a Pass 1 pass")
+        left_group = group_for_member.get(left)
+        right_group = group_for_member.get(right)
+        if (
+            left_group is not None
+            and left_group == right_group
+            and left_group[1] == "coextensive_equivalence"
+        ):
+            errors.append(f"{item_location}: deferred pair is already merged")
+    if len(deferred_pairs) != len(set(deferred_pairs)):
+        errors.append(f"{location}: duplicate deferred equivalence pair")
+    return errors
+
+
+def validate_pass2a_repository(
+    root: Path,
+    validate_contract: Callable[[Any, Any, str], list[str]],
+) -> list[str]:
+    directory = root / PASS2A_DIRECTORY
+    if not directory.exists():
+        return []
+    errors: list[str] = []
+    files = sorted(directory.glob("*.json")) if directory.is_dir() else []
+    expected_file = root / PASS2A_PATH
+    if files != [expected_file]:
+        errors.append(f"{PASS2A_DIRECTORY}: expected exactly equivalence-groups-v0.1.json")
+    if not expected_file.is_file():
+        return errors
+
+    schema_path = root / PASS2A_SCHEMA_PATH
+    if not schema_path.is_file():
+        return errors + [f"{PASS2A_SCHEMA_PATH}: required when Pass 2A exists"]
+    try:
+        schema = read_json(schema_path)
+        record = read_json(expected_file)
+    except json.JSONDecodeError as exc:
+        return errors + [f"{PASS2A_PATH}: invalid JSON: {exc}"]
+    if schema.get("x-instrument-version") != "0.5.0-draft":
+        errors.append(f"{PASS2A_SCHEMA_PATH}: x-instrument-version mismatch")
+    errors.extend(find_prohibited_pass2a_content(schema, PASS2A_SCHEMA_PATH))
+    errors.extend(validate_contract(record, schema, PASS2A_PATH))
+
+    _, artifact_errors = validate_artifact(
+        root,
+        record.get("normalization_codebook"),
+        CODEBOOK_PATH,
+        f"{PASS2A_PATH}: normalization_codebook",
+    )
+    errors.extend(artifact_errors)
+    _, artifact_errors = validate_artifact(
+        root,
+        record.get("universe_boundary"),
+        BOUNDARY_PATH,
+        f"{PASS2A_PATH}: universe_boundary",
+    )
+    errors.extend(artifact_errors)
+
+    pass1_index, record_hashes, index_errors = build_pass1_index(root)
+    errors.extend(index_errors)
+    errors.extend(validate_pass2a_record(record, pass1_index, record_hashes))
     return errors
 
 
@@ -283,7 +695,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Normalization validation passed: Pass 1 contracts are sound.")
+    print("Normalization validation passed: Pass 1 and Pass 2A contracts are sound.")
     return 0
 
 

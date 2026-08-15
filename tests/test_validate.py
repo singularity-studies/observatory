@@ -2751,7 +2751,8 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         current_state = (ROOT / "domain-universe/README.md").read_text(encoding="utf-8")
         self.assertIn("330 source categories", current_state)
         self.assertIn("not Domains", current_state)
-        self.assertIn("normalization and candidate generation have not\nbegun", current_state)
+        self.assertIn("candidate generation has not begun", current_state)
+        self.assertIn("Pass 2A high-precision equivalence grouping", current_state)
         self.assertIn("included or locked Domain", current_state)
         self.assertIn("The Domain Universe is not established or locked", current_state)
         self.assertIn("Wave 0 remains unauthorized", current_state.replace("\n", " "))
@@ -3022,6 +3023,306 @@ class DomainNormalizationPass1Tests(unittest.TestCase):
             1,
             len((ROOT / "registry/live-registry.csv").read_text(encoding="utf-8").splitlines()),
         )
+
+
+class DomainNormalizationPass2ATests(unittest.TestCase):
+    PATH = ROOT / "domain-universe/normalization/pass2a/equivalence-groups-v0.1.json"
+
+    def setUp(self) -> None:
+        self.schema = json.loads(
+            (ROOT / "schemas/domain-normalization-pass2a.schema.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        self.record = json.loads(self.PATH.read_text(encoding="utf-8"))
+        self.pass1_index, self.record_hashes, errors = (
+            NORMALIZATION_VALIDATE.build_pass1_index(ROOT)
+        )
+        self.assertEqual([], errors)
+
+    def _errors(self, record: dict[str, object]) -> list[str]:
+        return VALIDATE.validate_contract(record, self.schema, "test-pass2a") + (
+            NORMALIZATION_VALIDATE.validate_pass2a_record(
+                record, self.pass1_index, self.record_hashes, "test-pass2a"
+            )
+        )
+
+    @staticmethod
+    def _synthetic_clique() -> tuple[dict[tuple[str, str], dict[str, object]], dict[str, object]]:
+        keys = [("test-frame", f"test-entry-{letter}") for letter in "abc"]
+        record_ref = {"path": "test/pass1.json", "sha256": "0" * 64}
+        index = {
+            key: {
+                "record_path": record_ref["path"],
+                "record_sha256": record_ref["sha256"],
+                "minimal_gate_result": "passes",
+                "normalized_substantive_locus": "test-only structural locus",
+            }
+            for key in keys
+        }
+
+        def locator(key: tuple[str, str]) -> dict[str, str]:
+            return {"source_frame_id": key[0], "source_entry_id": key[1]}
+
+        members = [
+            {
+                **locator(key),
+                "pass1_record": record_ref,
+                "normalized_substantive_locus": "test-only structural locus",
+            }
+            for key in keys
+        ]
+        assertions = []
+        for left_index in range(len(keys)):
+            for right_index in range(left_index + 1, len(keys)):
+                assertions.append(
+                    {
+                        "left_member": locator(keys[left_index]),
+                        "right_member": locator(keys[right_index]),
+                        "same_substantive_locus": True,
+                        "equivalent_inclusion_envelope": True,
+                        "equivalent_exclusion_envelope": True,
+                        "no_material_scope_asymmetry": True,
+                        "lens_difference_only": True,
+                        "rationale": "test-only complete-clique fixture",
+                        "uncertainty": "structural validation only; no scientific claim",
+                    }
+                )
+        group = {
+            "normalization_group_id": NORMALIZATION_VALIDATE.group_id_for_members(keys),
+            "group_kind": "coextensive_equivalence",
+            "members": members,
+            "deterministic_anchor": locator(min(keys)),
+            "group_locus_statement": "test-only structural locus",
+            "pairwise_equivalence_assertions": assertions,
+            "rationale": "test-only complete-clique fixture",
+            "uncertainty": "structural validation only; no scientific claim",
+        }
+        return index, group
+
+    def test_schema_and_exact_single_artifact_exist(self) -> None:
+        self.assertEqual("https://json-schema.org/draft/2020-12/schema", self.schema["$schema"])
+        self.assertEqual("0.5.0-draft", self.schema["x-instrument-version"])
+        self.assertEqual(
+            [self.PATH],
+            list((ROOT / "domain-universe/normalization/pass2a").glob("*.json")),
+        )
+        self.assertEqual([], VALIDATE.validate_contract(self.record, self.schema, str(self.PATH)))
+
+    def test_exact_codebook_boundary_and_immutable_pass1_hashes_resolve(self) -> None:
+        for field, relative in (
+            ("normalization_codebook", "domain-universe/NORMALIZATION_CODEBOOK.md"),
+            ("universe_boundary", "domain-universe/boundaries/du-boundary-v0.1.json"),
+        ):
+            self.assertEqual(relative, self.record[field]["path"])
+            self.assertEqual(
+                NORMALIZATION_VALIDATE.canonical_lf_sha256(ROOT / relative),
+                self.record[field]["sha256"],
+            )
+        self.assertEqual(self.record_hashes, {
+            item["path"]: item["sha256"] for item in self.record["pass1_records"]
+        })
+        self.assertEqual(
+            set(NORMALIZATION_VALIDATE.EXPECTED_PASS1_SHA256.values()),
+            set(self.record_hashes.values()),
+        )
+
+    def test_tampered_pass1_bytes_fail_immutable_input_binding(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            shutil.copytree(
+                ROOT / "domain-universe/normalization/pass1",
+                root / "domain-universe/normalization/pass1",
+            )
+            path = root / (
+                "domain-universe/normalization/pass1/"
+                "oecd-ford-frascati-2015-pass1.json"
+            )
+            changed = json.loads(path.read_text(encoding="utf-8"))
+            changed["interpretations"][0]["uncertainty"] += " test-only tamper"
+            write_json(path, changed)
+            _, _, errors = NORMALIZATION_VALIDATE.build_pass1_index(root)
+        self.assertTrue(any("immutable Pass 1 bytes changed" in error for error in errors))
+
+    def test_partition_accounts_for_322_passes_and_eight_unresolved_once(self) -> None:
+        grouped = [
+            (member["source_frame_id"], member["source_entry_id"])
+            for group in self.record["groups"]
+            for member in group["members"]
+        ]
+        excluded = [
+            (item["source_frame_id"], item["source_entry_id"])
+            for item in self.record["excluded_from_grouping"]
+        ]
+        self.assertEqual(322, len(grouped))
+        self.assertEqual(322, len(set(grouped)))
+        self.assertEqual(8, len(excluded))
+        self.assertEqual(8, len(set(excluded)))
+        self.assertEqual(NORMALIZATION_VALIDATE.EXPECTED_UNRESOLVED, set(excluded))
+        self.assertEqual(330, len(grouped) + len(excluded))
+
+    def test_repository_group_ids_anchors_and_kind_rules_are_deterministic(self) -> None:
+        kinds = {"singleton": 0, "coextensive_equivalence": 0}
+        for index, group in enumerate(self.record["groups"]):
+            keys = [
+                (member["source_frame_id"], member["source_entry_id"])
+                for member in group["members"]
+            ]
+            self.assertEqual(
+                NORMALIZATION_VALIDATE.group_id_for_members(keys),
+                group["normalization_group_id"],
+            )
+            self.assertEqual(
+                {"source_frame_id": min(keys)[0], "source_entry_id": min(keys)[1]},
+                group["deterministic_anchor"],
+            )
+            errors, _ = NORMALIZATION_VALIDATE.validate_group_structure(
+                group, self.pass1_index, f"group[{index}]"
+            )
+            self.assertEqual([], errors)
+            kinds[group["group_kind"]] += 1
+        self.assertEqual({"singleton": 322, "coextensive_equivalence": 0}, kinds)
+
+    def test_complete_three_member_pairwise_clique_passes_structural_gate(self) -> None:
+        index, group = self._synthetic_clique()
+        errors, _ = NORMALIZATION_VALIDATE.validate_group_structure(
+            group, index, "test-only-group"
+        )
+        self.assertEqual([], errors)
+
+    def test_removing_one_required_pairwise_assertion_fails(self) -> None:
+        index, group = self._synthetic_clique()
+        group["pairwise_equivalence_assertions"].pop()
+        errors, _ = NORMALIZATION_VALIDATE.validate_group_structure(
+            group, index, "test-only-group"
+        )
+        self.assertTrue(any("complete equivalence clique" in error for error in errors))
+
+    def test_one_false_equivalence_criterion_fails(self) -> None:
+        index, group = self._synthetic_clique()
+        group["pairwise_equivalence_assertions"][0]["lens_difference_only"] = False
+        errors, _ = NORMALIZATION_VALIDATE.validate_group_structure(
+            group, index, "test-only-group"
+        )
+        self.assertTrue(any("lens_difference_only must be true" in error for error in errors))
+
+    def test_transitive_chain_without_endpoint_pair_fails(self) -> None:
+        index, group = self._synthetic_clique()
+        assertions = group["pairwise_equivalence_assertions"]
+        group["pairwise_equivalence_assertions"] = [assertions[0], assertions[2]]
+        errors, _ = NORMALIZATION_VALIDATE.validate_group_structure(
+            group, index, "test-only-transitive-chain"
+        )
+        self.assertTrue(any("complete equivalence clique" in error for error in errors))
+
+    def test_unresolved_member_omitted_pass_and_duplicate_pass_all_fail(self) -> None:
+        unresolved = json.loads(json.dumps(self.record))
+        excluded = unresolved["excluded_from_grouping"][0]
+        key = excluded["source_frame_id"], excluded["source_entry_id"]
+        group = unresolved["groups"][0]
+        group["members"] = [{
+            "source_frame_id": key[0],
+            "pass1_record": excluded["pass1_record"],
+            "source_entry_id": key[1],
+            "normalized_substantive_locus": self.pass1_index[key][
+                "normalized_substantive_locus"
+            ],
+        }]
+        group["normalization_group_id"] = NORMALIZATION_VALIDATE.group_id_for_members([key])
+        group["deterministic_anchor"] = {
+            "source_frame_id": key[0], "source_entry_id": key[1]
+        }
+        group["group_locus_statement"] = "test-only invalid unresolved grouping"
+        self.assertTrue(any("only Pass 1 passes" in error for error in self._errors(unresolved)))
+
+        omitted = json.loads(json.dumps(self.record))
+        omitted["groups"].pop()
+        self.assertTrue(any("partition every Pass 1 pass" in error for error in self._errors(omitted)))
+
+        duplicated = json.loads(json.dumps(self.record))
+        duplicated["groups"].append(json.loads(json.dumps(duplicated["groups"][0])))
+        duplicate_errors = self._errors(duplicated)
+        self.assertTrue(any("multiple groups" in error for error in duplicate_errors))
+
+    def test_deferred_equivalence_pair_cannot_already_be_merged(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        deferred = changed["deferred_equivalence_questions"][0]
+        left = (
+            deferred["left_member"]["source_frame_id"],
+            deferred["left_member"]["source_entry_id"],
+        )
+        right = (
+            deferred["right_member"]["source_frame_id"],
+            deferred["right_member"]["source_entry_id"],
+        )
+        selected = []
+        retained = []
+        for group in changed["groups"]:
+            key = (
+                group["members"][0]["source_frame_id"],
+                group["members"][0]["source_entry_id"],
+            )
+            if key in (left, right):
+                selected.append(group["members"][0])
+            else:
+                retained.append(group)
+        # Structural negative fixture only; this is not a scientific equivalence assertion.
+        merged = {
+            "normalization_group_id": NORMALIZATION_VALIDATE.group_id_for_members([left, right]),
+            "group_kind": "coextensive_equivalence",
+            "members": selected,
+            "deterministic_anchor": deferred["left_member"],
+            "group_locus_statement": selected[0]["normalized_substantive_locus"],
+            "pairwise_equivalence_assertions": [{
+                "left_member": deferred["left_member"],
+                "right_member": deferred["right_member"],
+                "same_substantive_locus": True,
+                "equivalent_inclusion_envelope": True,
+                "equivalent_exclusion_envelope": True,
+                "no_material_scope_asymmetry": True,
+                "lens_difference_only": True,
+                "rationale": "test-only invalid deferred-and-merged fixture",
+                "uncertainty": "structural validation only; no scientific claim",
+            }],
+            "rationale": "test-only invalid deferred-and-merged fixture",
+            "uncertainty": "structural validation only; no scientific claim",
+        }
+        changed["groups"] = retained + [merged]
+        self.assertTrue(any("deferred pair is already merged" in error for error in self._errors(changed)))
+
+    def test_no_candidate_or_downstream_state_is_created(self) -> None:
+        serialized = json.dumps(self.record)
+        self.assertNotIn("du-cand-", serialized)
+        self.assertEqual(
+            [],
+            NORMALIZATION_VALIDATE.find_prohibited_pass2a_content(
+                self.record, "repository-pass2a"
+            ),
+        )
+        self.assertEqual(
+            [],
+            NORMALIZATION_VALIDATE.find_prohibited_pass2a_content(
+                self.schema, "pass2a-schema"
+            ),
+        )
+        entries = []
+        for path in sorted((ROOT / "domain-universe/extractions").glob("*.json")):
+            entries.extend(json.loads(path.read_text(encoding="utf-8"))["extracted_entries"])
+        self.assertEqual(330, sum(item["normalization_disposition"] == "unresolved" for item in entries))
+        self.assertEqual(330, sum(item["target_domain_candidate_ids"] == [] for item in entries))
+        frames = [
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in sorted((ROOT / "domain-universe/source-frames").glob("*.json"))
+        ]
+        self.assertEqual(4, sum(frame["normalization_status"] == "pending" for frame in frames))
+        for directory in (
+            "candidates", "eligibility", "relations", "proposals", "reviews",
+            "governance", "manifests",
+        ):
+            self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
+        self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
+        self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+        self.assertEqual(1, len((ROOT / "registry/live-registry.csv").read_text(encoding="utf-8").splitlines()))
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):
