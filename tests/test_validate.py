@@ -1332,6 +1332,19 @@ class TemporaryDomainRepository(TemporaryRepository):
         ]
 
         domain_ids = ("du-cand-0001", "du-cand-0002")
+        pass2a = json.loads(
+            (
+                self.root
+                / "domain-universe/normalization/pass2a/equivalence-groups-v0.1.json"
+            ).read_text(encoding="utf-8")
+        )
+        pass2a_group_ids = {
+            (member["source_frame_id"], member["source_entry_id"]): group[
+                "normalization_group_id"
+            ]
+            for group in pass2a["groups"]
+            for member in group["members"]
+        }
         anchor_identities = {
             (extraction_references[0]["path"], extractions[0]["extracted_entries"][0]["source_entry_id"]): domain_ids[0],
             (extraction_references[1]["path"], extractions[1]["extracted_entries"][0]["source_entry_id"]): domain_ids[1],
@@ -1348,7 +1361,9 @@ class TemporaryDomainRepository(TemporaryRepository):
                         "source_frame_id": frame_id,
                         "source_extraction": extraction_reference,
                         "source_entry_id": source_entry["source_entry_id"],
-                        "normalization_group_id": "ng-0000000000000001",
+                        "normalization_group_id": pass2a_group_ids.get(
+                            (frame_id, source_entry["source_entry_id"])
+                        ),
                         "normalization_disposition": (
                             "candidate_created" if candidate_id else "excluded_out_of_scope"
                         ),
@@ -1655,6 +1670,39 @@ class DomainUniverseProtocolTests(unittest.TestCase):
 
         self.repository.rewrite_chain(manifest, mutate_proposal)
 
+    def synthetic_multimember_group_fixture(
+        self,
+    ) -> tuple[
+        dict[str, dict[str, object]],
+        dict[tuple[tuple[str, str], str], dict[str, object]],
+        tuple[tuple[str, str], str],
+        tuple[tuple[str, str], str],
+    ]:
+        extraction = ("test-only/extraction.json", "0" * 64)
+        anchor = (extraction, "test-only-anchor")
+        other = (extraction, "test-only-other")
+        group_id = "ng-1111111111111111"
+        groups = {
+            group_id: {
+                "group_kind": "coextensive_equivalence",
+                "members": {anchor, other},
+                "anchor": anchor,
+            }
+        }
+        entries = {
+            anchor: {
+                "normalization_group_id": group_id,
+                "normalization_disposition": "candidate_created",
+                "target_domain_candidate_ids": ["du-cand-0001"],
+            },
+            other: {
+                "normalization_group_id": group_id,
+                "normalization_disposition": "merged_into_candidate",
+                "target_domain_candidate_ids": ["du-cand-0001"],
+            },
+        }
+        return groups, entries, anchor, other
+
     def set_pair_relation(
         self,
         manifest: dict[str, object],
@@ -1953,7 +2001,37 @@ class DomainUniverseProtocolTests(unittest.TestCase):
             )
         )
 
-    def test_candidate_with_zero_created_anchors_fails(self) -> None:
+    def test_wrong_normalization_group_id_for_pass2a_member_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.mutate_overlay(
+            manifest,
+            lambda overlay: overlay["entries"][0].update(
+                {"normalization_group_id": "ng-ffffffffffffffff"}
+            ),
+        )
+        self.assertTrue(
+            any(
+                "normalization_group_id must match exact Pass 2A group" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_null_normalization_group_id_for_pass2a_member_fails(self) -> None:
+        manifest = self.repository.create_locked_domain_universe()
+        self.mutate_overlay(
+            manifest,
+            lambda overlay: overlay["entries"][0].update(
+                {"normalization_group_id": None}
+            ),
+        )
+        self.assertTrue(
+            any(
+                "normalization_group_id must match exact Pass 2A group" in error
+                for error in self.validate(manifest)
+            )
+        )
+
+    def test_singleton_pass2a_member_marked_merged_fails(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
         self.mutate_overlay(
             manifest,
@@ -1963,12 +2041,12 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         )
         self.assertTrue(
             any(
-                "requires exactly one candidate_created anchor" in error
+                "deterministic anchor for Pass 2A group" in error
                 for error in self.validate(manifest)
             )
         )
 
-    def test_candidate_with_two_created_anchors_fails(self) -> None:
+    def test_one_candidate_targeted_from_two_pass2a_groups_fails(self) -> None:
         manifest = self.repository.create_locked_domain_universe()
 
         def add_anchor(overlay: dict[str, object]) -> None:
@@ -1979,9 +2057,55 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         self.mutate_overlay(manifest, add_anchor)
         self.assertTrue(
             any(
-                "requires exactly one candidate_created anchor" in error
+                "spans multiple Pass 2A groups" in error
                 for error in self.validate(manifest)
             )
+        )
+
+    def test_candidate_created_on_non_anchor_group_member_fails(self) -> None:
+        groups, entries, _, other = self.synthetic_multimember_group_fixture()
+        entries[other]["normalization_disposition"] = "candidate_created"
+        errors = VALIDATE.validate_group_faithful_materialization(
+            groups, set(), entries, "test-only synthetic grouping"
+        )
+        self.assertTrue(any("non-anchor member" in error for error in errors))
+
+    def test_multimember_deterministic_anchor_marked_merged_fails(self) -> None:
+        groups, entries, anchor, _ = self.synthetic_multimember_group_fixture()
+        entries[anchor]["normalization_disposition"] = "merged_into_candidate"
+        errors = VALIDATE.validate_group_faithful_materialization(
+            groups, set(), entries, "test-only synthetic grouping"
+        )
+        self.assertTrue(any("deterministic anchor" in error for error in errors))
+
+    def test_multimember_group_targeting_different_candidates_fails(self) -> None:
+        groups, entries, _, other = self.synthetic_multimember_group_fixture()
+        entries[other]["target_domain_candidate_ids"] = ["du-cand-0002"]
+        errors = VALIDATE.validate_group_faithful_materialization(
+            groups, set(), entries, "test-only synthetic grouping"
+        )
+        self.assertTrue(any("target different candidates" in error for error in errors))
+
+    def test_partial_multimember_group_materialization_fails(self) -> None:
+        groups, entries, _, other = self.synthetic_multimember_group_fixture()
+        entries[other].update(
+            {
+                "normalization_disposition": "excluded_out_of_scope",
+                "target_domain_candidate_ids": [],
+            }
+        )
+        errors = VALIDATE.validate_group_faithful_materialization(
+            groups, set(), entries, "test-only synthetic grouping"
+        )
+        self.assertTrue(any("only partially materialized" in error for error in errors))
+
+    def test_valid_multimember_group_materialization_passes_helper(self) -> None:
+        groups, entries, _, _ = self.synthetic_multimember_group_fixture()
+        self.assertEqual(
+            [],
+            VALIDATE.validate_group_faithful_materialization(
+                groups, set(), entries, "test-only synthetic grouping"
+            ),
         )
 
     def test_modified_task104_targets_cannot_replace_overlay_authority(self) -> None:
