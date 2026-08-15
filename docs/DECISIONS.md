@@ -151,6 +151,37 @@ This entry records construction progress only. It identifies no reviewer,
 scientific approval, governance authority, or lock authorization and creates no
 Domain Universe, Frozen Panel, Wave, or authorization of Wave 0.
 
+## Prospective construction record DU-006
+
+- Date: `2026-08-15`
+- Status: Task 105C Pass 2A high-precision equivalence grouping complete;
+  pending scientific review; normalization not complete
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instruments: Domain Universe Normalization Decision Codebook `v0.1`
+  and Pass 2A schema `0.5.0-draft`
+- Construction action: partitioned all 322 Pass 1 passes exactly once using
+  conservative singleton defaults and only affirmative, pairwise-complete
+  coextensiveness as the merge standard; excluded all eight Pass 1 unresolved
+  interpretations exactly once.
+- Aggregate audit: 322 normalization groups, all singleton; 0 coextensive
+  equivalence groups; 2 deferred equivalence questions. There was no target
+  merge count.
+- Rationale: false-positive merging is more damaging at this stage than
+  temporary false-negative separation, and failure to merge is not evidence of
+  disjointness.
+- Comparability impact: none; all Task 104 extraction dispositions remain
+  `unresolved`, all candidate targets remain empty, Pass 1 bytes are unchanged,
+  and no Domain candidate or final eligibility decision exists.
+- Unresolved follow-up: scientific review, the eight Pass 1 unresolved
+  interpretations, two deferred equivalence questions, candidate
+  materialization, final eligibility and overlap review, coverage audit, final
+  governance authority, and governance lock.
+
+This entry records construction progress only. It identifies no reviewer,
+scientific approval, governance authority, or lock authorization and creates no
+Domain Universe, Frozen Panel, Wave, or authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

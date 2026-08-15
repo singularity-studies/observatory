@@ -21,9 +21,10 @@ divided into those categories. The protocol asks:
 The goal is coverage, not a metaphysical taxonomy. Construction has begun with
 one prospectively fixed boundary, four registered source frames, and exhaustive
 second-level extraction of 330 official source categories. These source
-categories are not Domains. Normalization has not begun, every normalization
-disposition remains unresolved, and no Domain, candidate, eligibility decision,
-proposal, review, authority, or lock has been created.
+categories are not Domains. Pass 1 interpretation and Pass 2A conservative
+equivalence grouping are complete pending scientific review. Every extraction
+normalization disposition remains unresolved, and neither stage creates a
+Domain, candidate, eligibility decision, proposal, review, authority, or lock.
 
 ## Universe boundary
 
@@ -103,7 +104,8 @@ engineering/technology, public-sector or institutional-function, and other
 defensible structured classifications. The registered frames are OECD FORD
 (Frascati Manual 2015), UN ISIC Revision 5, WIPO IPC 2026.01, and UN COFOG
 1999. Their prospectively specified second levels have been exhaustively
-extracted; normalization and candidate generation have not begun.
+extracted. Pass 1 interpretation and Pass 2A equivalence grouping are complete
+pending scientific review; candidate generation has not begun.
 
 Machine validation cannot substantively prove intellectual independence. It
 can require reviewable provenance and block obvious duplication or relabeling;
@@ -151,8 +153,16 @@ review. Exactly 330 separate interpretations now exist under
 boundary, and its immutable Task 104 extraction. Pass 1 used no cross-entry
 equivalence comparison and created no cluster or candidate. The Task 104
 dispositions remain `unresolved`, their candidate targets remain empty, and
-Pass 2 and final Domain eligibility have not begun. Pass 1 completion is not
-normalization completion.
+Pass 2A high-precision equivalence grouping is now complete pending scientific
+review. All 322 passed interpretations appear exactly once in 322 conservative
+singleton groups; the eight unresolved IPC residual classes remain outside
+grouping. No pair was merged because the permitted Pass 1 evidence did not
+affirm all five coextensiveness conditions. This is not evidence that the
+groups are disjoint, non-overlapping, independent, finally non-duplicate, or
+eligible. Two same-wording cross-frame comparisons remain explicit deferred
+questions. No candidate ID or candidate record exists, extraction dispositions
+remain untouched, and final Domain eligibility has not begun. Pass 1 and Pass
+2A completion do not complete normalization.
 
 ## Construction pipeline
 

@@ -9,8 +9,8 @@ Exhaustive Task 104 second-level extraction is complete: 42 FORD fields, 87
 ISIC Rev.5 Divisions, 132 IPC 2026.01 Classes, and 69 COFOG 1999 Groups, for
 330 source categories in four extraction ledgers. The entries are source
 classification categories, not Domains. Every normalization disposition is
-intentionally `unresolved`; normalization and candidate generation have not
-begun.
+intentionally `unresolved`; Pass 1 and Pass 2A have not changed those
+dispositions, and candidate generation has not begun.
 
 `NORMALIZATION_CODEBOOK.md` v0.1 is prospectively fixed for normalization but
 is not scientifically approved. It fixes the decision rules before any of the
@@ -22,9 +22,18 @@ governance authority remains unresolved.
 Task 105B has completed Pass 1 independent interpretation for all 330 entries,
 pending scientific review. The four records under `normalization/pass1/` bind
 the exact codebook, boundary, and Task 104 extractions. No cross-entry
-equivalence comparison or clustering occurred, Pass 2 has not begun, Task 104
+equivalence comparison or clustering occurred during Pass 1. Task 104
 dispositions and candidate targets remain untouched, and Domain candidate
 count remains zero. Pass 1 completion does not mean normalization completion.
+
+Task 105C Pass 2A high-precision equivalence grouping is complete pending
+scientific review. The 322 Pass 1 passes are partitioned exactly once into 322
+conservative singleton groups. No pair met all five affirmative
+coextensiveness conditions on the permitted evidence; this does not establish
+disjointness or non-overlap. The eight unresolved IPC residual classes remain
+outside grouping, and two same-wording cross-frame comparisons are deferred.
+No candidate ID or candidate record exists, Task 104 dispositions remain
+untouched, and final eligibility has not begun.
 
 There is no Domain candidate, eligibility decision, relation, proposal,
 scientific review, governance decision, manifest, included or locked Domain,
@@ -38,6 +47,7 @@ Records use these canonical locations:
 - `domain-universe/source-frames/`
 - `domain-universe/extractions/`
 - `domain-universe/normalization/pass1/`
+- `domain-universe/normalization/pass2a/`
 - `domain-universe/candidates/`
 - `domain-universe/eligibility/`
 - `domain-universe/relations/`
