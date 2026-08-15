@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import hashlib
+import importlib.util
 import json
 import re
 import subprocess
@@ -2598,6 +2599,17 @@ def validate_repository(root: Path, base_ref: str | None = None) -> list[str]:
     errors.extend(instrument_errors)
     errors.extend(validate_selection_repository(root))
     errors.extend(validate_domain_universe_repository(root))
+    normalization_validator = root / "scripts/validate_normalization.py"
+    if normalization_validator.is_file():
+        spec = importlib.util.spec_from_file_location(
+            "observatory_normalization_validate", normalization_validator
+        )
+        if spec is None or spec.loader is None:
+            errors.append("cannot load scripts/validate_normalization.py")
+        else:
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            errors.extend(module.validate_normalization_repository(root, validate_contract))
 
     registry_path = root / "registry/live-registry.csv"
     registry_schema_path = root / "schemas/registry-unit.schema.json"

@@ -123,6 +123,34 @@ This entry records prospective decision rules only. It identifies no reviewer,
 approver, or authority and creates no normalization outcome, candidate,
 approval, Domain Universe lock, Frozen Panel, Wave, or authorization of Wave 0.
 
+## Prospective construction record DU-005
+
+- Date: `2026-08-15`
+- Status: Task 105B Pass 1 independent interpretation complete; pending
+  scientific review; normalization not complete
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instruments: Domain Universe Normalization Decision Codebook `v0.1`
+  and Pass 1 schema `0.5.0-draft`
+- Construction action: recorded exactly one title-and-parent-based independent
+  semantic and boundary interpretation for each of the 330 Task 104 source
+  entries before any cross-entry comparison.
+- Aggregate audit: 322 `passes`, 0 `fails_out_of_scope`, and 8 `unresolved`;
+  clarification-source use count 0. This distribution had no target.
+- Rationale: complete order-independent entry interpretation before any
+  equivalence, overlap, merge, anchor, label, or candidate-ID decision.
+- Comparability impact: none; all Task 104 extraction dispositions remain
+  `unresolved`, all candidate targets remain empty, and no Domain candidate or
+  final eligibility decision exists.
+- Unresolved follow-up: scientific review of Pass 1, eight explicit unresolved
+  interpretations, Pass 2 equivalence and partial-overlap work, anchors,
+  canonical labels, candidate records, final eligibility, coverage audit,
+  final governance authority, and governance lock.
+
+This entry records construction progress only. It identifies no reviewer,
+scientific approval, governance authority, or lock authorization and creates no
+Domain Universe, Frozen Panel, Wave, or authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

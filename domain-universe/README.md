@@ -14,10 +14,17 @@ begun.
 
 `NORMALIZATION_CODEBOOK.md` v0.1 is prospectively fixed for normalization but
 is not scientifically approved. It fixes the decision rules before any of the
-330 entries can change disposition. Normalization itself has not begun, the
-entries remain untouched and `unresolved`, and the candidate count remains
-zero. Final Domain eligibility rules remain separate, and final governance
-authority remains unresolved.
+330 entries can change disposition. It was fixed before Pass 1 execution; the
+Task 104 entries remain untouched and `unresolved`, and the candidate count
+remains zero. Final Domain eligibility rules remain separate, and final
+governance authority remains unresolved.
+
+Task 105B has completed Pass 1 independent interpretation for all 330 entries,
+pending scientific review. The four records under `normalization/pass1/` bind
+the exact codebook, boundary, and Task 104 extractions. No cross-entry
+equivalence comparison or clustering occurred, Pass 2 has not begun, Task 104
+dispositions and candidate targets remain untouched, and Domain candidate
+count remains zero. Pass 1 completion does not mean normalization completion.
 
 There is no Domain candidate, eligibility decision, relation, proposal,
 scientific review, governance decision, manifest, included or locked Domain,
@@ -30,6 +37,7 @@ Records use these canonical locations:
 - `domain-universe/boundaries/`
 - `domain-universe/source-frames/`
 - `domain-universe/extractions/`
+- `domain-universe/normalization/pass1/`
 - `domain-universe/candidates/`
 - `domain-universe/eligibility/`
 - `domain-universe/relations/`

@@ -1,0 +1,1059 @@
+{
+  "pass1_record_id": "un-cofog-1999-pass1",
+  "instrument_version": "0.5.0-draft",
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "universe_boundary": {
+    "path": "domain-universe/boundaries/du-boundary-v0.1.json",
+    "sha256": "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+  },
+  "source_extraction": {
+    "path": "domain-universe/extractions/un-cofog-1999-group.json",
+    "sha256": "0b5061f4a1029fe28e1ccb5a1c3f5563371e876f983bb6b6365883b7c875e3dd"
+  },
+  "procedure": "independent_entry_interpretation",
+  "status": "complete",
+  "clarification_sources": [],
+  "interpretations": [
+    {
+      "source_entry_id": "cofog-01.1",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.1",
+      "source_entry_descriptor": "Executive and legislative organs, financial and fiscal affairs, external affairs",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Executive and legislative organs, financial and fiscal affairs, external affairs",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Executive and legislative organs, financial and fiscal affairs, external affairs\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-01.2",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.2",
+      "source_entry_descriptor": "Foreign economic aid",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Foreign economic aid",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Foreign economic aid\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-01.3",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.3",
+      "source_entry_descriptor": "General services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "General services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"General services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-01.4",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.4",
+      "source_entry_descriptor": "Basic research",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Basic research",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Basic research\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-01.5",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.5",
+      "source_entry_descriptor": "R&D General public services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D General public services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D General public services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-01.6",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.6",
+      "source_entry_descriptor": "General public services n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "General public services n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"General public services n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-01.7",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.7",
+      "source_entry_descriptor": "Public debt transactions",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Public debt transactions",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Public debt transactions\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-01.8",
+      "source_entry_reference": "COFOG 1999 / Division 01 General public services / Group 01.8",
+      "source_entry_descriptor": "Transfers of a general character between different levels of government",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Transfers of a general character between different levels of government",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Transfers of a general character between different levels of government\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-02.1",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.1",
+      "source_entry_descriptor": "Military defence",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Military defence",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Military defence\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-02.2",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.2",
+      "source_entry_descriptor": "Civil defence",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Civil defence",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Civil defence\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-02.3",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.3",
+      "source_entry_descriptor": "Foreign military aid",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Foreign military aid",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Foreign military aid\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-02.4",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.4",
+      "source_entry_descriptor": "R&D Defence",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Defence",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Defence\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-02.5",
+      "source_entry_reference": "COFOG 1999 / Division 02 Defence / Group 02.5",
+      "source_entry_descriptor": "Defence n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Defence n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Defence n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-03.1",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.1",
+      "source_entry_descriptor": "Police services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Police services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Police services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-03.2",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.2",
+      "source_entry_descriptor": "Fire-protection services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Fire-protection services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Fire-protection services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-03.3",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.3",
+      "source_entry_descriptor": "Law courts",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Law courts",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Law courts\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-03.4",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.4",
+      "source_entry_descriptor": "Prisons",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Prisons",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Prisons\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-03.5",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.5",
+      "source_entry_descriptor": "R&D Public order and safety",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Public order and safety",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Public order and safety\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-03.6",
+      "source_entry_reference": "COFOG 1999 / Division 03 Public order and safety / Group 03.6",
+      "source_entry_descriptor": "Public order and safety n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Public order and safety n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Public order and safety n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.1",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.1",
+      "source_entry_descriptor": "General economic, commercial and labour affairs",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "General economic, commercial and labour affairs",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"General economic, commercial and labour affairs\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.2",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.2",
+      "source_entry_descriptor": "Agriculture, forestry, fishing and hunting",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Agriculture, forestry, fishing and hunting",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Agriculture, forestry, fishing and hunting\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.3",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.3",
+      "source_entry_descriptor": "Fuel and energy",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Fuel and energy",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Fuel and energy\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.4",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.4",
+      "source_entry_descriptor": "Mining, manufacturing and construction",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Mining, manufacturing and construction",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Mining, manufacturing and construction\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.5",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.5",
+      "source_entry_descriptor": "Transport",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Transport",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Transport\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.6",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.6",
+      "source_entry_descriptor": "Communication",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Communication",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Communication\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.7",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.7",
+      "source_entry_descriptor": "Other industries",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Other industries",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other industries\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.8",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.8",
+      "source_entry_descriptor": "R&D Economic affairs",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Economic affairs",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Economic affairs\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-04.9",
+      "source_entry_reference": "COFOG 1999 / Division 04 Economic affairs / Group 04.9",
+      "source_entry_descriptor": "Economic affairs n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Economic affairs n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Economic affairs n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-05.1",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.1",
+      "source_entry_descriptor": "Waste management",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Waste management",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Waste management\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-05.2",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.2",
+      "source_entry_descriptor": "Waste water management",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Waste water management",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Waste water management\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-05.3",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.3",
+      "source_entry_descriptor": "Pollution abatement",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Pollution abatement",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Pollution abatement\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-05.4",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.4",
+      "source_entry_descriptor": "Protection of biodiversity and landscape",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Protection of biodiversity and landscape",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Protection of biodiversity and landscape\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-05.5",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.5",
+      "source_entry_descriptor": "R&D Environmental protection",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Environmental protection",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Environmental protection\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-05.6",
+      "source_entry_reference": "COFOG 1999 / Division 05 Environmental protection / Group 05.6",
+      "source_entry_descriptor": "Environmental protection n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Environmental protection n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Environmental protection n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-06.1",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.1",
+      "source_entry_descriptor": "Housing development",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Housing development",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Housing development\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-06.2",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.2",
+      "source_entry_descriptor": "Community development",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Community development",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Community development\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-06.3",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.3",
+      "source_entry_descriptor": "Water supply",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Water supply",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Water supply\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-06.4",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.4",
+      "source_entry_descriptor": "Street lighting",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Street lighting",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Street lighting\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-06.5",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.5",
+      "source_entry_descriptor": "R&D Housing and community amenities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Housing and community amenities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Housing and community amenities\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-06.6",
+      "source_entry_reference": "COFOG 1999 / Division 06 Housing and community amenities / Group 06.6",
+      "source_entry_descriptor": "Housing and community amenities n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Housing and community amenities n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Housing and community amenities n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-07.1",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.1",
+      "source_entry_descriptor": "Medical products, appliances and equipment",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Medical products, appliances and equipment",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Medical products, appliances and equipment\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-07.2",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.2",
+      "source_entry_descriptor": "Outpatient services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Outpatient services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Outpatient services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-07.3",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.3",
+      "source_entry_descriptor": "Hospital services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Hospital services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Hospital services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-07.4",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.4",
+      "source_entry_descriptor": "Public health services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Public health services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Public health services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-07.5",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.5",
+      "source_entry_descriptor": "R&D Health",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Health",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Health\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-07.6",
+      "source_entry_reference": "COFOG 1999 / Division 07 Health / Group 07.6",
+      "source_entry_descriptor": "Health n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Health n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Health n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-08.1",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.1",
+      "source_entry_descriptor": "Recreational and sporting services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Recreational and sporting services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Recreational and sporting services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-08.2",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.2",
+      "source_entry_descriptor": "Cultural services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Cultural services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Cultural services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-08.3",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.3",
+      "source_entry_descriptor": "Broadcasting and publishing services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Broadcasting and publishing services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Broadcasting and publishing services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-08.4",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.4",
+      "source_entry_descriptor": "Religious and other community services",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Religious and other community services",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Religious and other community services\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-08.5",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.5",
+      "source_entry_descriptor": "R&D Recreation, culture and religion",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Recreation, culture and religion",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Recreation, culture and religion\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-08.6",
+      "source_entry_reference": "COFOG 1999 / Division 08 Recreation, culture and religion / Group 08.6",
+      "source_entry_descriptor": "Recreation, culture and religion n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Recreation, culture and religion n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Recreation, culture and religion n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.1",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.1",
+      "source_entry_descriptor": "Pre-primary and primary education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Pre-primary and primary education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Pre-primary and primary education\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.2",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.2",
+      "source_entry_descriptor": "Secondary education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Secondary education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Secondary education\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.3",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.3",
+      "source_entry_descriptor": "Post-secondary non-tertiary education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Post-secondary non-tertiary education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Post-secondary non-tertiary education\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.4",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.4",
+      "source_entry_descriptor": "Tertiary education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Tertiary education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Tertiary education\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.5",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.5",
+      "source_entry_descriptor": "Education not definable by level",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Education not definable by level",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Education not definable by level\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.6",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.6",
+      "source_entry_descriptor": "Subsidiary services to education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Subsidiary services to education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Subsidiary services to education\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.7",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.7",
+      "source_entry_descriptor": "R&D Education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Education\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-09.8",
+      "source_entry_reference": "COFOG 1999 / Division 09 Education / Group 09.8",
+      "source_entry_descriptor": "Education n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Education n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Education n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.1",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.1",
+      "source_entry_descriptor": "Sickness and disability",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Sickness and disability",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Sickness and disability\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.2",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.2",
+      "source_entry_descriptor": "Old age",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Old age",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Old age\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.3",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.3",
+      "source_entry_descriptor": "Survivors",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Survivors",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Survivors\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.4",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.4",
+      "source_entry_descriptor": "Family and children",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Family and children",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Family and children\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.5",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.5",
+      "source_entry_descriptor": "Unemployment",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Unemployment",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Unemployment\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.6",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.6",
+      "source_entry_descriptor": "Housing",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Housing",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Housing\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.7",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.7",
+      "source_entry_descriptor": "Social exclusion n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Social exclusion n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Social exclusion n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.8",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.8",
+      "source_entry_descriptor": "R&D Social protection",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "R&D Social protection",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"R&D Social protection\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "cofog-10.9",
+      "source_entry_reference": "COFOG 1999 / Division 10 Social protection / Group 10.9",
+      "source_entry_descriptor": "Social protection n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named public function, service, transfer, research type, or beneficiary category is retained as substantive."
+      },
+      "normalized_substantive_locus": "Social protection n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Social protection n.e.c.\" and recorded first-level parent context independently denote this public function. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    }
+  ],
+  "rationale": "Every bound Task 104 source entry is interpreted independently from its exact official descriptor and recorded first-level parent context under Normalization Codebook v0.1. No cross-entry equivalence comparison, clustering, merge decision, candidate creation, or candidate-ID assignment occurs.",
+  "uncertainty": "These Pass 1 interpretations do not determine equivalence, partial overlap, candidate identity, final Domain eligibility, or inclusion. Explicit unresolved results are retained wherever title and parent context cannot support a coherent locus without added scope.",
+  "recorded_at": "2026-08-15T13:15:32Z"
+}
