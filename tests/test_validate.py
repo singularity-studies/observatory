@@ -1415,6 +1415,10 @@ class TemporaryDomainRepository(TemporaryRepository):
                 "recurrent_improvement_rationale": "TEMPORARY TEST FIXTURE ONLY; no empirical claim.",
                 "continuity_rule": "TEMPORARY TEST FIXTURE ONLY; no real continuity determination.",
                 "overlap_notes": "TEMPORARY TEST FIXTURE ONLY; overlap not empirically assessed.",
+                "normalization_disposition_record": {
+                    "path": "test-only/normalization-disposition-overlay.json",
+                    "sha256": "0" * 64,
+                },
                 "provenance_references": [
                     {
                         "source_extraction": extraction_references[index - 1],
@@ -3520,6 +3524,153 @@ class DomainNormalizationPass2BTests(unittest.TestCase):
             self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
         self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
         self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+
+
+class NormalizationMaterializationArchitectureTests(unittest.TestCase):
+    OVERLAY_SCHEMA_PATH = (
+        ROOT / "schemas/domain-normalization-disposition-overlay.schema.json"
+    )
+
+    def _mutated_architecture_errors(self, relative: str) -> list[str]:
+        repository = TemporaryRepository()
+        try:
+            path = repository.root / relative
+            path.write_bytes(path.read_bytes() + b"\n")
+            return NORMALIZATION_VALIDATE.validate_materialization_architecture(
+                repository.root
+            )
+        finally:
+            repository.close()
+
+    @staticmethod
+    def _candidate_record() -> dict[str, object]:
+        artifact = {"path": "test-only/artifact.json", "sha256": "0" * 64}
+        return {
+            "domain_candidate_id": "test-only-domain",
+            "instrument_version": "0.5.0-draft",
+            "primary_unit_type": "coverage_stratum",
+            "canonical_label": "Test-only domain",
+            "scope_definition": "TEMPORARY TEST FIXTURE ONLY",
+            "inclusion_boundary": "TEMPORARY TEST FIXTURE ONLY",
+            "exclusion_boundary": "TEMPORARY TEST FIXTURE ONLY",
+            "recurrent_improvement_rationale": "TEMPORARY TEST FIXTURE ONLY",
+            "continuity_rule": "TEMPORARY TEST FIXTURE ONLY",
+            "overlap_notes": "TEMPORARY TEST FIXTURE ONLY",
+            "normalization_disposition_record": artifact,
+            "provenance_references": [
+                {"source_extraction": artifact, "source_entry_id": "test-only-entry"}
+            ],
+        }
+
+    @staticmethod
+    def _overlay_entry(disposition: str, targets: list[str]) -> dict[str, object]:
+        return {
+            "source_frame_id": "test-only-frame",
+            "source_extraction": {
+                "path": "test-only/extraction.json",
+                "sha256": "0" * 64,
+            },
+            "source_entry_id": "test-only-entry",
+            "normalization_group_id": "ng-0000000000000000",
+            "normalization_disposition": disposition,
+            "target_domain_candidate_ids": targets,
+            "rationale": "TEMPORARY TEST FIXTURE ONLY",
+            "uncertainty": "TEMPORARY TEST FIXTURE ONLY",
+        }
+
+    def test_task104_extraction_mutation_fails(self) -> None:
+        errors = self._mutated_architecture_errors(
+            "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json"
+        )
+        self.assertTrue(any("Task 104 extraction" in error for error in errors))
+
+    def test_source_frame_mutation_fails(self) -> None:
+        errors = self._mutated_architecture_errors(
+            "domain-universe/source-frames/oecd-ford-frascati-2015.json"
+        )
+        self.assertTrue(any("registered source frame" in error for error in errors))
+
+    def test_pass1_mutation_fails(self) -> None:
+        errors = self._mutated_architecture_errors(
+            "domain-universe/normalization/pass1/oecd-ford-frascati-2015-pass1.json"
+        )
+        self.assertTrue(any("Pass 1" in error for error in errors))
+
+    def test_pass2a_mutation_fails(self) -> None:
+        errors = self._mutated_architecture_errors(
+            "domain-universe/normalization/pass2a/equivalence-groups-v0.1.json"
+        )
+        self.assertTrue(any("Pass 2A" in error for error in errors))
+
+    def test_pass2b_mutation_fails(self) -> None:
+        errors = self._mutated_architecture_errors(
+            "domain-universe/normalization/pass2b/deferred-equivalence-adjudication-v0.1.json"
+        )
+        self.assertTrue(any("Pass 2B" in error for error in errors))
+
+    def test_domain_candidate_schema_requires_overlay_reference(self) -> None:
+        schema = json.loads(
+            (ROOT / "schemas/domain-candidate.schema.json").read_text(encoding="utf-8")
+        )
+        record = self._candidate_record()
+        self.assertEqual([], VALIDATE.validate_contract(record, schema, "test-candidate"))
+        record.pop("normalization_disposition_record")
+        self.assertTrue(
+            any(
+                "normalization_disposition_record" in error
+                for error in VALIDATE.validate_contract(record, schema, "test-candidate")
+            )
+        )
+
+    def test_overlay_schema_rejects_invalid_target_disposition_combinations(self) -> None:
+        schema = json.loads(self.OVERLAY_SCHEMA_PATH.read_text(encoding="utf-8"))
+        entry_schema = schema["$defs"]["disposition_entry"]
+        invalid = (
+            self._overlay_entry("candidate_created", []),
+            self._overlay_entry("merged_into_candidate", ["du-cand-0001", "du-cand-0002"]),
+            self._overlay_entry("excluded_out_of_scope", ["du-cand-0001"]),
+            self._overlay_entry("unresolved", ["du-cand-0001"]),
+            self._overlay_entry("excluded_duplicate", []),
+        )
+        for index, entry in enumerate(invalid):
+            with self.subTest(index=index):
+                self.assertTrue(
+                    VALIDATE.validate_contract(
+                        entry,
+                        entry_schema,
+                        f"test-overlay-entry[{index}]",
+                        schema,
+                    )
+                )
+
+    def test_overlay_schema_binds_exact_historical_inputs(self) -> None:
+        schema = json.loads(self.OVERLAY_SCHEMA_PATH.read_text(encoding="utf-8"))
+        self.assertEqual("https://json-schema.org/draft/2020-12/schema", schema["$schema"])
+        self.assertEqual("0.5.0-draft", schema["x-instrument-version"])
+        self.assertEqual([], NORMALIZATION_VALIDATE.validate_materialization_architecture(ROOT))
+
+    def test_stable_candidate_id_assignment_is_not_permitted(self) -> None:
+        interpretations = [
+            item
+            for path in sorted((ROOT / "domain-universe/normalization/pass1").glob("*.json"))
+            for item in json.loads(path.read_text(encoding="utf-8"))["interpretations"]
+        ]
+        self.assertEqual(330, len(interpretations))
+        self.assertEqual(
+            8,
+            sum(item["minimal_gate_result"] == "unresolved" for item in interpretations),
+        )
+        self.assertFalse(
+            NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED
+        )
+
+    def test_no_candidate_identifier_or_overlay_instance_exists(self) -> None:
+        self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
+        overlay_directory = ROOT / NORMALIZATION_VALIDATE.OVERLAY_DIRECTORY
+        self.assertFalse(overlay_directory.exists())
+        candidate_id = re.compile(r"\bdu-cand-[0-9]{4}\b", re.IGNORECASE)
+        for path in sorted((ROOT / "domain-universe").rglob("*.json")):
+            self.assertIsNone(candidate_id.search(path.read_text(encoding="utf-8")))
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):

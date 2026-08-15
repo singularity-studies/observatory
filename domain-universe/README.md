@@ -45,6 +45,15 @@ The Pass 2A singleton grouping requires no revision, and candidate
 materialization is structurally permitted for a later governed task; no
 candidate has been created here.
 
+`NORMALIZATION_MATERIALIZATION_PROTOCOL.md` v0.1 now prospectively fixes the
+materialization provenance architecture, pending scientific review. Task 104
+dispositions and targets, and the bound source-frame status metadata, remain
+immutable historical snapshots. Future authoritative disposition state belongs
+in a separately versioned overlay under `normalization/dispositions/`, and
+future candidates must bind that overlay while retaining exact Task 104
+extraction provenance. No overlay instance exists. Because eight source entries
+remain unresolved, stable candidate-ID assignment is not permitted.
+
 There is no Domain candidate, eligibility decision, relation, proposal,
 scientific review, governance decision, manifest, included or locked Domain,
 approval, or lock. The Domain Universe is not established or locked, final
@@ -59,6 +68,8 @@ Records use these canonical locations:
 - `domain-universe/normalization/pass1/`
 - `domain-universe/normalization/pass2a/`
 - `domain-universe/normalization/pass2b/`
+- `domain-universe/normalization/dispositions/` (future versioned overlays;
+  currently absent)
 - `domain-universe/candidates/`
 - `domain-universe/eligibility/`
 - `domain-universe/relations/`

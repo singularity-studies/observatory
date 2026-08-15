@@ -71,6 +71,7 @@ SCHEMA_FILES = (
     "schemas/domain-universe-boundary.schema.json",
     "schemas/domain-source-frame.schema.json",
     "schemas/domain-source-extraction.schema.json",
+    "schemas/domain-normalization-disposition-overlay.schema.json",
     "schemas/domain-candidate.schema.json",
     "schemas/domain-eligibility-decision.schema.json",
     "schemas/domain-relation.schema.json",

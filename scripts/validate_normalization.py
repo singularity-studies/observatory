@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 import itertools
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any, Callable
@@ -20,9 +21,42 @@ PASS2A_PATH = f"{PASS2A_DIRECTORY}/equivalence-groups-v0.1.json"
 PASS2B_SCHEMA_PATH = "schemas/domain-normalization-pass2b.schema.json"
 PASS2B_DIRECTORY = "domain-universe/normalization/pass2b"
 PASS2B_PATH = f"{PASS2B_DIRECTORY}/deferred-equivalence-adjudication-v0.1.json"
+MATERIALIZATION_PROTOCOL_PATH = (
+    "domain-universe/NORMALIZATION_MATERIALIZATION_PROTOCOL.md"
+)
+OVERLAY_SCHEMA_PATH = "schemas/domain-normalization-disposition-overlay.schema.json"
+OVERLAY_DIRECTORY = "domain-universe/normalization/dispositions"
+CANDIDATE_SCHEMA_PATH = "schemas/domain-candidate.schema.json"
 CODEBOOK_PATH = "domain-universe/NORMALIZATION_CODEBOOK.md"
 BOUNDARY_PATH = "domain-universe/boundaries/du-boundary-v0.1.json"
 EXPECTED_PASS2A_SHA256 = "e830a1cf566888badc31776ad263077208dae458d5f9e53f0783a5bdd778c822"
+EXPECTED_PASS2B_SHA256 = "4ec539b016e35cd7ec6f0545160d662a508472e4b664e843e8a7a1d8c227d012"
+EXPECTED_MATERIALIZATION_PROTOCOL_SHA256 = (
+    "1d10310c5c2c3337e6cb87596f46b981ce55a3e5ae46b4fb385644e8ebac97a4"
+)
+EXPECTED_CODEBOOK_SHA256 = "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+EXPECTED_BOUNDARY_SHA256 = "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = False
+EXPECTED_EXTRACTION_SHA256 = {
+    "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json":
+        "eb376d7c4da77078cdfdc9772daf166eb3bf6e11a973df0241b1fb782128b6e4",
+    "domain-universe/extractions/un-cofog-1999-group.json":
+        "0b5061f4a1029fe28e1ccb5a1c3f5563371e876f983bb6b6365883b7c875e3dd",
+    "domain-universe/extractions/un-isic-rev5-division.json":
+        "569b5ac552ffdf0f5fcf993e8918181a9005c2c9d6e4b19c701126d3b1f2b9b9",
+    "domain-universe/extractions/wipo-ipc-2026-01-class.json":
+        "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c",
+}
+EXPECTED_SOURCE_FRAME_SHA256 = {
+    "domain-universe/source-frames/oecd-ford-frascati-2015.json":
+        "472c821fa78861e446222dd22730a08974573d3cac50fd7ee9865a58f9d9d348",
+    "domain-universe/source-frames/un-cofog-1999.json":
+        "1148106a005d2701e6f6142e55260c2979db25f98574f2c8ec1eca26da768d82",
+    "domain-universe/source-frames/un-isic-rev5.json":
+        "6e30b6fa28c8dcf3a3e06a1ca630e6ea9346b3c56ec5501fc442e0f13d94afea",
+    "domain-universe/source-frames/wipo-ipc-2026-01.json":
+        "815729fe39b8c422b7151a64d1c64b0526926c9c0906cbf08e129a7336561dc8",
+}
 PASS2B_CRITERIA = (
     "same_substantive_locus",
     "equivalent_inclusion_envelope",
@@ -328,6 +362,7 @@ def validate_normalization_repository(
         )
     errors.extend(validate_pass2a_repository(root, validate_contract))
     errors.extend(validate_pass2b_repository(root, validate_contract))
+    errors.extend(validate_materialization_architecture(root))
     return errors
 
 
@@ -1030,6 +1065,275 @@ def validate_pass2b_repository(
     return errors
 
 
+def validate_fixed_bytes(
+    root: Path,
+    relative: str,
+    expected_sha256: str,
+    label: str,
+) -> list[str]:
+    path = root / relative
+    if not path.is_file():
+        return [f"{label}: immutable artifact is missing: {relative}"]
+    if canonical_lf_sha256(path) != expected_sha256:
+        return [f"{label}: immutable bytes changed: {relative}"]
+    return []
+
+
+def schema_const_reference(
+    schema: dict[str, Any],
+    definition: str,
+) -> tuple[str | None, str | None]:
+    definitions = schema.get("$defs", {})
+    if not isinstance(definitions, dict):
+        return None, None
+    value = definitions.get(definition, {})
+    if not isinstance(value, dict):
+        return None, None
+    properties = value.get("properties")
+    if not isinstance(properties, dict):
+        all_of = value.get("allOf", [])
+        for item in all_of if isinstance(all_of, list) else []:
+            if isinstance(item, dict) and isinstance(item.get("properties"), dict):
+                properties = item["properties"]
+                break
+    if not isinstance(properties, dict):
+        return None, None
+    path_schema = properties.get("path")
+    sha_schema = properties.get("sha256")
+    path = path_schema.get("const") if isinstance(path_schema, dict) else None
+    digest = sha_schema.get("const") if isinstance(sha_schema, dict) else None
+    return path, digest
+
+
+def validate_materialization_architecture(root: Path) -> list[str]:
+    """Keep current scientific inputs immutable until a later governed overlay task."""
+
+    errors: list[str] = []
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            MATERIALIZATION_PROTOCOL_PATH,
+            EXPECTED_MATERIALIZATION_PROTOCOL_SHA256,
+            "normalization materialization protocol",
+        )
+    )
+    errors.extend(
+        validate_fixed_bytes(
+            root, CODEBOOK_PATH, EXPECTED_CODEBOOK_SHA256, "Normalization Codebook v0.1"
+        )
+    )
+    errors.extend(
+        validate_fixed_bytes(
+            root, BOUNDARY_PATH, EXPECTED_BOUNDARY_SHA256, "Domain Universe boundary"
+        )
+    )
+
+    pass1_total = 0
+    pass1_unresolved = 0
+    seen_extractions: set[str] = set()
+    seen_source_frames: set[str] = set()
+    for filename, (extraction_relative, _, _) in EXPECTED_PASS1.items():
+        pass1_relative = pass1_record_path(filename)
+        errors.extend(
+            validate_fixed_bytes(
+                root,
+                pass1_relative,
+                EXPECTED_PASS1_SHA256[filename],
+                "Pass 1",
+            )
+        )
+        pass1_path = root / pass1_relative
+        if not pass1_path.is_file():
+            continue
+        try:
+            pass1 = read_json(pass1_path)
+        except json.JSONDecodeError as exc:
+            errors.append(f"{pass1_relative}: invalid immutable Pass 1 JSON: {exc}")
+            continue
+        interpretations = pass1.get("interpretations", []) if isinstance(pass1, dict) else []
+        if isinstance(interpretations, list):
+            pass1_total += len(interpretations)
+            pass1_unresolved += sum(
+                isinstance(item, dict) and item.get("minimal_gate_result") == "unresolved"
+                for item in interpretations
+            )
+        extraction_reference = pass1.get("source_extraction") if isinstance(pass1, dict) else None
+        if not isinstance(extraction_reference, dict):
+            errors.append(f"{pass1_relative}: immutable extraction binding is missing")
+            continue
+        if extraction_reference.get("path") != extraction_relative:
+            errors.append(f"{pass1_relative}: immutable extraction path changed")
+        expected_extraction_sha = EXPECTED_EXTRACTION_SHA256.get(extraction_relative)
+        if extraction_reference.get("sha256") != expected_extraction_sha:
+            errors.append(f"{pass1_relative}: immutable extraction SHA-256 binding changed")
+        if expected_extraction_sha is None:
+            errors.append(f"{pass1_relative}: extraction is outside the fixed Task 104 set")
+            continue
+        seen_extractions.add(extraction_relative)
+        errors.extend(
+            validate_fixed_bytes(
+                root, extraction_relative, expected_extraction_sha, "Task 104 extraction"
+            )
+        )
+        extraction_path = root / extraction_relative
+        if not extraction_path.is_file():
+            continue
+        try:
+            extraction = read_json(extraction_path)
+        except json.JSONDecodeError as exc:
+            errors.append(f"{extraction_relative}: invalid immutable extraction JSON: {exc}")
+            continue
+        frame_reference = extraction.get("source_frame") if isinstance(extraction, dict) else None
+        if not isinstance(frame_reference, dict):
+            errors.append(f"{extraction_relative}: immutable source-frame binding is missing")
+            continue
+        frame_relative = frame_reference.get("path")
+        if not isinstance(frame_relative, str):
+            errors.append(f"{extraction_relative}: immutable source-frame path is invalid")
+            continue
+        expected_frame_sha = EXPECTED_SOURCE_FRAME_SHA256.get(frame_relative)
+        if expected_frame_sha is None:
+            errors.append(f"{extraction_relative}: source frame is outside the fixed Task 104 set")
+            continue
+        seen_source_frames.add(frame_relative)
+        if frame_reference.get("sha256") != expected_frame_sha:
+            errors.append(f"{extraction_relative}: immutable source-frame SHA-256 binding changed")
+        errors.extend(
+            validate_fixed_bytes(
+                root, frame_relative, expected_frame_sha, "registered source frame"
+            )
+        )
+
+    if seen_extractions != set(EXPECTED_EXTRACTION_SHA256):
+        errors.append("materialization architecture: exact four Task 104 extractions are required")
+    if seen_source_frames != set(EXPECTED_SOURCE_FRAME_SHA256):
+        errors.append("materialization architecture: exact four source frames are required")
+    errors.extend(
+        validate_fixed_bytes(root, PASS2A_PATH, EXPECTED_PASS2A_SHA256, "Pass 2A")
+    )
+    errors.extend(
+        validate_fixed_bytes(root, PASS2B_PATH, EXPECTED_PASS2B_SHA256, "Pass 2B")
+    )
+
+    overlay_schema_path = root / OVERLAY_SCHEMA_PATH
+    candidate_schema_path = root / CANDIDATE_SCHEMA_PATH
+    try:
+        overlay_schema = read_json(overlay_schema_path)
+    except FileNotFoundError:
+        errors.append(f"{OVERLAY_SCHEMA_PATH}: prospective overlay schema is required")
+        overlay_schema = {}
+    except json.JSONDecodeError as exc:
+        errors.append(f"{OVERLAY_SCHEMA_PATH}: invalid JSON: {exc}")
+        overlay_schema = {}
+    if not isinstance(overlay_schema, dict):
+        errors.append(f"{OVERLAY_SCHEMA_PATH}: schema root must be an object")
+        overlay_schema = {}
+    try:
+        candidate_schema = read_json(candidate_schema_path)
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        errors.append(f"{CANDIDATE_SCHEMA_PATH}: cannot load amended candidate schema: {exc}")
+        candidate_schema = {}
+    if not isinstance(candidate_schema, dict):
+        errors.append(f"{CANDIDATE_SCHEMA_PATH}: schema root must be an object")
+        candidate_schema = {}
+
+    if overlay_schema.get("x-instrument-version") != "0.5.0-draft":
+        errors.append(f"{OVERLAY_SCHEMA_PATH}: x-instrument-version mismatch")
+    required_candidate_fields = candidate_schema.get("required", [])
+    candidate_properties = candidate_schema.get("properties", {})
+    if "normalization_disposition_record" not in required_candidate_fields:
+        errors.append(
+            f"{CANDIDATE_SCHEMA_PATH}: normalization_disposition_record must be required"
+        )
+    if not isinstance(candidate_properties, dict) or candidate_properties.get(
+        "normalization_disposition_record"
+    ) != {"$ref": "#/$defs/artifact"}:
+        errors.append(
+            f"{CANDIDATE_SCHEMA_PATH}: normalization_disposition_record must be an artifact"
+        )
+
+    exact_schema_bindings = {
+        "materialization_protocol": (
+            MATERIALIZATION_PROTOCOL_PATH,
+            EXPECTED_MATERIALIZATION_PROTOCOL_SHA256,
+        ),
+        "normalization_codebook": (CODEBOOK_PATH, EXPECTED_CODEBOOK_SHA256),
+        "universe_boundary": (BOUNDARY_PATH, EXPECTED_BOUNDARY_SHA256),
+        "ford_extraction": (
+            "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json"
+            ],
+        ),
+        "isic_extraction": (
+            "domain-universe/extractions/un-isic-rev5-division.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/un-isic-rev5-division.json"
+            ],
+        ),
+        "ipc_extraction": (
+            "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/wipo-ipc-2026-01-class.json"
+            ],
+        ),
+        "cofog_extraction": (
+            "domain-universe/extractions/un-cofog-1999-group.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/un-cofog-1999-group.json"
+            ],
+        ),
+        "ford_pass1": (
+            pass1_record_path("oecd-ford-frascati-2015-pass1.json"),
+            EXPECTED_PASS1_SHA256["oecd-ford-frascati-2015-pass1.json"],
+        ),
+        "isic_pass1": (
+            pass1_record_path("un-isic-rev5-pass1.json"),
+            EXPECTED_PASS1_SHA256["un-isic-rev5-pass1.json"],
+        ),
+        "ipc_pass1": (
+            pass1_record_path("wipo-ipc-2026-01-pass1.json"),
+            EXPECTED_PASS1_SHA256["wipo-ipc-2026-01-pass1.json"],
+        ),
+        "cofog_pass1": (
+            pass1_record_path("un-cofog-1999-pass1.json"),
+            EXPECTED_PASS1_SHA256["un-cofog-1999-pass1.json"],
+        ),
+        "pass2a_record": (PASS2A_PATH, EXPECTED_PASS2A_SHA256),
+        "pass2b_record": (PASS2B_PATH, EXPECTED_PASS2B_SHA256),
+    }
+    for definition, expected in exact_schema_bindings.items():
+        if schema_const_reference(overlay_schema, definition) != expected:
+            errors.append(
+                f"{OVERLAY_SCHEMA_PATH}: {definition} must bind exact immutable bytes"
+            )
+
+    candidate_files = sorted((root / "domain-universe/candidates").rglob("*.json"))
+    if candidate_files:
+        errors.append("materialization architecture: Domain candidate count must remain zero")
+    overlay_directory = root / OVERLAY_DIRECTORY
+    overlay_files = sorted(overlay_directory.rglob("*.json")) if overlay_directory.exists() else []
+    if overlay_files:
+        errors.append("materialization architecture: Task 105D0 must create no overlay instance")
+    candidate_id_pattern = re.compile(r"\bdu-cand-[0-9]{4}\b", re.IGNORECASE)
+    for path in sorted((root / "domain-universe").rglob("*.json")):
+        if candidate_id_pattern.search(path.read_text(encoding="utf-8")):
+            errors.append(
+                f"materialization architecture: assigned candidate identifier found in "
+                f"{path.relative_to(root).as_posix()}"
+            )
+
+    if pass1_total != 330 or pass1_unresolved != 8:
+        errors.append(
+            "stable candidate ID gate requires the current 330-entry state with eight unresolved"
+        )
+    if STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED:
+        errors.append(
+            "stable candidate ID assignment must remain false while source entries are unresolved"
+        )
+    return errors
+
+
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
     validator_path = root / "scripts/validate.py"
@@ -1045,7 +1349,10 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Normalization validation passed: Pass 1, Pass 2A, and Pass 2B contracts are sound.")
+    print(
+        "Normalization validation passed: Pass 1, Pass 2A, Pass 2B, and the "
+        "immutable materialization architecture are sound."
+    )
     return 0
 
 

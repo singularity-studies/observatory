@@ -47,8 +47,9 @@ candidate generation. Fixing it does not establish or lock a Domain Universe.
 
 A future candidate domain records a stable identifier, canonical label, scope,
 inclusion and exclusion boundaries, recurrent-improvement rationale,
-continuity rule, overlap notes, provenance references, and instrument version.
-Products, companies, models, occupations, and deployments are not Domain units.
+continuity rule, overlap notes, provenance references, the exact
+normalization-disposition overlay record, and instrument version. Products,
+companies, models, occupations, and deployments are not Domain units.
 
 Eligibility v1 is conjunctive and has no exception mechanism:
 
@@ -100,6 +101,9 @@ classification family, version/date, auditable source reference,
 registration date. A lineage identifies the underlying classification origin,
 not a file or edition. Exact duplicate identity/version/URI registrations do
 not count twice, even when their frame IDs or independence-group labels differ.
+The `normalization_status` and `normalization_note` values in the four
+already-bound registrations are historical snapshot metadata, not a mutable
+current-state channel.
 Potential frame families include scientific/research, economic/activity,
 engineering/technology, public-sector or institutional-function, and other
 defensible structured classifications. The registered frames are OECD FORD
@@ -118,19 +122,31 @@ basis.
 
 Every source frame in a locked proposal has exactly one complete, versioned
 extraction record under `domain-universe/extractions/`. The record is bound to
-the exact source-frame path and SHA-256, states the extraction scope and
-prospective traversal or selection rule, and records every traversed source
-entry's disposition. It may use stable identifiers and short descriptors; no
-copyrighted source document must be copied into this repository.
+the exact source-frame path and SHA-256 and states the extraction scope and
+prospective traversal or selection rule. It may use stable identifiers and
+short descriptors; no copyrighted source document must be copied into this
+repository.
 
-Entry dispositions are `candidate_created`, `merged_into_candidate`,
-`excluded_out_of_scope`, `excluded_duplicate`, or `unresolved`. Source-entry
-IDs are unique within a frame, and unresolved entries fail closed. Every
-candidate provenance reference identifies an exact extraction artifact and
-concrete entry ID. Candidate-to-entry and entry-to-candidate references must
-agree. This ledger prevents a free-text reference from concealing silent
-cherry-picking or omitted normalization decisions. At least two structurally
-independent source lineages must contribute non-empty extracted-entry sets.
+The Task 104 `normalization_disposition` and `target_domain_candidate_ids`
+fields are historical initialization state. Pass 1 subsequently bound the
+exact extraction bytes, so those fields are not mutable current-state fields.
+Later authoritative dispositions live in a separate versioned overlay under
+the architecture fixed by
+`domain-universe/NORMALIZATION_MATERIALIZATION_PROTOCOL.md`. The overlay binds
+the exact codebook, boundary, four Task 104 extractions, four Pass 1 records,
+Pass 2A, and Pass 2B. `candidate_created` and `merged_into_candidate` require
+one target; `excluded_out_of_scope` and `unresolved` require none;
+`excluded_duplicate` remains disabled under Codebook v0.1.
+
+Source-entry IDs remain unique within a frame, and unresolved overlay entries
+fail closed. Every candidate provenance reference identifies an exact
+immutable Task 104 extraction and concrete entry ID, while the candidate also
+binds the authoritative overlay record. Candidate-to-entry and
+entry-to-candidate reciprocity is checked through that overlay, never by
+rewriting the extraction. This architecture prevents a free-text reference
+from concealing silent cherry-picking or omitted normalization decisions. At
+least two structurally independent source lineages must contribute non-empty
+extracted-entry sets.
 
 The Task 104 ledgers contain 42 FORD second-level fields, 87 ISIC Rev.5
 Divisions, 132 IPC 2026.01 Classes, and 69 COFOG 1999 Groups: 330 source
@@ -175,6 +191,15 @@ exists, extraction dispositions remain untouched, and final Domain eligibility
 has not begun. Pass 1, Pass 2A, and Pass 2B completion do not complete
 normalization.
 
+Pass 2B's `candidate_materialization_permitted=true` closes only its two
+deferred equivalence questions. It does not authorize stable sequential
+candidate-ID assignment while any source entry remains unresolved. Eight IPC
+residual entries remain unresolved, so
+`stable_candidate_id_assignment_permitted = false`. Stable assignment remains
+blocked until all 330 entries have a governed final normalization path
+sufficient to freeze the complete candidate-cluster universe. No overlay
+instance, candidate ID, or candidate record exists.
+
 ## Construction pipeline
 
 ```text
@@ -182,6 +207,7 @@ Universe Boundary
 -> Source-Frame Registration
 -> Raw Source-Entry Extraction
 -> Normalization Ledger
+-> Normalization Disposition Overlay
 -> Domain Candidates
 -> Overlap / Duplication Adjudication
 -> Final Domain Eligibility
@@ -218,9 +244,11 @@ domain-selection variables.
 ## Fail-closed lock
 
 A lock requires a fixed boundary, at least two source frames with distinct
-lineages and reviewable independence bases, exactly one complete extraction
-ledger per frame, at least two lineage-distinct non-empty extractions,
-reciprocal entry-level candidate provenance, a non-empty candidate universe,
+lineages and reviewable independence bases, exactly one immutable complete
+extraction ledger per frame, at least two lineage-distinct non-empty
+extractions, one complete hash-bound normalization-disposition overlay covering
+all source entries with no unresolved entry, reciprocal overlay-based
+entry-level candidate provenance, a non-empty candidate universe,
 exactly one deterministic eligibility decision per candidate, semantically
 consistent and exhaustive relation/pair accounting, complete pairwise
 overlap/duplication review, complete coverage audit, explicit disposition of
