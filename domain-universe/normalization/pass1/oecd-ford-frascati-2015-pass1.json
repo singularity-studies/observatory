@@ -1,0 +1,654 @@
+{
+  "pass1_record_id": "oecd-ford-frascati-2015-pass1",
+  "instrument_version": "0.5.0-draft",
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "universe_boundary": {
+    "path": "domain-universe/boundaries/du-boundary-v0.1.json",
+    "sha256": "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+  },
+  "source_extraction": {
+    "path": "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json",
+    "sha256": "eb376d7c4da77078cdfdc9772daf166eb3bf6e11a973df0241b1fb782128b6e4"
+  },
+  "procedure": "independent_entry_interpretation",
+  "status": "complete",
+  "clarification_sources": [],
+  "interpretations": [
+    {
+      "source_entry_id": "ford-1.1",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.1",
+      "source_entry_descriptor": "Mathematics",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Mathematics",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Mathematics\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-1.2",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.2",
+      "source_entry_descriptor": "Computer and information sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Computer and information sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Computer and information sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-1.3",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.3",
+      "source_entry_descriptor": "Physical sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Physical sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Physical sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-1.4",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.4",
+      "source_entry_descriptor": "Chemical sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Chemical sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Chemical sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-1.5",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.5",
+      "source_entry_descriptor": "Earth and related environmental sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Earth and related environmental sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Earth and related environmental sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-1.6",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.6",
+      "source_entry_descriptor": "Biological sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Biological sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Biological sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-1.7",
+      "source_entry_reference": "FORD 2015 / 1 Natural sciences / 1.7",
+      "source_entry_descriptor": "Other natural sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Other natural sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other natural sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.1",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.1",
+      "source_entry_descriptor": "Civil engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Civil engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Civil engineering\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.2",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.2",
+      "source_entry_descriptor": "Electrical engineering, electronic engineering, information engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Electrical engineering, electronic engineering, information engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Electrical engineering, electronic engineering, information engineering\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.3",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.3",
+      "source_entry_descriptor": "Mechanical engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Mechanical engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Mechanical engineering\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.4",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.4",
+      "source_entry_descriptor": "Chemical engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Chemical engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Chemical engineering\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.5",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.5",
+      "source_entry_descriptor": "Materials engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Materials engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Materials engineering\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.6",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.6",
+      "source_entry_descriptor": "Medical engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Medical engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Medical engineering\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.7",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.7",
+      "source_entry_descriptor": "Environmental engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Environmental engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Environmental engineering\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.8",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.8",
+      "source_entry_descriptor": "Environmental biotechnology",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Environmental biotechnology",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Environmental biotechnology\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.9",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.9",
+      "source_entry_descriptor": "Industrial biotechnology",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Industrial biotechnology",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Industrial biotechnology\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.10",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.10",
+      "source_entry_descriptor": "Nano-technology",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Nano-technology",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Nano-technology\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-2.11",
+      "source_entry_reference": "FORD 2015 / 2 Engineering and technology / 2.11",
+      "source_entry_descriptor": "Other engineering and technologies",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Other engineering and technologies",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other engineering and technologies\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-3.1",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.1",
+      "source_entry_descriptor": "Basic medicine",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Basic medicine",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Basic medicine\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-3.2",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.2",
+      "source_entry_descriptor": "Clinical medicine",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Clinical medicine",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Clinical medicine\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-3.3",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.3",
+      "source_entry_descriptor": "Health sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Health sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Health sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-3.4",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.4",
+      "source_entry_descriptor": "Medical biotechnology",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Medical biotechnology",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Medical biotechnology\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-3.5",
+      "source_entry_reference": "FORD 2015 / 3 Medical and health sciences / 3.5",
+      "source_entry_descriptor": "Other medical science",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Other medical science",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other medical science\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-4.1",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.1",
+      "source_entry_descriptor": "Agriculture, forestry, and fisheries",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Agriculture, forestry, and fisheries",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Agriculture, forestry, and fisheries\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-4.2",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.2",
+      "source_entry_descriptor": "Animal and dairy science",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Animal and dairy science",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Animal and dairy science\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-4.3",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.3",
+      "source_entry_descriptor": "Veterinary science",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Veterinary science",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Veterinary science\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-4.4",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.4",
+      "source_entry_descriptor": "Agricultural biotechnology",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Agricultural biotechnology",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Agricultural biotechnology\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-4.5",
+      "source_entry_reference": "FORD 2015 / 4 Agricultural and veterinary sciences / 4.5",
+      "source_entry_descriptor": "Other agricultural sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Other agricultural sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other agricultural sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.1",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.1",
+      "source_entry_descriptor": "Psychology and cognitive sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Psychology and cognitive sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Psychology and cognitive sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.2",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.2",
+      "source_entry_descriptor": "Economics and business",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Economics and business",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Economics and business\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.3",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.3",
+      "source_entry_descriptor": "Education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Education\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.4",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.4",
+      "source_entry_descriptor": "Sociology",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Sociology",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Sociology\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.5",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.5",
+      "source_entry_descriptor": "Law",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Law",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Law\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.6",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.6",
+      "source_entry_descriptor": "Political science",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Political science",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Political science\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.7",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.7",
+      "source_entry_descriptor": "Social and economic geography",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Social and economic geography",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Social and economic geography\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.8",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.8",
+      "source_entry_descriptor": "Media and communications",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Media and communications",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Media and communications\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-5.9",
+      "source_entry_reference": "FORD 2015 / 5 Social sciences / 5.9",
+      "source_entry_descriptor": "Other social sciences",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Other social sciences",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other social sciences\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-6.1",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.1",
+      "source_entry_descriptor": "History and archaeology",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "History and archaeology",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"History and archaeology\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-6.2",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.2",
+      "source_entry_descriptor": "Languages and literature",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Languages and literature",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Languages and literature\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-6.3",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.3",
+      "source_entry_descriptor": "Philosophy, ethics and religion",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Philosophy, ethics and religion",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Philosophy, ethics and religion\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-6.4",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.4",
+      "source_entry_descriptor": "Arts (arts, history of arts, performing arts, music)",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Arts (arts, history of arts, performing arts, music)",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Arts (arts, history of arts, performing arts, music)\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ford-6.5",
+      "source_entry_reference": "FORD 2015 / 6 Humanities and the arts / 6.5",
+      "source_entry_descriptor": "Other humanities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its disciplinary or subject-area wording and every modifier are retained as substantive."
+      },
+      "normalized_substantive_locus": "Other humanities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other humanities\" and recorded first-level parent context independently denote this research subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    }
+  ],
+  "rationale": "Every bound Task 104 source entry is interpreted independently from its exact official descriptor and recorded first-level parent context under Normalization Codebook v0.1. No cross-entry equivalence comparison, clustering, merge decision, candidate creation, or candidate-ID assignment occurs.",
+  "uncertainty": "These Pass 1 interpretations do not determine equivalence, partial overlap, candidate identity, final Domain eligibility, or inclusion. Explicit unresolved results are retained wherever title and parent context cannot support a coherent locus without added scope.",
+  "recorded_at": "2026-08-15T13:15:32Z"
+}

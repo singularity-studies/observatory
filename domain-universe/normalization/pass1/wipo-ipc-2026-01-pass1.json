@@ -1,0 +1,2004 @@
+{
+  "pass1_record_id": "wipo-ipc-2026-01-pass1",
+  "instrument_version": "0.5.0-draft",
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "universe_boundary": {
+    "path": "domain-universe/boundaries/du-boundary-v0.1.json",
+    "sha256": "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+  },
+  "source_extraction": {
+    "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+    "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+  },
+  "procedure": "independent_entry_interpretation",
+  "status": "complete",
+  "clarification_sources": [],
+  "interpretations": [
+    {
+      "source_entry_id": "ipc-A01",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A01",
+      "source_entry_descriptor": "AGRICULTURE; FORESTRY; ANIMAL HUSBANDRY; HUNTING; TRAPPING; FISHING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "AGRICULTURE; FORESTRY; ANIMAL HUSBANDRY; HUNTING; TRAPPING; FISHING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"AGRICULTURE; FORESTRY; ANIMAL HUSBANDRY; HUNTING; TRAPPING; FISHING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A21",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A21",
+      "source_entry_descriptor": "BAKING; EQUIPMENT FOR MAKING OR PROCESSING DOUGHS; DOUGHS FOR BAKING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "BAKING; EQUIPMENT FOR MAKING OR PROCESSING DOUGHS; DOUGHS FOR BAKING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"BAKING; EQUIPMENT FOR MAKING OR PROCESSING DOUGHS; DOUGHS FOR BAKING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A22",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A22",
+      "source_entry_descriptor": "BUTCHERING; MEAT TREATMENT; PROCESSING POULTRY OR FISH",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "BUTCHERING; MEAT TREATMENT; PROCESSING POULTRY OR FISH",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"BUTCHERING; MEAT TREATMENT; PROCESSING POULTRY OR FISH\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A23",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A23",
+      "source_entry_descriptor": "FOODS, FOODSTUFFS OR NON-ALCOHOLIC BEVERAGES; PREPARATION, TREATMENT OR PRESERVATION THEREOF",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "FOODS, FOODSTUFFS OR NON-ALCOHOLIC BEVERAGES; PREPARATION, TREATMENT OR PRESERVATION THEREOF",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"FOODS, FOODSTUFFS OR NON-ALCOHOLIC BEVERAGES; PREPARATION, TREATMENT OR PRESERVATION THEREOF\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A24",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A24",
+      "source_entry_descriptor": "TOBACCO; CIGARS; CIGARETTES; SIMULATED SMOKING DEVICES; SMOKERS' REQUISITES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "TOBACCO; CIGARS; CIGARETTES; SIMULATED SMOKING DEVICES; SMOKERS' REQUISITES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"TOBACCO; CIGARS; CIGARETTES; SIMULATED SMOKING DEVICES; SMOKERS' REQUISITES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A41",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A41",
+      "source_entry_descriptor": "WEARING APPAREL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WEARING APPAREL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WEARING APPAREL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A42",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A42",
+      "source_entry_descriptor": "HEADWEAR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HEADWEAR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HEADWEAR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A43",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A43",
+      "source_entry_descriptor": "FOOTWEAR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "FOOTWEAR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"FOOTWEAR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A44",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A44",
+      "source_entry_descriptor": "HABERDASHERY; JEWELLERY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HABERDASHERY; JEWELLERY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HABERDASHERY; JEWELLERY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A45",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A45",
+      "source_entry_descriptor": "HAND OR TRAVELLING ARTICLES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HAND OR TRAVELLING ARTICLES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HAND OR TRAVELLING ARTICLES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A46",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A46",
+      "source_entry_descriptor": "BRUSHWARE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "BRUSHWARE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"BRUSHWARE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A47",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A47",
+      "source_entry_descriptor": "FURNITURE; DOMESTIC ARTICLES OR APPLIANCES; COFFEE MILLS; SPICE MILLS; SUCTION CLEANERS IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "FURNITURE; DOMESTIC ARTICLES OR APPLIANCES; COFFEE MILLS; SPICE MILLS; SUCTION CLEANERS IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"FURNITURE; DOMESTIC ARTICLES OR APPLIANCES; COFFEE MILLS; SPICE MILLS; SUCTION CLEANERS IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A61",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A61",
+      "source_entry_descriptor": "MEDICAL OR VETERINARY SCIENCE; HYGIENE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MEDICAL OR VETERINARY SCIENCE; HYGIENE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MEDICAL OR VETERINARY SCIENCE; HYGIENE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A62",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A62",
+      "source_entry_descriptor": "LIFE-SAVING; FIRE-FIGHTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "LIFE-SAVING; FIRE-FIGHTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"LIFE-SAVING; FIRE-FIGHTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A63",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A63",
+      "source_entry_descriptor": "SPORTS; GAMES; AMUSEMENTS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SPORTS; GAMES; AMUSEMENTS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SPORTS; GAMES; AMUSEMENTS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-A99",
+      "source_entry_reference": "IPC 2026.01 / Section A HUMAN NECESSITIES / Class A99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    },
+    {
+      "source_entry_id": "ipc-B01",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B01",
+      "source_entry_descriptor": "PHYSICAL OR CHEMICAL PROCESSES OR APPARATUS IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "PHYSICAL OR CHEMICAL PROCESSES OR APPARATUS IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"PHYSICAL OR CHEMICAL PROCESSES OR APPARATUS IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B02",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B02",
+      "source_entry_descriptor": "CRUSHING, PULVERISING, OR DISINTEGRATING; PREPARATORY TREATMENT OF GRAIN FOR MILLING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CRUSHING, PULVERISING, OR DISINTEGRATING; PREPARATORY TREATMENT OF GRAIN FOR MILLING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CRUSHING, PULVERISING, OR DISINTEGRATING; PREPARATORY TREATMENT OF GRAIN FOR MILLING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B03",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B03",
+      "source_entry_descriptor": "SEPARATION OF SOLID MATERIALS USING LIQUIDS OR USING PNEUMATIC TABLES OR JIGS; MAGNETIC OR ELECTROSTATIC SEPARATION OF SOLID MATERIALS FROM SOLID MATERIALS OR FLUIDS; SEPARATION BY HIGH-VOLTAGE ELECTRIC FIELDS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SEPARATION OF SOLID MATERIALS USING LIQUIDS OR USING PNEUMATIC TABLES OR JIGS; MAGNETIC OR ELECTROSTATIC SEPARATION OF SOLID MATERIALS FROM SOLID MATERIALS OR FLUIDS; SEPARATION BY HIGH-VOLTAGE ELECTRIC FIELDS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SEPARATION OF SOLID MATERIALS USING LIQUIDS OR USING PNEUMATIC TABLES OR JIGS; MAGNETIC OR ELECTROSTATIC SEPARATION OF SOLID MATERIALS FROM SOLID MATERIALS OR FLUIDS; SEPARATION BY HIGH-VOLTAGE ELECTRIC FIELDS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B04",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B04",
+      "source_entry_descriptor": "CENTRIFUGAL APPARATUS OR MACHINES FOR CARRYING-OUT PHYSICAL OR CHEMICAL PROCESSES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CENTRIFUGAL APPARATUS OR MACHINES FOR CARRYING-OUT PHYSICAL OR CHEMICAL PROCESSES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CENTRIFUGAL APPARATUS OR MACHINES FOR CARRYING-OUT PHYSICAL OR CHEMICAL PROCESSES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B05",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B05",
+      "source_entry_descriptor": "SPRAYING OR ATOMISING IN GENERAL; APPLYING FLUENT MATERIALS TO SURFACES, IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SPRAYING OR ATOMISING IN GENERAL; APPLYING FLUENT MATERIALS TO SURFACES, IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SPRAYING OR ATOMISING IN GENERAL; APPLYING FLUENT MATERIALS TO SURFACES, IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B06",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B06",
+      "source_entry_descriptor": "GENERATING OR TRANSMITTING MECHANICAL VIBRATIONS IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "GENERATING OR TRANSMITTING MECHANICAL VIBRATIONS IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"GENERATING OR TRANSMITTING MECHANICAL VIBRATIONS IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B07",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B07",
+      "source_entry_descriptor": "SEPARATING SOLIDS FROM SOLIDS; SORTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SEPARATING SOLIDS FROM SOLIDS; SORTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SEPARATING SOLIDS FROM SOLIDS; SORTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B08",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B08",
+      "source_entry_descriptor": "CLEANING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CLEANING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CLEANING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B09",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B09",
+      "source_entry_descriptor": "DISPOSAL OF SOLID WASTE; RECLAMATION OF CONTAMINATED SOIL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "DISPOSAL OF SOLID WASTE; RECLAMATION OF CONTAMINATED SOIL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"DISPOSAL OF SOLID WASTE; RECLAMATION OF CONTAMINATED SOIL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B21",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B21",
+      "source_entry_descriptor": "MECHANICAL METAL-WORKING WITHOUT ESSENTIALLY REMOVING MATERIAL; PUNCHING METAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MECHANICAL METAL-WORKING WITHOUT ESSENTIALLY REMOVING MATERIAL; PUNCHING METAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MECHANICAL METAL-WORKING WITHOUT ESSENTIALLY REMOVING MATERIAL; PUNCHING METAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B22",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B22",
+      "source_entry_descriptor": "CASTING; POWDER METALLURGY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CASTING; POWDER METALLURGY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CASTING; POWDER METALLURGY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B23",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B23",
+      "source_entry_descriptor": "MACHINE TOOLS; METAL-WORKING NOT OTHERWISE PROVIDED FOR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MACHINE TOOLS; METAL-WORKING NOT OTHERWISE PROVIDED FOR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MACHINE TOOLS; METAL-WORKING NOT OTHERWISE PROVIDED FOR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B24",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B24",
+      "source_entry_descriptor": "GRINDING; POLISHING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "GRINDING; POLISHING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"GRINDING; POLISHING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B25",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B25",
+      "source_entry_descriptor": "HAND TOOLS; PORTABLE POWER-DRIVEN TOOLS; HANDLES FOR HAND IMPLEMENTS; WORKSHOP EQUIPMENT; MANIPULATORS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HAND TOOLS; PORTABLE POWER-DRIVEN TOOLS; HANDLES FOR HAND IMPLEMENTS; WORKSHOP EQUIPMENT; MANIPULATORS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HAND TOOLS; PORTABLE POWER-DRIVEN TOOLS; HANDLES FOR HAND IMPLEMENTS; WORKSHOP EQUIPMENT; MANIPULATORS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B26",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B26",
+      "source_entry_descriptor": "HAND CUTTING TOOLS; CUTTING; SEVERING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HAND CUTTING TOOLS; CUTTING; SEVERING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HAND CUTTING TOOLS; CUTTING; SEVERING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B27",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B27",
+      "source_entry_descriptor": "WORKING OR PRESERVING WOOD OR SIMILAR MATERIAL; NAILING OR STAPLING MACHINES IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WORKING OR PRESERVING WOOD OR SIMILAR MATERIAL; NAILING OR STAPLING MACHINES IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WORKING OR PRESERVING WOOD OR SIMILAR MATERIAL; NAILING OR STAPLING MACHINES IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B28",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B28",
+      "source_entry_descriptor": "WORKING CEMENT, CLAY, OR STONE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WORKING CEMENT, CLAY, OR STONE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WORKING CEMENT, CLAY, OR STONE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B29",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B29",
+      "source_entry_descriptor": "WORKING OF PLASTICS; WORKING OF SUBSTANCES IN A PLASTIC STATE IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WORKING OF PLASTICS; WORKING OF SUBSTANCES IN A PLASTIC STATE IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WORKING OF PLASTICS; WORKING OF SUBSTANCES IN A PLASTIC STATE IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B30",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B30",
+      "source_entry_descriptor": "PRESSES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "PRESSES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"PRESSES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B31",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B31",
+      "source_entry_descriptor": "MAKING ARTICLES OF PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER; WORKING PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MAKING ARTICLES OF PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER; WORKING PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MAKING ARTICLES OF PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER; WORKING PAPER, CARDBOARD OR MATERIAL WORKED IN A MANNER ANALOGOUS TO PAPER\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B32",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B32",
+      "source_entry_descriptor": "LAYERED PRODUCTS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "LAYERED PRODUCTS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"LAYERED PRODUCTS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B33",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B33",
+      "source_entry_descriptor": "ADDITIVE MANUFACTURING TECHNOLOGY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ADDITIVE MANUFACTURING TECHNOLOGY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ADDITIVE MANUFACTURING TECHNOLOGY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B41",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B41",
+      "source_entry_descriptor": "PRINTING; LINING MACHINES; TYPEWRITERS; STAMPS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "PRINTING; LINING MACHINES; TYPEWRITERS; STAMPS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"PRINTING; LINING MACHINES; TYPEWRITERS; STAMPS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B42",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B42",
+      "source_entry_descriptor": "BOOKBINDING; ALBUMS; FILES; SPECIAL PRINTED MATTER",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "BOOKBINDING; ALBUMS; FILES; SPECIAL PRINTED MATTER",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"BOOKBINDING; ALBUMS; FILES; SPECIAL PRINTED MATTER\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B43",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B43",
+      "source_entry_descriptor": "WRITING OR DRAWING IMPLEMENTS; BUREAU ACCESSORIES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WRITING OR DRAWING IMPLEMENTS; BUREAU ACCESSORIES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WRITING OR DRAWING IMPLEMENTS; BUREAU ACCESSORIES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B44",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B44",
+      "source_entry_descriptor": "DECORATIVE ARTS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "DECORATIVE ARTS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"DECORATIVE ARTS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B60",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B60",
+      "source_entry_descriptor": "VEHICLES IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "VEHICLES IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"VEHICLES IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B61",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B61",
+      "source_entry_descriptor": "RAILWAYS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "RAILWAYS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"RAILWAYS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B62",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B62",
+      "source_entry_descriptor": "LAND VEHICLES FOR TRAVELLING OTHERWISE THAN ON RAILS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "LAND VEHICLES FOR TRAVELLING OTHERWISE THAN ON RAILS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"LAND VEHICLES FOR TRAVELLING OTHERWISE THAN ON RAILS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B63",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B63",
+      "source_entry_descriptor": "SHIPS OR OTHER WATERBORNE VESSELS; RELATED EQUIPMENT",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SHIPS OR OTHER WATERBORNE VESSELS; RELATED EQUIPMENT",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SHIPS OR OTHER WATERBORNE VESSELS; RELATED EQUIPMENT\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B64",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B64",
+      "source_entry_descriptor": "AIRCRAFT; AVIATION; COSMONAUTICS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "AIRCRAFT; AVIATION; COSMONAUTICS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"AIRCRAFT; AVIATION; COSMONAUTICS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B65",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B65",
+      "source_entry_descriptor": "CONVEYING; PACKING; STORING; HANDLING THIN OR FILAMENTARY MATERIAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CONVEYING; PACKING; STORING; HANDLING THIN OR FILAMENTARY MATERIAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CONVEYING; PACKING; STORING; HANDLING THIN OR FILAMENTARY MATERIAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B66",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B66",
+      "source_entry_descriptor": "HOISTING; LIFTING; HAULING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HOISTING; LIFTING; HAULING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HOISTING; LIFTING; HAULING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B67",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B67",
+      "source_entry_descriptor": "OPENING OR CLOSING BOTTLES, JARS OR SIMILAR CONTAINERS; LIQUID HANDLING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "OPENING OR CLOSING BOTTLES, JARS OR SIMILAR CONTAINERS; LIQUID HANDLING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"OPENING OR CLOSING BOTTLES, JARS OR SIMILAR CONTAINERS; LIQUID HANDLING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B68",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B68",
+      "source_entry_descriptor": "SADDLERY; UPHOLSTERY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SADDLERY; UPHOLSTERY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SADDLERY; UPHOLSTERY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B81",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B81",
+      "source_entry_descriptor": "MICROSTRUCTURAL TECHNOLOGY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MICROSTRUCTURAL TECHNOLOGY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MICROSTRUCTURAL TECHNOLOGY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B82",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B82",
+      "source_entry_descriptor": "NANOTECHNOLOGY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "NANOTECHNOLOGY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"NANOTECHNOLOGY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-B99",
+      "source_entry_reference": "IPC 2026.01 / Section B PERFORMING OPERATIONS; TRANSPORTING / Class B99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    },
+    {
+      "source_entry_id": "ipc-C01",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C01",
+      "source_entry_descriptor": "INORGANIC CHEMISTRY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "INORGANIC CHEMISTRY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"INORGANIC CHEMISTRY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C02",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C02",
+      "source_entry_descriptor": "TREATMENT OF WATER, WASTE WATER, SEWAGE, OR SLUDGE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "TREATMENT OF WATER, WASTE WATER, SEWAGE, OR SLUDGE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"TREATMENT OF WATER, WASTE WATER, SEWAGE, OR SLUDGE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C03",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C03",
+      "source_entry_descriptor": "GLASS; MINERAL OR SLAG WOOL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "GLASS; MINERAL OR SLAG WOOL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"GLASS; MINERAL OR SLAG WOOL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C04",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C04",
+      "source_entry_descriptor": "CEMENTS; CONCRETE; ARTIFICIAL STONE; CERAMICS; REFRACTORIES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CEMENTS; CONCRETE; ARTIFICIAL STONE; CERAMICS; REFRACTORIES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CEMENTS; CONCRETE; ARTIFICIAL STONE; CERAMICS; REFRACTORIES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C05",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C05",
+      "source_entry_descriptor": "FERTILISERS; MANUFACTURE THEREOF",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "FERTILISERS; MANUFACTURE THEREOF",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"FERTILISERS; MANUFACTURE THEREOF\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C06",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C06",
+      "source_entry_descriptor": "EXPLOSIVES; MATCHES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "EXPLOSIVES; MATCHES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"EXPLOSIVES; MATCHES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C07",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C07",
+      "source_entry_descriptor": "ORGANIC CHEMISTRY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ORGANIC CHEMISTRY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ORGANIC CHEMISTRY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C08",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C08",
+      "source_entry_descriptor": "ORGANIC MACROMOLECULAR COMPOUNDS; THEIR PREPARATION OR CHEMICAL WORKING-UP; COMPOSITIONS BASED THEREON",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ORGANIC MACROMOLECULAR COMPOUNDS; THEIR PREPARATION OR CHEMICAL WORKING-UP; COMPOSITIONS BASED THEREON",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ORGANIC MACROMOLECULAR COMPOUNDS; THEIR PREPARATION OR CHEMICAL WORKING-UP; COMPOSITIONS BASED THEREON\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C09",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C09",
+      "source_entry_descriptor": "DYES; PAINTS; POLISHES; NATURAL RESINS; ADHESIVES; COMPOSITIONS NOT OTHERWISE PROVIDED FOR; APPLICATIONS OF MATERIALS NOT OTHERWISE PROVIDED FOR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "DYES; PAINTS; POLISHES; NATURAL RESINS; ADHESIVES; COMPOSITIONS NOT OTHERWISE PROVIDED FOR; APPLICATIONS OF MATERIALS NOT OTHERWISE PROVIDED FOR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"DYES; PAINTS; POLISHES; NATURAL RESINS; ADHESIVES; COMPOSITIONS NOT OTHERWISE PROVIDED FOR; APPLICATIONS OF MATERIALS NOT OTHERWISE PROVIDED FOR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C10",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C10",
+      "source_entry_descriptor": "PETROLEUM, GAS OR COKE INDUSTRIES; TECHNICAL GASES CONTAINING CARBON MONOXIDE; FUELS; LUBRICANTS; PEAT",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "PETROLEUM, GAS OR COKE INDUSTRIES; TECHNICAL GASES CONTAINING CARBON MONOXIDE; FUELS; LUBRICANTS; PEAT",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"PETROLEUM, GAS OR COKE INDUSTRIES; TECHNICAL GASES CONTAINING CARBON MONOXIDE; FUELS; LUBRICANTS; PEAT\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C11",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C11",
+      "source_entry_descriptor": "ANIMAL OR VEGETABLE OILS, FATS, FATTY SUBSTANCES OR WAXES; FATTY ACIDS THEREFROM; DETERGENTS; CANDLES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ANIMAL OR VEGETABLE OILS, FATS, FATTY SUBSTANCES OR WAXES; FATTY ACIDS THEREFROM; DETERGENTS; CANDLES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ANIMAL OR VEGETABLE OILS, FATS, FATTY SUBSTANCES OR WAXES; FATTY ACIDS THEREFROM; DETERGENTS; CANDLES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C12",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C12",
+      "source_entry_descriptor": "BIOCHEMISTRY; BEER; SPIRITS; WINE; VINEGAR; MICROBIOLOGY; ENZYMOLOGY; MUTATION OR GENETIC ENGINEERING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "BIOCHEMISTRY; BEER; SPIRITS; WINE; VINEGAR; MICROBIOLOGY; ENZYMOLOGY; MUTATION OR GENETIC ENGINEERING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"BIOCHEMISTRY; BEER; SPIRITS; WINE; VINEGAR; MICROBIOLOGY; ENZYMOLOGY; MUTATION OR GENETIC ENGINEERING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C13",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C13",
+      "source_entry_descriptor": "SUGAR INDUSTRY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SUGAR INDUSTRY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUGAR INDUSTRY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C14",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C14",
+      "source_entry_descriptor": "SKINS; HIDES; PELTS OR LEATHER",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SKINS; HIDES; PELTS OR LEATHER",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SKINS; HIDES; PELTS OR LEATHER\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C21",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C21",
+      "source_entry_descriptor": "METALLURGY OF IRON",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "METALLURGY OF IRON",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"METALLURGY OF IRON\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C22",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C22",
+      "source_entry_descriptor": "METALLURGY; FERROUS OR NON-FERROUS ALLOYS; TREATMENT OF ALLOYS OR NON-FERROUS METALS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "METALLURGY; FERROUS OR NON-FERROUS ALLOYS; TREATMENT OF ALLOYS OR NON-FERROUS METALS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"METALLURGY; FERROUS OR NON-FERROUS ALLOYS; TREATMENT OF ALLOYS OR NON-FERROUS METALS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C23",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C23",
+      "source_entry_descriptor": "COATING METALLIC MATERIAL; COATING MATERIAL WITH METALLIC MATERIAL; CHEMICAL SURFACE TREATMENT; DIFFUSION TREATMENT OF METALLIC MATERIAL; COATING BY VACUUM EVAPORATION, BY SPUTTERING, BY ION IMPLANTATION OR BY CHEMICAL VAPOUR DEPOSITION, IN GENERAL; INHIBITING CORROSION OF METALLIC MATERIAL OR INCRUSTATION IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "COATING METALLIC MATERIAL; COATING MATERIAL WITH METALLIC MATERIAL; CHEMICAL SURFACE TREATMENT; DIFFUSION TREATMENT OF METALLIC MATERIAL; COATING BY VACUUM EVAPORATION, BY SPUTTERING, BY ION IMPLANTATION OR BY CHEMICAL VAPOUR DEPOSITION, IN GENERAL; INHIBITING CORROSION OF METALLIC MATERIAL OR INCRUSTATION IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"COATING METALLIC MATERIAL; COATING MATERIAL WITH METALLIC MATERIAL; CHEMICAL SURFACE TREATMENT; DIFFUSION TREATMENT OF METALLIC MATERIAL; COATING BY VACUUM EVAPORATION, BY SPUTTERING, BY ION IMPLANTATION OR BY CHEMICAL VAPOUR DEPOSITION, IN GENERAL; INHIBITING CORROSION OF METALLIC MATERIAL OR INCRUSTATION IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C25",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C25",
+      "source_entry_descriptor": "ELECTROLYTIC OR ELECTROPHORETIC PROCESSES; APPARATUS THEREFOR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ELECTROLYTIC OR ELECTROPHORETIC PROCESSES; APPARATUS THEREFOR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ELECTROLYTIC OR ELECTROPHORETIC PROCESSES; APPARATUS THEREFOR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C30",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C30",
+      "source_entry_descriptor": "CRYSTAL GROWTH",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CRYSTAL GROWTH",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CRYSTAL GROWTH\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C40",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C40",
+      "source_entry_descriptor": "COMBINATORIAL TECHNOLOGY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "COMBINATORIAL TECHNOLOGY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"COMBINATORIAL TECHNOLOGY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-C99",
+      "source_entry_reference": "IPC 2026.01 / Section C CHEMISTRY; METALLURGY / Class C99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    },
+    {
+      "source_entry_id": "ipc-D01",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D01",
+      "source_entry_descriptor": "NATURAL OR MAN-MADE THREADS OR FIBRES; SPINNING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "NATURAL OR MAN-MADE THREADS OR FIBRES; SPINNING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"NATURAL OR MAN-MADE THREADS OR FIBRES; SPINNING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D02",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D02",
+      "source_entry_descriptor": "YARNS; MECHANICAL FINISHING OF YARNS OR ROPES; WARPING OR BEAMING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "YARNS; MECHANICAL FINISHING OF YARNS OR ROPES; WARPING OR BEAMING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"YARNS; MECHANICAL FINISHING OF YARNS OR ROPES; WARPING OR BEAMING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D03",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D03",
+      "source_entry_descriptor": "WEAVING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WEAVING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WEAVING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D04",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D04",
+      "source_entry_descriptor": "BRAIDING; LACE-MAKING; KNITTING; TRIMMINGS; NON-WOVEN FABRICS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "BRAIDING; LACE-MAKING; KNITTING; TRIMMINGS; NON-WOVEN FABRICS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"BRAIDING; LACE-MAKING; KNITTING; TRIMMINGS; NON-WOVEN FABRICS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D05",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D05",
+      "source_entry_descriptor": "SEWING; EMBROIDERING; TUFTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SEWING; EMBROIDERING; TUFTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SEWING; EMBROIDERING; TUFTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D06",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D06",
+      "source_entry_descriptor": "TREATMENT OF TEXTILES OR THE LIKE; LAUNDERING; FLEXIBLE MATERIALS NOT OTHERWISE PROVIDED FOR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "TREATMENT OF TEXTILES OR THE LIKE; LAUNDERING; FLEXIBLE MATERIALS NOT OTHERWISE PROVIDED FOR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"TREATMENT OF TEXTILES OR THE LIKE; LAUNDERING; FLEXIBLE MATERIALS NOT OTHERWISE PROVIDED FOR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D07",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D07",
+      "source_entry_descriptor": "ROPES; CABLES OTHER THAN ELECTRIC",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ROPES; CABLES OTHER THAN ELECTRIC",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ROPES; CABLES OTHER THAN ELECTRIC\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D21",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D21",
+      "source_entry_descriptor": "PAPER-MAKING; PRODUCTION OF CELLULOSE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "PAPER-MAKING; PRODUCTION OF CELLULOSE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"PAPER-MAKING; PRODUCTION OF CELLULOSE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-D99",
+      "source_entry_reference": "IPC 2026.01 / Section D TEXTILES; PAPER / Class D99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    },
+    {
+      "source_entry_id": "ipc-E01",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E01",
+      "source_entry_descriptor": "CONSTRUCTION OF ROADS, RAILWAYS, OR BRIDGES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CONSTRUCTION OF ROADS, RAILWAYS, OR BRIDGES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CONSTRUCTION OF ROADS, RAILWAYS, OR BRIDGES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-E02",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E02",
+      "source_entry_descriptor": "HYDRAULIC ENGINEERING; FOUNDATIONS; SOIL-SHIFTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HYDRAULIC ENGINEERING; FOUNDATIONS; SOIL-SHIFTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HYDRAULIC ENGINEERING; FOUNDATIONS; SOIL-SHIFTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-E03",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E03",
+      "source_entry_descriptor": "WATER SUPPLY; SEWERAGE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WATER SUPPLY; SEWERAGE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WATER SUPPLY; SEWERAGE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-E04",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E04",
+      "source_entry_descriptor": "BUILDING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "BUILDING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"BUILDING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-E05",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E05",
+      "source_entry_descriptor": "LOCKS; KEYS; WINDOW OR DOOR FITTINGS; SAFES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "LOCKS; KEYS; WINDOW OR DOOR FITTINGS; SAFES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"LOCKS; KEYS; WINDOW OR DOOR FITTINGS; SAFES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-E06",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E06",
+      "source_entry_descriptor": "DOORS, WINDOWS, SHUTTERS, OR ROLLER BLINDS, IN GENERAL; LADDERS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "DOORS, WINDOWS, SHUTTERS, OR ROLLER BLINDS, IN GENERAL; LADDERS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"DOORS, WINDOWS, SHUTTERS, OR ROLLER BLINDS, IN GENERAL; LADDERS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-E21",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E21",
+      "source_entry_descriptor": "EARTH OR ROCK DRILLING; MINING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "EARTH OR ROCK DRILLING; MINING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"EARTH OR ROCK DRILLING; MINING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-E99",
+      "source_entry_reference": "IPC 2026.01 / Section E FIXED CONSTRUCTIONS / Class E99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    },
+    {
+      "source_entry_id": "ipc-F01",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F01",
+      "source_entry_descriptor": "MACHINES OR ENGINES IN GENERAL; ENGINE PLANTS IN GENERAL; STEAM ENGINES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MACHINES OR ENGINES IN GENERAL; ENGINE PLANTS IN GENERAL; STEAM ENGINES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MACHINES OR ENGINES IN GENERAL; ENGINE PLANTS IN GENERAL; STEAM ENGINES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F02",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F02",
+      "source_entry_descriptor": "COMBUSTION ENGINES; HOT-GAS OR COMBUSTION-PRODUCT ENGINE PLANTS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "COMBUSTION ENGINES; HOT-GAS OR COMBUSTION-PRODUCT ENGINE PLANTS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"COMBUSTION ENGINES; HOT-GAS OR COMBUSTION-PRODUCT ENGINE PLANTS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F03",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F03",
+      "source_entry_descriptor": "MACHINES OR ENGINES FOR LIQUIDS; WIND, SPRING, OR WEIGHT MOTORS; PRODUCING MECHANICAL POWER OR A REACTIVE PROPULSIVE THRUST, NOT OTHERWISE PROVIDED FOR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MACHINES OR ENGINES FOR LIQUIDS; WIND, SPRING, OR WEIGHT MOTORS; PRODUCING MECHANICAL POWER OR A REACTIVE PROPULSIVE THRUST, NOT OTHERWISE PROVIDED FOR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MACHINES OR ENGINES FOR LIQUIDS; WIND, SPRING, OR WEIGHT MOTORS; PRODUCING MECHANICAL POWER OR A REACTIVE PROPULSIVE THRUST, NOT OTHERWISE PROVIDED FOR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F04",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F04",
+      "source_entry_descriptor": "POSITIVE-DISPLACEMENT MACHINES FOR LIQUIDS; PUMPS FOR LIQUIDS OR ELASTIC FLUIDS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "POSITIVE-DISPLACEMENT MACHINES FOR LIQUIDS; PUMPS FOR LIQUIDS OR ELASTIC FLUIDS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"POSITIVE-DISPLACEMENT MACHINES FOR LIQUIDS; PUMPS FOR LIQUIDS OR ELASTIC FLUIDS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F15",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F15",
+      "source_entry_descriptor": "FLUID-PRESSURE ACTUATORS; HYDRAULICS OR PNEUMATICS IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "FLUID-PRESSURE ACTUATORS; HYDRAULICS OR PNEUMATICS IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"FLUID-PRESSURE ACTUATORS; HYDRAULICS OR PNEUMATICS IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F16",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F16",
+      "source_entry_descriptor": "ENGINEERING ELEMENTS OR UNITS; GENERAL MEASURES FOR PRODUCING AND MAINTAINING EFFECTIVE FUNCTIONING OF MACHINES OR INSTALLATIONS; THERMAL INSULATION IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ENGINEERING ELEMENTS OR UNITS; GENERAL MEASURES FOR PRODUCING AND MAINTAINING EFFECTIVE FUNCTIONING OF MACHINES OR INSTALLATIONS; THERMAL INSULATION IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ENGINEERING ELEMENTS OR UNITS; GENERAL MEASURES FOR PRODUCING AND MAINTAINING EFFECTIVE FUNCTIONING OF MACHINES OR INSTALLATIONS; THERMAL INSULATION IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F17",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F17",
+      "source_entry_descriptor": "STORING OR DISTRIBUTING GASES OR LIQUIDS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "STORING OR DISTRIBUTING GASES OR LIQUIDS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"STORING OR DISTRIBUTING GASES OR LIQUIDS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F21",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F21",
+      "source_entry_descriptor": "LIGHTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "LIGHTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"LIGHTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F22",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F22",
+      "source_entry_descriptor": "STEAM GENERATION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "STEAM GENERATION",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"STEAM GENERATION\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F23",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F23",
+      "source_entry_descriptor": "COMBUSTION APPARATUS; COMBUSTION PROCESSES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "COMBUSTION APPARATUS; COMBUSTION PROCESSES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"COMBUSTION APPARATUS; COMBUSTION PROCESSES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F24",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F24",
+      "source_entry_descriptor": "HEATING; RANGES; VENTILATING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HEATING; RANGES; VENTILATING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HEATING; RANGES; VENTILATING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F25",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F25",
+      "source_entry_descriptor": "REFRIGERATION OR COOLING; COMBINED HEATING AND REFRIGERATION SYSTEMS; HEAT PUMP SYSTEMS; MANUFACTURE OR STORAGE OF ICE; LIQUEFACTION OR SOLIDIFICATION OF GASES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "REFRIGERATION OR COOLING; COMBINED HEATING AND REFRIGERATION SYSTEMS; HEAT PUMP SYSTEMS; MANUFACTURE OR STORAGE OF ICE; LIQUEFACTION OR SOLIDIFICATION OF GASES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"REFRIGERATION OR COOLING; COMBINED HEATING AND REFRIGERATION SYSTEMS; HEAT PUMP SYSTEMS; MANUFACTURE OR STORAGE OF ICE; LIQUEFACTION OR SOLIDIFICATION OF GASES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F26",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F26",
+      "source_entry_descriptor": "DRYING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "DRYING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"DRYING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F27",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F27",
+      "source_entry_descriptor": "FURNACES; KILNS, OVENS OR RETORTS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "FURNACES; KILNS, OVENS OR RETORTS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"FURNACES; KILNS, OVENS OR RETORTS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F28",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F28",
+      "source_entry_descriptor": "HEAT EXCHANGE IN GENERAL",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HEAT EXCHANGE IN GENERAL",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HEAT EXCHANGE IN GENERAL\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F41",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F41",
+      "source_entry_descriptor": "WEAPONS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "WEAPONS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"WEAPONS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F42",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F42",
+      "source_entry_descriptor": "AMMUNITION; BLASTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "AMMUNITION; BLASTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"AMMUNITION; BLASTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-F99",
+      "source_entry_reference": "IPC 2026.01 / Section F MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING / Class F99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    },
+    {
+      "source_entry_id": "ipc-G01",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G01",
+      "source_entry_descriptor": "MEASURING; TESTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MEASURING; TESTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MEASURING; TESTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G02",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G02",
+      "source_entry_descriptor": "OPTICS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "OPTICS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"OPTICS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G03",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G03",
+      "source_entry_descriptor": "PHOTOGRAPHY; CINEMATOGRAPHY; ANALOGOUS TECHNIQUES USING WAVES OTHER THAN OPTICAL WAVES; ELECTROGRAPHY; HOLOGRAPHY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "PHOTOGRAPHY; CINEMATOGRAPHY; ANALOGOUS TECHNIQUES USING WAVES OTHER THAN OPTICAL WAVES; ELECTROGRAPHY; HOLOGRAPHY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"PHOTOGRAPHY; CINEMATOGRAPHY; ANALOGOUS TECHNIQUES USING WAVES OTHER THAN OPTICAL WAVES; ELECTROGRAPHY; HOLOGRAPHY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G04",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G04",
+      "source_entry_descriptor": "HOROLOGY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "HOROLOGY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"HOROLOGY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G05",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G05",
+      "source_entry_descriptor": "CONTROLLING; REGULATING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CONTROLLING; REGULATING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CONTROLLING; REGULATING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G06",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G06",
+      "source_entry_descriptor": "COMPUTING OR CALCULATING; COUNTING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "COMPUTING OR CALCULATING; COUNTING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"COMPUTING OR CALCULATING; COUNTING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G07",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G07",
+      "source_entry_descriptor": "CHECKING-DEVICES",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "CHECKING-DEVICES",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"CHECKING-DEVICES\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G08",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G08",
+      "source_entry_descriptor": "SIGNALLING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SIGNALLING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SIGNALLING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G09",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G09",
+      "source_entry_descriptor": "EDUCATING; CRYPTOGRAPHY; DISPLAY; ADVERTISING; SEALS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "EDUCATING; CRYPTOGRAPHY; DISPLAY; ADVERTISING; SEALS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"EDUCATING; CRYPTOGRAPHY; DISPLAY; ADVERTISING; SEALS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G10",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G10",
+      "source_entry_descriptor": "MUSICAL INSTRUMENTS; ACOUSTICS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "MUSICAL INSTRUMENTS; ACOUSTICS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"MUSICAL INSTRUMENTS; ACOUSTICS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G11",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G11",
+      "source_entry_descriptor": "INFORMATION STORAGE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "INFORMATION STORAGE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"INFORMATION STORAGE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G12",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G12",
+      "source_entry_descriptor": "INSTRUMENT DETAILS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "INSTRUMENT DETAILS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"INSTRUMENT DETAILS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G16",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G16",
+      "source_entry_descriptor": "INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"INFORMATION AND COMMUNICATION TECHNOLOGY [ICT] SPECIALLY ADAPTED FOR SPECIFIC APPLICATION FIELDS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G21",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G21",
+      "source_entry_descriptor": "NUCLEAR PHYSICS; NUCLEAR ENGINEERING",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "NUCLEAR PHYSICS; NUCLEAR ENGINEERING",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"NUCLEAR PHYSICS; NUCLEAR ENGINEERING\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-G99",
+      "source_entry_reference": "IPC 2026.01 / Section G PHYSICS / Class G99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    },
+    {
+      "source_entry_id": "ipc-H01",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H01",
+      "source_entry_descriptor": "ELECTRIC ELEMENTS",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ELECTRIC ELEMENTS",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ELECTRIC ELEMENTS\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-H02",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H02",
+      "source_entry_descriptor": "GENERATION, CONVERSION, OR DISTRIBUTION OF ELECTRIC POWER",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "GENERATION, CONVERSION, OR DISTRIBUTION OF ELECTRIC POWER",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"GENERATION, CONVERSION, OR DISTRIBUTION OF ELECTRIC POWER\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-H03",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H03",
+      "source_entry_descriptor": "ELECTRONIC CIRCUITRY",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ELECTRONIC CIRCUITRY",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ELECTRONIC CIRCUITRY\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-H04",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H04",
+      "source_entry_descriptor": "ELECTRIC COMMUNICATION TECHNIQUE",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ELECTRIC COMMUNICATION TECHNIQUE",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ELECTRIC COMMUNICATION TECHNIQUE\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-H05",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H05",
+      "source_entry_descriptor": "ELECTRIC TECHNIQUES NOT OTHERWISE PROVIDED FOR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "ELECTRIC TECHNIQUES NOT OTHERWISE PROVIDED FOR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"ELECTRIC TECHNIQUES NOT OTHERWISE PROVIDED FOR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-H10",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H10",
+      "source_entry_descriptor": "SEMICONDUCTOR DEVICES; ELECTRIC SOLID-STATE DEVICES NOT OTHERWISE PROVIDED FOR",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": "SEMICONDUCTOR DEVICES; ELECTRIC SOLID-STATE DEVICES NOT OTHERWISE PROVIDED FOR",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SEMICONDUCTOR DEVICES; ELECTRIC SOLID-STATE DEVICES NOT OTHERWISE PROVIDED FOR\" and recorded first-level parent context independently denote this technological subject area. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "ipc-H99",
+      "source_entry_reference": "IPC 2026.01 / Section H ELECTRICITY / Class H99",
+      "source_entry_descriptor": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; its technological subject matter and functional distinctions are retained as substantive."
+      },
+      "normalized_substantive_locus": null,
+      "minimal_gate_result": "unresolved",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION\" and its recorded Section parent identify only residual subject matter. Title and parent context do not support a narrower coherent substantive locus without inventing scope, so the permissive boundary gate cannot be decided defensibly in Pass 1.",
+      "uncertainty": "Official same-classification clarification may be needed to determine whether a coherent locus can be stated. No broader synthetic meaning is assigned and no cross-entry evidence is used."
+    }
+  ],
+  "rationale": "Every bound Task 104 source entry is interpreted independently from its exact official descriptor and recorded first-level parent context under Normalization Codebook v0.1. No cross-entry equivalence comparison, clustering, merge decision, candidate creation, or candidate-ID assignment occurs.",
+  "uncertainty": "These Pass 1 interpretations do not determine equivalence, partial overlap, candidate identity, final Domain eligibility, or inclusion. Explicit unresolved results are retained wherever title and parent context cannot support a coherent locus without added scope.",
+  "recorded_at": "2026-08-15T13:15:32Z"
+}

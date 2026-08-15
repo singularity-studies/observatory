@@ -1,2 +1,3 @@
 domain-universe/source-frames/*.json text eol=lf
 domain-universe/extractions/*.json text eol=lf
+domain-universe/normalization/**/*.json text eol=lf

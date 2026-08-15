@@ -139,10 +139,20 @@ Normalization Codebook v0.1 is now prospectively fixed in
 `domain-universe/NORMALIZATION_CODEBOOK.md`, before any normalization
 disposition changes. The codebook defines topic-preserving interpretation,
 high-bar equivalence, partial-overlap preservation, deterministic anchors, and
-the two-pass procedure. It is not scientifically approved, normalization has
-not begun, all 330 entries remain untouched and `unresolved`, and the Domain
-candidate count remains zero. Final Domain eligibility remains a separate
-governed stage.
+the two-pass procedure. It is not scientifically approved. Normalization had
+not begun at the point of fixation, and all 330 entries were untouched and
+`unresolved`. Those Task 104 dispositions remain unchanged after Pass 1, and
+the Domain candidate count remains zero. Final Domain eligibility remains a
+separate governed stage.
+
+Task 105B Pass 1 independent interpretation is complete pending scientific
+review. Exactly 330 separate interpretations now exist under
+`domain-universe/normalization/pass1/`, each bound to the fixed codebook,
+boundary, and its immutable Task 104 extraction. Pass 1 used no cross-entry
+equivalence comparison and created no cluster or candidate. The Task 104
+dispositions remain `unresolved`, their candidate targets remain empty, and
+Pass 2 and final Domain eligibility have not begun. Pass 1 completion is not
+normalization completion.
 
 ## Construction pipeline
 

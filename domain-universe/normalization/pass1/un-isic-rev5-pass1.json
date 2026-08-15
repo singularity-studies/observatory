@@ -1,0 +1,1329 @@
+{
+  "pass1_record_id": "un-isic-rev5-pass1",
+  "instrument_version": "0.5.0-draft",
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "universe_boundary": {
+    "path": "domain-universe/boundaries/du-boundary-v0.1.json",
+    "sha256": "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+  },
+  "source_extraction": {
+    "path": "domain-universe/extractions/un-isic-rev5-division.json",
+    "sha256": "569b5ac552ffdf0f5fcf993e8918181a9005c2c9d6e4b19c701126d3b1f2b9b9"
+  },
+  "procedure": "independent_entry_interpretation",
+  "status": "complete",
+  "clarification_sources": [],
+  "interpretations": [
+    {
+      "source_entry_id": "isic-01",
+      "source_entry_reference": "ISIC Rev.5 / Section A Agriculture, forestry and fishing / Division 01",
+      "source_entry_descriptor": "Crop and animal production, hunting and related service activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Crop and animal production, hunting and related service activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Crop and animal production, hunting and related service activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-02",
+      "source_entry_reference": "ISIC Rev.5 / Section A Agriculture, forestry and fishing / Division 02",
+      "source_entry_descriptor": "Forestry and logging",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Forestry and logging",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Forestry and logging\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-03",
+      "source_entry_reference": "ISIC Rev.5 / Section A Agriculture, forestry and fishing / Division 03",
+      "source_entry_descriptor": "Fishing and aquaculture",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Fishing and aquaculture",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Fishing and aquaculture\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-05",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 05",
+      "source_entry_descriptor": "Mining of coal and lignite",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Mining of coal and lignite",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Mining of coal and lignite\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-06",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 06",
+      "source_entry_descriptor": "Extraction of crude petroleum and natural gas",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Extraction of crude petroleum and natural gas",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Extraction of crude petroleum and natural gas\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-07",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 07",
+      "source_entry_descriptor": "Mining of metal ores",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Mining of metal ores",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Mining of metal ores\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-08",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 08",
+      "source_entry_descriptor": "Other mining and quarrying",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Other mining and quarrying",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other mining and quarrying\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-09",
+      "source_entry_reference": "ISIC Rev.5 / Section B Mining and quarrying / Division 09",
+      "source_entry_descriptor": "Mining support service activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Mining support service activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Mining support service activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-10",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 10",
+      "source_entry_descriptor": "Manufacture of food products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of food products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of food products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-11",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 11",
+      "source_entry_descriptor": "Manufacture of beverages",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of beverages",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of beverages\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-12",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 12",
+      "source_entry_descriptor": "Manufacture of tobacco products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of tobacco products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of tobacco products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-13",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 13",
+      "source_entry_descriptor": "Manufacture of textiles",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of textiles",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of textiles\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-14",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 14",
+      "source_entry_descriptor": "Manufacture of wearing apparel",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of wearing apparel",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of wearing apparel\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-15",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 15",
+      "source_entry_descriptor": "Manufacture of leather and related products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of leather and related products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of leather and related products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-16",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 16",
+      "source_entry_descriptor": "Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-17",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 17",
+      "source_entry_descriptor": "Manufacture of paper and paper products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of paper and paper products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of paper and paper products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-18",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 18",
+      "source_entry_descriptor": "Printing and reproduction of recorded media",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Printing and reproduction of recorded media",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Printing and reproduction of recorded media\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-19",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 19",
+      "source_entry_descriptor": "Manufacture of coke and refined petroleum products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of coke and refined petroleum products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of coke and refined petroleum products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-20",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 20",
+      "source_entry_descriptor": "Manufacture of chemicals and chemical products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of chemicals and chemical products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of chemicals and chemical products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-21",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 21",
+      "source_entry_descriptor": "Manufacture of basic pharmaceutical products and pharmaceutical preparations",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of basic pharmaceutical products and pharmaceutical preparations",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of basic pharmaceutical products and pharmaceutical preparations\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-22",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 22",
+      "source_entry_descriptor": "Manufacture of rubber and plastic products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of rubber and plastic products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of rubber and plastic products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-23",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 23",
+      "source_entry_descriptor": "Manufacture of other non-metallic mineral products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of other non-metallic mineral products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of other non-metallic mineral products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-24",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 24",
+      "source_entry_descriptor": "Manufacture of basic metals",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of basic metals",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of basic metals\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-25",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 25",
+      "source_entry_descriptor": "Manufacture of fabricated metal products, except machinery and equipment",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of fabricated metal products, except machinery and equipment",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of fabricated metal products, except machinery and equipment\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-26",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 26",
+      "source_entry_descriptor": "Manufacture of computer, electronic and optical products",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of computer, electronic and optical products",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of computer, electronic and optical products\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-27",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 27",
+      "source_entry_descriptor": "Manufacture of electrical equipment",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of electrical equipment",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of electrical equipment\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-28",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 28",
+      "source_entry_descriptor": "Manufacture of machinery and equipment n.e.c.",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of machinery and equipment n.e.c.",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of machinery and equipment n.e.c.\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-29",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 29",
+      "source_entry_descriptor": "Manufacture of motor vehicles, trailers and semi-trailers",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of motor vehicles, trailers and semi-trailers",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of motor vehicles, trailers and semi-trailers\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-30",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 30",
+      "source_entry_descriptor": "Manufacture of other transport equipment",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of other transport equipment",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of other transport equipment\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-31",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 31",
+      "source_entry_descriptor": "Manufacture of furniture",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Manufacture of furniture",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Manufacture of furniture\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-32",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 32",
+      "source_entry_descriptor": "Other manufacturing",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Other manufacturing",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other manufacturing\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-33",
+      "source_entry_reference": "ISIC Rev.5 / Section C Manufacturing / Division 33",
+      "source_entry_descriptor": "Repair, maintenance and installation of machinery and equipment",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Repair, maintenance and installation of machinery and equipment",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Repair, maintenance and installation of machinery and equipment\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-35",
+      "source_entry_reference": "ISIC Rev.5 / Section D Electricity, gas, steam and air conditioning supply / Division 35",
+      "source_entry_descriptor": "Electricity, gas, steam and air conditioning supply",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Electricity, gas, steam and air conditioning supply",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Electricity, gas, steam and air conditioning supply\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-36",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 36",
+      "source_entry_descriptor": "Water collection, treatment and supply",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Water collection, treatment and supply",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Water collection, treatment and supply\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-37",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 37",
+      "source_entry_descriptor": "Sewerage",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Sewerage",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Sewerage\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-38",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 38",
+      "source_entry_descriptor": "Waste collection, treatment and disposal, and recovery activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Waste collection, treatment and disposal, and recovery activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Waste collection, treatment and disposal, and recovery activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-39",
+      "source_entry_reference": "ISIC Rev.5 / Section E Water supply; sewerage, waste management and remediation activities / Division 39",
+      "source_entry_descriptor": "Remediation and other waste management service activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Remediation and other waste management service activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Remediation and other waste management service activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-41",
+      "source_entry_reference": "ISIC Rev.5 / Section F Construction / Division 41",
+      "source_entry_descriptor": "Construction of residential and non-residential buildings",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Construction of residential and non-residential buildings",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Construction of residential and non-residential buildings\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-42",
+      "source_entry_reference": "ISIC Rev.5 / Section F Construction / Division 42",
+      "source_entry_descriptor": "Civil engineering",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Civil engineering",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Civil engineering\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-43",
+      "source_entry_reference": "ISIC Rev.5 / Section F Construction / Division 43",
+      "source_entry_descriptor": "Specialized construction activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Specialized construction activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Specialized construction activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-46",
+      "source_entry_reference": "ISIC Rev.5 / Section G Wholesale and retail trade / Division 46",
+      "source_entry_descriptor": "Wholesale trade",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Wholesale trade",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Wholesale trade\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-47",
+      "source_entry_reference": "ISIC Rev.5 / Section G Wholesale and retail trade / Division 47",
+      "source_entry_descriptor": "Retail trade",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Retail trade",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Retail trade\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-49",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 49",
+      "source_entry_descriptor": "Land transport and transport via pipelines",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Land transport and transport via pipelines",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Land transport and transport via pipelines\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-50",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 50",
+      "source_entry_descriptor": "Water transport",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Water transport",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Water transport\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-51",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 51",
+      "source_entry_descriptor": "Air transport",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Air transport",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Air transport\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-52",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 52",
+      "source_entry_descriptor": "Warehousing and support activities for transportation",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Warehousing and support activities for transportation",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Warehousing and support activities for transportation\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-53",
+      "source_entry_reference": "ISIC Rev.5 / Section H Transportation and storage / Division 53",
+      "source_entry_descriptor": "Postal and courier activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Postal and courier activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Postal and courier activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-55",
+      "source_entry_reference": "ISIC Rev.5 / Section I Accommodation and food service activities / Division 55",
+      "source_entry_descriptor": "Accommodation",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Accommodation",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Accommodation\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-56",
+      "source_entry_reference": "ISIC Rev.5 / Section I Accommodation and food service activities / Division 56",
+      "source_entry_descriptor": "Food and beverage service activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Food and beverage service activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Food and beverage service activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-58",
+      "source_entry_reference": "ISIC Rev.5 / Section J Publishing, broadcasting, and content production and distribution activities / Division 58",
+      "source_entry_descriptor": "Publishing activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Publishing activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Publishing activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-59",
+      "source_entry_reference": "ISIC Rev.5 / Section J Publishing, broadcasting, and content production and distribution activities / Division 59",
+      "source_entry_descriptor": "Motion picture, video and television programme production, sound recording and music publishing activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Motion picture, video and television programme production, sound recording and music publishing activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Motion picture, video and television programme production, sound recording and music publishing activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-60",
+      "source_entry_reference": "ISIC Rev.5 / Section J Publishing, broadcasting, and content production and distribution activities / Division 60",
+      "source_entry_descriptor": "Programming, broadcasting, news agency and other content distribution activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Programming, broadcasting, news agency and other content distribution activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Programming, broadcasting, news agency and other content distribution activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-61",
+      "source_entry_reference": "ISIC Rev.5 / Section K Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities / Division 61",
+      "source_entry_descriptor": "Telecommunications",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Telecommunications",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Telecommunications\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-62",
+      "source_entry_reference": "ISIC Rev.5 / Section K Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities / Division 62",
+      "source_entry_descriptor": "Computer programming, consultancy and related activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Computer programming, consultancy and related activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Computer programming, consultancy and related activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-63",
+      "source_entry_reference": "ISIC Rev.5 / Section K Telecommunications, computer programming, consultancy, computing infrastructure, and other information service activities / Division 63",
+      "source_entry_descriptor": "Computing infrastructure, data processing, hosting, and other information service activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Computing infrastructure, data processing, hosting, and other information service activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Computing infrastructure, data processing, hosting, and other information service activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-64",
+      "source_entry_reference": "ISIC Rev.5 / Section L Financial and insurance activities / Division 64",
+      "source_entry_descriptor": "Financial service activities, except insurance and pension funding",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Financial service activities, except insurance and pension funding",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Financial service activities, except insurance and pension funding\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-65",
+      "source_entry_reference": "ISIC Rev.5 / Section L Financial and insurance activities / Division 65",
+      "source_entry_descriptor": "Insurance, reinsurance and pension funding, except compulsory social security",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Insurance, reinsurance and pension funding, except compulsory social security",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Insurance, reinsurance and pension funding, except compulsory social security\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-66",
+      "source_entry_reference": "ISIC Rev.5 / Section L Financial and insurance activities / Division 66",
+      "source_entry_descriptor": "Activities auxiliary to financial service and insurance activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Activities auxiliary to financial service and insurance activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Activities auxiliary to financial service and insurance activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-68",
+      "source_entry_reference": "ISIC Rev.5 / Section M Real estate activities / Division 68",
+      "source_entry_descriptor": "Real estate activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Real estate activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Real estate activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-69",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 69",
+      "source_entry_descriptor": "Legal and accounting activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Legal and accounting activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Legal and accounting activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-70",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 70",
+      "source_entry_descriptor": "Activities of head offices; management consultancy activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Activities of head offices; management consultancy activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Activities of head offices; management consultancy activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-71",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 71",
+      "source_entry_descriptor": "Architectural and engineering activities; technical testing and analysis",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Architectural and engineering activities; technical testing and analysis",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Architectural and engineering activities; technical testing and analysis\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-72",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 72",
+      "source_entry_descriptor": "Scientific research and development",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Scientific research and development",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Scientific research and development\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-73",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 73",
+      "source_entry_descriptor": "Activities of advertising, market research and public relations",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Activities of advertising, market research and public relations",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Activities of advertising, market research and public relations\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-74",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 74",
+      "source_entry_descriptor": "Other professional, scientific and technical activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Other professional, scientific and technical activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Other professional, scientific and technical activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-75",
+      "source_entry_reference": "ISIC Rev.5 / Section N Professional, scientific and technical activities / Division 75",
+      "source_entry_descriptor": "Veterinary activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Veterinary activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Veterinary activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-77",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 77",
+      "source_entry_descriptor": "Rental and leasing activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Rental and leasing activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Rental and leasing activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-78",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 78",
+      "source_entry_descriptor": "Employment activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Employment activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Employment activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-79",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 79",
+      "source_entry_descriptor": "Travel agency, tour operator, and other travel related activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Travel agency, tour operator, and other travel related activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Travel agency, tour operator, and other travel related activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-80",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 80",
+      "source_entry_descriptor": "Investigation and security activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Investigation and security activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Investigation and security activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-81",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 81",
+      "source_entry_descriptor": "Services to buildings and landscape activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Services to buildings and landscape activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Services to buildings and landscape activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-82",
+      "source_entry_reference": "ISIC Rev.5 / Section O Administrative and support service activities / Division 82",
+      "source_entry_descriptor": "Office administrative, office support and other business support activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Office administrative, office support and other business support activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Office administrative, office support and other business support activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-84",
+      "source_entry_reference": "ISIC Rev.5 / Section P Public administration and defence; compulsory social security / Division 84",
+      "source_entry_descriptor": "Public administration and defence; compulsory social security",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Public administration and defence; compulsory social security",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Public administration and defence; compulsory social security\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-85",
+      "source_entry_reference": "ISIC Rev.5 / Section Q Education / Division 85",
+      "source_entry_descriptor": "Education",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Education",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Education\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-86",
+      "source_entry_reference": "ISIC Rev.5 / Section R Human health and social work activities / Division 86",
+      "source_entry_descriptor": "Human health activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Human health activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Human health activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-87",
+      "source_entry_reference": "ISIC Rev.5 / Section R Human health and social work activities / Division 87",
+      "source_entry_descriptor": "Residential care activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Residential care activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Residential care activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-88",
+      "source_entry_reference": "ISIC Rev.5 / Section R Human health and social work activities / Division 88",
+      "source_entry_descriptor": "Social work activities without accommodation",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Social work activities without accommodation",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Social work activities without accommodation\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-90",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 90",
+      "source_entry_descriptor": "Arts creation and performing arts activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Arts creation and performing arts activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Arts creation and performing arts activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-91",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 91",
+      "source_entry_descriptor": "Library, archives, museum and other cultural activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Library, archives, museum and other cultural activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Library, archives, museum and other cultural activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-92",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 92",
+      "source_entry_descriptor": "Gambling and betting activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Gambling and betting activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Gambling and betting activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-93",
+      "source_entry_reference": "ISIC Rev.5 / Section S Arts, sports and recreation / Division 93",
+      "source_entry_descriptor": "Sports activities and amusement and recreation activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Sports activities and amusement and recreation activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Sports activities and amusement and recreation activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-94",
+      "source_entry_reference": "ISIC Rev.5 / Section T Other service activities / Division 94",
+      "source_entry_descriptor": "Activities of membership organizations",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Activities of membership organizations",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Activities of membership organizations\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-95",
+      "source_entry_reference": "ISIC Rev.5 / Section T Other service activities / Division 95",
+      "source_entry_descriptor": "Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Repair and maintenance of computers, personal and household goods, and motor vehicles and motorcycles\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-96",
+      "source_entry_reference": "ISIC Rev.5 / Section T Other service activities / Division 96",
+      "source_entry_descriptor": "Personal service activities",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Personal service activities",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Personal service activities\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-97",
+      "source_entry_reference": "ISIC Rev.5 / Section U Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use / Division 97",
+      "source_entry_descriptor": "Activities of households as employers of domestic personnel",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Activities of households as employers of domestic personnel",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Activities of households as employers of domestic personnel\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-98",
+      "source_entry_reference": "ISIC Rev.5 / Section U Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use / Division 98",
+      "source_entry_descriptor": "Undifferentiated goods- and services-producing activities of private households for own use",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Undifferentiated goods- and services-producing activities of private households for own use",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Undifferentiated goods- and services-producing activities of private households for own use\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    },
+    {
+      "source_entry_id": "isic-99",
+      "source_entry_reference": "ISIC Rev.5 / Section V Activities of extraterritorial organizations and bodies / Division 99",
+      "source_entry_descriptor": "Activities of extraterritorial organizations and bodies",
+      "frame_role_stripping": {
+        "action": "none",
+        "note": "No removable wrapper appears in the extracted title; the named economic activity, service, production stage, or other activity modifier is retained as substantive."
+      },
+      "normalized_substantive_locus": "Activities of extraterritorial organizations and bodies",
+      "minimal_gate_result": "passes",
+      "evidence_basis": "title_and_parent_only",
+      "clarification_source_ids": [],
+      "rationale": "The official descriptor \"Activities of extraterritorial organizations and bodies\" and recorded first-level parent context independently denote this economic activity. No substantive activity, function, stage, purpose, or modifier is removed. Using the official descriptor as the narrowest neutral expression avoids broadening, and the locus can in principle host institutionalized or scalable recurrent sociotechnical improvement processes under du-boundary-v0.1. This permissive Pass 1 result is not final Domain eligibility.",
+      "uncertainty": "Title and recorded parent context support this independent semantic and boundary interpretation. Pass 1 does not resolve equivalence, overlap, candidate identity, or final eligibility."
+    }
+  ],
+  "rationale": "Every bound Task 104 source entry is interpreted independently from its exact official descriptor and recorded first-level parent context under Normalization Codebook v0.1. No cross-entry equivalence comparison, clustering, merge decision, candidate creation, or candidate-ID assignment occurs.",
+  "uncertainty": "These Pass 1 interpretations do not determine equivalence, partial overlap, candidate identity, final Domain eligibility, or inclusion. Explicit unresolved results are retained wherever title and parent context cannot support a coherent locus without added scope.",
+  "recorded_at": "2026-08-15T13:15:32Z"
+}

@@ -15,6 +15,12 @@ SPEC = importlib.util.spec_from_file_location("observatory_validate", ROOT / "sc
 assert SPEC and SPEC.loader
 VALIDATE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(VALIDATE)
+NORMALIZATION_SPEC = importlib.util.spec_from_file_location(
+    "observatory_normalization_validate", ROOT / "scripts/validate_normalization.py"
+)
+assert NORMALIZATION_SPEC and NORMALIZATION_SPEC.loader
+NORMALIZATION_VALIDATE = importlib.util.module_from_spec(NORMALIZATION_SPEC)
+NORMALIZATION_SPEC.loader.exec_module(NORMALIZATION_VALIDATE)
 
 V1 = "1.0.0-test"
 V2 = "2.0.0-test"
@@ -595,6 +601,10 @@ class TemporaryRepository:
         write_json(path, manifest)
 
         for path in (self.root / "domain-universe").rglob("*.json"):
+            if "normalization" in path.relative_to(self.root / "domain-universe").parts:
+                # Pass 1 records are version-bound scientific-stage artifacts,
+                # not current instruments advanced by this Wave isolation fixture.
+                continue
             record = json.loads(path.read_text(encoding="utf-8"))
             if "instrument_version" in record:
                 record["instrument_version"] = V2
@@ -2800,6 +2810,220 @@ class DomainUniverseProtocolTests(unittest.TestCase):
         self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
 
 
+class DomainNormalizationPass1Tests(unittest.TestCase):
+    EXPECTED = {
+        "oecd-ford-frascati-2015-pass1.json": (
+            "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json", 42,
+        ),
+        "un-isic-rev5-pass1.json": (
+            "domain-universe/extractions/un-isic-rev5-division.json", 87,
+        ),
+        "wipo-ipc-2026-01-pass1.json": (
+            "domain-universe/extractions/wipo-ipc-2026-01-class.json", 132,
+        ),
+        "un-cofog-1999-pass1.json": (
+            "domain-universe/extractions/un-cofog-1999-group.json", 69,
+        ),
+    }
+
+    def setUp(self) -> None:
+        self.schema = json.loads(
+            (ROOT / "schemas/domain-normalization-pass1.schema.json").read_text(encoding="utf-8")
+        )
+
+    def _record(self, filename: str) -> dict[str, object]:
+        return json.loads(
+            (ROOT / "domain-universe/normalization/pass1" / filename).read_text(encoding="utf-8")
+        )
+
+    def _temporary_fixture(self) -> tuple[tempfile.TemporaryDirectory[str], Path]:
+        temporary = tempfile.TemporaryDirectory()
+        root = Path(temporary.name)
+        for relative in (
+            "schemas/domain-normalization-pass1.schema.json",
+            "domain-universe/NORMALIZATION_CODEBOOK.md",
+            "domain-universe/boundaries/du-boundary-v0.1.json",
+        ):
+            target = root / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / relative, target)
+        for relative in (
+            "domain-universe/extractions",
+            "domain-universe/normalization/pass1",
+        ):
+            shutil.copytree(ROOT / relative, root / relative)
+        return temporary, root
+
+    def test_exact_four_pass1_records_bind_exact_artifacts_and_counts(self) -> None:
+        paths = sorted((ROOT / "domain-universe/normalization/pass1").glob("*.json"))
+        self.assertEqual(sorted(self.EXPECTED), [path.name for path in paths])
+        total = 0
+        for path in paths:
+            extraction_relative, expected_count = self.EXPECTED[path.name]
+            record = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual([], VALIDATE.validate_contract(record, self.schema, str(path)))
+            self.assertEqual(path.stem, record["pass1_record_id"])
+            self.assertEqual("0.5.0-draft", record["instrument_version"])
+            self.assertEqual("independent_entry_interpretation", record["procedure"])
+            self.assertEqual("complete", record["status"])
+            self.assertEqual([], record["clarification_sources"])
+            self.assertEqual(expected_count, len(record["interpretations"]))
+            for field, relative in (
+                ("normalization_codebook", "domain-universe/NORMALIZATION_CODEBOOK.md"),
+                ("universe_boundary", "domain-universe/boundaries/du-boundary-v0.1.json"),
+                ("source_extraction", extraction_relative),
+            ):
+                self.assertEqual(relative, record[field]["path"])
+                self.assertEqual(
+                    NORMALIZATION_VALIDATE.canonical_lf_sha256(ROOT / relative),
+                    record[field]["sha256"],
+                )
+            total += len(record["interpretations"])
+        self.assertEqual(330, total)
+
+    def test_every_extracted_entry_has_one_exact_complete_interpretation(self) -> None:
+        required = {
+            "frame_role_stripping", "normalized_substantive_locus",
+            "minimal_gate_result", "evidence_basis", "clarification_source_ids",
+            "rationale", "uncertainty",
+        }
+        prohibited = {
+            "related_source_entry_ids", "equivalent_source_entry_ids", "cluster_id",
+            "target_candidate_id", "candidate_id", "overlap_relation", "merge_target",
+            "similarity_score",
+        }
+        for filename, (extraction_relative, _) in self.EXPECTED.items():
+            record = self._record(filename)
+            extraction = json.loads((ROOT / extraction_relative).read_text(encoding="utf-8"))
+            extracted = {entry["source_entry_id"]: entry for entry in extraction["extracted_entries"]}
+            interpretations = record["interpretations"]
+            self.assertEqual(len(interpretations), len({item["source_entry_id"] for item in interpretations}))
+            self.assertEqual(set(extracted), {item["source_entry_id"] for item in interpretations})
+            for item in interpretations:
+                source = extracted[item["source_entry_id"]]
+                self.assertEqual(source["source_entry_reference"], item["source_entry_reference"])
+                self.assertEqual(source["source_entry_descriptor"], item["source_entry_descriptor"])
+                self.assertTrue(required.issubset(item))
+                self.assertTrue(prohibited.isdisjoint(item))
+
+    def test_pass1_distribution_is_audited_without_target(self) -> None:
+        expected = {
+            "oecd-ford-frascati-2015-pass1.json": (42, 0, 0),
+            "un-isic-rev5-pass1.json": (87, 0, 0),
+            "wipo-ipc-2026-01-pass1.json": (124, 0, 8),
+            "un-cofog-1999-pass1.json": (69, 0, 0),
+        }
+        totals = {"passes": 0, "fails_out_of_scope": 0, "unresolved": 0}
+        for filename, expected_counts in expected.items():
+            record = self._record(filename)
+            counts = {
+                result: sum(
+                    item["minimal_gate_result"] == result for item in record["interpretations"]
+                )
+                for result in totals
+            }
+            self.assertEqual(expected_counts, tuple(counts[result] for result in totals))
+            for result, count in counts.items():
+                totals[result] += count
+        self.assertEqual({"passes": 322, "fails_out_of_scope": 0, "unresolved": 8}, totals)
+        summary = (ROOT / "domain-universe/normalization/PASS1_SUMMARY.md").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("**322** | **0** | **8** | **330**", summary)
+        self.assertIn("Clarification-source use count: **0**", summary)
+        self.assertIn("There is no acceptable target distribution", summary)
+        self.assertIn("No cross-entry equivalence comparison occurred", summary)
+        self.assertIn("No equivalence cluster", summary)
+
+    def test_passes_and_evidence_conditionals_fail_closed(self) -> None:
+        record = self._record("oecd-ford-frascati-2015-pass1.json")
+        interpretation = record["interpretations"][0]
+        mutations = (
+            {"normalized_substantive_locus": None},
+            {
+                "frame_role_stripping": {"action": "unresolved", "note": "test only"},
+                "minimal_gate_result": "passes",
+            },
+            {"clarification_source_ids": ["test-source"]},
+            {
+                "evidence_basis": "official_same_classification_clarification",
+                "clarification_source_ids": [],
+            },
+        )
+        for mutation in mutations:
+            changed = json.loads(json.dumps(record))
+            changed["interpretations"][0].update(mutation)
+            self.assertTrue(VALIDATE.validate_contract(changed, self.schema, str(mutation)))
+        self.assertEqual("passes", interpretation["minimal_gate_result"])
+
+    def test_schema_rejects_candidate_cluster_and_cross_entry_fields(self) -> None:
+        record = self._record("oecd-ford-frascati-2015-pass1.json")
+        for field in (
+            "related_source_entry_ids", "equivalent_source_entry_ids", "cluster_id",
+            "target_candidate_id", "candidate_id", "overlap_relation", "merge_target",
+            "similarity_score",
+        ):
+            changed = json.loads(json.dumps(record))
+            changed["interpretations"][0][field] = "prohibited-test-value"
+            errors = VALIDATE.validate_contract(changed, self.schema, field)
+            self.assertTrue(any(f"unexpected field '{field}'" in error for error in errors))
+
+    def test_normalization_validator_rejects_tamper_omission_and_copy_mismatch(self) -> None:
+        def validate_mutation(mutate) -> list[str]:
+            temporary, root = self._temporary_fixture()
+            try:
+                path = root / "domain-universe/normalization/pass1/oecd-ford-frascati-2015-pass1.json"
+                record = json.loads(path.read_text(encoding="utf-8"))
+                mutate(record)
+                write_json(path, record)
+                return NORMALIZATION_VALIDATE.validate_normalization_repository(
+                    root, VALIDATE.validate_contract
+                )
+            finally:
+                temporary.cleanup()
+
+        errors = validate_mutation(
+            lambda record: record["source_extraction"].update({"sha256": "0" * 64})
+        )
+        self.assertTrue(any("SHA-256 mismatch" in error for error in errors))
+
+        errors = validate_mutation(lambda record: record["interpretations"].pop())
+        self.assertTrue(any("expected 42 interpretations" in error for error in errors))
+        self.assertTrue(any("interpretation IDs must exactly match" in error for error in errors))
+
+        errors = validate_mutation(
+            lambda record: record["interpretations"][0].update(
+                {"source_entry_descriptor": "tampered test descriptor"}
+            )
+        )
+        self.assertTrue(any("source_entry_descriptor mismatch" in error for error in errors))
+
+    def test_task104_and_all_downstream_scientific_state_remain_unchanged(self) -> None:
+        entries = []
+        for path in sorted((ROOT / "domain-universe/extractions").glob("*.json")):
+            entries.extend(json.loads(path.read_text(encoding="utf-8"))["extracted_entries"])
+        self.assertEqual(330, len(entries))
+        self.assertTrue(all(item["normalization_disposition"] == "unresolved" for item in entries))
+        self.assertTrue(all(item["target_domain_candidate_ids"] == [] for item in entries))
+        frames = [
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in sorted((ROOT / "domain-universe/source-frames").glob("*.json"))
+        ]
+        self.assertEqual(4, len(frames))
+        self.assertTrue(all(frame["normalization_status"] == "pending" for frame in frames))
+        for directory in (
+            "candidates", "eligibility", "relations", "proposals", "reviews",
+            "governance", "manifests",
+        ):
+            self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
+        self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
+        self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+        self.assertEqual(
+            1,
+            len((ROOT / "registry/live-registry.csv").read_text(encoding="utf-8").splitlines()),
+        )
+
+
 class HistoricalSelfContainmentTests(unittest.TestCase):
     def setUp(self) -> None:
         self.repository = TemporaryRepository()
@@ -2815,6 +3039,10 @@ class HistoricalSelfContainmentTests(unittest.TestCase):
         )
         self.assertEqual([], VALIDATE.validate_repository(self.repository.root))
 
+        # The remaining mutation isolates historical Wave self-containment.
+        # Pass 1 is already validated above and has its own immutability tests;
+        # it is not part of this fixture's synthetic current-v2 migration.
+        shutil.rmtree(self.repository.root / "domain-universe/normalization")
         self.repository.advance_current_to_v2()
         errors = VALIDATE.validate_repository(self.repository.root)
         self.assertEqual([], errors)
