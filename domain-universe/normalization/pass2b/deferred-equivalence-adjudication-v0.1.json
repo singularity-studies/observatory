@@ -1,0 +1,164 @@
+{
+  "pass2b_record_id": "deferred-equivalence-adjudication-v0.1",
+  "instrument_version": "0.5.0-draft",
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "universe_boundary": {
+    "path": "domain-universe/boundaries/du-boundary-v0.1.json",
+    "sha256": "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+  },
+  "pass2a_record": {
+    "path": "domain-universe/normalization/pass2a/equivalence-groups-v0.1.json",
+    "sha256": "e830a1cf566888badc31776ad263077208dae458d5f9e53f0783a5bdd778c822"
+  },
+  "pass1_records": [
+    {
+      "path": "domain-universe/normalization/pass1/oecd-ford-frascati-2015-pass1.json",
+      "sha256": "d62c8f899b3b966381cdd693adcb1e9bf89cd6210474b8d30a4550889fb5612d"
+    },
+    {
+      "path": "domain-universe/normalization/pass1/un-isic-rev5-pass1.json",
+      "sha256": "7b02e4a2864076700c2d1d26910ef2b591e7771007d4819670f8c30a70d82cb3"
+    }
+  ],
+  "procedure": "deferred_equivalence_adjudication",
+  "status": "complete",
+  "clarification_sources": [
+    {
+      "clarification_source_id": "oecd-frascati-2015-official-pdf",
+      "source_frame_id": "oecd-ford-frascati-2015",
+      "source_uri": "https://www.oecd.org/content/dam/oecd/en/publications/reports/2015/10/frascati-manual-2015_g1g57dcb/9789264239012-en.pdf",
+      "source_version_or_date": "Frascati Manual 2015",
+      "source_reference": "Chapter 2.6, paragraphs 2.42-2.45; Table 2.2; paragraphs 2.75-2.78; Chapter 9, paragraphs 9.34-9.39",
+      "retrieved_at": "2026-08-15T15:10:30Z",
+      "sha256": "98e19466a97c2c63e2d8070fe66de7ac8ad18db253429d979349f8a2e72f3775",
+      "note": "Official OECD PDF; retrieved bytes match the Task 104 authoritative-source SHA-256. Only provenance and concise paraphrase are recorded; the PDF is not committed."
+    },
+    {
+      "clarification_source_id": "un-isic-rev5-explanatory-notes-2024-03-11",
+      "source_frame_id": "un-isic-rev5",
+      "source_uri": "https://unstats.un.org/unsd/classifications/Econ/Download/In%20Text/ISIC5_Exp_Notes_11Mar2024.pdf",
+      "source_version_or_date": "ISIC Revision 5 explanatory notes; official artifact dated 11 March 2024",
+      "source_reference": "Section F, Division 42, groups/classes 421/4210, 422/4220, 429/4290; Section Q, Division 85, groups/classes 851-856",
+      "retrieved_at": "2026-08-15T15:10:30Z",
+      "sha256": "b9ef4ac00d3b1736a5d7068e437babaa0105dd02ad70a86c11c9905878271ae8",
+      "note": "Official United Nations Statistics Division PDF retrieved for Task 105C2. Only provenance and concise paraphrase are recorded; the PDF is not committed."
+    }
+  ],
+  "adjudications": [
+    {
+      "adjudication_id": "civil-engineering-ford-isic",
+      "left_member": {
+        "source_frame_id": "oecd-ford-frascati-2015",
+        "source_entry_id": "ford-2.1",
+        "pass1_record": {
+          "path": "domain-universe/normalization/pass1/oecd-ford-frascati-2015-pass1.json",
+          "sha256": "d62c8f899b3b966381cdd693adcb1e9bf89cd6210474b8d30a4550889fb5612d"
+        },
+        "pass2a_group_id": "ng-73a29d43db0bb8be"
+      },
+      "right_member": {
+        "source_frame_id": "un-isic-rev5",
+        "source_entry_id": "isic-42",
+        "pass1_record": {
+          "path": "domain-universe/normalization/pass1/un-isic-rev5-pass1.json",
+          "sha256": "7b02e4a2864076700c2d1d26910ef2b591e7771007d4819670f8c30a70d82cb3"
+        },
+        "pass2a_group_id": "ng-e0e507e25b84e9a4"
+      },
+      "left_envelope": {
+        "classification_object": "field_of_research_and_development",
+        "substantive_locus": "Civil engineering",
+        "inclusion_envelope": "R&D-performing units and R&D resources whose subject-matter content belongs to FORD 2.1 Civil engineering within Engineering and technology.",
+        "exclusion_envelope": "Civil-engineering construction, repair, operation, manufacturing, project execution, or professional service activity merely concerning civil-engineering objects when it is not R&D subject-matter content classified under FORD 2.1.",
+        "evidence_source_ids": [
+          "oecd-frascati-2015-official-pdf"
+        ],
+        "evidence_rationale": "Frascati Manual 2015 Chapter 2.6 defines FORD as a content-based classification of R&D knowledge domains and Table 2.2 places Civil engineering at FORD 2.1 under Engineering and technology.",
+        "uncertainty": "The permitted FORD material does not provide a lower-level 2.1 breakdown here; that limits internal granularity but not the classification object as R&D subject-matter content."
+      },
+      "right_envelope": {
+        "classification_object": "economic_activity",
+        "substantive_locus": "Civil engineering",
+        "inclusion_envelope": "General construction of civil-engineering objects, including new work, repair, additions, alterations, on-site prefabricated or temporary objects, and the road, railway, utility, industrial, water, and other heavy-construction activities specified in ISIC groups 421, 422, and 429.",
+        "exclusion_envelope": "Building construction classified in division 41, specialised construction activities classified in division 43, and architectural, engineering-design, and construction-project-management activities classified in 711 are outside ISIC division 42.",
+        "evidence_source_ids": [
+          "un-isic-rev5-explanatory-notes-2024-03-11"
+        ],
+        "evidence_rationale": "ISIC Rev.5 Section F and Division 42 define an economic-activity envelope centered on construction of civil-engineering objects; classes 4210, 4220, and 4290 specify included construction and explicit exclusions.",
+        "uncertainty": "The official explanatory notes establish the Division 42 activity boundary for this adjudication; they do not determine later Domain overlap, non-duplication, or eligibility."
+      },
+      "criteria": {
+        "same_substantive_locus": true,
+        "equivalent_inclusion_envelope": false,
+        "equivalent_exclusion_envelope": false,
+        "no_material_scope_asymmetry": false,
+        "lens_difference_only": false
+      },
+      "outcome": "not_coextensive_for_normalization",
+      "rationale": "FORD 2.1 classifies the R&D knowledge-domain content of civil engineering, while ISIC 42 classifies construction activity performed on civil-engineering objects. Construction, repair, and project execution are material activity scope, not a removable source-frame wrapper; the inclusion and exclusion envelopes are therefore not equivalent.",
+      "uncertainty": "This normalization-specific negative coextensiveness decision does not establish no overlap, no relationship, final non-duplication, final Domain separation, or eligibility."
+    },
+    {
+      "adjudication_id": "education-ford-isic",
+      "left_member": {
+        "source_frame_id": "oecd-ford-frascati-2015",
+        "source_entry_id": "ford-5.3",
+        "pass1_record": {
+          "path": "domain-universe/normalization/pass1/oecd-ford-frascati-2015-pass1.json",
+          "sha256": "d62c8f899b3b966381cdd693adcb1e9bf89cd6210474b8d30a4550889fb5612d"
+        },
+        "pass2a_group_id": "ng-d0e631acf950ddad"
+      },
+      "right_member": {
+        "source_frame_id": "un-isic-rev5",
+        "source_entry_id": "isic-85",
+        "pass1_record": {
+          "path": "domain-universe/normalization/pass1/un-isic-rev5-pass1.json",
+          "sha256": "7b02e4a2864076700c2d1d26910ef2b591e7771007d4819670f8c30a70d82cb3"
+        },
+        "pass2a_group_id": "ng-35c79c5f079afbd3"
+      },
+      "left_envelope": {
+        "classification_object": "field_of_research_and_development",
+        "substantive_locus": "Education",
+        "inclusion_envelope": "R&D-performing units and R&D resources whose subject-matter content belongs to FORD 5.3 Education within Social sciences, provided the activity satisfies the Frascati R&D criteria.",
+        "exclusion_envelope": "Routine teaching, education, and training that do not satisfy the R&D criteria are outside the FORD R&D-content envelope, including ordinary higher-education teaching and training distinguished from R&D in Chapter 9.",
+        "evidence_source_ids": [
+          "oecd-frascati-2015-official-pdf"
+        ],
+        "evidence_rationale": "Frascati Manual 2015 Chapter 2.6 and Table 2.2 classify Education as FORD 5.3 R&D subject matter; Chapters 2 and 9 distinguish R&D from routine education and training.",
+        "uncertainty": "The permitted FORD material does not provide a lower-level 5.3 breakdown here; that limits internal granularity but clearly retains the R&D-content boundary."
+      },
+      "right_envelope": {
+        "classification_object": "economic_activity",
+        "substantive_locus": "Education",
+        "inclusion_envelope": "Education provision at any level or for any profession, including formal and non-formal programmes, instruction, qualifying education, self-employed instruction, and administration, inspection, operation, intermediation, or support covered by ISIC groups 851 through 856.",
+        "exclusion_envelope": "Activities assigned outside Section Q include child day-care at ISIC 8890; research and experimental development on social sciences and humanities is assigned to ISIC 7220 rather than Division 85.",
+        "evidence_source_ids": [
+          "un-isic-rev5-explanatory-notes-2024-03-11"
+        ],
+        "evidence_rationale": "ISIC Rev.5 Section Q and Division 85 define an economic-activity envelope for education provision and support across groups 851-856, with explicit exclusions including R&D classified in 7220.",
+        "uncertainty": "The official explanatory notes establish the Division 85 activity boundary for this adjudication; they do not determine later Domain overlap, non-duplication, or eligibility."
+      },
+      "criteria": {
+        "same_substantive_locus": true,
+        "equivalent_inclusion_envelope": false,
+        "equivalent_exclusion_envelope": false,
+        "no_material_scope_asymmetry": false,
+        "lens_difference_only": false
+      },
+      "outcome": "not_coextensive_for_normalization",
+      "rationale": "FORD 5.3 classifies R&D subject-matter content concerning education, while ISIC 85 classifies provision, instruction, administration, intermediation, and support of education. ISIC expressly places relevant R&D outside Division 85, so the activity difference is material rather than a removable frame lens.",
+      "uncertainty": "This normalization-specific negative coextensiveness decision does not establish no overlap, no relationship, final non-duplication, final Domain separation, or eligibility."
+    }
+  ],
+  "all_deferred_questions_closed": true,
+  "grouping_revision_required": false,
+  "candidate_materialization_permitted": true,
+  "rationale": "Both Pass 2A deferred pairs are closed as not coextensive for normalization because official same-classification clarification establishes materially different R&D-content and economic-activity envelopes. The existing Pass 2A singleton partition therefore requires no grouping revision.",
+  "uncertainty": "Candidate materialization is only structurally permitted for a later governed task. No candidate is created here, and singleton status still does not establish non-overlap, final non-duplication, Domain separation, or eligibility.",
+  "recorded_at": "2026-08-15T15:10:30Z"
+}

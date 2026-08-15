@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-normalization-pass2b.schema.json",
+  "title": "Domain normalization Pass 2B deferred equivalence adjudication",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "pass2b_record_id",
+    "instrument_version",
+    "normalization_codebook",
+    "universe_boundary",
+    "pass2a_record",
+    "pass1_records",
+    "procedure",
+    "status",
+    "clarification_sources",
+    "adjudications",
+    "all_deferred_questions_closed",
+    "grouping_revision_required",
+    "candidate_materialization_permitted",
+    "rationale",
+    "uncertainty",
+    "recorded_at"
+  ],
+  "properties": {
+    "pass2b_record_id": {"const": "deferred-equivalence-adjudication-v0.1"},
+    "instrument_version": {"const": "0.5.0-draft"},
+    "normalization_codebook": {"$ref": "#/$defs/artifact"},
+    "universe_boundary": {"$ref": "#/$defs/artifact"},
+    "pass2a_record": {"$ref": "#/$defs/artifact"},
+    "pass1_records": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "procedure": {"const": "deferred_equivalence_adjudication"},
+    "status": {"const": "complete"},
+    "clarification_sources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/clarification_source"}
+    },
+    "adjudications": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/adjudication"}
+    },
+    "all_deferred_questions_closed": {"type": "boolean"},
+    "grouping_revision_required": {"type": "boolean"},
+    "candidate_materialization_permitted": {"type": "boolean"},
+    "rationale": {"type": "string", "minLength": 1},
+    "uncertainty": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "clarification_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clarification_source_id",
+        "source_frame_id",
+        "source_uri",
+        "source_version_or_date",
+        "source_reference",
+        "retrieved_at",
+        "sha256",
+        "note"
+      ],
+      "properties": {
+        "clarification_source_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "source_frame_id": {"type": "string", "minLength": 1},
+        "source_uri": {"type": "string", "format": "uri"},
+        "source_version_or_date": {"type": "string", "minLength": 1},
+        "source_reference": {"type": "string", "minLength": 1},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "member": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_frame_id",
+        "source_entry_id",
+        "pass1_record",
+        "pass2a_group_id"
+      ],
+      "properties": {
+        "source_frame_id": {"type": "string", "minLength": 1},
+        "source_entry_id": {"type": "string", "minLength": 1},
+        "pass1_record": {"$ref": "#/$defs/artifact"},
+        "pass2a_group_id": {"type": "string", "pattern": "^ng-[a-f0-9]{16}$"}
+      }
+    },
+    "envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification_object",
+        "substantive_locus",
+        "inclusion_envelope",
+        "exclusion_envelope",
+        "evidence_source_ids",
+        "evidence_rationale",
+        "uncertainty"
+      ],
+      "properties": {
+        "classification_object": {
+          "enum": ["field_of_research_and_development", "economic_activity"]
+        },
+        "substantive_locus": {"type": "string", "minLength": 1},
+        "inclusion_envelope": {"type": "string", "minLength": 1},
+        "exclusion_envelope": {"type": "string", "minLength": 1},
+        "evidence_source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "evidence_rationale": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string", "minLength": 1}
+      }
+    },
+    "criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "same_substantive_locus",
+        "equivalent_inclusion_envelope",
+        "equivalent_exclusion_envelope",
+        "no_material_scope_asymmetry",
+        "lens_difference_only"
+      ],
+      "properties": {
+        "same_substantive_locus": {"type": ["boolean", "null"]},
+        "equivalent_inclusion_envelope": {"type": ["boolean", "null"]},
+        "equivalent_exclusion_envelope": {"type": ["boolean", "null"]},
+        "no_material_scope_asymmetry": {"type": ["boolean", "null"]},
+        "lens_difference_only": {"type": ["boolean", "null"]}
+      }
+    },
+    "adjudication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "adjudication_id",
+        "left_member",
+        "right_member",
+        "left_envelope",
+        "right_envelope",
+        "criteria",
+        "outcome",
+        "rationale",
+        "uncertainty"
+      ],
+      "properties": {
+        "adjudication_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "left_member": {"$ref": "#/$defs/member"},
+        "right_member": {"$ref": "#/$defs/member"},
+        "left_envelope": {"$ref": "#/$defs/envelope"},
+        "right_envelope": {"$ref": "#/$defs/envelope"},
+        "criteria": {"$ref": "#/$defs/criteria"},
+        "outcome": {
+          "enum": ["coextensive", "not_coextensive_for_normalization", "unresolved"]
+        },
+        "rationale": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
