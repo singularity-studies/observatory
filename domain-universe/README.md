@@ -59,8 +59,18 @@ Codebook v0.1 could not represent; the amendment defines the general
 `excluded_non_materializable` disposition without rewriting D1 or applying it
 to A99-H99 or any other entry. The disposition is about the registered
 source-entry granularity, not whether the underlying subject matter is outside
-the research universe. No closure decision record exists, and the current
-materialization architecture does not yet consume the successor schema.
+the research universe. No closure decision record existed during D2, and the
+current materialization architecture does not yet consume the successor schema.
+
+Task 105D3 is the first application of that already-merged rule. The exact
+record under `normalization/closure/` applies it independently to the eight D1
+residual assessments using no new scientific evidence. The resulting
+distribution is eight `excluded_non_materializable` and zero `unresolved`;
+this is an application outcome, not a target. D1, the D2 amendment, and the D2
+schema remain immutable. No normalization group, overlay, Domain candidate, or
+stable candidate ID was created. Summary-level reassessment readiness is true,
+but the actual stable-ID gate remains false pending a separately versioned
+successor materialization architecture.
 
 `NORMALIZATION_MATERIALIZATION_PROTOCOL.md` v0.1 now prospectively fixes the
 materialization provenance architecture, pending scientific review. Task 104
@@ -68,8 +78,9 @@ dispositions and targets, and the bound source-frame status metadata, remain
 immutable historical snapshots. Future authoritative disposition state belongs
 in a separately versioned overlay under `normalization/dispositions/`, and
 future candidates must bind that overlay while retaining exact Task 104
-extraction provenance. No overlay instance exists. Because eight source entries
-remain unresolved, stable candidate-ID assignment is not permitted.
+extraction provenance. No overlay instance exists. The D3 closure result has
+not been integrated into this architecture, so stable candidate-ID assignment
+is not permitted.
 
 There is no Domain candidate, eligibility decision, relation, proposal,
 scientific review, governance decision, manifest, included or locked Domain,
@@ -86,8 +97,7 @@ Records use these canonical locations:
 - `domain-universe/normalization/pass2a/`
 - `domain-universe/normalization/pass2b/`
 - `domain-universe/normalization/residuals/`
-- `domain-universe/normalization/closure/` (future successor decisions;
-  currently absent)
+- `domain-universe/normalization/closure/` (exact D3 successor application)
 - `domain-universe/normalization/dispositions/` (future versioned overlays;
   currently absent)
 - `domain-universe/candidates/`

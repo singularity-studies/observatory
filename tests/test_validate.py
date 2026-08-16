@@ -4582,7 +4582,7 @@ class NormalizationClosureGapAmendmentTests(unittest.TestCase):
         record["decisions"][0]["candidate_contribution"] = "candidate_created"
         self.assertTrue(self._schema_errors(record))
 
-    def test_real_closure_instance_during_d2_fails(self) -> None:
+    def test_extra_closure_instance_fails(self) -> None:
         repository = TemporaryRepository()
         try:
             write_json(
@@ -4592,9 +4592,9 @@ class NormalizationClosureGapAmendmentTests(unittest.TestCase):
                 self._record(),
             )
             errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
-                repository.root
+                repository.root, VALIDATE.validate_contract
             )
-            self.assertTrue(any("no decision instance" in error for error in errors))
+            self.assertTrue(any("expected exactly" in error for error in errors))
         finally:
             repository.close()
 
@@ -4608,9 +4608,9 @@ class NormalizationClosureGapAmendmentTests(unittest.TestCase):
                 {},
             )
             errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
-                repository.root
+                repository.root, VALIDATE.validate_contract
             )
-            self.assertTrue(any("no overlay instance" in error for error in errors))
+            self.assertTrue(any("must create no overlay" in error for error in errors))
         finally:
             repository.close()
 
@@ -4622,7 +4622,7 @@ class NormalizationClosureGapAmendmentTests(unittest.TestCase):
                 {},
             )
             errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
-                repository.root
+                repository.root, VALIDATE.validate_contract
             )
             self.assertTrue(any("candidate count must remain zero" in error for error in errors))
         finally:
@@ -4632,7 +4632,9 @@ class NormalizationClosureGapAmendmentTests(unittest.TestCase):
         original = NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED
         try:
             NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = True
-            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(ROOT)
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                ROOT, VALIDATE.validate_contract
+            )
             self.assertTrue(any("stable candidate ID gate" in error for error in errors))
         finally:
             NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = original
@@ -4666,15 +4668,312 @@ class NormalizationClosureGapAmendmentTests(unittest.TestCase):
             VALIDATE.DOMAIN_SCHEMA_PATHS.values(),
         )
 
-    def test_successor_disposition_is_not_applied_to_scientific_json(self) -> None:
+    def test_successor_disposition_is_applied_only_in_exact_closure_json(self) -> None:
         self.assertEqual(
-            [], NORMALIZATION_VALIDATE.validate_closure_gap_architecture(ROOT)
+            [],
+            NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                ROOT, VALIDATE.validate_contract
+            ),
         )
         for directory in ("domain-universe", "selection", "registry", "data"):
             for path in (ROOT / directory).rglob("*.json"):
-                self.assertNotIn(
-                    "excluded_non_materializable", path.read_text(encoding="utf-8")
-                )
+                relative = path.relative_to(ROOT).as_posix()
+                if relative == NORMALIZATION_VALIDATE.CLOSURE_PATH:
+                    self.assertIn(
+                        "excluded_non_materializable", path.read_text(encoding="utf-8")
+                    )
+                else:
+                    self.assertNotIn(
+                        "excluded_non_materializable", path.read_text(encoding="utf-8")
+                    )
+
+
+class NormalizationClosureApplicationTests(unittest.TestCase):
+    PATH = ROOT / NORMALIZATION_VALIDATE.CLOSURE_PATH
+
+    def setUp(self) -> None:
+        self.record = json.loads(self.PATH.read_text(encoding="utf-8"))
+
+    def _record_errors(self, mutate) -> list[str]:
+        repository = TemporaryRepository()
+        try:
+            path = repository.root / NORMALIZATION_VALIDATE.CLOSURE_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            mutate(record)
+            write_json(path, record)
+            return NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                repository.root, VALIDATE.validate_contract
+            )
+        finally:
+            repository.close()
+
+    def test_exactly_one_d3_closure_artifact_exists(self) -> None:
+        self.assertEqual(
+            [self.PATH],
+            list((ROOT / NORMALIZATION_VALIDATE.CLOSURE_DIRECTORY).glob("*.json")),
+        )
+
+    def test_exact_closure_record_id_and_path(self) -> None:
+        self.assertEqual("ipc-residual-closure-v0.1.json", self.PATH.name)
+        self.assertEqual(
+            "ipc-residual-closure-v0.1",
+            self.record["normalization_closure_decision_id"],
+        )
+
+    def test_closure_schema_is_byte_unchanged_from_d2(self) -> None:
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_CLOSURE_SCHEMA_SHA256,
+            NORMALIZATION_VALIDATE.canonical_lf_sha256(
+                ROOT / NORMALIZATION_VALIDATE.CLOSURE_SCHEMA_PATH
+            ),
+        )
+
+    def test_amendment_is_byte_unchanged(self) -> None:
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_CLOSURE_AMENDMENT_SHA256,
+            NORMALIZATION_VALIDATE.canonical_lf_sha256(
+                ROOT / NORMALIZATION_VALIDATE.CLOSURE_AMENDMENT_PATH
+            ),
+        )
+
+    def test_d1_predecessor_is_byte_unchanged(self) -> None:
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_RESIDUAL_SHA256,
+            NORMALIZATION_VALIDATE.canonical_lf_sha256(
+                ROOT / NORMALIZATION_VALIDATE.RESIDUAL_PATH
+            ),
+        )
+
+    def test_exact_eight_decisions_exist(self) -> None:
+        self.assertEqual(8, len(self.record["decisions"]))
+
+    def test_exact_a99_through_h99_identities_exist(self) -> None:
+        self.assertEqual(
+            set(NORMALIZATION_VALIDATE.EXPECTED_CLOSURE_DECISIONS),
+            {
+                item["closure_decision_entry_id"]
+                for item in self.record["decisions"]
+            },
+        )
+        self.assertEqual(
+            {f"ipc-{section}99" for section in "ABCDEFGH"},
+            {item["source_entry_id"] for item in self.record["decisions"]},
+        )
+
+    def test_ninth_decision_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            ninth = json.loads(json.dumps(record["decisions"][0]))
+            ninth.update(
+                {
+                    "closure_decision_entry_id": "ipc-I99-closure",
+                    "source_entry_id": "ipc-I99",
+                    "predecessor_assessment_id": "ipc-I99-residual-clarification",
+                    "rationale": "I99 TEMPORARY TEST FIXTURE ONLY.",
+                }
+            )
+            record["decisions"].append(ninth)
+
+        self.assertTrue(any("exactly eight" in error for error in self._record_errors(mutate)))
+
+    def test_omitted_decision_fails(self) -> None:
+        self.assertTrue(
+            any(
+                "exactly eight" in error
+                for error in self._record_errors(lambda record: record["decisions"].pop())
+            )
+        )
+
+    def test_duplicate_decision_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][1] = json.loads(json.dumps(record["decisions"][0]))
+
+        self.assertTrue(
+            any("duplicate closure decision" in error for error in self._record_errors(mutate))
+        )
+
+    def test_wrong_predecessor_assessment_id_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["predecessor_assessment_id"] = (
+                "ipc-B99-residual-clarification"
+            )
+
+        self.assertTrue(
+            any(
+                "predecessor_assessment_id is not reciprocal" in error
+                for error in self._record_errors(mutate)
+            )
+        )
+
+    def test_wrong_source_entry_id_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["source_entry_id"] = "ipc-B99"
+
+        self.assertTrue(
+            any(
+                "source_entry_id is not reciprocal" in error
+                for error in self._record_errors(mutate)
+            )
+        )
+
+    def test_non_d1_source_entry_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0].update(
+                {
+                    "closure_decision_entry_id": "ipc-Z99-closure",
+                    "source_entry_id": "ipc-Z99",
+                    "predecessor_assessment_id": "ipc-Z99-residual-clarification",
+                    "rationale": "Z99 TEMPORARY TEST FIXTURE ONLY.",
+                }
+            )
+
+        self.assertTrue(
+            any("unknown closure decision identity" in error for error in self._record_errors(mutate))
+        )
+
+    def test_predecessor_result_other_than_unresolved_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["predecessor_result"] = "passes"
+
+        self.assertTrue(
+            any("predecessor_result" in error for error in self._record_errors(mutate))
+        )
+
+    def test_d3_coherent_locus_differing_from_d1_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["coherent_substantive_locus"] = True
+
+        self.assertTrue(
+            any(
+                "must equal the D1 judgment" in error
+                for error in self._record_errors(mutate)
+            )
+        )
+
+    def test_wrong_source_extraction_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["source_extraction"]["path"] = (
+                "domain-universe/extractions/un-isic-rev5-division.json"
+            )
+
+        self.assertTrue(
+            any("source_extraction: path must equal" in error for error in self._record_errors(mutate))
+        )
+
+    def test_excluded_non_materializable_with_nonterminal_gate_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["semantic_sufficiency"] = None
+
+        self.assertTrue(
+            any("does not satisfy any allowed schema" in error for error in self._record_errors(mutate))
+        )
+
+    def test_terminal_gate_with_unresolved_disposition_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["final_normalization_disposition"] = "unresolved"
+
+        self.assertTrue(
+            any("does not satisfy any allowed schema" in error for error in self._record_errors(mutate))
+        )
+
+    def test_aggregate_count_mismatch_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["aggregate"]["excluded_non_materializable"] = 7
+
+        self.assertTrue(
+            any("aggregate excluded_non_materializable" in error for error in self._record_errors(mutate))
+        )
+
+    def test_candidate_contribution_other_than_none_fails_application(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["candidate_contribution"] = "candidate_created"
+
+        self.assertTrue(
+            any("candidate_contribution" in error for error in self._record_errors(mutate))
+        )
+
+    def test_candidate_id_insertion_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["candidate_id"] = "du-cand-0001"
+
+        self.assertTrue(
+            any("prohibited closure-application field" in error for error in self._record_errors(mutate))
+        )
+
+    def test_normalization_group_id_insertion_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["normalization_group_id"] = "ng-0000000000000000"
+
+        self.assertTrue(
+            any("prohibited closure-application field" in error for error in self._record_errors(mutate))
+        )
+
+    def test_target_candidate_id_insertion_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["target_domain_candidate_ids"] = ["du-cand-0001"]
+
+        self.assertTrue(
+            any("prohibited closure-application field" in error for error in self._record_errors(mutate))
+        )
+
+    def test_external_clarification_source_field_insertion_fails(self) -> None:
+        def mutate(record: dict[str, object]) -> None:
+            record["decisions"][0]["clarification_sources"] = ["test-only-source"]
+
+        self.assertTrue(
+            any("prohibited closure-application field" in error for error in self._record_errors(mutate))
+        )
+
+    def test_d1_mutation_fails_historical_hash_gate(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            path = repository.root / NORMALIZATION_VALIDATE.RESIDUAL_PATH
+            path.write_bytes(path.read_bytes() + b"\n")
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                repository.root, VALIDATE.validate_contract
+            )
+            self.assertTrue(any("predecessor_record: SHA-256 mismatch" in error for error in errors))
+        finally:
+            repository.close()
+
+    def test_d2_amendment_mutation_fails_historical_hash_gate(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            path = repository.root / NORMALIZATION_VALIDATE.CLOSURE_AMENDMENT_PATH
+            path.write_bytes(path.read_bytes() + b"\n")
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                repository.root, VALIDATE.validate_contract
+            )
+            self.assertTrue(any("closure gap amendment" in error for error in errors))
+        finally:
+            repository.close()
+
+    def test_closure_schema_mutation_fails_frozen_contract_gate(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            path = repository.root / NORMALIZATION_VALIDATE.CLOSURE_SCHEMA_PATH
+            path.write_bytes(path.read_bytes() + b"\n")
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                repository.root, VALIDATE.validate_contract
+            )
+            self.assertTrue(any("closure-decision schema" in error for error in errors))
+        finally:
+            repository.close()
+
+    def test_overlay_instance_remains_absent(self) -> None:
+        overlay = ROOT / NORMALIZATION_VALIDATE.OVERLAY_DIRECTORY
+        self.assertFalse(overlay.exists())
+        self.assertEqual(
+            [],
+            NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                ROOT, VALIDATE.validate_contract
+            ),
+        )
+
+    def test_domain_candidate_remains_absent(self) -> None:
+        self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
+
+    def test_stable_candidate_id_gate_remains_false(self) -> None:
+        self.assertFalse(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):
