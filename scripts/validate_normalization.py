@@ -27,6 +27,7 @@ RESIDUAL_PATH = f"{RESIDUAL_DIRECTORY}/ipc-residual-clarification-v0.1.json"
 CLOSURE_AMENDMENT_PATH = "domain-universe/NORMALIZATION_CLOSURE_AMENDMENT.md"
 CLOSURE_SCHEMA_PATH = "schemas/domain-normalization-closure-decision.schema.json"
 CLOSURE_DIRECTORY = "domain-universe/normalization/closure"
+CLOSURE_PATH = f"{CLOSURE_DIRECTORY}/ipc-residual-closure-v0.1.json"
 MATERIALIZATION_PROTOCOL_PATH = (
     "domain-universe/NORMALIZATION_MATERIALIZATION_PROTOCOL.md"
 )
@@ -44,6 +45,9 @@ EXPECTED_CODEBOOK_SHA256 = "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4
 EXPECTED_RESIDUAL_SHA256 = "610e36a5776bacd423fed1d926ee13c32f2eff2c98a9f4a523abc6bed59b083a"
 EXPECTED_CLOSURE_AMENDMENT_SHA256 = (
     "edc324516ffe98888e0621f1d47ff019b6ca33c7d7ebc9266f32613b3e7a6570"
+)
+EXPECTED_CLOSURE_SCHEMA_SHA256 = (
+    "3fec41de4f93eebe4632c2f5bfab28450e74f281581a6b3744dbb509143893cb"
 )
 EXPECTED_BOUNDARY_SHA256 = "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
 STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = False
@@ -183,6 +187,33 @@ PROHIBITED_RESIDUAL_FIELDS = {
     "equivalent_source_entry_ids",
     "related_source_entry_ids",
     "cross_entry_comparison",
+}
+EXPECTED_CLOSURE_DECISIONS = {
+    f"ipc-{section}99-closure": (
+        "wipo-ipc-2026-01",
+        f"ipc-{section}99",
+        f"ipc-{section}99-residual-clarification",
+    )
+    for section in "ABCDEFGH"
+}
+PROHIBITED_CLOSURE_FIELDS = {
+    "candidate_id",
+    "domain_candidate_id",
+    "target_candidate_id",
+    "target_domain_candidate_id",
+    "target_domain_candidate_ids",
+    "normalization_group_id",
+    "equivalence_relation",
+    "equivalent_source_entry_ids",
+    "related_source_entry_ids",
+    "clarification_sources",
+    "clarification_source_ids",
+    "external_evidence",
+    "evidence",
+    "evidence_ids",
+    "source_uri",
+    "source_reference",
+    "sources",
 }
 
 
@@ -420,7 +451,7 @@ def validate_normalization_repository(
     errors.extend(validate_pass2b_repository(root, validate_contract))
     errors.extend(validate_residual_clarification_repository(root, validate_contract))
     errors.extend(validate_materialization_architecture(root))
-    errors.extend(validate_closure_gap_architecture(root))
+    errors.extend(validate_closure_gap_architecture(root, validate_contract))
     return errors
 
 
@@ -1446,8 +1477,25 @@ def schema_const_reference(
     return path, digest
 
 
-def validate_closure_gap_architecture(root: Path) -> list[str]:
-    """Fix the post-D1 successor rule while forbidding application during D2."""
+def find_prohibited_closure_content(value: Any, location: str) -> list[str]:
+    errors: list[str] = []
+    if isinstance(value, dict):
+        for field, item in value.items():
+            field_location = f"{location}.{field}"
+            if field in PROHIBITED_CLOSURE_FIELDS:
+                errors.append(f"{field_location}: prohibited closure-application field")
+            errors.extend(find_prohibited_closure_content(item, field_location))
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            errors.extend(find_prohibited_closure_content(item, f"{location}[{index}]"))
+    return errors
+
+
+def validate_closure_gap_architecture(
+    root: Path,
+    validate_contract: Callable[[Any, Any, str], list[str]],
+) -> list[str]:
+    """Validate the fixed D2 contract and its exact first D3 application."""
 
     errors: list[str] = []
     errors.extend(
@@ -1456,6 +1504,14 @@ def validate_closure_gap_architecture(root: Path) -> list[str]:
             CLOSURE_AMENDMENT_PATH,
             EXPECTED_CLOSURE_AMENDMENT_SHA256,
             "normalization closure gap amendment",
+        )
+    )
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            CLOSURE_SCHEMA_PATH,
+            EXPECTED_CLOSURE_SCHEMA_SHA256,
+            "Task 105D2 closure-decision schema",
         )
     )
     amendment_path = root / CLOSURE_AMENDMENT_PATH
@@ -1487,7 +1543,7 @@ def validate_closure_gap_architecture(root: Path) -> list[str]:
     schema_path = root / CLOSURE_SCHEMA_PATH
     schema: dict[str, Any] = {}
     if not schema_path.is_file():
-        errors.append(f"{CLOSURE_SCHEMA_PATH}: prospective closure schema is required")
+        errors.append(f"{CLOSURE_SCHEMA_PATH}: frozen closure schema is required")
     else:
         try:
             value = read_json(schema_path)
@@ -1561,20 +1617,176 @@ def validate_closure_gap_architecture(root: Path) -> list[str]:
         if closure_directory.exists()
         else []
     )
-    if closure_files:
-        errors.append("normalization closure gap: Task 105D2 must create no decision instance")
+    expected_file = root / CLOSURE_PATH
+    if closure_files != [expected_file]:
+        errors.append(
+            f"{CLOSURE_DIRECTORY}: expected exactly ipc-residual-closure-v0.1.json"
+        )
+
+    record: dict[str, Any] = {}
+    d1_record: dict[str, Any] = {}
+    if expected_file.is_file():
+        try:
+            value = read_json(expected_file)
+            if isinstance(value, dict):
+                record = value
+            else:
+                errors.append(f"{CLOSURE_PATH}: closure record must be an object")
+        except json.JSONDecodeError as exc:
+            errors.append(f"{CLOSURE_PATH}: invalid JSON: {exc}")
+    if (root / RESIDUAL_PATH).is_file():
+        try:
+            value = read_json(root / RESIDUAL_PATH)
+            if isinstance(value, dict):
+                d1_record = value
+        except json.JSONDecodeError as exc:
+            errors.append(f"{RESIDUAL_PATH}: invalid JSON: {exc}")
+
+    if record and schema:
+        errors.extend(validate_contract(record, schema, CLOSURE_PATH))
+    if record:
+        if record.get("normalization_closure_decision_id") != "ipc-residual-closure-v0.1":
+            errors.append(f"{CLOSURE_PATH}: normalization_closure_decision_id mismatch")
+        if record.get("instrument_version") != "0.5.0-draft":
+            errors.append(f"{CLOSURE_PATH}: instrument_version mismatch")
+        if record.get("procedure") != "successor_normalization_closure":
+            errors.append(f"{CLOSURE_PATH}: procedure mismatch")
+        if record.get("status") != "complete":
+            errors.append(f"{CLOSURE_PATH}: status must be complete")
+        for field, expected_path in (
+            ("closure_amendment", CLOSURE_AMENDMENT_PATH),
+            ("normalization_codebook", CODEBOOK_PATH),
+            ("predecessor_record", RESIDUAL_PATH),
+        ):
+            _, artifact_errors = validate_artifact(
+                root, record.get(field), expected_path, f"{CLOSURE_PATH}: {field}"
+            )
+            errors.extend(artifact_errors)
+        errors.extend(find_prohibited_closure_content(record, CLOSURE_PATH))
+
+        d1_assessments = d1_record.get("assessments", [])
+        d1_by_id = {
+            item.get("assessment_id"): item
+            for item in d1_assessments
+            if isinstance(item, dict) and isinstance(item.get("assessment_id"), str)
+        } if isinstance(d1_assessments, list) else {}
+        decisions = record.get("decisions", [])
+        if not isinstance(decisions, list):
+            decisions = []
+        if len(decisions) != 8:
+            errors.append(f"{CLOSURE_PATH}: exactly eight closure decisions are required")
+        decision_ids = [
+            item.get("closure_decision_entry_id")
+            for item in decisions
+            if isinstance(item, dict)
+        ]
+        if set(decision_ids) != set(EXPECTED_CLOSURE_DECISIONS):
+            errors.append(f"{CLOSURE_PATH}: closure decision IDs must exactly match A99-H99")
+        if len(decision_ids) != len(set(decision_ids)):
+            errors.append(f"{CLOSURE_PATH}: duplicate closure decision ID")
+        source_entries: list[Any] = []
+        predecessor_ids: list[Any] = []
+        rationales: list[Any] = []
+        for index, item in enumerate(decisions):
+            location = f"{CLOSURE_PATH}: decisions[{index}]"
+            if not isinstance(item, dict):
+                errors.append(f"{location}: decision must be an object")
+                continue
+            decision_id = item.get("closure_decision_entry_id")
+            source_entry_id = item.get("source_entry_id")
+            predecessor_id = item.get("predecessor_assessment_id")
+            source_entries.append(source_entry_id)
+            predecessor_ids.append(predecessor_id)
+            rationales.append(item.get("rationale"))
+            expected_identity = EXPECTED_CLOSURE_DECISIONS.get(decision_id)
+            if expected_identity is None:
+                errors.append(f"{location}: unknown closure decision identity")
+                continue
+            expected_frame, expected_entry, expected_predecessor = expected_identity
+            if item.get("source_frame_id") != expected_frame:
+                errors.append(f"{location}: source_frame_id is not reciprocal with D1")
+            if source_entry_id != expected_entry:
+                errors.append(f"{location}: source_entry_id is not reciprocal with D1")
+            if predecessor_id != expected_predecessor:
+                errors.append(
+                    f"{location}: predecessor_assessment_id is not reciprocal with D1"
+                )
+            if item.get("predecessor_result") != "unresolved":
+                errors.append(f"{location}: predecessor_result must remain unresolved")
+            _, artifact_errors = validate_artifact(
+                root,
+                item.get("source_extraction"),
+                "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+                f"{location}: source_extraction",
+            )
+            errors.extend(artifact_errors)
+            predecessor = d1_by_id.get(expected_predecessor)
+            if not isinstance(predecessor, dict):
+                errors.append(f"{location}: predecessor assessment does not exist")
+                continue
+            if (
+                predecessor.get("assessment_id") != predecessor_id
+                or predecessor.get("source_frame_id") != item.get("source_frame_id")
+                or predecessor.get("source_entry_id") != source_entry_id
+            ):
+                errors.append(f"{location}: D1 predecessor linkage is not reciprocal")
+            if predecessor.get("minimal_gate_result") != "unresolved":
+                errors.append(f"{location}: D1 predecessor result must remain unresolved")
+            gate = predecessor.get("gate", {})
+            d1_coherence = gate.get("coherent_substantive_locus") if isinstance(gate, dict) else None
+            if item.get("coherent_substantive_locus") != d1_coherence:
+                errors.append(
+                    f"{location}: coherent_substantive_locus must equal the D1 judgment"
+                )
+            section_token = expected_entry.removeprefix("ipc-")
+            rationale = item.get("rationale")
+            if not isinstance(rationale, str) or section_token not in rationale:
+                errors.append(f"{location}: rationale must preserve section-specific identity")
+
+        if len(source_entries) != len(set(source_entries)):
+            errors.append(f"{CLOSURE_PATH}: duplicate source entry")
+        if len(predecessor_ids) != len(set(predecessor_ids)):
+            errors.append(f"{CLOSURE_PATH}: duplicate predecessor assessment")
+        if len(rationales) != len(set(rationales)):
+            errors.append(f"{CLOSURE_PATH}: each decision requires an independent rationale")
+
+        counts = {
+            "decision_count": len(decisions),
+            "excluded_non_materializable": sum(
+                isinstance(item, dict)
+                and item.get("final_normalization_disposition")
+                == "excluded_non_materializable"
+                for item in decisions
+            ),
+            "unresolved": sum(
+                isinstance(item, dict)
+                and item.get("final_normalization_disposition") == "unresolved"
+                for item in decisions
+            ),
+            "candidate_contributions": sum(
+                isinstance(item, dict) and item.get("candidate_contribution") != "none"
+                for item in decisions
+            ),
+        }
+        aggregate = record.get("aggregate", {})
+        if not isinstance(aggregate, dict):
+            errors.append(f"{CLOSURE_PATH}: aggregate must be an object")
+        else:
+            for field, expected in counts.items():
+                if aggregate.get(field) != expected:
+                    errors.append(f"{CLOSURE_PATH}: aggregate {field} does not match decisions")
 
     overlay_directory = root / OVERLAY_DIRECTORY
     overlay_files = (
         sorted(overlay_directory.rglob("*.json")) if overlay_directory.exists() else []
     )
     if overlay_files:
-        errors.append("normalization closure gap: Task 105D2 must create no overlay instance")
+        errors.append("normalization closure application: Task 105D3 must create no overlay")
     candidate_files = sorted((root / "domain-universe/candidates").rglob("*.json"))
     if candidate_files:
-        errors.append("normalization closure gap: Domain candidate count must remain zero")
+        errors.append("normalization closure application: Domain candidate count must remain zero")
     if STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED:
-        errors.append("normalization closure gap: stable candidate ID gate must remain false")
+        errors.append("normalization closure application: stable candidate ID gate must remain false")
 
     applied_roots = (
         "domain-universe",
@@ -1589,10 +1801,14 @@ def validate_closure_gap_architecture(root: Path) -> list[str]:
         if not directory.exists():
             continue
         for path in sorted(directory.rglob("*.json")):
-            if "excluded_non_materializable" in path.read_text(encoding="utf-8"):
+            relative = path.relative_to(root).as_posix()
+            if (
+                relative != CLOSURE_PATH
+                and "excluded_non_materializable" in path.read_text(encoding="utf-8")
+            ):
                 errors.append(
-                    "normalization closure gap: successor disposition was applied in "
-                    f"{path.relative_to(root).as_posix()}"
+                    "normalization closure application: successor disposition leaked into "
+                    f"{relative}"
                 )
     return errors
 
@@ -1852,7 +2068,8 @@ def main() -> int:
     print(
         "Normalization validation passed: Pass 1, Pass 2A, Pass 2B, the IPC "
         "residual successor clarification, the immutable materialization "
-        "architecture, and the unapplied closure-gap amendment are sound."
+        "architecture, the fixed closure-gap amendment, and its exact first "
+        "IPC residual application are sound."
     )
     return 0
 

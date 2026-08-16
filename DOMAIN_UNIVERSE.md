@@ -223,8 +223,24 @@ before D1 and does not reclassify A99-H99 or any other entry. Non-materializable
 at one registered granularity is neither out-of-scope in the underlying world
 nor a final Domain eligibility decision. The current materialization
 architecture does not yet consume this successor instrument. Closure decision
-records, overlays, candidates, and stable candidate IDs remain zero, and the
-stable-ID gate remains false.
+records, overlays, candidates, and stable candidate IDs remained zero during
+D2, and the stable-ID gate remained false.
+
+Task 105D3 is the first application of the merged D2 closure amendment. It
+uses only the frozen D1 predecessor evidence and creates exactly one successor
+record for A99-H99. Each entry was assessed independently. In all eight cases,
+D1 was semantically sufficient to distinguish the negative residual place
+from the absence of a positive candidate locus; the inherited coherent-locus
+judgment remained false; one candidate could not be materialized without an
+unsupported narrowing, subset selection, false unity, or section-title
+substitution; and no strict research-universe incompatibility was established.
+The fixed rule therefore produced eight `excluded_non_materializable` and zero
+`unresolved` decisions. This was the application result, not a target
+distribution. D1 and D2 remain byte-unchanged, and no new evidence,
+normalization group, overlay, candidate, or stable candidate ID was introduced.
+Although the summary-level closure and gate-reassessment questions are now
+closed, `stable_candidate_id_assignment_permitted = false` remains in force
+until a separate successor materialization architecture is governed.
 
 ## Construction pipeline
 
@@ -233,7 +249,7 @@ Universe Boundary
 -> Source-Frame Registration
 -> Raw Source-Entry Extraction
 -> Normalization Ledger
--> Successor Normalization Closure (future separate application, if needed)
+-> Successor Normalization Closure (separate versioned application, if needed)
 -> Normalization Disposition Overlay
 -> Domain Candidates
 -> Overlap / Duplication Adjudication

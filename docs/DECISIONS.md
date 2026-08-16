@@ -315,6 +315,40 @@ subsequent application. It identifies no reviewer, approver, governance
 authority, scientific approval, Domain Universe, Frozen Panel, Wave, or
 authorization of Wave 0.
 
+## Prospective construction record DU-011
+
+- Date: `2026-08-16`
+- Status: Task 105D3 first normalization-closure application complete; pending
+  scientific review
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected record: `ipc-residual-closure-v0.1` under closure-decision schema
+  `0.5.0-draft`
+- Precedence: the D2 Closure Gap Amendment was merged and fixed before D3
+  application. D1 remains an immutable predecessor record.
+- Construction action: applied the fixed D2 rule independently to A99-H99
+  using only each entry's frozen D1 semantics, gate, rationale, uncertainty,
+  and already-bound extraction identity. No new evidence was introduced.
+- Outcome: 8 `excluded_non_materializable`, 0 `unresolved`, and 0 candidate
+  contributions. This actual distribution was not a target or optimization
+  criterion.
+- Interpretation limit: each disposition is terminal only for the registered
+  class-level source entry. It does not establish that future concrete subject
+  matter is valueless, outside the research universe, or unavailable at a
+  separately governed finer granularity.
+- Architecture limit: no successor grouping or normalization overlay was
+  created, and no integration into Materialization Protocol v0.1 occurred.
+- Materialization state: no Domain candidate or stable candidate ID was
+  created. `stable_candidate_id_assignment_permitted = false` remains in force
+  despite summary-level closure and reassessment readiness.
+- Unresolved follow-up: scientific review and, because terminal successor
+  dispositions now exist, a separately versioned successor materialization
+  architecture before any overlay integration or stable-ID gate change.
+
+This application record identifies no reviewer, approver, governance
+authority, scientific approval, Domain Universe lock, Frozen Panel selection,
+Wave, or authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

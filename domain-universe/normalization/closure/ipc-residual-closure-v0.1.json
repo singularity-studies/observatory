@@ -1,0 +1,181 @@
+{
+  "normalization_closure_decision_id": "ipc-residual-closure-v0.1",
+  "instrument_version": "0.5.0-draft",
+  "closure_amendment": {
+    "path": "domain-universe/NORMALIZATION_CLOSURE_AMENDMENT.md",
+    "sha256": "edc324516ffe98888e0621f1d47ff019b6ca33c7d7ebc9266f32613b3e7a6570"
+  },
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "predecessor_record": {
+    "path": "domain-universe/normalization/residuals/ipc-residual-clarification-v0.1.json",
+    "sha256": "610e36a5776bacd423fed1d926ee13c32f2eff2c98a9f4a523abc6bed59b083a"
+  },
+  "procedure": "successor_normalization_closure",
+  "status": "complete",
+  "decisions": [
+    {
+      "closure_decision_entry_id": "ipc-A99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-A99",
+      "predecessor_assessment_id": "ipc-A99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "The frozen A99 predecessor is semantically sufficient for closure because it distinguishes the section-relative residual placement rule from a positive technical locus. It preserves the D1 finding that no coherent locus exists across Section A's distinct human-necessity areas. Materializing one candidate would require selecting a narrower area or replacing the residual envelope with the broad Section A indication, neither of which the predecessor supports. D1 contains no affirmative strict out-of-scope finding; the failure established here concerns materialization, not research-universe exclusion.",
+      "uncertainty": "A future concrete subject placed in A99Z might support a separately assessed locus, but this class-level decision neither evaluates such subject matter nor proves the underlying world in scope. Future finer-grained treatment and research-universe compatibility remain open questions."
+    },
+    {
+      "closure_decision_entry_id": "ipc-B99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-B99",
+      "predecessor_assessment_id": "ipc-B99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "The frozen B99 record states both what the residual place means and why its multipart performing-operations and transporting context is not a positive common technical characteristic. The D1 coherent-locus judgment therefore remains false. A single candidate could be produced only by choosing part of the residual envelope, synthesizing its potentially diverse contents into a false unity, or substituting the Section B title. None is topic preserving. D1 makes no strict boundary-incompatibility finding, so this is a materialization decision rather than out-of-scope exclusion.",
+      "uncertainty": "Particular future B99Z contents could warrant separate treatment, but they are not identified in the frozen predecessor. This decision does not determine their value, future finer-grained classification, or ultimate research-universe compatibility."
+    },
+    {
+      "closure_decision_entry_id": "ipc-C99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-C99",
+      "predecessor_assessment_id": "ipc-C99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "The C99 predecessor is sufficient to separate its negative remainder function from any positive chemistry-or-metallurgy locus: even the available Section C scope notes do not unify the unallocated remainder. The inherited coherent-locus value is therefore false. Candidate materialization would require selecting one residual subject, inventing a shared locus across heterogeneous contents, or broadening C99 to the whole Section C title. The predecessor supports none of those operations and supplies no affirmative evidence of strict research-universe incompatibility.",
+      "uncertainty": "A concrete residual chemical or metallurgical subject could later be assessed on its own evidence. The class-level closure does not determine such future content, establish that all underlying subjects are in scope, or authorize finer-grained re-extraction."
+    },
+    {
+      "closure_decision_entry_id": "ipc-D99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-D99",
+      "predecessor_assessment_id": "ipc-D99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "The frozen D99 assessment explains that textile terminology does not positively define the residual place and that its remainder can span distinct textile and paper subject matter. That is sufficient for the closure question while preserving the false coherent-locus judgment. One candidate would require selecting only part of the remainder, imposing a unity absent from D1, or substituting the broader Section D title. Because D1 records no strict out-of-scope evidence, the established defect is non-materializability rather than research-universe incompatibility.",
+      "uncertainty": "No specific D99Z technical content is assessed here. Future concrete contents, possible finer-grained loci, and substantive boundary compatibility remain unresolved beyond this registered class-level source entry."
+    },
+    {
+      "closure_decision_entry_id": "ipc-E99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-E99",
+      "predecessor_assessment_id": "ipc-E99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "Although Section E has a compact indication, the E99 predecessor expressly distinguishes that indication from the residual place's negative closest-relation rule and finds no positive fixed-construction function or object common to its possible contents. The coherent-locus value remains false. Materializing a candidate would require replacing E99 with the section title or inventing a narrower function or object. D1 does not support either operation and contains no affirmative strict boundary-exclusion finding, so the closure concerns materialization only.",
+      "uncertainty": "Specific future E99Z contents could yield a narrower locus under a separate method. This decision does not claim that no valuable fixed-construction subject exists, resolve future granularity, or prove research-universe inclusion."
+    },
+    {
+      "closure_decision_entry_id": "ipc-F99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-F99",
+      "predecessor_assessment_id": "ipc-F99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "The F99 predecessor provides enough semantics to show that the valid residual place is a negative remainder across several expressly distinct technical areas, not one positive candidate locus. Its coherent-locus judgment therefore remains false. Creating one candidate would synthesize mechanical engineering, lighting, heating, weapons, blasting, or an unsupported subset into a unity the source does not establish, or would substitute the broad Section F indication. No frozen D1 evidence establishes strict research-universe incompatibility; the failure is materializability.",
+      "uncertainty": "A future item assigned to F99Z may have a separately defensible locus, but no such item is part of the predecessor. The closure leaves future concrete content, finer classification, and boundary compatibility open."
+    },
+    {
+      "closure_decision_entry_id": "ipc-G99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-G99",
+      "predecessor_assessment_id": "ipc-G99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "The G99 predecessor is sufficient to distinguish the negative residual classification function from a positive physics locus and explicitly rejects substituting the broad Physics title. The D1 coherent-locus value remains false. One candidate could be made only by choosing a subset of the unallocated remainder, inventing a shared feature, or broadening the source semantics to all of Section G. Those operations are unsupported. The predecessor contains no affirmative strict out-of-scope evidence, so non-materializability is not treated as research-universe exclusion.",
+      "uncertainty": "A concrete future G99Z classification may expose a narrower assessable topic, but the registered class does not. This result leaves such future subjects, finer-grained treatment, and actual research-universe compatibility undetermined."
+    },
+    {
+      "closure_decision_entry_id": "ipc-H99-closure",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_extraction": {
+        "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+        "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+      },
+      "source_entry_id": "ipc-H99",
+      "predecessor_assessment_id": "ipc-H99-residual-clarification",
+      "predecessor_result": "unresolved",
+      "semantic_sufficiency": true,
+      "coherent_substantive_locus": false,
+      "topic_preserving_materialization_possible": false,
+      "research_universe_incompatibility_established": false,
+      "final_normalization_disposition": "excluded_non_materializable",
+      "candidate_contribution": "none",
+      "rationale": "The H99 predecessor explains that detailed allocation of basic and applied electricity still leaves H99 as only an unallocated section-relative remainder, with no positive technical feature common to all possible contents. That frozen evidence is sufficient for closure and preserves coherent_substantive_locus=false. A candidate would require selecting one electrical application, inventing a common feature, or replacing H99 with Electricity as a whole. D1 supports none and records no strict boundary incompatibility, so the result is not an out-of-scope finding.",
+      "uncertainty": "Concrete future H99Z contents could be assessed separately and may have a coherent locus. This class-level result neither evaluates those contents nor establishes their research-universe inclusion, exclusion, or future finer-grained classification."
+    }
+  ],
+  "aggregate": {
+    "decision_count": 8,
+    "excluded_non_materializable": 8,
+    "unresolved": 0,
+    "candidate_contributions": 0
+  },
+  "rationale": "Task 105D3 applied the fixed Task 105D2 closure rule independently to each of the eight frozen Task 105D1 assessments without adding evidence. For each entry, the predecessor semantics were sufficient to establish that the registered residual place lacks one coherent candidate-generating locus and cannot be materialized without an unsupported semantic operation, while no strict research-universe incompatibility was established. The resulting distribution follows the fixed schema logic and was not targeted in advance.",
+  "uncertainty": "Closure is terminal only for these registered class-level source entries. The record does not assess future concrete residual subject matter, authorize finer-grained extraction, establish underlying research-universe inclusion or exclusion, or integrate the successor disposition into the materialization overlay architecture.",
+  "recorded_at": "2026-08-16T06:34:39Z"
+}
