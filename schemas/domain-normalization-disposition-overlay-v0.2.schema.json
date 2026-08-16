@@ -137,7 +137,7 @@
         {
           "properties": {
             "path": {"const": "domain-universe/normalization/completion/normalization-completion-v0.1.json"},
-            "sha256": {"const": "b7aa6d86669c3290cb2572f4aa0a1542440ebf9712621b83c4823079cd18f2e2"}
+            "sha256": {"const": "6e86b856966ae352aaf8777a2e0389954294b51ef5a98a6c228109b56c763643"}
           }
         }
       ]

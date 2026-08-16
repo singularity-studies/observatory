@@ -5090,6 +5090,38 @@ class NormalizationCompletionTests(unittest.TestCase):
         self.assertEqual("normalization-completion-v0.1", self.manifest["normalization_completion_id"])
         self.assertEqual("complete", self.manifest["status"])
 
+    def test_completion_timestamp_is_timezone_aware_and_strictly_after_d3(self) -> None:
+        completion_time, completion_errors = (
+            NORMALIZATION_VALIDATE.parse_timezone_aware_datetime(
+                self.manifest["recorded_at"], "test completion recorded_at"
+            )
+        )
+        closure_time, closure_errors = (
+            NORMALIZATION_VALIDATE.parse_timezone_aware_datetime(
+                self.closure["recorded_at"], "test D3 recorded_at"
+            )
+        )
+        self.assertEqual([], completion_errors)
+        self.assertEqual([], closure_errors)
+        self.assertIsNotNone(completion_time)
+        self.assertIsNotNone(closure_time)
+        self.assertIsNotNone(completion_time.utcoffset())
+        self.assertIsNotNone(closure_time.utcoffset())
+        self.assertGreater(completion_time, closure_time)
+
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.COMPLETION_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["recorded_at"] = self.closure["recorded_at"]
+            write_json(path, record)
+
+        self.assertTrue(
+            any(
+                "recorded_at must be strictly later" in error
+                for error in self._errors(mutate)
+            )
+        )
+
     def test_source_entry_total_is_330(self) -> None:
         self.assertEqual(330, self.manifest["source_entry_total"])
 

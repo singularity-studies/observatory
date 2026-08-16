@@ -9,6 +9,7 @@ import itertools
 import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Callable
 
@@ -69,13 +70,13 @@ EXPECTED_COMPLETION_SCHEMA_SHA256 = (
     "3981024a36ae5d351559329ba5bfc782cec5c7a8d16572280fb76c2861bc09da"
 )
 EXPECTED_COMPLETION_SHA256 = (
-    "b7aa6d86669c3290cb2572f4aa0a1542440ebf9712621b83c4823079cd18f2e2"
+    "6e86b856966ae352aaf8777a2e0389954294b51ef5a98a6c228109b56c763643"
 )
 EXPECTED_SUCCESSOR_MATERIALIZATION_PROTOCOL_SHA256 = (
     "cd34e1147970e6353cecf64eb710a4a596674005116bb30db839b5e267bdae4a"
 )
 EXPECTED_SUCCESSOR_OVERLAY_SCHEMA_SHA256 = (
-    "1a36590208bc30e5e659694049f568cf5da61e0f68a6897b0a906cc81c12cfd1"
+    "5d7a11e304b714f79f9edbf3fc4ca692652d53000fa46e84a4d4f3d63a3915e7"
 )
 EXPECTED_CANDIDATE_UNIVERSE_SHAPE_SHA256 = (
     "4449c3b488af822ed6e6e42a17138d2dd7ef25a8c7f3dbecf6cb1325e828528c"
@@ -259,6 +260,24 @@ def canonical_lf_sha256(path: Path) -> str:
     """Hash canonical LF repository bytes independent of checkout conversion."""
 
     return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
+def parse_timezone_aware_datetime(
+    value: Any,
+    location: str,
+) -> tuple[datetime | None, list[str]]:
+    """Parse an ISO timestamp and reject missing or naive timezone metadata."""
+
+    if not isinstance(value, str):
+        return None, [f"{location}: must be an ISO 8601 string"]
+    normalized = f"{value[:-1]}+00:00" if value.endswith("Z") else value
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError:
+        return None, [f"{location}: invalid ISO 8601 datetime"]
+    if parsed.tzinfo is None or parsed.utcoffset() is None:
+        return None, [f"{location}: timezone-aware datetime is required"]
+    return parsed, []
 
 
 def validate_artifact(
@@ -2327,6 +2346,26 @@ def validate_normalization_completion(
             closure = value
     except (FileNotFoundError, json.JSONDecodeError) as exc:
         errors.append(f"{CLOSURE_PATH}: cannot derive completion state: {exc}")
+
+    completion_time, timestamp_errors = parse_timezone_aware_datetime(
+        record.get("recorded_at"),
+        f"{COMPLETION_PATH}: recorded_at",
+    )
+    errors.extend(timestamp_errors)
+    closure_time, timestamp_errors = parse_timezone_aware_datetime(
+        closure.get("recorded_at"),
+        f"{CLOSURE_PATH}: recorded_at",
+    )
+    errors.extend(timestamp_errors)
+    if (
+        completion_time is not None
+        and closure_time is not None
+        and completion_time <= closure_time
+    ):
+        errors.append(
+            f"{COMPLETION_PATH}: recorded_at must be strictly later than "
+            f"{CLOSURE_PATH}: recorded_at"
+        )
 
     shape_digest, order_digest, grouped, group_errors = completion_group_state(
         pass2a.get("groups", [])
