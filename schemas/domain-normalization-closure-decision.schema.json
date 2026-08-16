@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-normalization-closure-decision.schema.json",
+  "title": "Successor normalization closure decision",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "normalization_closure_decision_id",
+    "instrument_version",
+    "closure_amendment",
+    "normalization_codebook",
+    "predecessor_record",
+    "procedure",
+    "status",
+    "decisions",
+    "aggregate",
+    "rationale",
+    "uncertainty",
+    "recorded_at"
+  ],
+  "properties": {
+    "normalization_closure_decision_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "instrument_version": {"const": "0.5.0-draft"},
+    "closure_amendment": {"$ref": "#/$defs/closure_amendment"},
+    "normalization_codebook": {"$ref": "#/$defs/normalization_codebook"},
+    "predecessor_record": {"$ref": "#/$defs/artifact"},
+    "procedure": {"const": "successor_normalization_closure"},
+    "status": {"const": "complete"},
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/decision"}
+    },
+    "aggregate": {"$ref": "#/$defs/aggregate"},
+    "rationale": {"type": "string", "minLength": 1},
+    "uncertainty": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "closure_amendment": {
+      "allOf": [
+        {"$ref": "#/$defs/artifact"},
+        {
+          "properties": {
+            "path": {"const": "domain-universe/NORMALIZATION_CLOSURE_AMENDMENT.md"},
+            "sha256": {"const": "edc324516ffe98888e0621f1d47ff019b6ca33c7d7ebc9266f32613b3e7a6570"}
+          }
+        }
+      ]
+    },
+    "normalization_codebook": {
+      "allOf": [
+        {"$ref": "#/$defs/artifact"},
+        {
+          "properties": {
+            "path": {"const": "domain-universe/NORMALIZATION_CODEBOOK.md"},
+            "sha256": {"const": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"}
+          }
+        }
+      ]
+    },
+    "terminal_gate": {
+      "properties": {
+        "semantic_sufficiency": {"const": true},
+        "coherent_substantive_locus": {"const": false},
+        "topic_preserving_materialization_possible": {"const": false},
+        "research_universe_incompatibility_established": {
+          "enum": [false, null]
+        }
+      },
+      "required": [
+        "semantic_sufficiency",
+        "coherent_substantive_locus",
+        "topic_preserving_materialization_possible",
+        "research_universe_incompatibility_established"
+      ]
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "closure_decision_entry_id",
+        "source_frame_id",
+        "source_extraction",
+        "source_entry_id",
+        "predecessor_assessment_id",
+        "predecessor_result",
+        "semantic_sufficiency",
+        "coherent_substantive_locus",
+        "topic_preserving_materialization_possible",
+        "research_universe_incompatibility_established",
+        "final_normalization_disposition",
+        "candidate_contribution",
+        "rationale",
+        "uncertainty"
+      ],
+      "properties": {
+        "closure_decision_entry_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]+$"
+        },
+        "source_frame_id": {"type": "string", "minLength": 1},
+        "source_extraction": {"$ref": "#/$defs/artifact"},
+        "source_entry_id": {"type": "string", "minLength": 1},
+        "predecessor_assessment_id": {"type": "string", "minLength": 1},
+        "predecessor_result": {"const": "unresolved"},
+        "semantic_sufficiency": {"type": ["boolean", "null"]},
+        "coherent_substantive_locus": {"type": ["boolean", "null"]},
+        "topic_preserving_materialization_possible": {
+          "type": ["boolean", "null"]
+        },
+        "research_universe_incompatibility_established": {
+          "type": ["boolean", "null"]
+        },
+        "final_normalization_disposition": {
+          "enum": ["excluded_non_materializable", "unresolved"]
+        },
+        "candidate_contribution": {"const": "none"},
+        "rationale": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "allOf": [
+                {"$ref": "#/$defs/terminal_gate"},
+                {
+                  "properties": {
+                    "final_normalization_disposition": {
+                      "const": "excluded_non_materializable"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {"not": {"$ref": "#/$defs/terminal_gate"}},
+                {
+                  "properties": {
+                    "final_normalization_disposition": {"const": "unresolved"}
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_count",
+        "excluded_non_materializable",
+        "unresolved",
+        "candidate_contributions"
+      ],
+      "properties": {
+        "decision_count": {"type": "integer", "minimum": 1},
+        "excluded_non_materializable": {"type": "integer", "minimum": 0},
+        "unresolved": {"type": "integer", "minimum": 0},
+        "candidate_contributions": {"const": 0}
+      }
+    }
+  }
+}

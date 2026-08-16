@@ -281,6 +281,40 @@ than rewriting it. It identifies no reviewer, approver, governance authority,
 scientific approval, Domain Universe, Frozen Panel, Wave, or authorization of
 Wave 0.
 
+## Prospective construction record DU-010
+
+- Date: `2026-08-16`
+- Status: post-D1 versioned amendment fixed before application; pending
+  scientific review; not scientifically approved
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instruments: Normalization Closure Gap Amendment `v0.1` and
+  successor closure-decision schema `0.5.0-draft`
+- Construction action: defined the general `excluded_non_materializable`
+  successor disposition after D1 revealed a normalization state not
+  representable by Codebook v0.1. The rule was not pre-specified before D1 and
+  is fixed before any later reclassification under it.
+- Non-application: no D1 assessment or other source entry was reclassified;
+  all eight D1 results remain `unresolved`. No closure decision, overlay,
+  Domain candidate, or stable candidate ID was created.
+- Interpretation limit: non-materializability applies only at the registered
+  extraction granularity and does not establish that underlying subject matter
+  is out of scope, finally ineligible, or unavailable at another future,
+  separately governed granularity.
+- Architecture limit: the current materialization architecture is unchanged
+  and does not consume the successor closure instrument. The schema is not in
+  the Domain Universe lock bundle.
+- Stable-ID gate: `stable_candidate_id_assignment_permitted = false`.
+- Unresolved follow-up: scientific review, separate prospective application if
+  justified, any later overlay integration, governed final paths for all 330
+  entries, candidate materialization, final eligibility and overlap review,
+  coverage audit, final governance authority, and governance lock.
+
+This entry records post-observation rule development separately from any
+subsequent application. It identifies no reviewer, approver, governance
+authority, scientific approval, Domain Universe, Frozen Panel, Wave, or
+authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

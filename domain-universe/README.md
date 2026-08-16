@@ -53,6 +53,15 @@ coherent Domain coverage locus. All eight results remain `unresolved`. The
 successor record under `normalization/residuals/` does not rewrite Pass 1,
 Pass 2A, or Pass 2B and performs no equivalence clustering.
 
+`NORMALIZATION_CLOSURE_AMENDMENT.md` v0.1 is a post-D1, versioned successor
+rule fixed before any application. D1 revealed a normalization state that
+Codebook v0.1 could not represent; the amendment defines the general
+`excluded_non_materializable` disposition without rewriting D1 or applying it
+to A99-H99 or any other entry. The disposition is about the registered
+source-entry granularity, not whether the underlying subject matter is outside
+the research universe. No closure decision record exists, and the current
+materialization architecture does not yet consume the successor schema.
+
 `NORMALIZATION_MATERIALIZATION_PROTOCOL.md` v0.1 now prospectively fixes the
 materialization provenance architecture, pending scientific review. Task 104
 dispositions and targets, and the bound source-frame status metadata, remain
@@ -77,6 +86,8 @@ Records use these canonical locations:
 - `domain-universe/normalization/pass2a/`
 - `domain-universe/normalization/pass2b/`
 - `domain-universe/normalization/residuals/`
+- `domain-universe/normalization/closure/` (future successor decisions;
+  currently absent)
 - `domain-universe/normalization/dispositions/` (future versioned overlays;
   currently absent)
 - `domain-universe/candidates/`

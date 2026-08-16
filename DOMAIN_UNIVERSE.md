@@ -211,6 +211,21 @@ stable ID assignment, eligibility decision, scientific approval, or lock
 occurred, and `stable_candidate_id_assignment_permitted = false` remains in
 force.
 
+Task 105D2 prospectively defines a successor normalization-closure rule after
+Task 105D1 exposed a state-space gap in Codebook v0.1. The versioned
+`NORMALIZATION_CLOSURE_AMENDMENT.md` introduces only
+`excluded_non_materializable`: a source entry may receive that disposition in
+a later, separate record only when it is semantically sufficient, has no
+coherent substantive locus at the registered extraction granularity, cannot
+support topic-preserving materialization, and is not established as
+incompatible with the research universe. This rule was not pre-registered
+before D1 and does not reclassify A99-H99 or any other entry. Non-materializable
+at one registered granularity is neither out-of-scope in the underlying world
+nor a final Domain eligibility decision. The current materialization
+architecture does not yet consume this successor instrument. Closure decision
+records, overlays, candidates, and stable candidate IDs remain zero, and the
+stable-ID gate remains false.
+
 ## Construction pipeline
 
 ```text
@@ -218,6 +233,7 @@ Universe Boundary
 -> Source-Frame Registration
 -> Raw Source-Entry Extraction
 -> Normalization Ledger
+-> Successor Normalization Closure (future separate application, if needed)
 -> Normalization Disposition Overlay
 -> Domain Candidates
 -> Overlap / Duplication Adjudication
