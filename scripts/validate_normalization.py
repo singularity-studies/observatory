@@ -24,6 +24,9 @@ PASS2B_PATH = f"{PASS2B_DIRECTORY}/deferred-equivalence-adjudication-v0.1.json"
 RESIDUAL_SCHEMA_PATH = "schemas/domain-normalization-residual-clarification.schema.json"
 RESIDUAL_DIRECTORY = "domain-universe/normalization/residuals"
 RESIDUAL_PATH = f"{RESIDUAL_DIRECTORY}/ipc-residual-clarification-v0.1.json"
+CLOSURE_AMENDMENT_PATH = "domain-universe/NORMALIZATION_CLOSURE_AMENDMENT.md"
+CLOSURE_SCHEMA_PATH = "schemas/domain-normalization-closure-decision.schema.json"
+CLOSURE_DIRECTORY = "domain-universe/normalization/closure"
 MATERIALIZATION_PROTOCOL_PATH = (
     "domain-universe/NORMALIZATION_MATERIALIZATION_PROTOCOL.md"
 )
@@ -38,6 +41,10 @@ EXPECTED_MATERIALIZATION_PROTOCOL_SHA256 = (
     "1d10310c5c2c3337e6cb87596f46b981ce55a3e5ae46b4fb385644e8ebac97a4"
 )
 EXPECTED_CODEBOOK_SHA256 = "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+EXPECTED_RESIDUAL_SHA256 = "610e36a5776bacd423fed1d926ee13c32f2eff2c98a9f4a523abc6bed59b083a"
+EXPECTED_CLOSURE_AMENDMENT_SHA256 = (
+    "edc324516ffe98888e0621f1d47ff019b6ca33c7d7ebc9266f32613b3e7a6570"
+)
 EXPECTED_BOUNDARY_SHA256 = "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
 STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = False
 EXPECTED_EXTRACTION_SHA256 = {
@@ -413,6 +420,7 @@ def validate_normalization_repository(
     errors.extend(validate_pass2b_repository(root, validate_contract))
     errors.extend(validate_residual_clarification_repository(root, validate_contract))
     errors.extend(validate_materialization_architecture(root))
+    errors.extend(validate_closure_gap_architecture(root))
     return errors
 
 
@@ -1438,6 +1446,157 @@ def schema_const_reference(
     return path, digest
 
 
+def validate_closure_gap_architecture(root: Path) -> list[str]:
+    """Fix the post-D1 successor rule while forbidding application during D2."""
+
+    errors: list[str] = []
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            CLOSURE_AMENDMENT_PATH,
+            EXPECTED_CLOSURE_AMENDMENT_SHA256,
+            "normalization closure gap amendment",
+        )
+    )
+    amendment_path = root / CLOSURE_AMENDMENT_PATH
+    if amendment_path.is_file():
+        amendment = amendment_path.read_text(encoding="utf-8")
+        required_lines = (
+            "# Normalization Closure Gap Amendment",
+            "- Version: v0.1",
+            "- Status: POST-D1 VERSIONED AMENDMENT; FIXED BEFORE APPLICATION; "
+            "NOT SCIENTIFICALLY APPROVED",
+            "- Effective Wave: none",
+            "This successor amendment was introduced after Task 105D1 revealed a "
+            "normalization state not representable by Codebook v0.1. It is fixed "
+            "before any source entry is reclassified under the new rule.",
+            "Post-observation rule development must be versioned and separated "
+            "from its subsequent application.",
+            "Non-materializable at the registered extraction granularity is not "
+            "out-of-scope in the underlying world.",
+            "Broad is not the same as non-materializable.",
+            "Terminal for this source-entry granularity does not mean terminal "
+            "for the underlying subject matter.",
+        )
+        for required in required_lines:
+            if required not in amendment:
+                errors.append(
+                    f"{CLOSURE_AMENDMENT_PATH}: missing fixed disclosure {required!r}"
+                )
+
+    schema_path = root / CLOSURE_SCHEMA_PATH
+    schema: dict[str, Any] = {}
+    if not schema_path.is_file():
+        errors.append(f"{CLOSURE_SCHEMA_PATH}: prospective closure schema is required")
+    else:
+        try:
+            value = read_json(schema_path)
+            if isinstance(value, dict):
+                schema = value
+            else:
+                errors.append(f"{CLOSURE_SCHEMA_PATH}: schema must be an object")
+        except json.JSONDecodeError as exc:
+            errors.append(f"{CLOSURE_SCHEMA_PATH}: invalid JSON: {exc}")
+
+    if schema:
+        if schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema":
+            errors.append(f"{CLOSURE_SCHEMA_PATH}: Draft 2020-12 is required")
+        if schema.get("x-instrument-version") != "0.5.0-draft":
+            errors.append(f"{CLOSURE_SCHEMA_PATH}: x-instrument-version mismatch")
+        properties = schema.get("properties", {})
+        if not isinstance(properties, dict):
+            properties = {}
+        if properties.get("procedure") != {"const": "successor_normalization_closure"}:
+            errors.append(f"{CLOSURE_SCHEMA_PATH}: procedure must be fixed")
+        if properties.get("status") != {"const": "complete"}:
+            errors.append(f"{CLOSURE_SCHEMA_PATH}: status must be fixed")
+        expected_bindings = {
+            "closure_amendment": (
+                CLOSURE_AMENDMENT_PATH,
+                EXPECTED_CLOSURE_AMENDMENT_SHA256,
+            ),
+            "normalization_codebook": (CODEBOOK_PATH, EXPECTED_CODEBOOK_SHA256),
+        }
+        for definition, expected in expected_bindings.items():
+            if schema_const_reference(schema, definition) != expected:
+                errors.append(
+                    f"{CLOSURE_SCHEMA_PATH}: {definition} must bind exact immutable bytes"
+                )
+        definitions = schema.get("$defs", {})
+        decision = definitions.get("decision", {}) if isinstance(definitions, dict) else {}
+        decision_properties = (
+            decision.get("properties", {}) if isinstance(decision, dict) else {}
+        )
+        disposition = (
+            decision_properties.get("final_normalization_disposition", {})
+            if isinstance(decision_properties, dict)
+            else {}
+        )
+        if not isinstance(disposition, dict) or disposition.get("enum") != [
+            "excluded_non_materializable",
+            "unresolved",
+        ]:
+            errors.append(
+                f"{CLOSURE_SCHEMA_PATH}: exact successor disposition enum is required"
+            )
+
+    validator_path = root / "scripts/validate.py"
+    if validator_path.is_file():
+        validator_source = validator_path.read_text(encoding="utf-8")
+        domain_paths_start = validator_source.find("DOMAIN_SCHEMA_PATHS = {")
+        domain_paths_end = validator_source.find("\n}", domain_paths_start)
+        if (
+            domain_paths_start < 0
+            or domain_paths_end < 0
+            or Path(CLOSURE_SCHEMA_PATH).name
+            in validator_source[domain_paths_start:domain_paths_end]
+        ):
+            errors.append(
+                f"{CLOSURE_SCHEMA_PATH}: successor schema must not enter DOMAIN_SCHEMA_PATHS"
+            )
+
+    closure_directory = root / CLOSURE_DIRECTORY
+    closure_files = (
+        sorted(closure_directory.rglob("*.json"))
+        if closure_directory.exists()
+        else []
+    )
+    if closure_files:
+        errors.append("normalization closure gap: Task 105D2 must create no decision instance")
+
+    overlay_directory = root / OVERLAY_DIRECTORY
+    overlay_files = (
+        sorted(overlay_directory.rglob("*.json")) if overlay_directory.exists() else []
+    )
+    if overlay_files:
+        errors.append("normalization closure gap: Task 105D2 must create no overlay instance")
+    candidate_files = sorted((root / "domain-universe/candidates").rglob("*.json"))
+    if candidate_files:
+        errors.append("normalization closure gap: Domain candidate count must remain zero")
+    if STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED:
+        errors.append("normalization closure gap: stable candidate ID gate must remain false")
+
+    applied_roots = (
+        "domain-universe",
+        "selection",
+        "registry",
+        "cases",
+        "evidence",
+        "data",
+    )
+    for relative_root in applied_roots:
+        directory = root / relative_root
+        if not directory.exists():
+            continue
+        for path in sorted(directory.rglob("*.json")):
+            if "excluded_non_materializable" in path.read_text(encoding="utf-8"):
+                errors.append(
+                    "normalization closure gap: successor disposition was applied in "
+                    f"{path.relative_to(root).as_posix()}"
+                )
+    return errors
+
+
 def validate_materialization_architecture(root: Path) -> list[str]:
     """Keep current scientific inputs immutable until a later governed overlay task."""
 
@@ -1453,6 +1612,14 @@ def validate_materialization_architecture(root: Path) -> list[str]:
     errors.extend(
         validate_fixed_bytes(
             root, CODEBOOK_PATH, EXPECTED_CODEBOOK_SHA256, "Normalization Codebook v0.1"
+        )
+    )
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            RESIDUAL_PATH,
+            EXPECTED_RESIDUAL_SHA256,
+            "Task 105D1 residual clarification",
         )
     )
     errors.extend(
@@ -1684,8 +1851,8 @@ def main() -> int:
         return 1
     print(
         "Normalization validation passed: Pass 1, Pass 2A, Pass 2B, the IPC "
-        "residual successor clarification, and the immutable materialization "
-        "architecture are sound."
+        "residual successor clarification, the immutable materialization "
+        "architecture, and the unapplied closure-gap amendment are sound."
     )
     return 0
 

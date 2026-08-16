@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import itertools
 import json
 import re
 import shutil
@@ -4401,6 +4402,279 @@ class NormalizationMaterializationArchitectureTests(unittest.TestCase):
         candidate_id = re.compile(r"\bdu-cand-[0-9]{4}\b", re.IGNORECASE)
         for path in sorted((ROOT / "domain-universe").rglob("*.json")):
             self.assertIsNone(candidate_id.search(path.read_text(encoding="utf-8")))
+
+
+class NormalizationClosureGapAmendmentTests(unittest.TestCase):
+    SCHEMA_PATH = ROOT / NORMALIZATION_VALIDATE.CLOSURE_SCHEMA_PATH
+    AMENDMENT_PATH = ROOT / NORMALIZATION_VALIDATE.CLOSURE_AMENDMENT_PATH
+
+    def setUp(self) -> None:
+        self.schema = json.loads(self.SCHEMA_PATH.read_text(encoding="utf-8"))
+
+    @staticmethod
+    def _artifact(path: str, sha256: str = "0" * 64) -> dict[str, str]:
+        return {"path": path, "sha256": sha256}
+
+    def _record(
+        self,
+        gates: tuple[bool | None, bool | None, bool | None, bool | None] = (
+            True,
+            False,
+            False,
+            False,
+        ),
+        disposition: str = "excluded_non_materializable",
+    ) -> dict[str, object]:
+        decision = {
+            "closure_decision_entry_id": "test-only-closure-entry",
+            "source_frame_id": "test-only-source-frame",
+            "source_extraction": self._artifact("test-only/source-extraction.json"),
+            "source_entry_id": "test-only-source-entry",
+            "predecessor_assessment_id": "test-only-predecessor-assessment",
+            "predecessor_result": "unresolved",
+            "semantic_sufficiency": gates[0],
+            "coherent_substantive_locus": gates[1],
+            "topic_preserving_materialization_possible": gates[2],
+            "research_universe_incompatibility_established": gates[3],
+            "final_normalization_disposition": disposition,
+            "candidate_contribution": "none",
+            "rationale": "TEMPORARY TEST FIXTURE ONLY; not a scientific decision.",
+            "uncertainty": "TEMPORARY TEST FIXTURE ONLY.",
+        }
+        excluded_count = int(disposition == "excluded_non_materializable")
+        return {
+            "normalization_closure_decision_id": "test-only-closure-v0.1",
+            "instrument_version": "0.5.0-draft",
+            "closure_amendment": self._artifact(
+                NORMALIZATION_VALIDATE.CLOSURE_AMENDMENT_PATH,
+                NORMALIZATION_VALIDATE.EXPECTED_CLOSURE_AMENDMENT_SHA256,
+            ),
+            "normalization_codebook": self._artifact(
+                NORMALIZATION_VALIDATE.CODEBOOK_PATH,
+                NORMALIZATION_VALIDATE.EXPECTED_CODEBOOK_SHA256,
+            ),
+            "predecessor_record": self._artifact(
+                NORMALIZATION_VALIDATE.RESIDUAL_PATH,
+                NORMALIZATION_VALIDATE.EXPECTED_RESIDUAL_SHA256,
+            ),
+            "procedure": "successor_normalization_closure",
+            "status": "complete",
+            "decisions": [decision],
+            "aggregate": {
+                "decision_count": 1,
+                "excluded_non_materializable": excluded_count,
+                "unresolved": 1 - excluded_count,
+                "candidate_contributions": 0,
+            },
+            "rationale": "TEMPORARY TEST FIXTURE ONLY; no real reclassification.",
+            "uncertainty": "TEMPORARY TEST FIXTURE ONLY.",
+            "recorded_at": "2026-08-16T00:00:00Z",
+        }
+
+    def _schema_errors(self, record: dict[str, object]) -> list[str]:
+        return VALIDATE.validate_contract(record, self.schema, "test-closure")
+
+    def _changed_gate_errors(self, field: str, value: bool | None) -> list[str]:
+        record = self._record()
+        record["decisions"][0][field] = value
+        return self._schema_errors(record)
+
+    def test_amendment_exists(self) -> None:
+        self.assertTrue(self.AMENDMENT_PATH.is_file())
+
+    def test_amendment_has_exact_post_d1_fixed_before_application_status(self) -> None:
+        text = self.AMENDMENT_PATH.read_text(encoding="utf-8")
+        self.assertIn(
+            "Status: POST-D1 VERSIONED AMENDMENT; FIXED BEFORE APPLICATION; "
+            "NOT SCIENTIFICALLY APPROVED",
+            text,
+        )
+        self.assertIn("This rule was not pre-registered before Task 105D1", text)
+
+    def test_codebook_v01_is_unchanged(self) -> None:
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_CODEBOOK_SHA256,
+            NORMALIZATION_VALIDATE.canonical_lf_sha256(
+                ROOT / NORMALIZATION_VALIDATE.CODEBOOK_PATH
+            ),
+        )
+
+    def test_d1_record_is_unchanged(self) -> None:
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_RESIDUAL_SHA256,
+            NORMALIZATION_VALIDATE.canonical_lf_sha256(
+                ROOT / NORMALIZATION_VALIDATE.RESIDUAL_PATH
+            ),
+        )
+
+    def test_materialization_protocol_v01_is_unchanged(self) -> None:
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_MATERIALIZATION_PROTOCOL_SHA256,
+            NORMALIZATION_VALIDATE.canonical_lf_sha256(
+                ROOT / NORMALIZATION_VALIDATE.MATERIALIZATION_PROTOCOL_PATH
+            ),
+        )
+
+    def test_schema_is_draft_2020_12_and_accepts_valid_terminal_fixture(self) -> None:
+        self.assertEqual(
+            "https://json-schema.org/draft/2020-12/schema", self.schema["$schema"]
+        )
+        self.assertEqual("0.5.0-draft", self.schema["x-instrument-version"])
+        self.assertEqual([], self._schema_errors(self._record()))
+
+    def test_terminal_fixture_allows_unknown_universe_incompatibility(self) -> None:
+        self.assertEqual(
+            [],
+            self._schema_errors(self._record((True, False, False, None))),
+        )
+
+    def test_semantic_sufficiency_false_fails_terminal_disposition(self) -> None:
+        self.assertTrue(self._changed_gate_errors("semantic_sufficiency", False))
+
+    def test_semantic_sufficiency_null_fails_terminal_disposition(self) -> None:
+        self.assertTrue(self._changed_gate_errors("semantic_sufficiency", None))
+
+    def test_coherent_substantive_locus_true_fails_terminal_disposition(self) -> None:
+        self.assertTrue(self._changed_gate_errors("coherent_substantive_locus", True))
+
+    def test_coherent_substantive_locus_null_fails_terminal_disposition(self) -> None:
+        self.assertTrue(self._changed_gate_errors("coherent_substantive_locus", None))
+
+    def test_topic_preserving_materialization_true_fails_terminal_disposition(self) -> None:
+        self.assertTrue(
+            self._changed_gate_errors("topic_preserving_materialization_possible", True)
+        )
+
+    def test_topic_preserving_materialization_null_fails_terminal_disposition(self) -> None:
+        self.assertTrue(
+            self._changed_gate_errors("topic_preserving_materialization_possible", None)
+        )
+
+    def test_universe_incompatibility_true_fails_terminal_disposition(self) -> None:
+        self.assertTrue(
+            self._changed_gate_errors(
+                "research_universe_incompatibility_established", True
+            )
+        )
+
+    def test_every_nonterminal_gate_combination_requires_unresolved(self) -> None:
+        terminal = {(True, False, False, False), (True, False, False, None)}
+        for gates in itertools.product((True, False, None), repeat=4):
+            if gates in terminal:
+                continue
+            with self.subTest(gates=gates):
+                self.assertTrue(
+                    self._schema_errors(
+                        self._record(gates, "excluded_non_materializable")
+                    )
+                )
+                self.assertEqual([], self._schema_errors(self._record(gates, "unresolved")))
+
+    def test_terminal_gate_combination_cannot_remain_unresolved(self) -> None:
+        self.assertTrue(
+            self._schema_errors(
+                self._record((True, False, False, False), "unresolved")
+            )
+        )
+
+    def test_candidate_contribution_other_than_none_fails(self) -> None:
+        record = self._record()
+        record["decisions"][0]["candidate_contribution"] = "candidate_created"
+        self.assertTrue(self._schema_errors(record))
+
+    def test_real_closure_instance_during_d2_fails(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            write_json(
+                repository.root
+                / NORMALIZATION_VALIDATE.CLOSURE_DIRECTORY
+                / "test-only-closure.json",
+                self._record(),
+            )
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                repository.root
+            )
+            self.assertTrue(any("no decision instance" in error for error in errors))
+        finally:
+            repository.close()
+
+    def test_overlay_instance_during_d2_fails(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            write_json(
+                repository.root
+                / NORMALIZATION_VALIDATE.OVERLAY_DIRECTORY
+                / "test-only-overlay.json",
+                {},
+            )
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                repository.root
+            )
+            self.assertTrue(any("no overlay instance" in error for error in errors))
+        finally:
+            repository.close()
+
+    def test_candidate_instance_during_d2_fails(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            write_json(
+                repository.root / "domain-universe/candidates/test-only-candidate.json",
+                {},
+            )
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+                repository.root
+            )
+            self.assertTrue(any("candidate count must remain zero" in error for error in errors))
+        finally:
+            repository.close()
+
+    def test_stable_candidate_id_gate_true_fails(self) -> None:
+        original = NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED
+        try:
+            NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = True
+            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(ROOT)
+            self.assertTrue(any("stable candidate ID gate" in error for error in errors))
+        finally:
+            NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = original
+
+    def test_all_eight_d1_assessments_remain_unresolved(self) -> None:
+        record = json.loads(
+            (ROOT / NORMALIZATION_VALIDATE.RESIDUAL_PATH).read_text(encoding="utf-8")
+        )
+        self.assertEqual(8, len(record["assessments"]))
+        self.assertEqual(
+            {"unresolved"},
+            {item["minimal_gate_result"] for item in record["assessments"]},
+        )
+        self.assertEqual(8, record["aggregate"]["unresolved"])
+
+    def test_d1_mutation_fails_the_immutable_historical_chain(self) -> None:
+        repository = TemporaryRepository()
+        try:
+            path = repository.root / NORMALIZATION_VALIDATE.RESIDUAL_PATH
+            path.write_bytes(path.read_bytes() + b"\n")
+            errors = NORMALIZATION_VALIDATE.validate_materialization_architecture(
+                repository.root
+            )
+            self.assertTrue(any("Task 105D1" in error for error in errors))
+        finally:
+            repository.close()
+
+    def test_successor_schema_is_not_in_domain_lock_bundle(self) -> None:
+        self.assertNotIn(
+            NORMALIZATION_VALIDATE.CLOSURE_SCHEMA_PATH,
+            VALIDATE.DOMAIN_SCHEMA_PATHS.values(),
+        )
+
+    def test_successor_disposition_is_not_applied_to_scientific_json(self) -> None:
+        self.assertEqual(
+            [], NORMALIZATION_VALIDATE.validate_closure_gap_architecture(ROOT)
+        )
+        for directory in ("domain-universe", "selection", "registry", "data"):
+            for path in (ROOT / directory).rglob("*.json"):
+                self.assertNotIn(
+                    "excluded_non_materializable", path.read_text(encoding="utf-8")
+                )
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):
