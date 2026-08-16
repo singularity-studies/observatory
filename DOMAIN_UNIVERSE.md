@@ -188,17 +188,16 @@ overlap, final non-duplication, Domain separation, or eligibility. The Pass 2A
 singleton partition needs no revision, so later candidate materialization is
 structurally permitted but has not begun. No candidate ID or candidate record
 exists, extraction dispositions remain untouched, and final Domain eligibility
-has not begun. Pass 1, Pass 2A, and Pass 2B completion do not complete
-normalization.
+has not begun. At that historical stage, Pass 1, Pass 2A, and Pass 2B did not
+complete normalization.
 
-Pass 2B's `candidate_materialization_permitted=true` closes only its two
-deferred equivalence questions. It does not authorize stable sequential
-candidate-ID assignment while any source entry remains unresolved. Eight IPC
-residual entries remain unresolved, so
-`stable_candidate_id_assignment_permitted = false`. Stable assignment remains
-blocked until all 330 entries have a governed final normalization path
-sufficient to freeze the complete candidate-cluster universe. No overlay
-instance, candidate ID, or candidate record exists.
+Pass 2B's `candidate_materialization_permitted=true` closed only its two
+deferred equivalence questions. It did not by itself authorize stable
+sequential candidate-ID assignment while eight IPC residual entries remained
+unresolved. The historical gate therefore remained false until the later D3
+successor decisions and D4 completion record provided all 330 entries with a
+governed final normalization path. No overlay instance, candidate ID, or
+candidate record was created at Pass 2B.
 
 Task 105D1 is an immutable successor clarification of the eight historical
 Pass 1 unresolved IPC residual judgments. Official WIPO IPC 2026.01 scheme and
@@ -238,9 +237,26 @@ The fixed rule therefore produced eight `excluded_non_materializable` and zero
 `unresolved` decisions. This was the application result, not a target
 distribution. D1 and D2 remain byte-unchanged, and no new evidence,
 normalization group, overlay, candidate, or stable candidate ID was introduced.
-Although the summary-level closure and gate-reassessment questions are now
-closed, `stable_candidate_id_assignment_permitted = false` remains in force
-until a separate successor materialization architecture is governed.
+Although the summary-level closure and gate-reassessment questions closed,
+`stable_candidate_id_assignment_permitted = false` remained in force during
+D3 until a separate successor materialization architecture was fixed.
+
+Task 105D4 closes Task 105 at the normalization boundary without making a new
+scientific classification. The immutable Pass 2A groups and D3 terminal
+decisions form an exact, disjoint partition of all 330 source entries: 322
+candidate-bearing groups plus eight terminal `excluded_non_materializable`
+entries, with zero effective unresolved entries. Each exact Pass 2A
+`group_locus_statement` is administratively designated as the canonical label
+for its future group; no label is rewritten or synthesized. Unicode
+`casefold()` plus the existing deterministic anchor freezes future stable-ID
+ordering by digest without assigning an ID.
+
+The versioned v0.2 successor materialization protocol and overlay schema are
+fixed before use. `stable_candidate_id_assignment_permitted = true` now means
+only that Task 106 may assign IDs from this frozen shape and order. Task 106
+has not started: overlay instances, Domain candidates, and assigned stable IDs
+remain zero. `scripts/validate.py` deliberately continues to implement the
+historical v0.1 lock path until Task 106 creates and connects a v0.2 overlay.
 
 ## Construction pipeline
 
@@ -250,6 +266,7 @@ Universe Boundary
 -> Raw Source-Entry Extraction
 -> Normalization Ledger
 -> Successor Normalization Closure (separate versioned application, if needed)
+-> Normalization Completion and Successor Contract
 -> Normalization Disposition Overlay
 -> Domain Candidates
 -> Overlap / Duplication Adjudication
@@ -320,8 +337,8 @@ chain and creates no authority by itself.
 
 ## Unresolved scientific decisions
 
-Domain names, domain count, source-entry normalization outcomes, weights, panel
-quotas, final Frozen Panel size, improvement-loop stage taxonomy, final
+Domain candidate specifications, final Domain eligibility outcomes, domain
+count, weights, panel quotas, final Frozen Panel size, improvement-loop stage taxonomy, final
 Singularity measurement dimensions, scientific approval of the normalization
 codebook, and final Domain Universe governance authority remain unresolved. No
 Domain Universe is established or locked, the Frozen Panel remains unselected,

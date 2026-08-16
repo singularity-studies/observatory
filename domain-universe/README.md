@@ -8,9 +8,11 @@ Revision 5, WIPO IPC 2026.01, and UN COFOG 1999.
 Exhaustive Task 104 second-level extraction is complete: 42 FORD fields, 87
 ISIC Rev.5 Divisions, 132 IPC 2026.01 Classes, and 69 COFOG 1999 Groups, for
 330 source categories in four extraction ledgers. The entries are source
-classification categories, not Domains. Every normalization disposition is
-intentionally `unresolved`; Pass 1, Pass 2A, and Pass 2B have not changed those
-dispositions, and candidate generation has not begun.
+classification categories, not Domains. Every immutable Task 104
+normalization disposition remains historically `unresolved`; later Pass 1,
+Pass 2A, Pass 2B, and successor records do not rewrite those fields. Current
+effective state is derived through the versioned successor chain, and
+candidate generation has not begun.
 
 `NORMALIZATION_CODEBOOK.md` v0.1 is prospectively fixed for normalization but
 is not scientifically approved. It fixes the decision rules before any of the
@@ -68,9 +70,9 @@ residual assessments using no new scientific evidence. The resulting
 distribution is eight `excluded_non_materializable` and zero `unresolved`;
 this is an application outcome, not a target. D1, the D2 amendment, and the D2
 schema remain immutable. No normalization group, overlay, Domain candidate, or
-stable candidate ID was created. Summary-level reassessment readiness is true,
-but the actual stable-ID gate remains false pending a separately versioned
-successor materialization architecture.
+stable candidate ID was created. Summary-level reassessment readiness became
+true, but the stable-ID gate remained false during D3 pending a separately
+versioned successor materialization architecture.
 
 `NORMALIZATION_MATERIALIZATION_PROTOCOL.md` v0.1 now prospectively fixes the
 materialization provenance architecture, pending scientific review. Task 104
@@ -78,9 +80,24 @@ dispositions and targets, and the bound source-frame status metadata, remain
 immutable historical snapshots. Future authoritative disposition state belongs
 in a separately versioned overlay under `normalization/dispositions/`, and
 future candidates must bind that overlay while retaining exact Task 104
-extraction provenance. No overlay instance exists. The D3 closure result has
-not been integrated into this architecture, so stable candidate-ID assignment
-is not permitted.
+extraction provenance. No overlay instance exists. This v0.1 protocol remains
+the immutable historical architecture and does not consume the later D3
+successor state.
+
+Task 105D4 records normalization completion under
+`normalization/completion/normalization-completion-v0.1.json` and fixes
+`NORMALIZATION_MATERIALIZATION_PROTOCOL_v0.2.md` plus its prospective v0.2
+overlay schema. The immutable final partition is 322 candidate-bearing Pass 2A
+groups plus eight D3 terminal non-candidate entries, exhausting all 330 source
+identities with zero effective unresolved entries. Canonical labels are the
+exact existing Pass 2A `group_locus_statement` values; no new label or
+scientific judgment was introduced. The future ID order is digest-frozen using
+Unicode `casefold()` and each fixed deterministic anchor.
+
+The current stable-ID assignment gate is true only as permission for the
+not-started Task 106. No overlay, candidate, or `du-cand-*` identifier exists.
+The actual Domain lock implementation remains on its historical v0.1
+consumption path until Task 106 instantiates and connects the v0.2 overlay.
 
 There is no Domain candidate, eligibility decision, relation, proposal,
 scientific review, governance decision, manifest, included or locked Domain,
@@ -98,6 +115,7 @@ Records use these canonical locations:
 - `domain-universe/normalization/pass2b/`
 - `domain-universe/normalization/residuals/`
 - `domain-universe/normalization/closure/` (exact D3 successor application)
+- `domain-universe/normalization/completion/` (exact D4 completion manifest)
 - `domain-universe/normalization/dispositions/` (future versioned overlays;
   currently absent)
 - `domain-universe/candidates/`

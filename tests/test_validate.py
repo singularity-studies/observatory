@@ -4234,10 +4234,10 @@ class DomainNormalizationResidualClarificationTests(unittest.TestCase):
             )
         )
 
-    def test_repository_scientific_state_remains_zero_and_blocked(self) -> None:
+    def test_d1_history_remains_unresolved_while_current_gate_is_successor_derived(self) -> None:
         self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
         self.assertFalse((ROOT / NORMALIZATION_VALIDATE.OVERLAY_DIRECTORY).exists())
-        self.assertFalse(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
+        self.assertTrue(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
         self.assertEqual(0, self.record["aggregate"]["passes"])
         self.assertEqual(8, self.record["aggregate"]["unresolved"])
         for directory in (
@@ -4380,7 +4380,7 @@ class NormalizationMaterializationArchitectureTests(unittest.TestCase):
         self.assertEqual("0.5.0-draft", schema["x-instrument-version"])
         self.assertEqual([], NORMALIZATION_VALIDATE.validate_materialization_architecture(ROOT))
 
-    def test_stable_candidate_id_assignment_is_not_permitted(self) -> None:
+    def test_historical_pass1_state_does_not_define_current_successor_gate(self) -> None:
         interpretations = [
             item
             for path in sorted((ROOT / "domain-universe/normalization/pass1").glob("*.json"))
@@ -4391,9 +4391,13 @@ class NormalizationMaterializationArchitectureTests(unittest.TestCase):
             8,
             sum(item["minimal_gate_result"] == "unresolved" for item in interpretations),
         )
-        self.assertFalse(
+        self.assertTrue(
             NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED
         )
+        historical_protocol = (
+            ROOT / NORMALIZATION_VALIDATE.MATERIALIZATION_PROTOCOL_PATH
+        ).read_text(encoding="utf-8")
+        self.assertIn("stable_candidate_id_assignment_permitted = false", historical_protocol)
 
     def test_no_candidate_identifier_or_overlay_instance_exists(self) -> None:
         self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
@@ -4628,16 +4632,14 @@ class NormalizationClosureGapAmendmentTests(unittest.TestCase):
         finally:
             repository.close()
 
-    def test_stable_candidate_id_gate_true_fails(self) -> None:
-        original = NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED
-        try:
-            NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = True
-            errors = NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
+    def test_d2_history_does_not_override_the_current_successor_gate(self) -> None:
+        self.assertTrue(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
+        self.assertEqual(
+            [],
+            NORMALIZATION_VALIDATE.validate_closure_gap_architecture(
                 ROOT, VALIDATE.validate_contract
-            )
-            self.assertTrue(any("stable candidate ID gate" in error for error in errors))
-        finally:
-            NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = original
+            ),
+        )
 
     def test_all_eight_d1_assessments_remain_unresolved(self) -> None:
         record = json.loads(
@@ -4972,8 +4974,359 @@ class NormalizationClosureApplicationTests(unittest.TestCase):
     def test_domain_candidate_remains_absent(self) -> None:
         self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
 
-    def test_stable_candidate_id_gate_remains_false(self) -> None:
-        self.assertFalse(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
+    def test_d3_did_not_assign_ids_despite_later_gate_permission(self) -> None:
+        self.assertTrue(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
+        self.assertNotIn("stable_candidate_id_assignment_permitted", self.record)
+        self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
+
+
+class NormalizationCompletionTests(unittest.TestCase):
+    MANIFEST_PATH = ROOT / NORMALIZATION_VALIDATE.COMPLETION_PATH
+    SCHEMA_PATH = ROOT / NORMALIZATION_VALIDATE.COMPLETION_SCHEMA_PATH
+    SUCCESSOR_SCHEMA_PATH = ROOT / NORMALIZATION_VALIDATE.SUCCESSOR_OVERLAY_SCHEMA_PATH
+
+    def setUp(self) -> None:
+        self.manifest = json.loads(self.MANIFEST_PATH.read_text(encoding="utf-8"))
+        self.schema = json.loads(self.SCHEMA_PATH.read_text(encoding="utf-8"))
+        self.successor_schema = json.loads(
+            self.SUCCESSOR_SCHEMA_PATH.read_text(encoding="utf-8")
+        )
+        self.pass2a = json.loads(
+            (ROOT / NORMALIZATION_VALIDATE.PASS2A_PATH).read_text(encoding="utf-8")
+        )
+        self.closure = json.loads(
+            (ROOT / NORMALIZATION_VALIDATE.CLOSURE_PATH).read_text(encoding="utf-8")
+        )
+
+    def _errors(self, mutate) -> list[str]:
+        repository = TemporaryRepository()
+        try:
+            mutate(repository)
+            return NORMALIZATION_VALIDATE.validate_normalization_completion(
+                repository.root, VALIDATE.validate_contract
+            )
+        finally:
+            repository.close()
+
+    def _artifact(self, definition: str) -> dict[str, str]:
+        path, digest = NORMALIZATION_VALIDATE.schema_const_reference(
+            self.successor_schema, definition
+        )
+        assert path is not None and digest is not None
+        return {"path": path, "sha256": digest}
+
+    def _entry(self, disposition: str) -> dict[str, object]:
+        candidate_bearing = disposition in {
+            "candidate_created",
+            "merged_into_candidate",
+        }
+        terminal = disposition == "excluded_non_materializable"
+        return {
+            "source_frame_id": "test-only-frame",
+            "source_extraction": self._artifact("ford_extraction"),
+            "source_entry_id": "test-only-entry",
+            "normalization_group_id": (
+                "ng-0000000000000000" if candidate_bearing else None
+            ),
+            "successor_closure_decision_entry_id": (
+                "ipc-A99-closure" if terminal else None
+            ),
+            "normalization_disposition": disposition,
+            "target_domain_candidate_ids": (
+                ["du-cand-0001"] if candidate_bearing else []
+            ),
+            "rationale": "TEMPORARY TEST FIXTURE ONLY; no scientific determination.",
+            "uncertainty": "TEMPORARY TEST FIXTURE ONLY; not repository data.",
+        }
+
+    def _overlay(self, status: str, entries: list[dict[str, object]]) -> dict[str, object]:
+        return {
+            "normalization_disposition_overlay_id": "test-only-overlay",
+            "instrument_version": "0.5.0-draft",
+            "materialization_protocol": self._artifact("materialization_protocol"),
+            "normalization_completion": self._artifact("normalization_completion"),
+            "normalization_codebook": self._artifact("normalization_codebook"),
+            "universe_boundary": self._artifact("universe_boundary"),
+            "source_extractions": [
+                self._artifact(name)
+                for name in (
+                    "ford_extraction",
+                    "isic_extraction",
+                    "ipc_extraction",
+                    "cofog_extraction",
+                )
+            ],
+            "pass1_records": [
+                self._artifact(name)
+                for name in ("ford_pass1", "isic_pass1", "ipc_pass1", "cofog_pass1")
+            ],
+            "pass2a_record": self._artifact("pass2a_record"),
+            "pass2b_record": self._artifact("pass2b_record"),
+            "residual_clarification": self._artifact("residual_clarification"),
+            "closure_amendment": self._artifact("closure_amendment"),
+            "closure_application": self._artifact("closure_application"),
+            "status": status,
+            "entries": entries,
+            "rationale": "TEMPORARY TEST FIXTURE ONLY; no scientific determination.",
+            "uncertainty": "TEMPORARY TEST FIXTURE ONLY; not repository data.",
+            "recorded_at": "2026-08-16T00:00:00Z",
+        }
+
+    def _entry_errors(self, entry: dict[str, object]) -> list[str]:
+        return VALIDATE.validate_contract(
+            entry,
+            self.successor_schema["$defs"]["disposition_entry"],
+            "test-only-entry",
+            self.successor_schema,
+        )
+
+    def test_completion_manifest_exists_exactly_once(self) -> None:
+        self.assertEqual(
+            [self.MANIFEST_PATH],
+            list((ROOT / NORMALIZATION_VALIDATE.COMPLETION_DIRECTORY).glob("*.json")),
+        )
+
+    def test_completion_manifest_has_exact_id_and_status(self) -> None:
+        self.assertEqual("normalization-completion-v0.1", self.manifest["normalization_completion_id"])
+        self.assertEqual("complete", self.manifest["status"])
+
+    def test_source_entry_total_is_330(self) -> None:
+        self.assertEqual(330, self.manifest["source_entry_total"])
+
+    def test_candidate_bearing_group_count_is_322(self) -> None:
+        self.assertEqual(322, self.manifest["candidate_bearing_group_count"])
+
+    def test_candidate_bearing_source_entry_count_is_322(self) -> None:
+        self.assertEqual(322, self.manifest["candidate_bearing_source_entry_count"])
+
+    def test_terminal_non_candidate_entry_count_is_eight(self) -> None:
+        self.assertEqual(8, self.manifest["terminal_non_candidate_entry_count"])
+
+    def test_effective_unresolved_count_is_zero(self) -> None:
+        self.assertEqual(0, self.manifest["effective_unresolved_source_entry_count"])
+
+    def test_grouped_plus_terminal_exactly_equals_all_pass1_identities(self) -> None:
+        pass1, _, errors = NORMALIZATION_VALIDATE.build_pass1_index(ROOT)
+        self.assertEqual([], errors)
+        _, _, grouped, group_errors = NORMALIZATION_VALIDATE.completion_group_state(
+            self.pass2a["groups"]
+        )
+        self.assertEqual([], group_errors)
+        terminal = {
+            (item["source_frame_id"], item["source_entry_id"])
+            for item in self.closure["decisions"]
+        }
+        self.assertEqual(set(pass1), grouped | terminal)
+
+    def test_grouped_and_terminal_identities_are_disjoint(self) -> None:
+        _, _, grouped, _ = NORMALIZATION_VALIDATE.completion_group_state(
+            self.pass2a["groups"]
+        )
+        terminal = {
+            (item["source_frame_id"], item["source_entry_id"])
+            for item in self.closure["decisions"]
+        }
+        self.assertFalse(grouped & terminal)
+
+    def test_all_group_locus_statements_are_non_empty(self) -> None:
+        self.assertEqual(322, len(self.pass2a["groups"]))
+        self.assertTrue(
+            all(
+                isinstance(group["group_locus_statement"], str)
+                and group["group_locus_statement"]
+                for group in self.pass2a["groups"]
+            )
+        )
+
+    def test_canonical_label_is_exact_group_locus_statement(self) -> None:
+        shape, order, _, errors = NORMALIZATION_VALIDATE.completion_group_state(
+            self.pass2a["groups"]
+        )
+        self.assertEqual([], errors)
+        self.assertEqual("pass2a_group_locus_statement", self.manifest["candidate_canonical_label_source"])
+        self.assertEqual(shape, self.manifest["candidate_universe_shape_sha256"])
+        self.assertEqual(order, self.manifest["candidate_id_order_sha256"])
+
+    def test_candidate_universe_shape_digest_mismatch_fails(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.COMPLETION_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["candidate_universe_shape_sha256"] = "0" * 64
+            write_json(path, record)
+
+        self.assertTrue(any("candidate_universe_shape_sha256" in error for error in self._errors(mutate)))
+
+    def test_candidate_id_order_digest_mismatch_fails(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.COMPLETION_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["candidate_id_order_sha256"] = "0" * 64
+            write_json(path, record)
+
+        self.assertTrue(any("candidate_id_order_sha256" in error for error in self._errors(mutate)))
+
+    def test_changed_group_locus_statement_fails_immutable_or_digest_gate(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.PASS2A_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["groups"][0]["group_locus_statement"] += " test mutation"
+            write_json(path, record)
+
+        errors = self._errors(mutate)
+        self.assertTrue(any("immutable" in error or "shape digest" in error for error in errors))
+
+    def test_changed_deterministic_anchor_fails(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.PASS2A_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["groups"][0]["deterministic_anchor"]["source_entry_id"] = "test-only"
+            write_json(path, record)
+
+        errors = self._errors(mutate)
+        self.assertTrue(any("immutable" in error or "order digest" in error for error in errors))
+
+    def test_removing_one_d3_terminal_entry_fails_completion(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.CLOSURE_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["decisions"].pop()
+            write_json(path, record)
+
+        self.assertTrue(any("exactly eight terminal" in error for error in self._errors(mutate)))
+
+    def test_changing_one_d3_terminal_to_unresolved_fails_completion(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.CLOSURE_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            record["decisions"][0]["final_normalization_disposition"] = "unresolved"
+            write_json(path, record)
+
+        errors = self._errors(mutate)
+        self.assertTrue(any("effective unresolved" in error for error in errors))
+
+    def test_adding_a_ninth_terminal_entry_fails_completion(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.CLOSURE_PATH
+            record = json.loads(path.read_text(encoding="utf-8"))
+            ninth = json.loads(json.dumps(record["decisions"][0]))
+            ninth["closure_decision_entry_id"] = "ipc-I99-closure"
+            ninth["source_entry_id"] = "ipc-I99"
+            record["decisions"].append(ninth)
+            write_json(path, record)
+
+        self.assertTrue(any("exactly eight terminal" in error for error in self._errors(mutate)))
+
+    def test_stable_candidate_id_permission_false_fails_completion(self) -> None:
+        original = NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED
+        try:
+            NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = False
+            errors = NORMALIZATION_VALIDATE.validate_normalization_completion(
+                ROOT, VALIDATE.validate_contract
+            )
+            self.assertTrue(any("permission must be true" in error for error in errors))
+        finally:
+            NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = original
+
+    def test_current_stable_candidate_id_permission_is_true(self) -> None:
+        self.assertTrue(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
+        self.assertTrue(self.manifest["stable_candidate_id_assignment_permitted"])
+
+    def test_any_real_du_cand_id_in_scientific_json_fails(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            write_json(
+                repository.root / "domain-universe/test-only-task106.json",
+                {"domain_candidate_id": "du-cand-0001"},
+            )
+
+        self.assertTrue(any("assigned stable candidate identifier" in error for error in self._errors(mutate)))
+
+    def test_any_domain_candidate_instance_fails_d4_state(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            write_json(repository.root / "domain-universe/candidates/test-only.json", {})
+
+        self.assertTrue(any("Domain candidate count" in error for error in self._errors(mutate)))
+
+    def test_any_overlay_instance_fails_d4_state(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            write_json(
+                repository.root / NORMALIZATION_VALIDATE.OVERLAY_DIRECTORY / "test-only.json",
+                {},
+            )
+
+        self.assertTrue(any("overlay instance count" in error for error in self._errors(mutate)))
+
+    def test_v01_materialization_protocol_mutation_fails(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.MATERIALIZATION_PROTOCOL_PATH
+            path.write_bytes(path.read_bytes() + b"\n")
+
+        self.assertTrue(any("immutable history" in error for error in self._errors(mutate)))
+
+    def test_v01_overlay_schema_mutation_fails(self) -> None:
+        def mutate(repository: TemporaryRepository) -> None:
+            path = repository.root / NORMALIZATION_VALIDATE.OVERLAY_SCHEMA_PATH
+            path.write_bytes(path.read_bytes() + b"\n")
+
+        self.assertTrue(any("immutable history" in error for error in self._errors(mutate)))
+
+    def test_successor_v02_protocol_exists(self) -> None:
+        path = ROOT / NORMALIZATION_VALIDATE.SUCCESSOR_MATERIALIZATION_PROTOCOL_PATH
+        self.assertTrue(path.is_file())
+        self.assertIn("normalization-completion-v0.1", path.read_text(encoding="utf-8"))
+
+    def test_successor_v02_overlay_schema_exists(self) -> None:
+        self.assertTrue(self.SUCCESSOR_SCHEMA_PATH.is_file())
+        self.assertEqual("0.5.0-draft", self.successor_schema["x-instrument-version"])
+
+    def test_v02_excluded_non_materializable_requires_zero_targets(self) -> None:
+        entry = self._entry("excluded_non_materializable")
+        self.assertEqual([], self._entry_errors(entry))
+        entry["target_domain_candidate_ids"] = ["du-cand-0001"]
+        self.assertTrue(self._entry_errors(entry))
+
+    def test_v02_excluded_non_materializable_requires_null_group_id(self) -> None:
+        entry = self._entry("excluded_non_materializable")
+        entry["normalization_group_id"] = "ng-0000000000000000"
+        self.assertTrue(self._entry_errors(entry))
+
+    def test_v02_excluded_non_materializable_requires_closure_entry_id(self) -> None:
+        entry = self._entry("excluded_non_materializable")
+        entry["successor_closure_decision_entry_id"] = None
+        self.assertTrue(self._entry_errors(entry))
+
+    def test_candidate_bearing_dispositions_cannot_carry_closure_entry_ids(self) -> None:
+        for disposition in ("candidate_created", "merged_into_candidate"):
+            entry = self._entry(disposition)
+            self.assertEqual([], self._entry_errors(entry))
+            entry["successor_closure_decision_entry_id"] = "ipc-A99-closure"
+            self.assertTrue(self._entry_errors(entry))
+
+    def test_complete_synthetic_v02_overlay_rejects_unresolved(self) -> None:
+        entries = []
+        for index in range(330):
+            entry = self._entry("unresolved")
+            entry["source_entry_id"] = f"test-only-entry-{index:03d}"
+            entries.append(entry)
+        overlay = self._overlay("complete", entries)
+        errors = VALIDATE.validate_contract(
+            overlay, self.successor_schema, "test-only-complete-overlay"
+        )
+        self.assertTrue(errors)
+
+    def test_task106_artifacts_remain_absent(self) -> None:
+        self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
+        self.assertFalse((ROOT / NORMALIZATION_VALIDATE.OVERLAY_DIRECTORY).exists())
+        source = (ROOT / "scripts/validate.py").read_text(encoding="utf-8")
+        self.assertNotIn(
+            "domain-normalization-disposition-overlay-v0.2.schema.json",
+            source,
+        )
+        self.assertEqual(
+            [],
+            NORMALIZATION_VALIDATE.validate_normalization_completion(
+                ROOT, VALIDATE.validate_contract
+            ),
+        )
 
 
 class HistoricalSelfContainmentTests(unittest.TestCase):

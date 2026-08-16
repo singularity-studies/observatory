@@ -34,6 +34,15 @@ MATERIALIZATION_PROTOCOL_PATH = (
 OVERLAY_SCHEMA_PATH = "schemas/domain-normalization-disposition-overlay.schema.json"
 OVERLAY_DIRECTORY = "domain-universe/normalization/dispositions"
 CANDIDATE_SCHEMA_PATH = "schemas/domain-candidate.schema.json"
+COMPLETION_SCHEMA_PATH = "schemas/domain-normalization-completion.schema.json"
+COMPLETION_DIRECTORY = "domain-universe/normalization/completion"
+COMPLETION_PATH = f"{COMPLETION_DIRECTORY}/normalization-completion-v0.1.json"
+SUCCESSOR_MATERIALIZATION_PROTOCOL_PATH = (
+    "domain-universe/NORMALIZATION_MATERIALIZATION_PROTOCOL_v0.2.md"
+)
+SUCCESSOR_OVERLAY_SCHEMA_PATH = (
+    "schemas/domain-normalization-disposition-overlay-v0.2.schema.json"
+)
 CODEBOOK_PATH = "domain-universe/NORMALIZATION_CODEBOOK.md"
 BOUNDARY_PATH = "domain-universe/boundaries/du-boundary-v0.1.json"
 EXPECTED_PASS2A_SHA256 = "e830a1cf566888badc31776ad263077208dae458d5f9e53f0783a5bdd778c822"
@@ -49,8 +58,32 @@ EXPECTED_CLOSURE_AMENDMENT_SHA256 = (
 EXPECTED_CLOSURE_SCHEMA_SHA256 = (
     "3fec41de4f93eebe4632c2f5bfab28450e74f281581a6b3744dbb509143893cb"
 )
+EXPECTED_CLOSURE_SHA256 = (
+    "4df98da8522b17957acc49a34a160740a52487905f5b709af104c34a61269c81"
+)
 EXPECTED_BOUNDARY_SHA256 = "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
-STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = False
+EXPECTED_OVERLAY_SCHEMA_SHA256 = (
+    "1dc14aac93d6b0b529fbe8a8258c9f14d8c551222f73b6a796eb52fbf2370f64"
+)
+EXPECTED_COMPLETION_SCHEMA_SHA256 = (
+    "3981024a36ae5d351559329ba5bfc782cec5c7a8d16572280fb76c2861bc09da"
+)
+EXPECTED_COMPLETION_SHA256 = (
+    "b7aa6d86669c3290cb2572f4aa0a1542440ebf9712621b83c4823079cd18f2e2"
+)
+EXPECTED_SUCCESSOR_MATERIALIZATION_PROTOCOL_SHA256 = (
+    "cd34e1147970e6353cecf64eb710a4a596674005116bb30db839b5e267bdae4a"
+)
+EXPECTED_SUCCESSOR_OVERLAY_SCHEMA_SHA256 = (
+    "1a36590208bc30e5e659694049f568cf5da61e0f68a6897b0a906cc81c12cfd1"
+)
+EXPECTED_CANDIDATE_UNIVERSE_SHAPE_SHA256 = (
+    "4449c3b488af822ed6e6e42a17138d2dd7ef25a8c7f3dbecf6cb1325e828528c"
+)
+EXPECTED_CANDIDATE_ID_ORDER_SHA256 = (
+    "62e674888a47027ff3bd30a9c48cdebc12a503f1e2a07581864427128d3ba4ab"
+)
+STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED = True
 EXPECTED_EXTRACTION_SHA256 = {
     "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json":
         "eb376d7c4da77078cdfdc9772daf166eb3bf6e11a973df0241b1fb782128b6e4",
@@ -452,6 +485,7 @@ def validate_normalization_repository(
     errors.extend(validate_residual_clarification_repository(root, validate_contract))
     errors.extend(validate_materialization_architecture(root))
     errors.extend(validate_closure_gap_architecture(root, validate_contract))
+    errors.extend(validate_normalization_completion(root, validate_contract))
     return errors
 
 
@@ -1785,9 +1819,6 @@ def validate_closure_gap_architecture(
     candidate_files = sorted((root / "domain-universe/candidates").rglob("*.json"))
     if candidate_files:
         errors.append("normalization closure application: Domain candidate count must remain zero")
-    if STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED:
-        errors.append("normalization closure application: stable candidate ID gate must remain false")
-
     applied_roots = (
         "domain-universe",
         "selection",
@@ -1823,6 +1854,14 @@ def validate_materialization_architecture(root: Path) -> list[str]:
             MATERIALIZATION_PROTOCOL_PATH,
             EXPECTED_MATERIALIZATION_PROTOCOL_SHA256,
             "normalization materialization protocol",
+        )
+    )
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            OVERLAY_SCHEMA_PATH,
+            EXPECTED_OVERLAY_SCHEMA_SHA256,
+            "historical v0.1 normalization overlay schema",
         )
     )
     errors.extend(
@@ -2041,12 +2080,478 @@ def validate_materialization_architecture(root: Path) -> list[str]:
 
     if pass1_total != 330 or pass1_unresolved != 8:
         errors.append(
-            "stable candidate ID gate requires the current 330-entry state with eight unresolved"
+            "historical Pass 1 state must remain 330 entries with eight unresolved"
         )
-    if STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED:
+    return errors
+
+
+def canonical_json_sha256(value: Any) -> str:
+    """Hash canonical UTF-8 JSON used by the Task 105D4 completion record."""
+
+    payload = json.dumps(
+        value,
+        sort_keys=True,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def completion_group_state(
+    groups: Any,
+) -> tuple[str, str, set[Pass1Key], list[str]]:
+    """Derive the exact inherited labels, shape digest, and future ID order."""
+
+    errors: list[str] = []
+    if not isinstance(groups, list):
+        return "", "", set(), [f"{PASS2A_PATH}: groups must be an array"]
+
+    shape: list[dict[str, Any]] = []
+    order_rows: list[tuple[str, str, str, str]] = []
+    grouped: list[Pass1Key] = []
+    for index, group in enumerate(groups):
+        location = f"{PASS2A_PATH}: groups[{index}]"
+        if not isinstance(group, dict):
+            errors.append(f"{location}: group must be an object")
+            continue
+        group_id = group.get("normalization_group_id")
+        label = group.get("group_locus_statement")
+        anchor = group.get("deterministic_anchor")
+        if not isinstance(group_id, str):
+            errors.append(f"{location}: normalization_group_id must be a string")
+            continue
+        if not isinstance(label, str) or not label:
+            errors.append(f"{location}: group_locus_statement must be non-empty")
+            continue
+        anchor_key = locator_key(anchor)
+        if anchor_key is None:
+            errors.append(f"{location}: deterministic anchor is invalid")
+            continue
+
+        members = group.get("members", [])
+        if not isinstance(members, list):
+            errors.append(f"{location}: members must be an array")
+            continue
+        member_identities: list[dict[str, str]] = []
+        for member_index, member in enumerate(members):
+            member_key = locator_key(member)
+            if member_key is None:
+                errors.append(
+                    f"{location}: members[{member_index}] identity is invalid"
+                )
+                continue
+            grouped.append(member_key)
+            member_identities.append(
+                {
+                    "source_frame_id": member_key[0],
+                    "source_entry_id": member_key[1],
+                }
+            )
+        member_identities.sort(
+            key=lambda item: (item["source_frame_id"], item["source_entry_id"])
+        )
+        shape.append(
+            {
+                "normalization_group_id": group_id,
+                "canonical_label": label,
+                "deterministic_anchor": {
+                    "source_frame_id": anchor_key[0],
+                    "source_entry_id": anchor_key[1],
+                },
+                "member_source_entry_identities": member_identities,
+            }
+        )
+        order_rows.append((label.casefold(), anchor_key[0], anchor_key[1], group_id))
+
+    shape.sort(key=lambda item: item["normalization_group_id"])
+    order_keys = [row[:3] for row in order_rows]
+    if len(order_keys) != len(set(order_keys)):
+        errors.append("normalization completion: future candidate-ID order key is not unique")
+    order_rows.sort(key=lambda row: row[:3])
+    ordered_group_ids = [row[3] for row in order_rows]
+    if len(grouped) != len(set(grouped)):
+        errors.append("normalization completion: grouped source identity is duplicated")
+    return (
+        canonical_json_sha256(shape),
+        canonical_json_sha256(ordered_group_ids),
+        set(grouped),
+        errors,
+    )
+
+
+def validate_normalization_completion(
+    root: Path,
+    validate_contract: Callable[[Any, Any, str], list[str]],
+) -> list[str]:
+    """Fail closed on Task 105 completion without performing Task 106."""
+
+    errors: list[str] = []
+    immutable_inputs = {
+        CODEBOOK_PATH: EXPECTED_CODEBOOK_SHA256,
+        BOUNDARY_PATH: EXPECTED_BOUNDARY_SHA256,
+        PASS2A_PATH: EXPECTED_PASS2A_SHA256,
+        PASS2B_PATH: EXPECTED_PASS2B_SHA256,
+        RESIDUAL_PATH: EXPECTED_RESIDUAL_SHA256,
+        CLOSURE_AMENDMENT_PATH: EXPECTED_CLOSURE_AMENDMENT_SHA256,
+        CLOSURE_SCHEMA_PATH: EXPECTED_CLOSURE_SCHEMA_SHA256,
+        CLOSURE_PATH: EXPECTED_CLOSURE_SHA256,
+        MATERIALIZATION_PROTOCOL_PATH: EXPECTED_MATERIALIZATION_PROTOCOL_SHA256,
+        OVERLAY_SCHEMA_PATH: EXPECTED_OVERLAY_SCHEMA_SHA256,
+    }
+    immutable_inputs.update(EXPECTED_EXTRACTION_SHA256)
+    immutable_inputs.update(
+        {
+            pass1_record_path(filename): digest
+            for filename, digest in EXPECTED_PASS1_SHA256.items()
+        }
+    )
+    for relative, digest in immutable_inputs.items():
+        errors.extend(
+            validate_fixed_bytes(root, relative, digest, "Task 105 immutable history")
+        )
+
+    completion_directory = root / COMPLETION_DIRECTORY
+    completion_files = (
+        sorted(completion_directory.rglob("*.json"))
+        if completion_directory.exists()
+        else []
+    )
+    expected_completion_path = root / COMPLETION_PATH
+    if completion_files != [expected_completion_path]:
         errors.append(
-            "stable candidate ID assignment must remain false while source entries are unresolved"
+            f"{COMPLETION_DIRECTORY}: expected exactly normalization-completion-v0.1.json"
         )
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            COMPLETION_PATH,
+            EXPECTED_COMPLETION_SHA256,
+            "normalization completion manifest",
+        )
+    )
+
+    schema: dict[str, Any] = {}
+    record: dict[str, Any] = {}
+    schema_path = root / COMPLETION_SCHEMA_PATH
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            COMPLETION_SCHEMA_PATH,
+            EXPECTED_COMPLETION_SCHEMA_SHA256,
+            "normalization completion schema",
+        )
+    )
+    if schema_path.is_file():
+        try:
+            value = read_json(schema_path)
+            if isinstance(value, dict):
+                schema = value
+            else:
+                errors.append(f"{COMPLETION_SCHEMA_PATH}: schema root must be an object")
+        except json.JSONDecodeError as exc:
+            errors.append(f"{COMPLETION_SCHEMA_PATH}: invalid JSON: {exc}")
+    if expected_completion_path.is_file():
+        try:
+            value = read_json(expected_completion_path)
+            if isinstance(value, dict):
+                record = value
+            else:
+                errors.append(f"{COMPLETION_PATH}: record must be an object")
+        except json.JSONDecodeError as exc:
+            errors.append(f"{COMPLETION_PATH}: invalid JSON: {exc}")
+
+    if schema.get("x-instrument-version") != "0.5.0-draft":
+        errors.append(f"{COMPLETION_SCHEMA_PATH}: x-instrument-version mismatch")
+    if record and schema:
+        errors.extend(validate_contract(record, schema, COMPLETION_PATH))
+
+    single_bindings = {
+        "normalization_codebook": CODEBOOK_PATH,
+        "universe_boundary": BOUNDARY_PATH,
+        "pass2a_record": PASS2A_PATH,
+        "pass2b_record": PASS2B_PATH,
+        "residual_clarification": RESIDUAL_PATH,
+        "closure_amendment": CLOSURE_AMENDMENT_PATH,
+        "closure_decision_schema": CLOSURE_SCHEMA_PATH,
+        "closure_application": CLOSURE_PATH,
+    }
+    for field, relative in single_bindings.items():
+        _, artifact_errors = validate_artifact(
+            root, record.get(field), relative, f"{COMPLETION_PATH}: {field}"
+        )
+        errors.extend(artifact_errors)
+
+    for field, expected_paths in (
+        ("source_extractions", set(EXPECTED_EXTRACTION_SHA256)),
+        (
+            "pass1_records",
+            {pass1_record_path(filename) for filename in EXPECTED_PASS1},
+        ),
+    ):
+        references = record.get(field, [])
+        if not isinstance(references, list):
+            errors.append(f"{COMPLETION_PATH}: {field} must be an array")
+            continue
+        paths = [
+            item.get("path") for item in references if isinstance(item, dict)
+        ]
+        if len(paths) != len(set(paths)) or set(paths) != expected_paths:
+            errors.append(f"{COMPLETION_PATH}: {field} must bind the exact artifact set")
+        for index, reference in enumerate(references):
+            if not isinstance(reference, dict):
+                errors.append(f"{COMPLETION_PATH}: {field}[{index}] must be an artifact")
+                continue
+            relative = reference.get("path")
+            if isinstance(relative, str) and relative in expected_paths:
+                _, artifact_errors = validate_artifact(
+                    root,
+                    reference,
+                    relative,
+                    f"{COMPLETION_PATH}: {field}[{index}]",
+                )
+                errors.extend(artifact_errors)
+
+    pass1_index, _, pass1_errors = build_pass1_index(root)
+    errors.extend(pass1_errors)
+    pass2a: dict[str, Any] = {}
+    closure: dict[str, Any] = {}
+    try:
+        value = read_json(root / PASS2A_PATH)
+        if isinstance(value, dict):
+            pass2a = value
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        errors.append(f"{PASS2A_PATH}: cannot derive completion state: {exc}")
+    try:
+        value = read_json(root / CLOSURE_PATH)
+        if isinstance(value, dict):
+            closure = value
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        errors.append(f"{CLOSURE_PATH}: cannot derive completion state: {exc}")
+
+    shape_digest, order_digest, grouped, group_errors = completion_group_state(
+        pass2a.get("groups", [])
+    )
+    errors.extend(group_errors)
+    groups = pass2a.get("groups", [])
+    group_count = len(groups) if isinstance(groups, list) else 0
+    decisions = closure.get("decisions", [])
+    if not isinstance(decisions, list):
+        decisions = []
+    terminal: set[Pass1Key] = set()
+    unresolved = 0
+    for item in decisions:
+        if not isinstance(item, dict):
+            continue
+        key = locator_key(item)
+        if item.get("final_normalization_disposition") == "excluded_non_materializable":
+            if key is not None:
+                terminal.add(key)
+        elif item.get("final_normalization_disposition") == "unresolved":
+            unresolved += 1
+
+    all_pass1 = set(pass1_index)
+    if grouped & terminal:
+        errors.append("normalization completion: grouped and terminal identities overlap")
+    if grouped | terminal != all_pass1:
+        missing = sorted(all_pass1 - grouped - terminal)
+        extra = sorted((grouped | terminal) - all_pass1)
+        errors.append(
+            "normalization completion: grouped and terminal identities must exactly "
+            f"partition all Pass 1 identities; missing={missing}, extra={extra}"
+        )
+    if group_count != 322 or len(grouped) != 322:
+        errors.append("normalization completion: exactly 322 candidate-bearing groups and entries required")
+    if len(terminal) != 8:
+        errors.append("normalization completion: exactly eight terminal source entries required")
+    expected_terminal = set(EXPECTED_UNRESOLVED)
+    if terminal != expected_terminal:
+        errors.append("normalization completion: terminal identities must exactly equal IPC A99-H99")
+    effective_unresolved = unresolved + len(all_pass1 - grouped - terminal)
+    if effective_unresolved != 0:
+        errors.append("normalization completion: effective unresolved source entries must be zero")
+
+    expected_state = {
+        "normalization_completion_id": "normalization-completion-v0.1",
+        "instrument_version": "0.5.0-draft",
+        "status": "complete",
+        "source_entry_total": 330,
+        "candidate_bearing_group_count": group_count,
+        "candidate_bearing_source_entry_count": len(grouped),
+        "terminal_non_candidate_entry_count": len(terminal),
+        "effective_unresolved_source_entry_count": effective_unresolved,
+        "candidate_canonical_label_source": "pass2a_group_locus_statement",
+        "candidate_universe_shape_sha256": shape_digest,
+        "candidate_id_order_sha256": order_digest,
+        "stable_candidate_id_assignment_permitted": True,
+        "domain_candidate_count": 0,
+        "assigned_stable_candidate_id_count": 0,
+        "normalization_overlay_instance_count": 0,
+    }
+    for field, expected in expected_state.items():
+        if record.get(field) != expected:
+            errors.append(f"{COMPLETION_PATH}: {field} mismatch")
+    if shape_digest != EXPECTED_CANDIDATE_UNIVERSE_SHAPE_SHA256:
+        errors.append("normalization completion: candidate-universe shape digest changed")
+    if order_digest != EXPECTED_CANDIDATE_ID_ORDER_SHA256:
+        errors.append("normalization completion: candidate-ID order digest changed")
+
+    if not STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED:
+        errors.append("normalization completion: stable candidate ID permission must be true")
+    candidate_files = sorted((root / "domain-universe/candidates").rglob("*.json"))
+    if candidate_files:
+        errors.append("normalization completion: Domain candidate count must remain zero")
+    overlay_directory = root / OVERLAY_DIRECTORY
+    overlay_files = (
+        sorted(overlay_directory.rglob("*.json")) if overlay_directory.exists() else []
+    )
+    if overlay_files:
+        errors.append("normalization completion: overlay instance count must remain zero")
+    candidate_id_pattern = re.compile(r"\bdu-cand-[0-9]{4}\b", re.IGNORECASE)
+    for path in sorted((root / "domain-universe").rglob("*.json")):
+        if candidate_id_pattern.search(path.read_text(encoding="utf-8")):
+            errors.append(
+                "normalization completion: assigned stable candidate identifier found in "
+                f"{path.relative_to(root).as_posix()}"
+            )
+
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            SUCCESSOR_MATERIALIZATION_PROTOCOL_PATH,
+            EXPECTED_SUCCESSOR_MATERIALIZATION_PROTOCOL_SHA256,
+            "successor materialization protocol v0.2",
+        )
+    )
+    errors.extend(
+        validate_fixed_bytes(
+            root,
+            SUCCESSOR_OVERLAY_SCHEMA_PATH,
+            EXPECTED_SUCCESSOR_OVERLAY_SCHEMA_SHA256,
+            "successor normalization overlay schema v0.2",
+        )
+    )
+    protocol_path = root / SUCCESSOR_MATERIALIZATION_PROTOCOL_PATH
+    if protocol_path.is_file():
+        protocol = protocol_path.read_text(encoding="utf-8")
+        required_protocol_text = (
+            "POST-CLOSURE SUCCESSOR MATERIALIZATION PROTOCOL; FIXED BEFORE MATERIALIZATION; NOT SCIENTIFICALLY APPROVED",
+            "normalization-completion-v0.1",
+            "excluded_non_materializable",
+            "Task 106, which has not started",
+            "does not update",
+        )
+        for required in required_protocol_text:
+            if required not in protocol:
+                errors.append(
+                    f"{SUCCESSOR_MATERIALIZATION_PROTOCOL_PATH}: missing {required!r}"
+                )
+
+    successor_schema: dict[str, Any] = {}
+    try:
+        value = read_json(root / SUCCESSOR_OVERLAY_SCHEMA_PATH)
+        if isinstance(value, dict):
+            successor_schema = value
+        else:
+            errors.append(f"{SUCCESSOR_OVERLAY_SCHEMA_PATH}: schema root must be an object")
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        errors.append(f"{SUCCESSOR_OVERLAY_SCHEMA_PATH}: cannot load schema: {exc}")
+    if successor_schema.get("x-instrument-version") != "0.5.0-draft":
+        errors.append(f"{SUCCESSOR_OVERLAY_SCHEMA_PATH}: x-instrument-version mismatch")
+
+    successor_bindings = {
+        "materialization_protocol": (
+            SUCCESSOR_MATERIALIZATION_PROTOCOL_PATH,
+            EXPECTED_SUCCESSOR_MATERIALIZATION_PROTOCOL_SHA256,
+        ),
+        "normalization_completion": (COMPLETION_PATH, EXPECTED_COMPLETION_SHA256),
+        "normalization_codebook": (CODEBOOK_PATH, EXPECTED_CODEBOOK_SHA256),
+        "universe_boundary": (BOUNDARY_PATH, EXPECTED_BOUNDARY_SHA256),
+        "ford_extraction": (
+            "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json"
+            ],
+        ),
+        "isic_extraction": (
+            "domain-universe/extractions/un-isic-rev5-division.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/un-isic-rev5-division.json"
+            ],
+        ),
+        "ipc_extraction": (
+            "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/wipo-ipc-2026-01-class.json"
+            ],
+        ),
+        "cofog_extraction": (
+            "domain-universe/extractions/un-cofog-1999-group.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/un-cofog-1999-group.json"
+            ],
+        ),
+        "ford_pass1": (
+            pass1_record_path("oecd-ford-frascati-2015-pass1.json"),
+            EXPECTED_PASS1_SHA256["oecd-ford-frascati-2015-pass1.json"],
+        ),
+        "isic_pass1": (
+            pass1_record_path("un-isic-rev5-pass1.json"),
+            EXPECTED_PASS1_SHA256["un-isic-rev5-pass1.json"],
+        ),
+        "ipc_pass1": (
+            pass1_record_path("wipo-ipc-2026-01-pass1.json"),
+            EXPECTED_PASS1_SHA256["wipo-ipc-2026-01-pass1.json"],
+        ),
+        "cofog_pass1": (
+            pass1_record_path("un-cofog-1999-pass1.json"),
+            EXPECTED_PASS1_SHA256["un-cofog-1999-pass1.json"],
+        ),
+        "pass2a_record": (PASS2A_PATH, EXPECTED_PASS2A_SHA256),
+        "pass2b_record": (PASS2B_PATH, EXPECTED_PASS2B_SHA256),
+        "residual_clarification": (RESIDUAL_PATH, EXPECTED_RESIDUAL_SHA256),
+        "closure_amendment": (
+            CLOSURE_AMENDMENT_PATH,
+            EXPECTED_CLOSURE_AMENDMENT_SHA256,
+        ),
+        "closure_application": (CLOSURE_PATH, EXPECTED_CLOSURE_SHA256),
+    }
+    for definition, expected in successor_bindings.items():
+        if schema_const_reference(successor_schema, definition) != expected:
+            errors.append(
+                f"{SUCCESSOR_OVERLAY_SCHEMA_PATH}: {definition} must bind exact bytes"
+            )
+    disposition = (
+        successor_schema.get("$defs", {})
+        .get("disposition_entry", {})
+        .get("properties", {})
+        .get("normalization_disposition", {})
+    )
+    expected_dispositions = {
+        "candidate_created",
+        "merged_into_candidate",
+        "excluded_out_of_scope",
+        "excluded_non_materializable",
+        "unresolved",
+    }
+    if set(disposition.get("enum", [])) != expected_dispositions:
+        errors.append(f"{SUCCESSOR_OVERLAY_SCHEMA_PATH}: disposition enum mismatch")
+    if "excluded_duplicate" in json.dumps(successor_schema):
+        errors.append(f"{SUCCESSOR_OVERLAY_SCHEMA_PATH}: excluded_duplicate must remain disabled")
+
+    validator_path = root / "scripts/validate.py"
+    if validator_path.is_file():
+        source = validator_path.read_text(encoding="utf-8")
+        domain_paths_start = source.find("DOMAIN_SCHEMA_PATHS = {")
+        domain_paths_end = source.find("\n}", domain_paths_start)
+        if (
+            domain_paths_start < 0
+            or domain_paths_end < 0
+            or Path(SUCCESSOR_OVERLAY_SCHEMA_PATH).name
+            in source[domain_paths_start:domain_paths_end]
+        ):
+            errors.append(
+                "Task 105D4: successor overlay schema must not enter the Domain lock path"
+            )
     return errors
 
 
@@ -2069,7 +2574,8 @@ def main() -> int:
         "Normalization validation passed: Pass 1, Pass 2A, Pass 2B, the IPC "
         "residual successor clarification, the immutable materialization "
         "architecture, the fixed closure-gap amendment, and its exact first "
-        "IPC residual application are sound."
+        "IPC residual application are sound; Task 105 normalization completion "
+        "and the uninstantiated v0.2 successor contract are fixed."
     )
     return 0
 

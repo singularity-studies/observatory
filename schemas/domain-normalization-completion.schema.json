@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-normalization-completion.schema.json",
+  "title": "Domain normalization completion manifest",
+  "description": "Administrative completion record for the exact immutable Task 105 normalization chain.",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "normalization_completion_id",
+    "instrument_version",
+    "status",
+    "normalization_codebook",
+    "universe_boundary",
+    "source_extractions",
+    "pass1_records",
+    "pass2a_record",
+    "pass2b_record",
+    "residual_clarification",
+    "closure_amendment",
+    "closure_decision_schema",
+    "closure_application",
+    "source_entry_total",
+    "candidate_bearing_group_count",
+    "candidate_bearing_source_entry_count",
+    "terminal_non_candidate_entry_count",
+    "effective_unresolved_source_entry_count",
+    "candidate_canonical_label_source",
+    "candidate_universe_shape_sha256",
+    "candidate_id_order_sha256",
+    "stable_candidate_id_assignment_permitted",
+    "domain_candidate_count",
+    "assigned_stable_candidate_id_count",
+    "normalization_overlay_instance_count",
+    "rationale",
+    "uncertainty",
+    "recorded_at"
+  ],
+  "properties": {
+    "normalization_completion_id": {"const": "normalization-completion-v0.1"},
+    "instrument_version": {"const": "0.5.0-draft"},
+    "status": {"const": "complete"},
+    "normalization_codebook": {"$ref": "#/$defs/artifact"},
+    "universe_boundary": {"$ref": "#/$defs/artifact"},
+    "source_extractions": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "pass1_records": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/artifact"}
+    },
+    "pass2a_record": {"$ref": "#/$defs/artifact"},
+    "pass2b_record": {"$ref": "#/$defs/artifact"},
+    "residual_clarification": {"$ref": "#/$defs/artifact"},
+    "closure_amendment": {"$ref": "#/$defs/artifact"},
+    "closure_decision_schema": {"$ref": "#/$defs/artifact"},
+    "closure_application": {"$ref": "#/$defs/artifact"},
+    "source_entry_total": {"const": 330},
+    "candidate_bearing_group_count": {"const": 322},
+    "candidate_bearing_source_entry_count": {"const": 322},
+    "terminal_non_candidate_entry_count": {"const": 8},
+    "effective_unresolved_source_entry_count": {"const": 0},
+    "candidate_canonical_label_source": {
+      "const": "pass2a_group_locus_statement"
+    },
+    "candidate_universe_shape_sha256": {
+      "const": "4449c3b488af822ed6e6e42a17138d2dd7ef25a8c7f3dbecf6cb1325e828528c"
+    },
+    "candidate_id_order_sha256": {
+      "const": "62e674888a47027ff3bd30a9c48cdebc12a503f1e2a07581864427128d3ba4ab"
+    },
+    "stable_candidate_id_assignment_permitted": {"const": true},
+    "domain_candidate_count": {"const": 0},
+    "assigned_stable_candidate_id_count": {"const": 0},
+    "normalization_overlay_instance_count": {"const": 0},
+    "rationale": {"type": "string", "minLength": 1},
+    "uncertainty": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  }
+}
