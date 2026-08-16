@@ -217,6 +217,37 @@ normalization-specific not-coextensive decision does not establish no overlap,
 final non-duplication, Domain separation, or eligibility, and it creates no
 Domain Universe, Frozen Panel, Wave, or authorization of Wave 0.
 
+## Prospective construction record DU-008
+
+- Date: `2026-08-16`
+- Status: Normalization Materialization Protocol v0.1 prospectively fixed for
+  materialization; pending scientific review; not scientifically approved
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instruments: Normalization Materialization Protocol `v0.1`,
+  normalization-disposition overlay schema `0.5.0-draft`, and prospective
+  Domain candidate schema `0.5.0-draft`
+- Construction action: separated later authoritative normalization state from
+  the immutable Task 104 extraction snapshots and required future candidates
+  to bind the authoritative overlay while preserving exact extraction-entry
+  provenance.
+- Immutable inputs: four source-frame records, four Task 104 extractions, four
+  Pass 1 records, Pass 2A, and Pass 2B remain byte-unchanged and hash-bound.
+- Stable-ID gate: `stable_candidate_id_assignment_permitted = false` while the
+  eight IPC residual source entries remain unresolved; Pass 2B materialization
+  permission alone is insufficient for sequential candidate-ID assignment.
+- Comparability impact: none; no extraction disposition or target changed, no
+  overlay instance or Domain candidate was created, and no stable candidate ID
+  was assigned.
+- Unresolved follow-up: scientific review, governed final paths for all 330
+  source entries, creation and validation of a complete overlay, candidate
+  materialization, final eligibility and overlap review, coverage audit, final
+  governance authority, and governance lock.
+
+This entry records prospective architecture only. It identifies no reviewer,
+approver, governance authority, scientific approval, Domain Universe, Frozen
+Panel, Wave, or authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

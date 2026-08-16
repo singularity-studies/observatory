@@ -9,7 +9,8 @@
     "domain_candidate_id", "instrument_version", "primary_unit_type",
     "canonical_label", "scope_definition", "inclusion_boundary",
     "exclusion_boundary", "recurrent_improvement_rationale",
-    "continuity_rule", "overlap_notes", "provenance_references"
+    "continuity_rule", "overlap_notes", "normalization_disposition_record",
+    "provenance_references"
   ],
   "properties": {
     "domain_candidate_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
@@ -22,6 +23,7 @@
     "recurrent_improvement_rationale": {"type": "string", "minLength": 1},
     "continuity_rule": {"type": "string", "minLength": 1},
     "overlap_notes": {"type": "string", "minLength": 1},
+    "normalization_disposition_record": {"$ref": "#/$defs/artifact"},
     "provenance_references": {
       "type": "array", "minItems": 1, "uniqueItems": true,
       "items": {

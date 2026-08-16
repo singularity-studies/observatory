@@ -71,6 +71,7 @@ SCHEMA_FILES = (
     "schemas/domain-universe-boundary.schema.json",
     "schemas/domain-source-frame.schema.json",
     "schemas/domain-source-extraction.schema.json",
+    "schemas/domain-normalization-disposition-overlay.schema.json",
     "schemas/domain-candidate.schema.json",
     "schemas/domain-eligibility-decision.schema.json",
     "schemas/domain-relation.schema.json",
@@ -179,6 +180,7 @@ DOMAIN_SCHEMA_PATHS = {
     "boundary": "schemas/domain-universe-boundary.schema.json",
     "source_frame": "schemas/domain-source-frame.schema.json",
     "extraction": "schemas/domain-source-extraction.schema.json",
+    "normalization_overlay": "schemas/domain-normalization-disposition-overlay.schema.json",
     "candidate": "schemas/domain-candidate.schema.json",
     "eligibility": "schemas/domain-eligibility-decision.schema.json",
     "relation": "schemas/domain-relation.schema.json",
@@ -1336,6 +1338,322 @@ def _artifact_identity(reference: Any) -> tuple[str, str] | None:
     return path, digest
 
 
+def _schema_constant_artifact(
+    schema: dict[str, Any], definition_name: str
+) -> dict[str, str] | None:
+    definition = schema.get("$defs", {}).get(definition_name)
+    if not isinstance(definition, dict):
+        return None
+    path: str | None = None
+    digest: str | None = None
+    nodes = [definition]
+    all_of = definition.get("allOf")
+    if isinstance(all_of, list):
+        nodes.extend(item for item in all_of if isinstance(item, dict))
+    for node in nodes:
+        properties = node.get("properties")
+        if not isinstance(properties, dict):
+            continue
+        path_schema = properties.get("path")
+        digest_schema = properties.get("sha256")
+        if isinstance(path_schema, dict) and isinstance(path_schema.get("const"), str):
+            path = path_schema["const"]
+        if isinstance(digest_schema, dict) and isinstance(
+            digest_schema.get("const"), str
+        ):
+            digest = digest_schema["const"]
+    if path is None or digest is None:
+        return None
+    return {"path": path, "sha256": digest}
+
+
+def validate_group_faithful_materialization(
+    groups: dict[str, dict[str, Any]],
+    excluded_identities: set[tuple[tuple[str, str], str]],
+    overlay_entries: dict[tuple[tuple[str, str], str], dict[str, Any]],
+    location: str,
+) -> list[str]:
+    """Require overlay materialization to preserve an exact normalization partition."""
+
+    errors: list[str] = []
+    candidate_groups: dict[str, set[str]] = {}
+    grouped_identities: set[tuple[tuple[str, str], str]] = set()
+    candidate_dispositions = {"candidate_created", "merged_into_candidate"}
+
+    for group_id, group in groups.items():
+        members = group.get("members")
+        anchor = group.get("anchor")
+        if not isinstance(members, set) or not members or anchor not in members:
+            errors.append(f"{location}: invalid Pass 2A group index for {group_id!r}")
+            continue
+        grouped_identities.update(members)
+        entries = {
+            identity: overlay_entries.get(identity)
+            for identity in members
+        }
+        for identity, entry in entries.items():
+            if not isinstance(entry, dict):
+                continue
+            if entry.get("normalization_group_id") != group_id:
+                errors.append(
+                    f"{location}: overlay normalization_group_id must match exact Pass 2A group "
+                    f"{group_id!r} for {identity[1]!r}"
+                )
+
+        candidate_members = {
+            identity
+            for identity, entry in entries.items()
+            if isinstance(entry, dict)
+            and entry.get("normalization_disposition") in candidate_dispositions
+        }
+        if not candidate_members:
+            continue
+        if candidate_members != members:
+            errors.append(
+                f"{location}: Pass 2A group {group_id!r} is only partially materialized"
+            )
+
+        targets_by_member: dict[tuple[tuple[str, str], str], str] = {}
+        for identity in candidate_members:
+            targets = entries[identity].get("target_domain_candidate_ids")
+            if isinstance(targets, list) and len(targets) == 1 and isinstance(targets[0], str):
+                targets_by_member[identity] = targets[0]
+                candidate_groups.setdefault(targets[0], set()).add(group_id)
+        if len(set(targets_by_member.values())) > 1:
+            errors.append(
+                f"{location}: members of Pass 2A group {group_id!r} target different candidates"
+            )
+
+        anchor_entry = entries.get(anchor)
+        if not isinstance(anchor_entry, dict) or anchor_entry.get(
+            "normalization_disposition"
+        ) != "candidate_created":
+            errors.append(
+                f"{location}: deterministic anchor for Pass 2A group {group_id!r} "
+                "must be candidate_created"
+            )
+        for identity in members - {anchor}:
+            entry = entries.get(identity)
+            if isinstance(entry, dict) and entry.get(
+                "normalization_disposition"
+            ) != "merged_into_candidate":
+                errors.append(
+                    f"{location}: non-anchor member of Pass 2A group {group_id!r} "
+                    "must be merged_into_candidate"
+                )
+
+    for identity in excluded_identities:
+        entry = overlay_entries.get(identity)
+        if not isinstance(entry, dict):
+            continue
+        if entry.get("normalization_group_id") is not None:
+            errors.append(
+                f"{location}: Pass 2A-excluded entry {identity[1]!r} must not invent a group ID"
+            )
+        if entry.get("normalization_disposition") in candidate_dispositions:
+            errors.append(
+                f"{location}: Pass 2A-excluded entry {identity[1]!r} cannot materialize a candidate"
+            )
+
+    for candidate_id, group_ids in candidate_groups.items():
+        if len(group_ids) > 1:
+            errors.append(
+                f"{location}: candidate {candidate_id!r} spans multiple Pass 2A groups"
+            )
+
+    indexed_identities = grouped_identities | excluded_identities
+    if set(overlay_entries) - indexed_identities:
+        errors.append(
+            f"{location}: overlay contains identities outside the exact Pass 2A partition"
+        )
+    return errors
+
+
+def _build_pass2a_group_index(
+    root: Path,
+    pass2a_reference: Any,
+    pass2b_reference: Any,
+    pass1_references: Any,
+    extraction_entries: dict[tuple[tuple[str, str], str], dict[str, Any]],
+    extraction_source_frames: dict[tuple[str, str], tuple[str, str]],
+    source_frames_by_artifact: dict[tuple[str, str], dict[str, Any]],
+    location: str,
+) -> tuple[
+    dict[str, dict[str, Any]],
+    set[tuple[tuple[str, str], str]],
+    list[str],
+]:
+    """Resolve immutable Pass 2A members through their exact Pass 1 extractions."""
+
+    errors: list[str] = []
+    groups: dict[str, dict[str, Any]] = {}
+    excluded: set[tuple[tuple[str, str], str]] = set()
+    pass1_by_artifact: dict[tuple[str, str], dict[str, Any]] = {}
+    pass1_entry_ids: dict[tuple[str, str], set[str]] = {}
+    pass1_extractions: dict[tuple[str, str], tuple[str, str]] = {}
+    pass1_frame_ids: dict[tuple[str, str], str] = {}
+
+    if not isinstance(pass1_references, list):
+        pass1_references = []
+    for index, reference in enumerate(pass1_references):
+        record, _, record_errors = _load_json_artifact(
+            root,
+            reference,
+            f"{location}: Pass 1 record[{index}]",
+            PurePosixPath("domain-universe"),
+        )
+        errors.extend(record_errors)
+        artifact_key = _artifact_identity(reference)
+        if not isinstance(record, dict) or artifact_key is None:
+            continue
+        pass1_by_artifact[artifact_key] = record
+        extraction_key = _artifact_identity(record.get("source_extraction"))
+        if extraction_key is None:
+            errors.append(f"{location}: Pass 1 record lacks exact source extraction")
+            continue
+        pass1_extractions[artifact_key] = extraction_key
+        frame_key = extraction_source_frames.get(extraction_key)
+        frame = source_frames_by_artifact.get(frame_key) if frame_key is not None else None
+        frame_id = frame.get("source_frame_id") if isinstance(frame, dict) else None
+        if not isinstance(frame_id, str):
+            errors.append(f"{location}: Pass 1 source extraction does not resolve to a source frame")
+            continue
+        pass1_frame_ids[artifact_key] = frame_id
+        interpretations = record.get("interpretations")
+        if not isinstance(interpretations, list):
+            interpretations = []
+        pass1_entry_ids[artifact_key] = {
+            item.get("source_entry_id")
+            for item in interpretations
+            if isinstance(item, dict) and isinstance(item.get("source_entry_id"), str)
+        }
+
+    pass2a, _, pass2a_errors = _load_json_artifact(
+        root,
+        pass2a_reference,
+        f"{location}: Pass 2A record",
+        PurePosixPath("domain-universe"),
+    )
+    errors.extend(pass2a_errors)
+    pass2b, _, pass2b_errors = _load_json_artifact(
+        root,
+        pass2b_reference,
+        f"{location}: Pass 2B record",
+        PurePosixPath("domain-universe"),
+    )
+    errors.extend(pass2b_errors)
+    if isinstance(pass2b, dict) and pass2b.get("grouping_revision_required") is not False:
+        errors.append(f"{location}: Pass 2B grouping revision must be explicitly false")
+    if not isinstance(pass2a, dict):
+        return groups, excluded, errors
+    if {
+        _artifact_identity(reference)
+        for reference in pass2a.get("pass1_records", [])
+    } != set(pass1_by_artifact):
+        errors.append(f"{location}: Pass 2A must bind the exact overlay Pass 1 records")
+
+    indexed_members: set[tuple[tuple[str, str], str]] = set()
+
+    def resolve_member(member: Any, member_location: str) -> tuple[tuple[str, str], str] | None:
+        if not isinstance(member, dict):
+            errors.append(f"{member_location}: member must be an object")
+            return None
+        pass1_key = _artifact_identity(member.get("pass1_record"))
+        entry_id = member.get("source_entry_id")
+        if pass1_key not in pass1_by_artifact or not isinstance(entry_id, str):
+            errors.append(f"{member_location}: member does not resolve through exact Pass 1")
+            return None
+        if entry_id not in pass1_entry_ids.get(pass1_key, set()):
+            errors.append(f"{member_location}: source entry is absent from exact Pass 1 record")
+            return None
+        if member.get("source_frame_id") != pass1_frame_ids.get(pass1_key):
+            errors.append(f"{member_location}: source frame does not match exact Pass 1 extraction")
+            return None
+        extraction_key = pass1_extractions.get(pass1_key)
+        identity = (extraction_key, entry_id) if extraction_key is not None else None
+        if identity not in extraction_entries:
+            errors.append(f"{member_location}: source entry is absent from immutable extraction")
+            return None
+        return identity
+
+    raw_groups = pass2a.get("groups")
+    if not isinstance(raw_groups, list):
+        raw_groups = []
+    for group_index, group in enumerate(raw_groups):
+        group_location = f"{location}: Pass 2A groups[{group_index}]"
+        if not isinstance(group, dict):
+            errors.append(f"{group_location}: group must be an object")
+            continue
+        group_id = group.get("normalization_group_id")
+        if not isinstance(group_id, str) or group_id in groups:
+            errors.append(f"{group_location}: invalid or duplicate normalization_group_id")
+            continue
+        members: set[tuple[tuple[str, str], str]] = set()
+        member_locators: dict[tuple[tuple[str, str], str], tuple[Any, Any]] = {}
+        raw_members = group.get("members")
+        if not isinstance(raw_members, list):
+            raw_members = []
+        for member_index, member in enumerate(raw_members):
+            identity = resolve_member(member, f"{group_location}: members[{member_index}]")
+            if identity is None:
+                continue
+            if identity in indexed_members:
+                errors.append(f"{group_location}: source entry appears in multiple Pass 2A groups")
+            members.add(identity)
+            indexed_members.add(identity)
+            if isinstance(member, dict):
+                member_locators[identity] = (
+                    member.get("source_frame_id"),
+                    member.get("source_entry_id"),
+                )
+        anchor = group.get("deterministic_anchor")
+        anchor_matches = {
+            identity
+            for identity, locator in member_locators.items()
+            if isinstance(anchor, dict)
+            and locator
+            == (anchor.get("source_frame_id"), anchor.get("source_entry_id"))
+        }
+        if len(anchor_matches) != 1:
+            errors.append(f"{group_location}: deterministic anchor does not resolve uniquely")
+            resolved_anchor = None
+        else:
+            resolved_anchor = next(iter(anchor_matches))
+        group_kind = group.get("group_kind")
+        if group_kind == "singleton" and len(members) != 1:
+            errors.append(f"{group_location}: singleton group must contain exactly one member")
+        if group_kind == "coextensive_equivalence" and len(members) < 2:
+            errors.append(
+                f"{group_location}: coextensive group must contain at least two members"
+            )
+        groups[group_id] = {
+            "normalization_group_id": group_id,
+            "group_kind": group_kind,
+            "members": members,
+            "anchor": resolved_anchor,
+            "source_frame_ids": {
+                identity: locator[0] for identity, locator in member_locators.items()
+            },
+        }
+
+    raw_excluded = pass2a.get("excluded_from_grouping")
+    if not isinstance(raw_excluded, list):
+        raw_excluded = []
+    for index, member in enumerate(raw_excluded):
+        identity = resolve_member(member, f"{location}: Pass 2A excluded[{index}]")
+        if identity is None:
+            continue
+        if identity in indexed_members or identity in excluded:
+            errors.append(f"{location}: Pass 2A partition repeats a source entry")
+        excluded.add(identity)
+
+    if indexed_members | excluded != set(extraction_entries):
+        errors.append(
+            f"{location}: exact Pass 2A grouped/excluded partition must cover all source entries"
+        )
+    return groups, excluded, errors
+
+
 def validate_domain_eligibility_decision(
     root: Path,
     record: Any,
@@ -1516,8 +1834,6 @@ def validate_domain_universe_manifest(
                     )
                 elif isinstance(frame_id, str):
                     source_fingerprints[fingerprint] = frame_id
-            if frame.get("normalization_status") != "complete":
-                errors.append(f"{frame_location}: source frame must be normalized before lock")
     if (
         len(source_frames) < 2
         or len(independence_groups) < 2
@@ -1594,8 +1910,6 @@ def validate_domain_universe_manifest(
                     )
                 entry_ids.add(entry_id)
                 extraction_entries[(extraction_key, entry_id)] = entry
-            if entry.get("normalization_disposition") == "unresolved":
-                errors.append(f"{entry_location}: unresolved extraction entry cannot pass lock")
         if entries and frame_key in source_frames_by_artifact:
             frame = source_frames_by_artifact[frame_key]
             lineage_id = frame.get("source_lineage_id")
@@ -1610,6 +1924,190 @@ def validate_domain_universe_manifest(
     if len(contributing_lineages) < 2:
         errors.append(
             f"{location}: at least two distinct source lineages must contribute non-empty extracted-entry sets"
+        )
+
+    overlay_reference = proposal.get("normalization_disposition_overlay")
+    overlay, overlay_path, overlay_errors = _load_domain_record(
+        root,
+        overlay_reference,
+        f"{location}: proposal normalization_disposition_overlay",
+        container,
+        "normalization/dispositions",
+    )
+    errors.extend(overlay_errors)
+    overlay_entries_by_identity: dict[
+        tuple[tuple[str, str], str], dict[str, Any]
+    ] = {}
+    pass2a_groups: dict[str, dict[str, Any]] = {}
+    pass2a_excluded: set[tuple[tuple[str, str], str]] = set()
+    if overlay is not None:
+        errors.extend(
+            _validate_domain_record(
+                overlay,
+                schemas["normalization_overlay"],
+                f"{location}: proposal normalization_disposition_overlay",
+                version,
+                "normalization_disposition_overlay_id",
+                overlay_path,
+            )
+        )
+    if isinstance(overlay, dict):
+        overlay_schema = schemas["normalization_overlay"]
+        expected_single_inputs = {
+            field: _schema_constant_artifact(overlay_schema, definition)
+            for field, definition in {
+                "materialization_protocol": "materialization_protocol",
+                "normalization_codebook": "normalization_codebook",
+                "universe_boundary": "universe_boundary",
+                "pass2a_record": "pass2a_record",
+                "pass2b_record": "pass2b_record",
+            }.items()
+        }
+        for field, expected_reference in expected_single_inputs.items():
+            if expected_reference is None or overlay.get(field) != expected_reference:
+                errors.append(
+                    f"{location}: normalization overlay must bind the exact {field} artifact"
+                )
+        expected_extractions = [
+            _schema_constant_artifact(overlay_schema, definition)
+            for definition in (
+                "ford_extraction",
+                "isic_extraction",
+                "ipc_extraction",
+                "cofog_extraction",
+            )
+        ]
+        expected_pass1 = [
+            _schema_constant_artifact(overlay_schema, definition)
+            for definition in (
+                "ford_pass1",
+                "isic_pass1",
+                "ipc_pass1",
+                "cofog_pass1",
+            )
+        ]
+        if any(reference is None for reference in expected_extractions) or overlay.get(
+            "source_extractions"
+        ) != expected_extractions:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact four Task 104 extractions"
+            )
+        if any(reference is None for reference in expected_pass1) or overlay.get(
+            "pass1_records"
+        ) != expected_pass1:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact four Pass 1 records"
+            )
+        if overlay.get("status") != "complete":
+            errors.append(f"{location}: proposal normalization overlay must be complete")
+        overlay_entries = overlay.get("entries")
+        if not isinstance(overlay_entries, list):
+            overlay_entries = []
+        if len(overlay_entries) != 330:
+            errors.append(
+                f"{location}: complete normalization overlay must contain exactly 330 entries"
+            )
+        if overlay.get("universe_boundary") != boundary_reference:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact proposal boundary"
+            )
+        if overlay.get("source_extractions") != extraction_references:
+            errors.append(
+                f"{location}: normalization overlay must bind the exact proposal extractions"
+            )
+
+        single_input_fields = (
+            "materialization_protocol",
+            "normalization_codebook",
+            "universe_boundary",
+            "pass2a_record",
+            "pass2b_record",
+        )
+        for field in single_input_fields:
+            _, input_errors = validate_artifact_ref(
+                root,
+                overlay.get(field),
+                f"{location}: normalization overlay {field}",
+            )
+            errors.extend(input_errors)
+        for field in ("source_extractions", "pass1_records"):
+            references = overlay.get(field)
+            if not isinstance(references, list):
+                references = []
+            for index, reference in enumerate(references):
+                _, input_errors = validate_artifact_ref(
+                    root,
+                    reference,
+                    f"{location}: normalization overlay {field}[{index}]",
+                )
+                errors.extend(input_errors)
+
+        pass2a_groups, pass2a_excluded, grouping_errors = _build_pass2a_group_index(
+            root,
+            overlay.get("pass2a_record"),
+            overlay.get("pass2b_record"),
+            overlay.get("pass1_records"),
+            extraction_entries,
+            extraction_source_frames,
+            source_frames_by_artifact,
+            f"{location}: normalization grouping",
+        )
+        errors.extend(grouping_errors)
+
+        for index, entry in enumerate(overlay_entries):
+            entry_location = f"{location}: normalization overlay entries[{index}]"
+            if not isinstance(entry, dict):
+                continue
+            extraction_key = _artifact_identity(entry.get("source_extraction"))
+            entry_id = entry.get("source_entry_id")
+            if extraction_key not in extractions_by_artifact:
+                errors.append(
+                    f"{entry_location}: source extraction is not an exact proposal extraction"
+                )
+                continue
+            if not isinstance(entry_id, str) or (
+                extraction_key, entry_id
+            ) not in extraction_entries:
+                errors.append(
+                    f"{entry_location}: source entry does not resolve in its immutable extraction"
+                )
+                continue
+            identity = (extraction_key, entry_id)
+            if identity in overlay_entries_by_identity:
+                errors.append(
+                    f"{entry_location}: duplicate normalization-overlay source-entry identity"
+                )
+                continue
+            overlay_entries_by_identity[identity] = entry
+            frame_key = extraction_source_frames.get(extraction_key)
+            frame = source_frames_by_artifact.get(frame_key) if frame_key is not None else None
+            expected_frame_id = frame.get("source_frame_id") if isinstance(frame, dict) else None
+            if entry.get("source_frame_id") != expected_frame_id:
+                errors.append(
+                    f"{entry_location}: source_frame_id does not match immutable extraction provenance"
+                )
+            if entry.get("normalization_disposition") == "unresolved":
+                errors.append(
+                    f"{entry_location}: unresolved normalization overlay entry cannot pass lock"
+                )
+
+        missing_identities = set(extraction_entries) - set(overlay_entries_by_identity)
+        extra_identities = set(overlay_entries_by_identity) - set(extraction_entries)
+        if missing_identities:
+            errors.append(
+                f"{location}: normalization overlay omits immutable source-entry identities"
+            )
+        if extra_identities:
+            errors.append(
+                f"{location}: normalization overlay contains extra source-entry identities"
+            )
+        errors.extend(
+            validate_group_faithful_materialization(
+                pass2a_groups,
+                pass2a_excluded,
+                overlay_entries_by_identity,
+                f"{location}: normalization overlay",
+            )
         )
 
     candidates: dict[str, dict[str, Any]] = {}
@@ -1645,6 +2143,10 @@ def validate_domain_universe_manifest(
                 candidates[candidate_id] = candidate
                 if isinstance(reference, dict):
                     candidate_references[candidate_id] = reference
+            if candidate.get("normalization_disposition_record") != overlay_reference:
+                errors.append(
+                    f"{candidate_location}: candidate must bind the exact proposal normalization overlay"
+                )
             provenance = candidate.get("provenance_references")
             if isinstance(provenance, list):
                 for item in provenance:
@@ -1666,11 +2168,17 @@ def validate_domain_universe_manifest(
                         continue
                     provenance_key = (extraction_key, entry_id)
                     candidate_provenance.setdefault(candidate_id, set()).add(provenance_key)
-                    entry = extraction_entries[provenance_key]
-                    targets = entry.get("target_domain_candidate_ids")
-                    if not isinstance(targets, list) or candidate_id not in targets:
+                    overlay_entry = overlay_entries_by_identity.get(provenance_key)
+                    if overlay_entry is None:
                         errors.append(
-                            f"{candidate_location}: candidate-to-entry provenance is not reciprocal"
+                            f"{candidate_location}: provenance has no reciprocal normalization-overlay entry"
+                        )
+                    elif overlay_entry.get("normalization_disposition") not in {
+                        "candidate_created",
+                        "merged_into_candidate",
+                    } or overlay_entry.get("target_domain_candidate_ids") != [candidate_id]:
+                        errors.append(
+                            f"{candidate_location}: candidate-to-overlay provenance is not reciprocal"
                         )
                     frame_key = extraction_source_frames.get(extraction_key)
                     frame = source_frames_by_artifact.get(frame_key) if frame_key is not None else None
@@ -1688,19 +2196,25 @@ def validate_domain_universe_manifest(
             f"{location}: no single source frame may define the Domain Universe"
         )
 
-    for (extraction_key, entry_id), entry in extraction_entries.items():
-        targets = entry.get("target_domain_candidate_ids")
-        if not isinstance(targets, list):
+    for (extraction_key, entry_id), entry in overlay_entries_by_identity.items():
+        disposition = entry.get("normalization_disposition")
+        if disposition not in {"candidate_created", "merged_into_candidate"}:
             continue
-        for candidate_id in targets:
-            if candidate_id not in candidates:
-                errors.append(
-                    f"{location}: extraction entry target {candidate_id!r} is outside candidate universe"
-                )
-            elif (extraction_key, entry_id) not in candidate_provenance.get(candidate_id, set()):
-                errors.append(
-                    f"{location}: extraction-entry-to-candidate provenance is not reciprocal"
-                )
+        targets = entry.get("target_domain_candidate_ids")
+        if not isinstance(targets, list) or len(targets) != 1:
+            errors.append(
+                f"{location}: candidate-bearing normalization overlay entry requires exactly one target"
+            )
+            continue
+        candidate_id = targets[0]
+        if candidate_id not in candidates:
+            errors.append(
+                f"{location}: normalization overlay target {candidate_id!r} is outside candidate universe"
+            )
+        elif (extraction_key, entry_id) not in candidate_provenance.get(candidate_id, set()):
+            errors.append(
+                f"{location}: overlay-to-candidate provenance is not reciprocal"
+            )
 
     decisions_by_candidate: dict[str, list[dict[str, Any]]] = {}
     decision_ids: set[str] = set()
