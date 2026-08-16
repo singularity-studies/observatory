@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/singularity-studies/observatory/schemas/domain-normalization-residual-clarification.schema.json",
+  "title": "IPC residual independent clarification",
+  "type": "object",
+  "x-instrument-version": "0.5.0-draft",
+  "additionalProperties": false,
+  "required": [
+    "residual_clarification_id",
+    "instrument_version",
+    "normalization_codebook",
+    "universe_boundary",
+    "source_extraction",
+    "original_pass1_record",
+    "pass2a_record",
+    "procedure",
+    "status",
+    "clarification_sources",
+    "assessments",
+    "aggregate",
+    "rationale",
+    "uncertainty",
+    "recorded_at"
+  ],
+  "properties": {
+    "residual_clarification_id": {"const": "ipc-residual-clarification-v0.1"},
+    "instrument_version": {"const": "0.5.0-draft"},
+    "normalization_codebook": {"$ref": "#/$defs/artifact"},
+    "universe_boundary": {"$ref": "#/$defs/artifact"},
+    "source_extraction": {"$ref": "#/$defs/artifact"},
+    "original_pass1_record": {"$ref": "#/$defs/artifact"},
+    "pass2a_record": {"$ref": "#/$defs/artifact"},
+    "procedure": {"const": "independent_ipc_residual_clarification"},
+    "status": {"const": "complete"},
+    "clarification_sources": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/clarification_source"}
+    },
+    "assessments": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/assessment"}
+    },
+    "aggregate": {"$ref": "#/$defs/aggregate"},
+    "rationale": {"type": "string", "minLength": 1},
+    "uncertainty": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "clarification_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clarification_source_id",
+        "source_frame_id",
+        "source_uri",
+        "source_version_or_date",
+        "source_reference",
+        "retrieved_at",
+        "sha256",
+        "note"
+      ],
+      "properties": {
+        "clarification_source_id": {"type": "string", "pattern": "^[A-Za-z0-9._-]+$"},
+        "source_frame_id": {"const": "wipo-ipc-2026-01"},
+        "source_uri": {"type": "string", "format": "uri"},
+        "source_version_or_date": {"type": "string", "minLength": 1},
+        "source_reference": {"type": "string", "minLength": 1},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coherent_substantive_locus",
+        "topic_preserving_translatability",
+        "boundary_compatibility"
+      ],
+      "properties": {
+        "coherent_substantive_locus": {"type": ["boolean", "null"]},
+        "topic_preserving_translatability": {"type": ["boolean", "null"]},
+        "boundary_compatibility": {"type": ["boolean", "null"]}
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessment_id",
+        "source_frame_id",
+        "source_entry_id",
+        "section_symbol",
+        "section_title",
+        "class_symbol",
+        "subclass_symbol",
+        "main_group_symbol",
+        "official_residual_title",
+        "residual_semantics",
+        "normalized_substantive_locus",
+        "gate",
+        "minimal_gate_result",
+        "clarification_source_ids",
+        "rationale",
+        "uncertainty"
+      ],
+      "properties": {
+        "assessment_id": {"type": "string", "pattern": "^ipc-[A-H]99-residual-clarification$"},
+        "source_frame_id": {"const": "wipo-ipc-2026-01"},
+        "source_entry_id": {"type": "string", "pattern": "^ipc-[A-H]99$"},
+        "section_symbol": {"type": "string", "pattern": "^[A-H]$"},
+        "section_title": {"type": "string", "minLength": 1},
+        "class_symbol": {"type": "string", "pattern": "^[A-H]99$"},
+        "subclass_symbol": {"type": "string", "pattern": "^[A-H]99Z$"},
+        "main_group_symbol": {"type": "string", "pattern": "^[A-H]99Z 99/00$"},
+        "official_residual_title": {"type": "string", "minLength": 1},
+        "residual_semantics": {"type": "string", "minLength": 1},
+        "normalized_substantive_locus": {"type": ["string", "null"], "minLength": 1},
+        "gate": {"$ref": "#/$defs/gate"},
+        "minimal_gate_result": {
+          "enum": ["passes", "fails_out_of_scope", "unresolved"]
+        },
+        "clarification_source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "rationale": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string", "minLength": 1}
+      }
+    },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessed_residuals",
+        "passes",
+        "fails_out_of_scope",
+        "unresolved",
+        "all_residual_questions_closed",
+        "successor_grouping_required",
+        "stable_candidate_id_gate_reassessment_ready"
+      ],
+      "properties": {
+        "assessed_residuals": {"const": 8},
+        "passes": {"type": "integer", "minimum": 0, "maximum": 8},
+        "fails_out_of_scope": {"type": "integer", "minimum": 0, "maximum": 8},
+        "unresolved": {"type": "integer", "minimum": 0, "maximum": 8},
+        "all_residual_questions_closed": {"type": "boolean"},
+        "successor_grouping_required": {"type": "boolean"},
+        "stable_candidate_id_gate_reassessment_ready": {"type": "boolean"}
+      }
+    }
+  }
+}

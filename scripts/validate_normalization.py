@@ -21,6 +21,9 @@ PASS2A_PATH = f"{PASS2A_DIRECTORY}/equivalence-groups-v0.1.json"
 PASS2B_SCHEMA_PATH = "schemas/domain-normalization-pass2b.schema.json"
 PASS2B_DIRECTORY = "domain-universe/normalization/pass2b"
 PASS2B_PATH = f"{PASS2B_DIRECTORY}/deferred-equivalence-adjudication-v0.1.json"
+RESIDUAL_SCHEMA_PATH = "schemas/domain-normalization-residual-clarification.schema.json"
+RESIDUAL_DIRECTORY = "domain-universe/normalization/residuals"
+RESIDUAL_PATH = f"{RESIDUAL_DIRECTORY}/ipc-residual-clarification-v0.1.json"
 MATERIALIZATION_PROTOCOL_PATH = (
     "domain-universe/NORMALIZATION_MATERIALIZATION_PROTOCOL.md"
 )
@@ -127,6 +130,52 @@ EXPECTED_PASS1_SHA256 = {
 EXPECTED_UNRESOLVED = {
     ("wipo-ipc-2026-01", f"ipc-{section}99")
     for section in "ABCDEFGH"
+}
+EXPECTED_RESIDUAL_SECTIONS = {
+    "A": "HUMAN NECESSITIES",
+    "B": "PERFORMING OPERATIONS; TRANSPORTING",
+    "C": "CHEMISTRY; METALLURGY",
+    "D": "TEXTILES; PAPER",
+    "E": "FIXED CONSTRUCTIONS",
+    "F": "MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING",
+    "G": "PHYSICS",
+    "H": "ELECTRICITY",
+}
+EXPECTED_RESIDUAL_SOURCES = {
+    "wipo-ipc-2026-01-scheme-package": {
+        "source_frame_id": "wipo-ipc-2026-01",
+        "source_uri": (
+            "https://www.wipo.int/classifications/data/ipc/"
+            "ITSupport_and_download_area/20260101/MasterFiles/"
+            "ipc_scheme_20260101.zip"
+        ),
+        "sha256": "22977dd19b2061d155b4d48558b495192418bafca8147ea15eea2e05019e4849",
+    },
+    "wipo-guide-ipc-2026-official-pdf": {
+        "source_frame_id": "wipo-ipc-2026-01",
+        "source_uri": (
+            "https://tind.wipo.int/record/60169/files/"
+            "wipo-guide-ipc-2026-en-guide-to-the-international-patent-"
+            "classification-2026.pdf?register_download=0"
+        ),
+        "sha256": "3a85807f469dc19004fc9d152f33f44627528934519f7cd08248885771bdfdb3",
+    },
+}
+RESIDUAL_GATE_FIELDS = (
+    "coherent_substantive_locus",
+    "topic_preserving_translatability",
+    "boundary_compatibility",
+)
+PROHIBITED_RESIDUAL_FIELDS = {
+    "candidate_id",
+    "domain_candidate_id",
+    "target_candidate_id",
+    "target_domain_candidate_id",
+    "normalization_group_id",
+    "equivalence_relation",
+    "equivalent_source_entry_ids",
+    "related_source_entry_ids",
+    "cross_entry_comparison",
 }
 
 
@@ -362,6 +411,7 @@ def validate_normalization_repository(
         )
     errors.extend(validate_pass2a_repository(root, validate_contract))
     errors.extend(validate_pass2b_repository(root, validate_contract))
+    errors.extend(validate_residual_clarification_repository(root, validate_contract))
     errors.extend(validate_materialization_architecture(root))
     return errors
 
@@ -1065,6 +1115,289 @@ def validate_pass2b_repository(
     return errors
 
 
+def find_prohibited_residual_content(value: Any, location: str) -> list[str]:
+    """Keep the successor clarification independent of grouping and candidates."""
+
+    errors: list[str] = []
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if key in PROHIBITED_RESIDUAL_FIELDS:
+                errors.append(f"{location}: prohibited residual-clarification field {key!r}")
+            errors.extend(
+                find_prohibited_residual_content(child, f"{location}.{key}")
+            )
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            errors.extend(
+                find_prohibited_residual_content(child, f"{location}[{index}]")
+            )
+    elif isinstance(value, str) and re.search(
+        r"\bdu-cand-[0-9]{4}\b", value, re.IGNORECASE
+    ):
+        errors.append(f"{location}: prohibited Domain candidate identifier")
+    return errors
+
+
+def validate_residual_clarification_record(
+    record: Any,
+    pass1_index: dict[Pass1Key, dict[str, Any]],
+    pass2a_record: Any,
+    location: str = RESIDUAL_PATH,
+) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(record, dict):
+        return [f"{location}: residual clarification must be an object"]
+    if record.get("residual_clarification_id") != "ipc-residual-clarification-v0.1":
+        errors.append(f"{location}: residual_clarification_id mismatch")
+    if record.get("instrument_version") != "0.5.0-draft":
+        errors.append(f"{location}: instrument_version mismatch")
+    if record.get("procedure") != "independent_ipc_residual_clarification":
+        errors.append(f"{location}: procedure mismatch")
+    if record.get("status") != "complete":
+        errors.append(f"{location}: status must be complete")
+    errors.extend(find_prohibited_residual_content(record, location))
+
+    expected_bindings = {
+        "normalization_codebook": (CODEBOOK_PATH, EXPECTED_CODEBOOK_SHA256),
+        "universe_boundary": (BOUNDARY_PATH, EXPECTED_BOUNDARY_SHA256),
+        "source_extraction": (
+            "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+            EXPECTED_EXTRACTION_SHA256[
+                "domain-universe/extractions/wipo-ipc-2026-01-class.json"
+            ],
+        ),
+        "original_pass1_record": (
+            pass1_record_path("wipo-ipc-2026-01-pass1.json"),
+            EXPECTED_PASS1_SHA256["wipo-ipc-2026-01-pass1.json"],
+        ),
+        "pass2a_record": (PASS2A_PATH, EXPECTED_PASS2A_SHA256),
+    }
+    for field, (expected_path, expected_sha256) in expected_bindings.items():
+        reference = record.get(field)
+        if not isinstance(reference, dict):
+            errors.append(f"{location}: {field} must be an artifact reference")
+            continue
+        if reference.get("path") != expected_path:
+            errors.append(f"{location}: {field} path must bind exact historical artifact")
+        if reference.get("sha256") != expected_sha256:
+            errors.append(f"{location}: {field} SHA-256 must bind exact historical bytes")
+
+    grouped: set[Pass1Key] = set()
+    excluded: set[Pass1Key] = set()
+    if not isinstance(pass2a_record, dict):
+        errors.append(f"{location}: exact Pass 2A record is invalid")
+    else:
+        for group in pass2a_record.get("groups", []):
+            if not isinstance(group, dict):
+                continue
+            for member in group.get("members", []):
+                key = locator_key(member)
+                if key is not None:
+                    grouped.add(key)
+        for item in pass2a_record.get("excluded_from_grouping", []):
+            key = locator_key(item)
+            if key is not None:
+                excluded.add(key)
+
+    sources = record.get("clarification_sources", [])
+    if not isinstance(sources, list):
+        sources = []
+    sources_by_id: dict[str, dict[str, Any]] = {}
+    for index, source in enumerate(sources):
+        source_location = f"{location}: clarification_sources[{index}]"
+        if not isinstance(source, dict):
+            errors.append(f"{source_location}: source must be an object")
+            continue
+        source_id = source.get("clarification_source_id")
+        if not isinstance(source_id, str):
+            errors.append(f"{source_location}: clarification_source_id is invalid")
+            continue
+        if source_id in sources_by_id:
+            errors.append(f"{source_location}: duplicate clarification_source_id")
+        sources_by_id[source_id] = source
+        expected = EXPECTED_RESIDUAL_SOURCES.get(source_id)
+        if expected is None:
+            errors.append(f"{source_location}: source is outside the WIPO IPC lineage")
+            continue
+        for field in ("source_frame_id", "source_uri", "sha256"):
+            if source.get(field) != expected[field]:
+                errors.append(f"{source_location}: {field} does not match official source")
+    if set(sources_by_id) != set(EXPECTED_RESIDUAL_SOURCES):
+        errors.append(f"{location}: exactly the two required WIPO sources are required")
+
+    assessments = record.get("assessments", [])
+    if not isinstance(assessments, list):
+        assessments = []
+    assessment_ids: list[str] = []
+    assessed_keys: list[Pass1Key] = []
+    results: list[str] = []
+    expected_source_ids = set(EXPECTED_RESIDUAL_SOURCES)
+    official_title = "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION"
+
+    for index, assessment in enumerate(assessments):
+        item_location = f"{location}: assessments[{index}]"
+        if not isinstance(assessment, dict):
+            errors.append(f"{item_location}: assessment must be an object")
+            continue
+        assessment_id = assessment.get("assessment_id")
+        if isinstance(assessment_id, str):
+            assessment_ids.append(assessment_id)
+        key = locator_key(assessment)
+        if key is None:
+            errors.append(f"{item_location}: source-entry identity is invalid")
+            continue
+        assessed_keys.append(key)
+        source_frame_id, source_entry_id = key
+        match = re.fullmatch(r"ipc-([A-H])99", source_entry_id)
+        if source_frame_id != "wipo-ipc-2026-01" or match is None:
+            errors.append(f"{item_location}: only exact IPC A99-H99 residuals may be assessed")
+            continue
+        section = match.group(1)
+        expected_id = f"ipc-{section}99-residual-clarification"
+        if assessment_id != expected_id:
+            errors.append(f"{item_location}: assessment_id does not match source entry")
+        expected_pass1 = pass1_index.get(key)
+        if expected_pass1 is None:
+            errors.append(f"{item_location}: source entry does not resolve to Pass 1")
+        elif expected_pass1.get("minimal_gate_result") != "unresolved":
+            errors.append(f"{item_location}: source entry was not unresolved in Pass 1")
+        if key not in excluded:
+            errors.append(f"{item_location}: source entry is not Pass 2A excluded_from_grouping")
+        if key in grouped:
+            errors.append(f"{item_location}: a Pass 2A grouped member cannot be reassessed here")
+
+        expected_symbols = {
+            "section_symbol": section,
+            "section_title": EXPECTED_RESIDUAL_SECTIONS[section],
+            "class_symbol": f"{section}99",
+            "subclass_symbol": f"{section}99Z",
+            "main_group_symbol": f"{section}99Z 99/00",
+            "official_residual_title": official_title,
+        }
+        for field, expected in expected_symbols.items():
+            if assessment.get(field) != expected:
+                errors.append(f"{item_location}: {field} does not match IPC 2026.01")
+
+        source_ids = assessment.get("clarification_source_ids", [])
+        if not isinstance(source_ids, list) or set(source_ids) != expected_source_ids:
+            errors.append(f"{item_location}: both exact WIPO clarification sources are required")
+        elif len(source_ids) != len(set(source_ids)):
+            errors.append(f"{item_location}: duplicate clarification source reference")
+
+        gate = assessment.get("gate")
+        if not isinstance(gate, dict):
+            errors.append(f"{item_location}: gate must be an object")
+            continue
+        values = tuple(gate.get(field) for field in RESIDUAL_GATE_FIELDS)
+        if any(value not in (True, False, None) for value in values):
+            errors.append(f"{item_location}: gate values must be true, false, or null")
+            continue
+        if values == (True, True, True):
+            expected_result = "passes"
+        elif values == (True, True, False):
+            expected_result = "fails_out_of_scope"
+        else:
+            expected_result = "unresolved"
+        result = assessment.get("minimal_gate_result")
+        if result != expected_result:
+            errors.append(
+                f"{item_location}: minimal_gate_result does not match exact three-gate logic"
+            )
+        if isinstance(result, str):
+            results.append(result)
+        locus = assessment.get("normalized_substantive_locus")
+        if result == "passes" and (not isinstance(locus, str) or not locus.strip()):
+            errors.append(f"{item_location}: passes requires a non-empty normalized locus")
+
+    expected_ids = {
+        f"ipc-{section}99-residual-clarification" for section in "ABCDEFGH"
+    }
+    if len(assessment_ids) != len(set(assessment_ids)) or set(assessment_ids) != expected_ids:
+        errors.append(f"{location}: exactly the eight required assessment IDs are required")
+    if len(assessed_keys) != len(set(assessed_keys)) or set(assessed_keys) != EXPECTED_UNRESOLVED:
+        errors.append(f"{location}: assessments must exactly cover IPC A99-H99 once")
+
+    counts = {
+        result: sum(value == result for value in results)
+        for result in ("passes", "fails_out_of_scope", "unresolved")
+    }
+    aggregate = record.get("aggregate")
+    if not isinstance(aggregate, dict):
+        errors.append(f"{location}: aggregate must be an object")
+    else:
+        expected_aggregate = {
+            "assessed_residuals": len(results),
+            **counts,
+            "all_residual_questions_closed": counts["unresolved"] == 0,
+            "successor_grouping_required": counts["passes"] > 0,
+            "stable_candidate_id_gate_reassessment_ready": counts["unresolved"] == 0,
+        }
+        for field, expected in expected_aggregate.items():
+            if aggregate.get(field) != expected:
+                errors.append(f"{location}: aggregate {field} does not match assessments")
+    return errors
+
+
+def validate_residual_clarification_repository(
+    root: Path,
+    validate_contract: Callable[[Any, Any, str], list[str]],
+) -> list[str]:
+    directory = root / RESIDUAL_DIRECTORY
+    if not directory.exists():
+        return []
+    errors: list[str] = []
+    files = sorted(directory.glob("*.json")) if directory.is_dir() else []
+    expected_file = root / RESIDUAL_PATH
+    if files != [expected_file]:
+        errors.append(
+            f"{RESIDUAL_DIRECTORY}: expected exactly ipc-residual-clarification-v0.1.json"
+        )
+    if not expected_file.is_file():
+        return errors
+    schema_path = root / RESIDUAL_SCHEMA_PATH
+    if not schema_path.is_file():
+        return errors + [f"{RESIDUAL_SCHEMA_PATH}: required when Task 105D1 exists"]
+    pass2a_path = root / PASS2A_PATH
+    if not pass2a_path.is_file():
+        return errors + [f"{RESIDUAL_PATH}: exact Pass 2A record is required"]
+    try:
+        schema = read_json(schema_path)
+        record = read_json(expected_file)
+        pass2a_record = read_json(pass2a_path)
+    except json.JSONDecodeError as exc:
+        return errors + [f"{RESIDUAL_PATH}: invalid JSON dependency: {exc}"]
+    if schema.get("x-instrument-version") != "0.5.0-draft":
+        errors.append(f"{RESIDUAL_SCHEMA_PATH}: x-instrument-version mismatch")
+    errors.extend(find_prohibited_residual_content(schema, RESIDUAL_SCHEMA_PATH))
+    errors.extend(validate_contract(record, schema, RESIDUAL_PATH))
+
+    bindings = {
+        "normalization_codebook": CODEBOOK_PATH,
+        "universe_boundary": BOUNDARY_PATH,
+        "source_extraction": (
+            "domain-universe/extractions/wipo-ipc-2026-01-class.json"
+        ),
+        "original_pass1_record": pass1_record_path(
+            "wipo-ipc-2026-01-pass1.json"
+        ),
+        "pass2a_record": PASS2A_PATH,
+    }
+    for field, expected_path in bindings.items():
+        _, artifact_errors = validate_artifact(
+            root, record.get(field), expected_path, f"{RESIDUAL_PATH}: {field}"
+        )
+        errors.extend(artifact_errors)
+
+    pass1_index, _, index_errors = build_pass1_index(root)
+    errors.extend(index_errors)
+    errors.extend(
+        validate_residual_clarification_record(
+            record, pass1_index, pass2a_record, RESIDUAL_PATH
+        )
+    )
+    return errors
+
+
 def validate_fixed_bytes(
     root: Path,
     relative: str,
@@ -1350,8 +1683,9 @@ def main() -> int:
             print(f"- {error}")
         return 1
     print(
-        "Normalization validation passed: Pass 1, Pass 2A, Pass 2B, and the "
-        "immutable materialization architecture are sound."
+        "Normalization validation passed: Pass 1, Pass 2A, Pass 2B, the IPC "
+        "residual successor clarification, and the immutable materialization "
+        "architecture are sound."
     )
     return 0
 

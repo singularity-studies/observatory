@@ -1,0 +1,262 @@
+{
+  "residual_clarification_id": "ipc-residual-clarification-v0.1",
+  "instrument_version": "0.5.0-draft",
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "universe_boundary": {
+    "path": "domain-universe/boundaries/du-boundary-v0.1.json",
+    "sha256": "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+  },
+  "source_extraction": {
+    "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+    "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+  },
+  "original_pass1_record": {
+    "path": "domain-universe/normalization/pass1/wipo-ipc-2026-01-pass1.json",
+    "sha256": "8ca43b8888fe64d5f96c663dead2a2e37b8da9f687af1ee42188c21926723a9a"
+  },
+  "pass2a_record": {
+    "path": "domain-universe/normalization/pass2a/equivalence-groups-v0.1.json",
+    "sha256": "e830a1cf566888badc31776ad263077208dae458d5f9e53f0783a5bdd778c822"
+  },
+  "procedure": "independent_ipc_residual_clarification",
+  "status": "complete",
+  "clarification_sources": [
+    {
+      "clarification_source_id": "wipo-ipc-2026-01-scheme-package",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_uri": "https://www.wipo.int/classifications/data/ipc/ITSupport_and_download_area/20260101/MasterFiles/ipc_scheme_20260101.zip",
+      "source_version_or_date": "IPC 2026.01; scheme package dated 2026-01-01",
+      "source_reference": "English scheme XML: Sections A-H; classes A99-H99; subclasses A99Z-H99Z and their notes; main groups A99Z 99/00-H99Z 99/00",
+      "retrieved_at": "2026-08-16T04:36:02Z",
+      "sha256": "22977dd19b2061d155b4d48558b495192418bafca8147ea15eea2e05019e4849",
+      "note": "Official WIPO IPC 2026.01 scheme package; the retrieved bytes match the Task 104 authoritative SHA-256. Only symbols, concise titles, notes, and paraphrases are recorded; the package is not committed."
+    },
+    {
+      "clarification_source_id": "wipo-guide-ipc-2026-official-pdf",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_uri": "https://tind.wipo.int/record/60169/files/wipo-guide-ipc-2026-en-guide-to-the-international-patent-classification-2026.pdf?register_download=0",
+      "source_version_or_date": "Guide to the International Patent Classification; 2026 edition",
+      "source_reference": "paragraphs 19(b), 35, 54-57, 67-69, 85-87bis, and 162-163; printed pages 4, 8, 15, 17-18, 22-23, and 39",
+      "retrieved_at": "2026-08-16T04:36:02Z",
+      "sha256": "3a85807f469dc19004fc9d152f33f44627528934519f7cd08248885771bdfdb3",
+      "note": "Official WIPO 2026 Guide PDF. It establishes the hierarchy, broadly indicative section titles, residual-place semantics, and the special 99Z 99/00 mechanism. The PDF is not committed."
+    }
+  ],
+  "assessments": [
+    {
+      "assessment_id": "ipc-A99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-A99",
+      "section_symbol": "A",
+      "section_title": "HUMAN NECESSITIES",
+      "class_symbol": "A99",
+      "subclass_symbol": "A99Z",
+      "main_group_symbol": "A99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section A, most closely related to subject matter covered by Section A subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "The official material defines A99Z by a negative, section-relative classification condition. Section A is only a broad indication spanning several distinct human-necessity areas, so the evidence does not supply a positive technical characteristic or narrower coherent locus that can be translated without invention.",
+      "uncertainty": "Future subject matter placed in A99Z may support a narrower locus, but no such subject matter is identified by the residual place itself; translatability and boundary compatibility therefore remain undetermined."
+    },
+    {
+      "assessment_id": "ipc-B99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-B99",
+      "section_symbol": "B",
+      "section_title": "PERFORMING OPERATIONS; TRANSPORTING",
+      "class_symbol": "B99",
+      "subclass_symbol": "B99Z",
+      "main_group_symbol": "B99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section B, most closely related to subject matter covered by Section B subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "The official material defines B99Z by a negative, section-relative classification condition. The multipart Section B title is a broad indication rather than a positive common technical characteristic of every possible residual item, so no narrower coherent locus can be stated without adding content.",
+      "uncertainty": "The residual may receive technically diverse performing-operation or transporting subject matter; without item-specific official clarification, translatability and boundary compatibility remain undetermined."
+    },
+    {
+      "assessment_id": "ipc-C99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-C99",
+      "section_symbol": "C",
+      "section_title": "CHEMISTRY; METALLURGY",
+      "class_symbol": "C99",
+      "subclass_symbol": "C99Z",
+      "main_group_symbol": "C99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section C, most closely related to subject matter covered by Section C subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "Section C has extensive official scope notes, but C99Z still gathers whatever qualifying Section C-related subject matter lacks another IPC place. Those notes do not turn that negative remainder across chemistry and metallurgy into one positively delimited substantive locus.",
+      "uncertainty": "A concrete residual technical subject could be assessed separately, but the class-level remainder does not determine a topic-preserving locus or its boundary compatibility."
+    },
+    {
+      "assessment_id": "ipc-D99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-D99",
+      "section_symbol": "D",
+      "section_title": "TEXTILES; PAPER",
+      "class_symbol": "D99",
+      "subclass_symbol": "D99Z",
+      "main_group_symbol": "D99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section D, most closely related to subject matter covered by Section D subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "The official textile terminology notes clarify terms used within Section D but do not positively define D99Z. Its negatively delimited remainder can span distinct textile and paper subject matter, so a single coherent coverage locus cannot be affirmed from the residual semantics alone.",
+      "uncertainty": "No specific residual technical content is supplied from which to test a neutral translation or recurrent-improvement compatibility."
+    },
+    {
+      "assessment_id": "ipc-E99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-E99",
+      "section_symbol": "E",
+      "section_title": "FIXED CONSTRUCTIONS",
+      "class_symbol": "E99",
+      "subclass_symbol": "E99Z",
+      "main_group_symbol": "E99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section E, most closely related to subject matter covered by Section E subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "Although Section E has a relatively compact broad title, E99Z is defined by absence from all other IPC places plus closest relation to the section, not by a positive fixed-construction function or object shared by every possible residual item. Coherence is therefore not established.",
+      "uncertainty": "A narrower locus may become defensible for particular future E99Z contents, but the residual class alone leaves neutral translatability and boundary compatibility undetermined."
+    },
+    {
+      "assessment_id": "ipc-F99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-F99",
+      "section_symbol": "F",
+      "section_title": "MECHANICAL ENGINEERING; LIGHTING; HEATING; WEAPONS; BLASTING",
+      "class_symbol": "F99",
+      "subclass_symbol": "F99Z",
+      "main_group_symbol": "F99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section F, most closely related to subject matter covered by Section F subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "Section F expressly spans several broad technical areas. F99Z supplies no positive technical feature unifying their unallocated remainder, so treating the official residual set as one coherent Domain locus would add a stronger unity than the source establishes.",
+      "uncertainty": "The official place is valid for classification, but no specific residual subject matter is available to determine a neutral locus or boundary compatibility."
+    },
+    {
+      "assessment_id": "ipc-G99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-G99",
+      "section_symbol": "G",
+      "section_title": "PHYSICS",
+      "class_symbol": "G99",
+      "subclass_symbol": "G99Z",
+      "main_group_symbol": "G99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section G, most closely related to subject matter covered by Section G subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "The Section G notes describe difficult classification choices among systems, combinations, and purposes, while G99Z remains a negative remainder. The broad title Physics cannot be substituted for that remainder, and no positive common locus is supplied.",
+      "uncertainty": "A concrete G99Z classification could reveal a defensible locus, but the class-level residual semantics leave topic-preserving translation and boundary compatibility undetermined."
+    },
+    {
+      "assessment_id": "ipc-H99-residual-clarification",
+      "source_frame_id": "wipo-ipc-2026-01",
+      "source_entry_id": "ipc-H99",
+      "section_symbol": "H",
+      "section_title": "ELECTRICITY",
+      "class_symbol": "H99",
+      "subclass_symbol": "H99Z",
+      "main_group_symbol": "H99Z 99/00",
+      "official_residual_title": "SUBJECT MATTER NOT OTHERWISE PROVIDED FOR IN THIS SECTION",
+      "residual_semantics": "A section-relative residual place for subject matter not otherwise provided for in Section H, most closely related to subject matter covered by Section H subclasses, and not explicitly covered by a subclass of another section.",
+      "normalized_substantive_locus": null,
+      "gate": {
+        "coherent_substantive_locus": false,
+        "topic_preserving_translatability": null,
+        "boundary_compatibility": null
+      },
+      "minimal_gate_result": "unresolved",
+      "clarification_source_ids": [
+        "wipo-ipc-2026-01-scheme-package",
+        "wipo-guide-ipc-2026-official-pdf"
+      ],
+      "rationale": "The detailed Section H notes distinguish basic and applied electricity and allocate many electrical applications elsewhere. H99Z still identifies only the unallocated section-relative remainder, not a positive technical feature shared by all such subject matter, so a coherent locus is not established.",
+      "uncertainty": "The official residual mechanism does not identify concrete H99Z contents from which neutral translatability or recurrent-improvement boundary compatibility could be determined."
+    }
+  ],
+  "aggregate": {
+    "assessed_residuals": 8,
+    "passes": 0,
+    "fails_out_of_scope": 0,
+    "unresolved": 8,
+    "all_residual_questions_closed": false,
+    "successor_grouping_required": false,
+    "stable_candidate_id_gate_reassessment_ready": false
+  },
+  "rationale": "Official IPC 2026.01 material clarifies that each X99Z 99/00 is a legitimate, section-relative residual place considered only when no other IPC place provides for the subject matter. For each section independently, that negative classification envelope does not by itself establish a positive coherent Domain coverage locus. Residual status alone neither passes nor excludes an entry, so all eight remain unresolved under the prospectively fixed three-part gate.",
+  "uncertainty": "The clarification closes no residual question. Later official same-classification evidence about concrete contents could support successor reassessment, but no cross-entry grouping, normalization overlay, candidate, stable ID, eligibility decision, or authorization follows from this record.",
+  "recorded_at": "2026-08-16T04:36:02Z"
+}
