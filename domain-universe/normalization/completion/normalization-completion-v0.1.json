@@ -1,0 +1,88 @@
+{
+  "normalization_completion_id": "normalization-completion-v0.1",
+  "instrument_version": "0.5.0-draft",
+  "status": "complete",
+  "normalization_codebook": {
+    "path": "domain-universe/NORMALIZATION_CODEBOOK.md",
+    "sha256": "bc0f2d62c8b6219911b759e8a69332021cb471167a9e3fdbc6a4b5b8918b69e4"
+  },
+  "universe_boundary": {
+    "path": "domain-universe/boundaries/du-boundary-v0.1.json",
+    "sha256": "d60ac188138cfc638b53ccfa05635e5d65372586d57553ff55fa7895040a6581"
+  },
+  "source_extractions": [
+    {
+      "path": "domain-universe/extractions/oecd-ford-frascati-2015-second-level.json",
+      "sha256": "eb376d7c4da77078cdfdc9772daf166eb3bf6e11a973df0241b1fb782128b6e4"
+    },
+    {
+      "path": "domain-universe/extractions/un-cofog-1999-group.json",
+      "sha256": "0b5061f4a1029fe28e1ccb5a1c3f5563371e876f983bb6b6365883b7c875e3dd"
+    },
+    {
+      "path": "domain-universe/extractions/un-isic-rev5-division.json",
+      "sha256": "569b5ac552ffdf0f5fcf993e8918181a9005c2c9d6e4b19c701126d3b1f2b9b9"
+    },
+    {
+      "path": "domain-universe/extractions/wipo-ipc-2026-01-class.json",
+      "sha256": "e8cf7903547eb245a2e4447b1221aa73df541c1da4a748e5127a232a87efe33c"
+    }
+  ],
+  "pass1_records": [
+    {
+      "path": "domain-universe/normalization/pass1/oecd-ford-frascati-2015-pass1.json",
+      "sha256": "d62c8f899b3b966381cdd693adcb1e9bf89cd6210474b8d30a4550889fb5612d"
+    },
+    {
+      "path": "domain-universe/normalization/pass1/un-cofog-1999-pass1.json",
+      "sha256": "e95466d6e82c20f4d0f082e914509c080ebb962182c09fce20faad0786f226cc"
+    },
+    {
+      "path": "domain-universe/normalization/pass1/un-isic-rev5-pass1.json",
+      "sha256": "7b02e4a2864076700c2d1d26910ef2b591e7771007d4819670f8c30a70d82cb3"
+    },
+    {
+      "path": "domain-universe/normalization/pass1/wipo-ipc-2026-01-pass1.json",
+      "sha256": "8ca43b8888fe64d5f96c663dead2a2e37b8da9f687af1ee42188c21926723a9a"
+    }
+  ],
+  "pass2a_record": {
+    "path": "domain-universe/normalization/pass2a/equivalence-groups-v0.1.json",
+    "sha256": "e830a1cf566888badc31776ad263077208dae458d5f9e53f0783a5bdd778c822"
+  },
+  "pass2b_record": {
+    "path": "domain-universe/normalization/pass2b/deferred-equivalence-adjudication-v0.1.json",
+    "sha256": "4ec539b016e35cd7ec6f0545160d662a508472e4b664e843e8a7a1d8c227d012"
+  },
+  "residual_clarification": {
+    "path": "domain-universe/normalization/residuals/ipc-residual-clarification-v0.1.json",
+    "sha256": "610e36a5776bacd423fed1d926ee13c32f2eff2c98a9f4a523abc6bed59b083a"
+  },
+  "closure_amendment": {
+    "path": "domain-universe/NORMALIZATION_CLOSURE_AMENDMENT.md",
+    "sha256": "edc324516ffe98888e0621f1d47ff019b6ca33c7d7ebc9266f32613b3e7a6570"
+  },
+  "closure_decision_schema": {
+    "path": "schemas/domain-normalization-closure-decision.schema.json",
+    "sha256": "3fec41de4f93eebe4632c2f5bfab28450e74f281581a6b3744dbb509143893cb"
+  },
+  "closure_application": {
+    "path": "domain-universe/normalization/closure/ipc-residual-closure-v0.1.json",
+    "sha256": "4df98da8522b17957acc49a34a160740a52487905f5b709af104c34a61269c81"
+  },
+  "source_entry_total": 330,
+  "candidate_bearing_group_count": 322,
+  "candidate_bearing_source_entry_count": 322,
+  "terminal_non_candidate_entry_count": 8,
+  "effective_unresolved_source_entry_count": 0,
+  "candidate_canonical_label_source": "pass2a_group_locus_statement",
+  "candidate_universe_shape_sha256": "4449c3b488af822ed6e6e42a17138d2dd7ef25a8c7f3dbecf6cb1325e828528c",
+  "candidate_id_order_sha256": "62e674888a47027ff3bd30a9c48cdebc12a503f1e2a07581864427128d3ba4ab",
+  "stable_candidate_id_assignment_permitted": true,
+  "domain_candidate_count": 0,
+  "assigned_stable_candidate_id_count": 0,
+  "normalization_overlay_instance_count": 0,
+  "rationale": "Task 105D4 administratively designates each already-fixed Pass 2A group_locus_statement as the canonical label for future candidate materialization and records the disjoint 322-group plus eight-terminal-entry partition. It makes no new normalization judgment.",
+  "uncertainty": "Normalization completion does not determine Domain eligibility, overlap, duplication, coverage adequacy, governance approval, Domain Universe lock, Frozen Panel selection, or Wave authorization. Candidate materialization and stable-ID assignment remain unexecuted.",
+  "recorded_at": "2026-08-16T07:55:22Z"
+}

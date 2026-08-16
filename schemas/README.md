@@ -19,11 +19,19 @@ treated as data or approval. A future record enters validation only under its
 applicable `domain-universe/` or `selection/` path and after passing its
 versioned schema and cross-record integrity checks.
 
-`domain-normalization-disposition-overlay.schema.json` is prospective only;
-there is no overlay instance. It binds the exact historical normalization input
-chain and separates later authoritative dispositions from immutable Task 104
-bytes. The amended Domain candidate contract requires an exact overlay-record
-reference in addition to immutable extraction-entry provenance.
+`domain-normalization-disposition-overlay.schema.json` is the immutable v0.1
+prospective contract; there is no overlay instance. It binds the historical
+normalization input chain and separates later authoritative dispositions from
+immutable Task 104 bytes.
+
+`domain-normalization-completion.schema.json` validates the single Task 105D4
+completion manifest. `domain-normalization-disposition-overlay-v0.2.schema.json`
+is its post-closure prospective successor and can represent the exact D3
+`excluded_non_materializable` state. D4 creates no v0.2 overlay instance. The
+v0.2 schema is intentionally not connected to the locked Domain Universe path;
+Task 106 must instantiate and connect it separately. The amended Domain
+candidate contract continues to require an exact overlay-record reference in
+addition to immutable extraction-entry provenance.
 
 These schemas validate structure and fail-closed release prerequisites. They do not establish the scientific validity of a construct or coding decision.
 

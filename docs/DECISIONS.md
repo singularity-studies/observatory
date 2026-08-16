@@ -349,6 +349,44 @@ This application record identifies no reviewer, approver, governance
 authority, scientific approval, Domain Universe lock, Frozen Panel selection,
 Wave, or authorization of Wave 0.
 
+## Prospective construction record DU-012
+
+- Date: `2026-08-16`
+- Status: Task 105 normalization complete at the source-entry to candidate-
+  cluster boundary; pending scientific review
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instruments: normalization-completion schema `0.5.0-draft`,
+  Normalization Materialization Protocol `v0.2`, and successor normalization-
+  disposition overlay schema `0.5.0-draft`
+- Construction action: mechanically derived the exact final normalization
+  partition from immutable Pass 1, Pass 2A, and D3 records; designated each
+  existing Pass 2A `group_locus_statement` as its future canonical label; and
+  digest-froze the future stable-ID order without assigning IDs.
+- Completion state: 330 source entries equal 322 candidate-bearing groups plus
+  eight terminal `excluded_non_materializable` entries; effective unresolved
+  count is zero.
+- Canonical-label rule: exact Pass 2A `group_locus_statement`; no rewriting,
+  new semantic synthesis, AI framing, or Singularity wording was introduced.
+- Stable-ID gate: `stable_candidate_id_assignment_permitted = true` means only
+  that Task 106 may use the frozen candidate-cluster shape, inherited labels,
+  and deterministic order. No stable ID has been assigned.
+- Materialization state: overlay instances, Domain candidates, and assigned
+  stable candidate IDs remain zero. Task 106 has not started.
+- Lock-path boundary: `scripts/validate.py` is intentionally unchanged and
+  does not yet consume the v0.2 overlay. Task 106 must create the overlay and
+  connect it to the Domain Universe lock path.
+- Interpretation limit: normalization completion is not Domain eligibility,
+  Domain Universe lock, Frozen Panel selection, scientific approval,
+  governance authority, or Wave authorization.
+- Unresolved follow-up: scientific review, Task 106 candidate materialization,
+  eligibility and overlap/duplication review, coverage audit, final governance
+  authority, and governance lock.
+
+This record performs closure bookkeeping and future-contract fixation only.
+It identifies no reviewer, approver, governance authority, Domain Universe,
+Frozen Panel, Wave, or authorization of Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;
