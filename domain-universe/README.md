@@ -45,6 +45,14 @@ The Pass 2A singleton grouping requires no revision, and candidate
 materialization is structurally permitted for a later governed task; no
 candidate has been created here.
 
+Task 105D1 independently clarified the eight historical Pass 1 unresolved IPC
+residual classes using only the official WIPO IPC 2026.01 scheme and 2026
+Guide. Each X99Z place has a valid section-relative residual meaning, but that
+negative classification envelope does not itself establish a positive
+coherent Domain coverage locus. All eight results remain `unresolved`. The
+successor record under `normalization/residuals/` does not rewrite Pass 1,
+Pass 2A, or Pass 2B and performs no equivalence clustering.
+
 `NORMALIZATION_MATERIALIZATION_PROTOCOL.md` v0.1 now prospectively fixes the
 materialization provenance architecture, pending scientific review. Task 104
 dispositions and targets, and the bound source-frame status metadata, remain
@@ -68,6 +76,7 @@ Records use these canonical locations:
 - `domain-universe/normalization/pass1/`
 - `domain-universe/normalization/pass2a/`
 - `domain-universe/normalization/pass2b/`
+- `domain-universe/normalization/residuals/`
 - `domain-universe/normalization/dispositions/` (future versioned overlays;
   currently absent)
 - `domain-universe/candidates/`

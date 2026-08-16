@@ -248,6 +248,39 @@ This entry records prospective architecture only. It identifies no reviewer,
 approver, governance authority, scientific approval, Domain Universe, Frozen
 Panel, Wave, or authorization of Wave 0.
 
+## Prospective construction record DU-009
+
+- Date: `2026-08-16`
+- Status: Task 105D1 IPC residual independent clarification complete; pending
+  scientific review; normalization not complete
+- Decision authority: unresolved
+- Effective Wave: none
+- Affected instrument: residual-clarification schema `0.5.0-draft`
+- Construction action: reassessed only the eight historical Pass 1 unresolved
+  IPC residual entries, independently, using the exact official WIPO IPC
+  2026.01 scheme package and the 2026 Guide.
+- Outcome: 0 `passes`, 0 `fails_out_of_scope`, and 8 `unresolved`. Official
+  residual semantics establish a legitimate section-relative classification
+  envelope but do not establish a positive coherent Domain coverage locus.
+- Immutable inputs: four source-frame records, four Task 104 extractions, four
+  Pass 1 records, Pass 2A, Pass 2B, Normalization Codebook v0.1, and
+  Normalization Materialization Protocol v0.1 remain byte-unchanged and
+  hash-bound.
+- Comparability impact: none; no successor grouping, normalization-disposition
+  overlay, Domain candidate, stable candidate ID, final eligibility decision,
+  scientific approval, or governance lock was created.
+- Stable-ID gate: `stable_candidate_id_assignment_permitted = false`; the
+  residual questions remain open and gate reassessment is not ready.
+- Unresolved follow-up: scientific review, future evidence capable of
+  establishing a coherent locus for any residual, governed final paths for all
+  330 entries, candidate materialization, final eligibility and overlap review,
+  coverage audit, final governance authority, and governance lock.
+
+This successor record preserves the original historical uncertainty rather
+than rewriting it. It identifies no reviewer, approver, governance authority,
+scientific approval, Domain Universe, Frozen Panel, Wave, or authorization of
+Wave 0.
+
 Future entries should be append-only and include:
 
 - decision identifier and date;

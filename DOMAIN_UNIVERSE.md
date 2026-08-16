@@ -200,6 +200,17 @@ blocked until all 330 entries have a governed final normalization path
 sufficient to freeze the complete candidate-cluster universe. No overlay
 instance, candidate ID, or candidate record exists.
 
+Task 105D1 is an immutable successor clarification of the eight historical
+Pass 1 unresolved IPC residual judgments. Official WIPO IPC 2026.01 scheme and
+Guide material establishes the section-relative residual mechanism but does
+not, for any of A99 through H99, establish a positive coherent Domain coverage
+locus. All eight therefore remain `unresolved`; residual status alone neither
+passed nor excluded an entry. The original Pass 1, Pass 2A, and Pass 2B bytes
+remain unchanged. No successor grouping, overlay, candidate materialization,
+stable ID assignment, eligibility decision, scientific approval, or lock
+occurred, and `stable_candidate_id_assignment_permitted = false` remains in
+force.
+
 ## Construction pipeline
 
 ```text

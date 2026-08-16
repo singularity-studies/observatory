@@ -3988,6 +3988,274 @@ class DomainNormalizationPass2BTests(unittest.TestCase):
         self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
 
 
+class DomainNormalizationResidualClarificationTests(unittest.TestCase):
+    PATH = ROOT / NORMALIZATION_VALIDATE.RESIDUAL_PATH
+
+    def setUp(self) -> None:
+        self.schema = json.loads(
+            (ROOT / NORMALIZATION_VALIDATE.RESIDUAL_SCHEMA_PATH).read_text(
+                encoding="utf-8"
+            )
+        )
+        self.record = json.loads(self.PATH.read_text(encoding="utf-8"))
+        self.pass2a = json.loads(
+            (ROOT / NORMALIZATION_VALIDATE.PASS2A_PATH).read_text(encoding="utf-8")
+        )
+        self.pass1_index, _, errors = NORMALIZATION_VALIDATE.build_pass1_index(ROOT)
+        self.assertEqual([], errors)
+
+    def _errors(
+        self,
+        record: dict[str, object],
+        *,
+        pass1_index: dict[tuple[str, str], dict[str, object]] | None = None,
+        pass2a: dict[str, object] | None = None,
+    ) -> list[str]:
+        return VALIDATE.validate_contract(
+            record, self.schema, "test-residual-clarification"
+        ) + NORMALIZATION_VALIDATE.validate_residual_clarification_record(
+            record,
+            pass1_index if pass1_index is not None else self.pass1_index,
+            pass2a if pass2a is not None else self.pass2a,
+            "test-residual-clarification",
+        )
+
+    @staticmethod
+    def _set_gate(
+        record: dict[str, object],
+        values: tuple[bool | None, bool | None, bool | None],
+        result: str,
+    ) -> None:
+        assessment = record["assessments"][0]
+        assessment["gate"] = dict(zip(NORMALIZATION_VALIDATE.RESIDUAL_GATE_FIELDS, values))
+        assessment["minimal_gate_result"] = result
+
+    def test_schema_single_artifact_and_exact_eight_assessments_exist(self) -> None:
+        self.assertEqual("https://json-schema.org/draft/2020-12/schema", self.schema["$schema"])
+        self.assertEqual("0.5.0-draft", self.schema["x-instrument-version"])
+        self.assertEqual(
+            [self.PATH],
+            list((ROOT / NORMALIZATION_VALIDATE.RESIDUAL_DIRECTORY).glob("*.json")),
+        )
+        self.assertEqual(8, len(self.record["assessments"]))
+        self.assertEqual([], self._errors(self.record))
+
+    def test_assessment_ids_and_source_entries_are_exact(self) -> None:
+        self.assertEqual(
+            {f"ipc-{section}99-residual-clarification" for section in "ABCDEFGH"},
+            {item["assessment_id"] for item in self.record["assessments"]},
+        )
+        self.assertEqual(
+            NORMALIZATION_VALIDATE.EXPECTED_UNRESOLVED,
+            {
+                (item["source_frame_id"], item["source_entry_id"])
+                for item in self.record["assessments"]
+            },
+        )
+
+    def test_ninth_assessment_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        ninth = json.loads(json.dumps(changed["assessments"][0]))
+        ninth["assessment_id"] = "ipc-A99-residual-clarification-extra"
+        changed["assessments"].append(ninth)
+        self.assertTrue(self._errors(changed))
+
+    def test_omitted_residual_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["assessments"].pop()
+        self.assertTrue(any("eight required" in error for error in self._errors(changed)))
+
+    def test_non_residual_ipc_entry_inserted_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        assessment = changed["assessments"][0]
+        assessment.update(
+            {
+                "assessment_id": "ipc-A98-residual-clarification",
+                "source_entry_id": "ipc-A98",
+                "class_symbol": "A98",
+                "subclass_symbol": "A98Z",
+                "main_group_symbol": "A98Z 99/00",
+            }
+        )
+        self.assertTrue(
+            any("only exact IPC A99-H99" in error for error in self._errors(changed))
+        )
+
+    def test_residual_not_unresolved_in_pass1_fails(self) -> None:
+        changed_index = {
+            key: json.loads(json.dumps(value)) for key, value in self.pass1_index.items()
+        }
+        changed_index[("wipo-ipc-2026-01", "ipc-A99")][
+            "minimal_gate_result"
+        ] = "passes"
+        self.assertTrue(
+            any(
+                "was not unresolved in Pass 1" in error
+                for error in self._errors(self.record, pass1_index=changed_index)
+            )
+        )
+
+    def test_residual_not_pass2a_excluded_fails(self) -> None:
+        changed_pass2a = json.loads(json.dumps(self.pass2a))
+        changed_pass2a["excluded_from_grouping"] = [
+            item
+            for item in changed_pass2a["excluded_from_grouping"]
+            if item["source_entry_id"] != "ipc-A99"
+        ]
+        self.assertTrue(
+            any(
+                "not Pass 2A excluded_from_grouping" in error
+                for error in self._errors(self.record, pass2a=changed_pass2a)
+            )
+        )
+
+    def test_passes_with_false_gate_value_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (True, True, False), "passes")
+        changed["assessments"][0]["normalized_substantive_locus"] = "test-only locus"
+        self.assertTrue(any("three-gate logic" in error for error in self._errors(changed)))
+
+    def test_passes_with_null_gate_value_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (True, True, None), "passes")
+        changed["assessments"][0]["normalized_substantive_locus"] = "test-only locus"
+        self.assertTrue(any("three-gate logic" in error for error in self._errors(changed)))
+
+    def test_fails_out_of_scope_without_false_boundary_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (True, True, True), "fails_out_of_scope")
+        self.assertTrue(any("three-gate logic" in error for error in self._errors(changed)))
+
+    def test_fails_out_of_scope_without_true_coherent_locus_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (False, True, False), "fails_out_of_scope")
+        self.assertTrue(any("three-gate logic" in error for error in self._errors(changed)))
+
+    def test_fails_out_of_scope_without_true_translatability_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (True, None, False), "fails_out_of_scope")
+        self.assertTrue(any("three-gate logic" in error for error in self._errors(changed)))
+
+    def test_unresolved_with_all_three_true_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (True, True, True), "unresolved")
+        self.assertTrue(any("three-gate logic" in error for error in self._errors(changed)))
+
+    def test_unresolved_with_strict_out_of_scope_combination_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (True, True, False), "unresolved")
+        self.assertTrue(any("three-gate logic" in error for error in self._errors(changed)))
+
+    def test_passes_with_null_normalized_locus_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        self._set_gate(changed, (True, True, True), "passes")
+        changed["assessments"][0]["normalized_substantive_locus"] = None
+        self.assertTrue(
+            any("non-empty normalized locus" in error for error in self._errors(changed))
+        )
+
+    def test_wrong_ipc_scheme_package_sha_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["clarification_sources"][0]["sha256"] = "0" * 64
+        self.assertTrue(
+            any("does not match official source" in error for error in self._errors(changed))
+        )
+
+    def test_clarification_source_from_another_lineage_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["clarification_sources"][0]["source_frame_id"] = "test-other-lineage"
+        self.assertTrue(
+            any("does not match official source" in error for error in self._errors(changed))
+        )
+
+    def test_candidate_id_insertion_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["assessments"][0]["candidate_id"] = "du-cand-0001"
+        self.assertTrue(
+            any("prohibited" in error for error in self._errors(changed))
+        )
+
+    def test_normalization_group_id_insertion_fails(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["assessments"][0]["normalization_group_id"] = "ng-0000000000000000"
+        self.assertTrue(
+            any("prohibited" in error for error in self._errors(changed))
+        )
+
+    def test_every_historical_input_mutation_fails_exact_hash_gate(self) -> None:
+        immutable_paths = [
+            *NORMALIZATION_VALIDATE.EXPECTED_SOURCE_FRAME_SHA256,
+            *NORMALIZATION_VALIDATE.EXPECTED_EXTRACTION_SHA256,
+            *(
+                NORMALIZATION_VALIDATE.pass1_record_path(filename)
+                for filename in NORMALIZATION_VALIDATE.EXPECTED_PASS1_SHA256
+            ),
+            NORMALIZATION_VALIDATE.PASS2A_PATH,
+            NORMALIZATION_VALIDATE.PASS2B_PATH,
+            NORMALIZATION_VALIDATE.CODEBOOK_PATH,
+            NORMALIZATION_VALIDATE.MATERIALIZATION_PROTOCOL_PATH,
+        ]
+        repository = TemporaryRepository()
+        try:
+            for relative in immutable_paths:
+                with self.subTest(relative=relative):
+                    path = repository.root / relative
+                    original = path.read_bytes()
+                    path.write_bytes(original + b"\n")
+                    errors = NORMALIZATION_VALIDATE.validate_materialization_architecture(
+                        repository.root
+                    )
+                    self.assertTrue(errors)
+                    path.write_bytes(original)
+        finally:
+            repository.close()
+
+    def test_aggregate_counts_must_match_assessments(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["aggregate"]["unresolved"] = 7
+        changed["aggregate"]["passes"] = 1
+        self.assertTrue(any("aggregate" in error for error in self._errors(changed)))
+
+    def test_successor_grouping_required_logic_fails_closed(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["aggregate"]["successor_grouping_required"] = True
+        self.assertTrue(
+            any("successor_grouping_required" in error for error in self._errors(changed))
+        )
+
+    def test_stable_gate_reassessment_ready_logic_fails_closed(self) -> None:
+        changed = json.loads(json.dumps(self.record))
+        changed["aggregate"]["stable_candidate_id_gate_reassessment_ready"] = True
+        self.assertTrue(
+            any(
+                "stable_candidate_id_gate_reassessment_ready" in error
+                for error in self._errors(changed)
+            )
+        )
+
+    def test_repository_scientific_state_remains_zero_and_blocked(self) -> None:
+        self.assertEqual([], list((ROOT / "domain-universe/candidates").glob("*.json")))
+        self.assertFalse((ROOT / NORMALIZATION_VALIDATE.OVERLAY_DIRECTORY).exists())
+        self.assertFalse(NORMALIZATION_VALIDATE.STABLE_CANDIDATE_ID_ASSIGNMENT_PERMITTED)
+        self.assertEqual(0, self.record["aggregate"]["passes"])
+        self.assertEqual(8, self.record["aggregate"]["unresolved"])
+        for directory in (
+            "eligibility", "relations", "proposals", "reviews", "governance", "manifests"
+        ):
+            self.assertEqual([], list((ROOT / "domain-universe" / directory).glob("*.json")))
+        self.assertEqual([], list((ROOT / "selection").rglob("*.json")))
+        self.assertEqual([ROOT / "data/waves/README.md"], list((ROOT / "data/waves").rglob("*")))
+
+    def test_summary_preserves_neutrality_and_no_materialization(self) -> None:
+        summary = (
+            ROOT / "domain-universe/normalization/IPC_RESIDUAL_CLARIFICATION_SUMMARY.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("Residual status alone did not determine any outcome", summary)
+        self.assertIn("do not automatically establish a coherent Domain coverage stratum", summary)
+        self.assertIn("No equivalence clustering occurred", summary)
+        self.assertIn("no normalization group, overlay,", summary)
+
+
 class NormalizationMaterializationArchitectureTests(unittest.TestCase):
     OVERLAY_SCHEMA_PATH = (
         ROOT / "schemas/domain-normalization-disposition-overlay.schema.json"
